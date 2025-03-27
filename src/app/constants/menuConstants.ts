@@ -210,12 +210,12 @@ export const MenuItems: any[] = [
             {
                 id: 101,
                 name: 'Update Dashboard Details',
-                route: "/update-dashboard-details"
+                route: "/admin-panel/update-dashboard-details"
             },
             {
                 id: 102,
                 name: 'Create User',
-                route: "/create-user"
+                route: "/admin-panel/create-user"
             },
         ]
     },
