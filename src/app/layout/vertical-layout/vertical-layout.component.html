@@ -1,0 +1,84 @@
+<div class="navbar">
+    <div class="navbar_info">
+        <div class="navbar_logo_and_bar_container">
+            <div class="toggle_bar">
+                <img src="/icon/bars_white.svg" (click)="openCloseMenuList()">
+            </div>
+            <div class="navbar_logo">
+                <img src="/image/educare_logo.jpg">
+            </div>
+        </div>
+
+        <div class="navbar_details">
+            <span>{{ website_details_description }}</span>
+            <span>{{ website_details_email }}</span>
+            <span>{{ website_details_phone }}</span>
+
+            <div class="navbar_menu_icons">
+                <a href={{website_details_facebook_url}} target="_blank">
+                    <fa-icon [icon]="faFacebookIcon" class="a_navbar_menu_icons"></fa-icon>
+                </a>
+                <a href={{website_details_whatsapp_url}} target="_blank">
+                    <fa-icon [icon]="faWhatsappIcon" class="a_navbar_menu_icons"></fa-icon>
+                </a>
+                <a href={{website_details_youtube_url}} target="_blank">
+                    <fa-icon [icon]="faYoutubeIcon" class="a_navbar_menu_icons"></fa-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="html_body">
+    <div id="navbar_menu" [ngStyle]="{'width': isNavbarOpen ? '18rem' : '0rem'}">
+        <div *ngFor="let item of menuItems" class="a_single_menu" [class.selected]="isSelected(item.id.toString())">
+            <div class="a_single_menu_item" (click)="toggleMenu(item.id.toString(), '', item.route); selectMenu(item)">
+                <span>{{ item.name }}</span>
+                <span *ngIf="hasSubMenu(item)">
+                    <img src="/icon/down_arrow.png" [ngStyle]="{
+                        'transform': isMenuOpen(item.id.toString()) ? 'rotate(180deg)' : 'rotate(0deg)', 
+                        'transition': 'transform 0.3s ease-in-out'
+                     }">
+                </span>
+            </div>
+
+            <div *ngIf="hasSubMenu(item)" [@slideInOut]="getAnimationState(item.id.toString())" class="subItem">
+                <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{
+                $implicit: item.subMenu,
+                parentId: item.id.toString(),
+                level: 1
+            }"></ng-container>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #recursiveListTmpl let-subMenuItems let-parentId="parentId" let-level="level">
+        <div *ngFor="let subItem of subMenuItems" class="a_single_menu"
+            [class.selected]="isSelected(subItem.id.toString())">
+            <div class="submenu-item-container"
+                (click)="toggleMenu(parentId + '-' + subItem.id.toString(), parentId, subItem.route); selectMenu(subItem)">
+                <span>{{ subItem.name }}</span>
+                <span *ngIf="hasSubMenu(subItem)">
+                    <img src="/icon/down_arrow.png" [ngStyle]="{
+                        'transform': isMenuOpen(parentId + '-' + subItem.id.toString()) ? 'rotate(180deg)' : 'rotate(0deg)', 
+                        'transition': 'transform 0.3s ease-in-out'
+                     }">
+                </span>
+            </div>
+
+            <div *ngIf="hasSubMenu(subItem)" [@slideInOut]="getAnimationState(parentId + '-' + subItem.id.toString())"
+                class="nested-subItem">
+                <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{
+                $implicit: subItem.subMenu,
+                parentId: parentId + '-' + subItem.id.toString(),
+                level: level + 1
+            }"></ng-container>
+            </div>
+        </div>
+    </ng-template>
+
+    <div id="main_content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

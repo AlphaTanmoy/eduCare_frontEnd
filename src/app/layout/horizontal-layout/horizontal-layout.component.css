@@ -1,0 +1,217 @@
+.navbar-container {
+    width: 100%;
+    height: auto;
+}
+
+.navbar {
+    width: 100%;
+    height: 5rem;
+    background-color: var(--default-theme);
+    padding: 0.6rem;
+}
+
+.navbar_info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar_logo {
+    height: 100%;
+    cursor: pointer;
+}
+
+.navbar_logo img {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.navbar_details {
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.navbar_details span {
+    font-size: 0.9rem;
+}
+
+.navbar_navigations {
+    width: 100%;
+    background-color: var(--default-theme);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+}
+
+.navbar_navigations.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.navbar_menu {
+    width: 100%;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    margin-left: 0.6rem;
+    position: relative;
+}
+
+.a-menu-item {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    margin-right: 1rem;
+    align-items: center;
+}
+
+.menu-item {
+    position: relative;
+    cursor: pointer;
+    margin-right: 2rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-item > span {
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu-item {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--default-theme);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    padding: 0.6rem 0;
+}
+
+.menu-item:hover > .submenu,
+.menu-item:focus-within > .submenu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.a-menu-item-down-arrow {
+    width: 1rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover .a-menu-item-down-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.a-menu-item-right-arrow {
+    width: 1rem;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+.submenu .menu-item:hover .a-menu-item-right-arrow {
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+.submenu .menu-item {
+    padding: 0.6rem 1rem;
+    width: 100%;
+    position: relative;
+    transition: 0.3s all ease-in-out;   
+}
+
+.submenu .menu-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.submenu .menu-item > span {
+    color: var(--white);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.menu-item, .menu-item span {
+    list-style: none;
+    text-decoration: none;
+}
+
+.submenu .submenu {
+    top: 0;
+    left: 100%;
+    transform-origin: left;
+}
+
+.submenu .menu-item:hover > .submenu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu .menu-item {
+    position: relative;
+    width: 100%;
+}
+
+.submenu .menu-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.navbar_menu_icons {
+    display: flex;
+    color: var(--white);
+    align-items: center;
+    margin-right: 0.5rem;
+}
+
+.navbar_menu_icons a {
+    color: var(--white);
+    margin-left: 0.5rem;
+}
+
+.a_navbar_menu_icons {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#main-content {
+    width: 100%;
+    min-height: calc(100vh - 10rem);
+    overflow: auto;
+}

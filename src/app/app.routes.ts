@@ -1,0 +1,61 @@
+import { Routes } from '@angular/router';
+import { HomeComponent } from './page-component/home/home.component';
+import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
+import { DownloadCertificateComponent } from './page-component/academic/download-certificate/download-certificate.component';
+import { DownloadFormComponent } from './page-component/academic/download-form/download-form.component';
+import { PayFeesComponent } from './page-component/academic/pay-fees/pay-fees.component';
+import { SpokenEnglishComponent } from './page-component/course-offered/spoken-english/spoken-english.component';
+import { EBookComponent } from './page-component/student/e-book/e-book.component';
+import { MarksDivisionComponent } from './page-component/student/marks-division/marks-division.component';
+import { NotesComponent } from './page-component/student/notes/notes.component';
+import { SoftwareDownloadComponent } from './page-component/student/software-download/software-download.component';
+import { NoticeHolidayComponent } from './page-component/student/notice/notice-holiday/notice-holiday.component';
+import { NoticeRegistrationComponent } from './page-component/student/notice/notice-registration/notice-registration.component';
+import { AboutInstitutionComponent } from './page-component/about/about-institution/about-institution.component';
+import { AboutRegistrationComponent } from './page-component/about/about-registration/about-registration.component';
+import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
+import { StudentVerifyComponent } from './page-component/verification/student-verify/student-verify.component';
+import { CourseCertificateVerifyComponent } from './page-component/verification/certificate-verify/course-certificate-verify/course-certificate-verify.component';
+import { OtherCertificateVerifyComponent } from './page-component/verification/certificate-verify/other-certificate-verify/other-certificate-verify.component';
+import { OtherCourseComponent } from './page-component/course-offered/other-course/other-course.component';
+import { ComputerCourseComponent } from './page-component/course-offered/computer-course/computer-course.component';
+import { DanceCourseComponent } from './page-component/course-offered/dance-course/dance-course.component';
+import { DrawingCourseComponent } from './page-component/course-offered/drawing-course/drawing-course.component';
+import { GallaryComponent } from './page-component/gallary/gallary.component';
+import { ErrorComponent } from './error/error.component';
+import { ContactComponent } from './page-component/contact-us/contact/contact.component';
+import { FeedbackComponent } from './page-component/contact-us/feedback/feedback.component';
+import { RulesComponent } from './page-component/contact-us/rules/rules.component';
+import { CenterLoginComponent } from './page-component/center-login/center-login.component';
+
+export const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'home', component: HomeComponent },
+    { path: 'verification/center', component: CenterVerifyComponent },
+    { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
+    { path: 'verification/certificate/other', component: OtherCertificateVerifyComponent },
+    { path: 'verification/student', component: StudentVerifyComponent },
+    { path: 'academic/apply-franchies', component: ApplyFranchiesComponent },
+    { path: 'academic/download-certificate', component: DownloadCertificateComponent },
+    { path: 'academic/download-form', component: DownloadFormComponent },
+    { path: 'academic/pay-fees', component: PayFeesComponent },
+    { path: 'course-offered/computer', component: ComputerCourseComponent },
+    { path: 'course-offered/dance', component: DanceCourseComponent },
+    { path: 'course-offered/drawing', component: DrawingCourseComponent },
+    { path: 'course-offered/others', component: OtherCourseComponent },
+    { path: 'course-offered/spoken-english', component: SpokenEnglishComponent },
+    { path: 'student/e-book', component: EBookComponent },
+    { path: 'student/marks-division', component: MarksDivisionComponent },
+    { path: 'student/notes', component: NotesComponent },
+    { path: 'student/notice/holiday', component: NoticeHolidayComponent },
+    { path: 'student/notice/registration', component: NoticeRegistrationComponent },
+    { path: 'student/software-download', component: SoftwareDownloadComponent },
+    { path: 'gallary/:type', component: GallaryComponent },
+    { path: 'about/institution', component: AboutInstitutionComponent },
+    { path: 'about/registration', component: AboutRegistrationComponent },
+    { path: 'contact-us/contact', component: ContactComponent },
+    { path: 'contact-us/feedback', component: FeedbackComponent },
+    { path: 'contact-us/rules', component: RulesComponent },
+    { path: 'center-login', component: CenterLoginComponent },
+    { path: '**', component: ErrorComponent },
+];
