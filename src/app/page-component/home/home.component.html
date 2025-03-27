@@ -1,7 +1,5 @@
 <div class="modal-image-slider">
     <div class="slider-container">
-        <img [src]="images[currentIndex]" alt="Image Slider">
+        <img [@slideAnimation]="currentIndex" [src]="images[currentIndex]" class="slider-image" alt="Image Slider">
     </div>
 </div>
-
-<h1>HI</h1>

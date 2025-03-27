@@ -203,4 +203,20 @@ export const MenuItems: any[] = [
         name: 'Center Login',
         route: "/center-login"
     },
+    {
+        id: 10,
+        name: 'Admin Panel',
+        subMenu: [
+            {
+                id: 101,
+                name: 'Update Dashboard Details',
+                route: "/update-dashboard-details"
+            },
+            {
+                id: 102,
+                name: 'Create User',
+                route: "/create-user"
+            },
+        ]
+    },
 ];

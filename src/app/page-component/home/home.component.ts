@@ -1,15 +1,28 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, Renderer2, ElementRef } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  animations: [
+    trigger('slideAnimation', [
+      transition(':increment', [
+        style({ transform: 'translateX(100%)' }),
+        animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))
+      ]),
+      transition(':decrement', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))
+      ])
+    ])
+  ]
 })
+
 export class HomeComponent implements OnInit, OnDestroy {
   images: string[] = [
     '/image/slider_1.jpg',
     '/image/slider_2.jpg',
-    // '/image/slider_3.jpg',
     '/image/slider_4.jpg',
     '/image/slider_5.jpg',
   ];
