@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   startSlider() {
     this.intervalId = setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.images.length;
-    }, 500);
+    }, 3000);
   }
 
   ngOnDestroy() {
