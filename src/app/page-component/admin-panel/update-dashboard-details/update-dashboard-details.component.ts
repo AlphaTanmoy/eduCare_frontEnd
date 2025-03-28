@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AdminService } from '../../../service/admin/admin.service';
+import { CustomImageCropperComponent } from '../../../common-component/custom-image-cropper/custom-image-cropper.component';
 
 @Component({
   selector: 'app-update-dashboard-details',
-  imports: [],
+  imports: [CustomImageCropperComponent],
   templateUrl: './update-dashboard-details.component.html',
   styleUrl: './update-dashboard-details.component.css'
 })

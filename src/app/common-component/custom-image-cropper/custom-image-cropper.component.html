@@ -1,0 +1,20 @@
+<div id="imageUpload">
+    <input type="file" (change)="fileChangeEvent($event)" />
+</div>
+
+<div class="imageCroppingDiv">
+    <div class="imageCropperDiv" [ngStyle]="{'display': displayProperty}">
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="8 / 3"
+            format="png" class="imageCropper" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </div>
+    
+    <div class="imageDisplayDivFinalData">
+        <div class="imageDisplayDiv" [ngStyle]="{'display': displayProperty}">
+            <h1>Cropped Image</h1>
+            <img [src]="croppedImage" />
+        </div>
+
+        <button>Save</button>
+    </div>
+</div>
