@@ -28,6 +28,9 @@ export class HorizontalLayoutComponent {
   website_details_description: string = NavbarInfo.description;
   website_details_email: string = NavbarInfo.email;
   website_details_phone: string = NavbarInfo.phone;
+  website_details_youtube_url: string = NavbarInfo.youtube_url;
+  website_details_facebook_url: string = NavbarInfo.facebook_url;
+  website_details_whatsapp_url: string = NavbarInfo.whatsapp_url;
 
   //Fontawesome
   faYoutubeIcon = faYoutube;
