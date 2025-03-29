@@ -70,11 +70,13 @@
     }
 
     .dashboard_existing_slideshow_image{
+        margin-top: 0.5rem;
         flex-direction: column;
     }
     
     .a_dashboard_existing_slideshow_image{
         width: 100%;
+        margin-top: 0.5rem;
     }
 }
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { DashboardSlideshowImage } from '../../../../model/dashboard/dashboard.model';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CustomImageCropperComponent } from '../../../../common-component/custom-image-cropper/custom-image-cropper.component';
 
 @Component({
@@ -20,20 +21,23 @@ export class HomeSlideshowComponent {
   
     constructor(
       private dashboardService: DashboardService,
-      private adminService: AdminService
+      private adminService: AdminService,
+      private sanitizer: DomSanitizer
     ) {}
 
     ngOnInit(): void {
       this.dashboardService.getAllImages().subscribe({
         next: (data) => {
           try {
-            console.log(data);
+            console.log("data.data",data.data);
             this.images = data.map((item: { fileId: string }) => new DashboardSlideshowImage(item.fileId, null));
 
             this.images.forEach((image: DashboardSlideshowImage) => {
               this.dashboardService.getImageStream(image.fileId).subscribe({
                 next: (data) => {
-                  image.fileStream = data;
+                  console.log(data)
+                  const objectURL = URL.createObjectURL(data);
+                  image.fileStream = this.sanitizer.bypassSecurityTrustUrl(objectURL);
                 },
                 error: (err) => {
                   console.error("Error fetching image stream:", err);

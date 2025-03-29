@@ -1,5 +1,5 @@
 export const EndpointType = {
-    dev: "https:localhost:4000/",
+    dev: "http://localhost:4000/",
     prod: "https://www.educarecenter.in/"
 }
 

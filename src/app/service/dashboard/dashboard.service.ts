@@ -15,6 +15,6 @@ export class DashboardService {
   }
 
   getImageStream(fileId: string): Observable<any> {
-    return this.http.get<any>(GetBaseURL() + Endpoints.dashboard.get_image_stream_by_id + "/" + fileId);
+    return this.http.get(GetBaseURL() + Endpoints.dashboard.get_image_stream_by_id + "/" + fileId, { responseType: 'blob' });
   }
 }
