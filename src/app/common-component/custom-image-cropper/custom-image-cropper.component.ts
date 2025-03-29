@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class CustomImageCropperComponent {
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
-  displayProperty = "none";
+  displayProperty: boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer
@@ -22,7 +22,7 @@ export class CustomImageCropperComponent {
 
   fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
-    this.displayProperty = "block";
+    this.displayProperty = true;
   }
   
   imageCropped(event: ImageCroppedEvent) {
