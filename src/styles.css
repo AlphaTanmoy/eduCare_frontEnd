@@ -43,7 +43,6 @@ body {
 :root {
     --default-theme: #094250;
     --default-theme-hover: #0d5f73;
-    /* --default-theme: #1d3e54; */
     --white: #ffffff;
     --light: #f1f1f1;
     --light1: rgb(204, 204, 204);
