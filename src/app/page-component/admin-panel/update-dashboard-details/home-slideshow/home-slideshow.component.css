@@ -1,0 +1,83 @@
+.dashboard_information_update_container{
+    width: 95%; 
+    height: max-content; 
+    margin: 0 auto; 
+    padding: 1rem 0rem;
+}
+
+.dashboard_slideshow_image_update_container{
+    width: 100%; 
+    border: 4px solid var(--default-theme);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.dashboard_existing_slideshow{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--default-theme);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: var(--light1);
+}
+
+.dashboard_existing_slideshow h1{
+    color: var(--default-theme);
+}
+
+.dashboard_existing_slideshow_image{
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.a_dashboard_existing_slideshow_image{
+    width: 33.333%;
+    position: relative;
+}
+
+.a_dashboard_existing_slideshow_image:not(:last-child){
+    margin-right: 1rem;
+}
+
+.a_dashboard_existing_slideshow_image img{
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.image_cross_icon{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 2rem;
+    background-color: var(--white);
+    height: 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.image_cross_icon img{
+    width: 100%;
+}
+
+@media (max-width: 768px){
+    .dashboard_existing_slideshow h1{
+        font-size: 1.3rem;
+    }
+
+    .dashboard_existing_slideshow_image{
+        flex-direction: column;
+    }
+    
+    .a_dashboard_existing_slideshow_image{
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1000px){
+
+}

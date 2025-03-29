@@ -1,12 +1,20 @@
-<div style="width: 95%; margin: 0 auto; padding-top: 1rem;">
-    <div *ngIf="images.length > 0;">
-        <div *ngFor="let image of images" class="image-container">
-          <img [src]="image.base64" [alt]="image.name" class="image-preview">
-        </div>
-      </div>
-      <ng-template #noImages>
-        <p>No images found</p>
-      </ng-template>
+<div class="dashboard_information_update_container">
+    <div class="dashboard_slideshow_image_update_container">
 
-    <app-custom-image-cropper></app-custom-image-cropper>
+        <div class="dashboard_existing_slideshow">
+            <h1>Existing Slideshow Images</h1>
+
+            <div class="dashboard_existing_slideshow_image">
+                <div *ngFor="let image of images" class="a_dashboard_existing_slideshow_image">
+                    <div class="image_cross_icon" (click)="deleteDashboardSlideshowImage(image)">
+                        <img src="icon/cross.svg">
+                    </div>
+                    
+                    <img [src]="image.fileStream">
+                </div>
+            </div>
+        </div>
+    
+        <app-custom-image-cropper></app-custom-image-cropper>
+    </div>
 </div>

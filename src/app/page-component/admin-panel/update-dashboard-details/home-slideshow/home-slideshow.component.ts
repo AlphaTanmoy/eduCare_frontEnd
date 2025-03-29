@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { AdminService } from '../../../../service/admin/admin.service';
+import { DashboardSlideshowImage } from '../../../../model/dashboard/dashboard.model';
 import { CustomImageCropperComponent } from '../../../../common-component/custom-image-cropper/custom-image-cropper.component';
 
 @Component({
@@ -15,7 +16,7 @@ export class HomeSlideshowComponent {
     uploadProgress: number = 0;
     uploadMessage: string = '';
 
-    images: any[] = [];
+    images!: DashboardSlideshowImage[];
   
     constructor(
       private dashboardService: DashboardService,
@@ -23,17 +24,43 @@ export class HomeSlideshowComponent {
     ) {}
 
     ngOnInit(): void {
-      this.dashboardService.getImages().subscribe(data => {
-        console.log(data)
-        this.images = data;
+      this.dashboardService.getAllImages().subscribe({
+        next: (data) => {
+          try {
+            console.log(data);
+            this.images = data.map((item: { fileId: string }) => new DashboardSlideshowImage(item.fileId, null));
+
+            this.images.forEach((image: DashboardSlideshowImage) => {
+              this.dashboardService.getImageStream(image.fileId).subscribe({
+                next: (data) => {
+                  image.fileStream = data;
+                },
+                error: (err) => {
+                  console.error("Error fetching image stream:", err);
+                }
+              });
+            });
+
+            console.log("images",this.images)
+          } catch (error) {
+            console.error("Error processing images:", error);
+          }
+        },
+        error: (err) => {
+          console.error("Error fetching images:", err);
+        }
       });
     }
   
     onFileSelected(event: any) {
       this.selectedFile = event.target.files[0] || null;
     }
+
+    deleteDashboardSlideshowImage(image: DashboardSlideshowImage) {
+        console.log(image);
+    }
   
-    uploadFile() {
+    uploadDashboardSlideshowImage() {
       if (!this.selectedFile) {
         this.uploadMessage = 'Please select a file first!';
         return;
