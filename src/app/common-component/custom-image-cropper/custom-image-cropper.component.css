@@ -97,12 +97,20 @@
     margin-bottom: 1rem;
 }
 
-.imageDisplayDivFinalDataSaveButton{
+.imageDisplayDivFinalDataButtons{
     margin-top: 1rem;
     width: 100%;
 }
 
-.imageDisplayDivFinalDataSaveButton button {
+.imageDisplayDivFinalDataResetButton{
+    float: left;
+}
+
+.imageDisplayDivFinalDataSaveButton{
+    float: right;
+}
+
+/* .imageDisplayDivFinalDataButtons button {
     background-color: var(--default-theme);
     border: none;
     color: white;
@@ -111,8 +119,12 @@
     font-size: 1rem;
     border-radius: 1.5rem;
     cursor: pointer;
-    float: right;
+    transition: 0.3s all ease-in-out;
 }
+
+.imageDisplayDivFinalDataButtons button:hover {
+    background-color: var(--default-theme-hover);
+} */
 
 @media (max-width: 768px) {
     #imageUpload{
