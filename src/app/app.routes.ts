@@ -27,8 +27,8 @@ import { ContactComponent } from './page-component/contact-us/contact/contact.co
 import { FeedbackComponent } from './page-component/contact-us/feedback/feedback.component';
 import { RulesComponent } from './page-component/contact-us/rules/rules.component';
 import { CenterLoginComponent } from './page-component/center-login/center-login.component';
-import { UpdateDashboardDetailsComponent } from './page-component/admin-panel/update-dashboard-details/update-dashboard-details.component';
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
+import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -59,7 +59,7 @@ export const routes: Routes = [
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
     { path: 'center-login', component: CenterLoginComponent },
-    { path: 'admin-panel/update-dashboard-details', component: UpdateDashboardDetailsComponent },
+    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent },
     { path: 'admin-panel/create-user', component: CreateUserComponent },
     { path: '**', component: ErrorComponent },
 ];
