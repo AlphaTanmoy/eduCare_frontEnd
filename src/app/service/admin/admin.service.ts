@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:4000/dashboard/upload_file';
+  private apiUrl = 'http://localhost:4000/dashboard/get_dashboard_slideshow_images';
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +15,6 @@ export class AdminService {
     formData.append('file', file, file.name);
 
     const headers = new HttpHeaders();
-    // Note: Do not set Content-Type, let browser set it automatically
 
     return this.http.post<any>(this.apiUrl, formData, { headers });
   }

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { CustomImageCropperComponent } from '../../../../common-component/custom-image-cropper/custom-image-cropper.component';
 
 @Component({
   selector: 'app-home-slideshow',
-  imports: [CustomImageCropperComponent],
+  imports: [CustomImageCropperComponent, CommonModule],
   templateUrl: './home-slideshow.component.html',
   styleUrl: './home-slideshow.component.css'
 })
@@ -12,8 +14,20 @@ export class HomeSlideshowComponent {
   selectedFile: File | null = null;
     uploadProgress: number = 0;
     uploadMessage: string = '';
+
+    images: any[] = [];
   
-    constructor(private adminService: AdminService) {}
+    constructor(
+      private dashboardService: DashboardService,
+      private adminService: AdminService
+    ) {}
+
+    ngOnInit(): void {
+      this.dashboardService.getImages().subscribe(data => {
+        console.log(data)
+        this.images = data;
+      });
+    }
   
     onFileSelected(event: any) {
       this.selectedFile = event.target.files[0] || null;
