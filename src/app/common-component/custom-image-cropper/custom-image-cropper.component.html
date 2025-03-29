@@ -2,25 +2,25 @@
     <div *ngIf="!displayProperty" id="imageUpload">
         <input type="file" (change)="fileChangeEvent($event)" />
     </div>
-    
+
     <div class="imageCroppingDiv" *ngIf="displayProperty">
         <div class="imageCropperDiv">
             <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="8 / 3"
-                format="png" class="imageCropper" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
-                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                format="png" class="imageCropper" (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"></image-cropper>
         </div>
-        
+
         <div class="imageDisplayDivFinalData">
             <div class="imageDisplayDiv">
                 <h1>Cropped Image</h1>
                 <img [src]="croppedImage" />
             </div>
-    
+
             <div class="imageDisplayDivFinalDataButtons">
-                <button class="imageDisplayDivFinalDataResetButton custom-button1">Reset</button>
+                <button class="imageDisplayDivFinalDataResetButton custom-button1" (click)="resetCroppedImage()">Reset</button>
                 <button class="imageDisplayDivFinalDataSaveButton custom-button1">Save</button>
             </div>
         </div>
     </div>
 </div>
-
