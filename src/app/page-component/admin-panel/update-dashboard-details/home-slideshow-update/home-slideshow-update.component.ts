@@ -4,13 +4,12 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-custom-image-cropper',
+  selector: 'app-home-slideshow-update',
   imports: [ImageCropperComponent, CommonModule],
-  templateUrl: './custom-image-cropper.component.html',
-  styleUrl: './custom-image-cropper.component.css'
+  templateUrl: './home-slideshow-update.component.html',
+  styleUrl: './home-slideshow-update.component.css'
 })
-
-export class CustomImageCropperComponent {
+export class HomeSlideshowUpdateComponent {
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
   displayProperty: boolean = false;

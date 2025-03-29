@@ -4,11 +4,11 @@ import { DashboardService } from '../../../../service/dashboard/dashboard.servic
 import { AdminService } from '../../../../service/admin/admin.service';
 import { DashboardSlideshowImage } from '../../../../model/dashboard/dashboard.model';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CustomImageCropperComponent } from '../../../../common-component/custom-image-cropper/custom-image-cropper.component';
+import { HomeSlideshowUpdateComponent } from '../home-slideshow-update/home-slideshow-update.component';
 
 @Component({
   selector: 'app-home-slideshow',
-  imports: [CustomImageCropperComponent, CommonModule],
+  imports: [HomeSlideshowUpdateComponent, CommonModule],
   templateUrl: './home-slideshow.component.html',
   styleUrl: './home-slideshow.component.css'
 })
