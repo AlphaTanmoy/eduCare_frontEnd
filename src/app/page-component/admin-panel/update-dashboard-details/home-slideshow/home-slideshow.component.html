@@ -6,7 +6,7 @@
 
             <div class="dashboard_existing_slideshow_image">
                 <div *ngFor="let image of images" class="a_dashboard_existing_slideshow_image">
-                    <div class="image_cross_icon" (click)="deleteDashboardSlideshowImage(image)">
+                    <div *ngIf="image.fileStream !== null" class="image_cross_icon" (click)="deleteDashboardSlideshowImage(image)">
                         <img src="icon/cross.svg">
                     </div>
                     

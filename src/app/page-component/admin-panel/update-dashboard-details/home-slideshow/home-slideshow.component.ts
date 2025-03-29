@@ -29,13 +29,11 @@ export class HomeSlideshowComponent {
       this.dashboardService.getAllImages().subscribe({
         next: (data) => {
           try {
-            console.log("data.data",data.data);
             this.images = data.map((item: { fileId: string }) => new DashboardSlideshowImage(item.fileId, null));
 
             this.images.forEach((image: DashboardSlideshowImage) => {
               this.dashboardService.getImageStream(image.fileId).subscribe({
                 next: (data) => {
-                  console.log(data)
                   const objectURL = URL.createObjectURL(data);
                   image.fileStream = this.sanitizer.bypassSecurityTrustUrl(objectURL);
                 },
