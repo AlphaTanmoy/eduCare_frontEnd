@@ -75,6 +75,7 @@ export class HomeSlideshowUpdateComponent {
           next: (event: any) => {
             this.hideMatProgressBar();
             window.alert(event.message);
+            location.reload();
           },
           error: (err) => {          
             this.hideMatProgressBar();
