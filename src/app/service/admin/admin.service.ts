@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:4000/dashboard/get_dashboard_slideshow_images';
+  private apiUrl = 'http://localhost:4000/dashboard/upload_dashboard_slideshow_image';
 
   constructor(private http: HttpClient) { }
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AdminService } from '../../../../service/admin/admin.service';
 
 @Component({
   selector: 'app-home-slideshow-update',
@@ -10,12 +11,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home-slideshow-update.component.css'
 })
 export class HomeSlideshowUpdateComponent {
+  selectedFile: File | null = null;
+  uploadMessage: string = '';
+  uploadProgress: number = 0;
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
   displayProperty: boolean = false;
 
   constructor(
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private adminService: AdminService,
   ) { }
 
   fileChangeEvent(event: Event): void {
@@ -47,4 +52,33 @@ export class HomeSlideshowUpdateComponent {
     this.croppedImage = null;
     this.displayProperty = false;
   }
+
+  uploadDashboardSlideshowImage() {
+    const imgElement = document.getElementById("cropepdSlideshowImage") as HTMLImageElement;
+  
+    if (!imgElement || !imgElement.src) {
+      window.alert('No image found!');
+      return;
+    }
+  
+    fetch(imgElement.src)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
+        
+        this.adminService.uploadFile(file).subscribe({
+          next: (event: any) => {
+            console.log(event);
+            window.alert(event.message);
+          },
+          error: (err) => {
+            window.alert('File upload failed');
+          }
+        });
+      })
+      .catch(error => {
+        window.alert('File upload failed');
+      });
+  }
+  
 }
