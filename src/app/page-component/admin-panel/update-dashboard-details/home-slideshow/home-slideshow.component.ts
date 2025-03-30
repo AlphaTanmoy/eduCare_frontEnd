@@ -46,8 +46,8 @@ export class HomeSlideshowComponent {
           let imageLoaded = 0;
           this.images.forEach((image: DashboardSlideshowImage) => {
             this.dashboardService.getImageStream(image.fileId).subscribe({
-              next: (data) => {
-                const objectURL = URL.createObjectURL(data);
+              next: (response1) => {
+                const objectURL = URL.createObjectURL(response1);
                 image.fileStream = this.sanitizer.bypassSecurityTrustUrl(objectURL);
                 imageLoaded++;
 
