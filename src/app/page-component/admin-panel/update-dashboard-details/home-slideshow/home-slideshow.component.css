@@ -7,9 +7,9 @@
 
 .dashboard_slideshow_image_update_container{
     width: 100%; 
-    border: 4px solid var(--default-theme);
-    padding: 1rem;
-    border-radius: 0.5rem;
+    /* border: 4px solid var(--default-theme); */
+    /* padding: 1rem; */
+    /* border-radius: 0.5rem; */
 }
 
 .dashboard_existing_slideshow{
@@ -67,6 +67,11 @@
 }
 
 @media (max-width: 768px){
+    .dashboard_information_update_container{
+        padding: 0.5rem 0rem;
+    }
+
+    
     .dashboard_existing_slideshow h1{
         font-size: 1.3rem;
     }
