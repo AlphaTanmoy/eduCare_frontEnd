@@ -6,3 +6,7 @@ export const NavbarInfo = {
     facebook_url : "https://www.facebook.com/2233473143577609/",
     whatsapp_url : "https://api.whatsapp.com/send/?phone=919831744911&text&type=phone_number&app_absent=0"
 }
+
+export const DashboardInfo = {
+    maximum_slideshow_image_count: 8,
+}

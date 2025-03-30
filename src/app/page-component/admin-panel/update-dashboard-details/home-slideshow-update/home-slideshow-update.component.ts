@@ -12,6 +12,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './home-slideshow-update.component.html',
   styleUrl: './home-slideshow-update.component.css'
 })
+
 export class HomeSlideshowUpdateComponent {
   selectedFile: File | null = null;
   imageChangedEvent: Event | null = null;

@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HomeSlideshowUpdateComponent } from '../home-slideshow-update/home-slideshow-update.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
+import { DashboardInfo } from '../../../../constants/commonConstants';
 
 
 @Component({
@@ -15,12 +16,14 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './home-slideshow.component.html',
   styleUrl: './home-slideshow.component.css'
 })
+
 export class HomeSlideshowComponent {
   selectedFile: File | null = null;
   uploadProgress: number = 0;
   uploadMessage: string = '';
   imageDivVisible: boolean = false;
   matProgressBarVisible: boolean = true;
+  public dashboardInfo = DashboardInfo;
 
   images!: DashboardSlideshowImage[];
 
@@ -63,7 +66,7 @@ export class HomeSlideshowComponent {
             });
           });
 
-          if(this.images.length === 0) this.hideMatProgressBar();
+          if (this.images.length === 0) this.hideMatProgressBar();
         } catch (error) {
           console.error("Error processing images:", error);
           this.hideMatProgressBar();
