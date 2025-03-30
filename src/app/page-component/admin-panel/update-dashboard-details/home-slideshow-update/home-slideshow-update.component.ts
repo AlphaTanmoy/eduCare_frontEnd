@@ -14,15 +14,15 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class HomeSlideshowUpdateComponent {
   selectedFile: File | null = null;
-  uploadMessage: string = '';
-  uploadProgress: number = 0;
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
   displayProperty: boolean = false;
+  matProgressBarVisible: boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer,
     private adminService: AdminService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   fileChangeEvent(event: Event): void {
@@ -50,37 +50,51 @@ export class HomeSlideshowUpdateComponent {
     // show message
   }
 
-  resetCroppedImage(){
+  resetCroppedImage() {
     this.croppedImage = null;
     this.displayProperty = false;
   }
 
   uploadDashboardSlideshowImage() {
+    this.activeMatProgressBar();
+
     const imgElement = document.getElementById("cropepdSlideshowImage") as HTMLImageElement;
-  
+
     if (!imgElement || !imgElement.src) {
+      this.hideMatProgressBar();
       window.alert('No image found!');
       return;
     }
-  
+
     fetch(imgElement.src)
       .then(res => res.blob())
       .then(blob => {
         const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
-        
+
         this.adminService.uploadFile(file).subscribe({
           next: (event: any) => {
-            console.log(event);
+            this.hideMatProgressBar();
             window.alert(event.message);
           },
-          error: (err) => {
+          error: (err) => {          
+            this.hideMatProgressBar();
             window.alert('File upload failed');
           }
         });
       })
       .catch(error => {
+        this.hideMatProgressBar();
         window.alert('File upload failed');
       });
   }
-  
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
 }

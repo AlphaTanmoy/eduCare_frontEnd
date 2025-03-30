@@ -12,7 +12,7 @@
         </div>
 
         <div class="imageDisplayDivFinalData">
-            <mat-progress-bar mode="indeterminate" *ngIf="true" style="color: var(--default-theme);"></mat-progress-bar>
+            <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" style="color: var(--default-theme);"></mat-progress-bar>
             <div class="imageDisplayDiv">     
                 <h1>Cropped Image</h1>
                 <img [src]="croppedImage" id="cropepdSlideshowImage"/>
