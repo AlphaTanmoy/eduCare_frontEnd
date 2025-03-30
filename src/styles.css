@@ -64,6 +64,11 @@ body {
     background-color: var(--default-theme-hover);
 }
 
+.matProgressBar{
+    border-radius: 50px;
+    color: var(--default-theme);
+}
+
 @media (max-width: 768px) {
     .custom-button1{
         font-size: 0.8rem;
