@@ -72,12 +72,18 @@ export class HomeSlideshowUpdateComponent {
         const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
 
         this.adminService.uploadFile(file).subscribe({
-          next: (event: any) => {
+          next: (resposne: any) => {
+            if (resposne.status !== 200) {
+              console.error(resposne.message);
+              this.hideMatProgressBar();
+              return;
+            }
+
             this.hideMatProgressBar();
-            window.alert(event.message);
+            window.alert(resposne.message);
             location.reload();
           },
-          error: (err) => {          
+          error: (err) => {
             this.hideMatProgressBar();
             window.alert('File upload failed');
           }

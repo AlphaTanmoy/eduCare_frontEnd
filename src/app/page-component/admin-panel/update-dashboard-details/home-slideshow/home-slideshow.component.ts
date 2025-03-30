@@ -33,9 +33,15 @@ export class HomeSlideshowComponent {
 
   ngOnInit(): void {
     this.dashboardService.getAllImages().subscribe({
-      next: (data) => {
+      next: (resposne) => {
         try {
-          this.images = data.map((item: { fileId: string }) => new DashboardSlideshowImage(item.fileId, null));
+          if (resposne.status !== 200) {
+            console.error(resposne.message);
+            this.hideMatProgressBar();
+            return;
+          }
+
+          this.images = resposne.data.map((item: { fileId: string }) => new DashboardSlideshowImage(item.fileId, null));
 
           let imageLoaded = 0;
           this.images.forEach((image: DashboardSlideshowImage) => {
