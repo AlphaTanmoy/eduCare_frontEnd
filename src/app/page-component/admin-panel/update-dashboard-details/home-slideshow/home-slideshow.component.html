@@ -2,10 +2,11 @@
     <div class="dashboard_slideshow_image_update_container">
 
         <div class="dashboard_existing_slideshow">
+            <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" style="color: var(--default-theme);"></mat-progress-bar>
             <h1>Existing Slideshow Images</h1>
 
-            <div class="dashboard_existing_slideshow_image">
-                <div *ngFor="let image of images" class="a_dashboard_existing_slideshow_image">
+            <div *ngIf="imageDivVisible" class="dashboard_existing_slideshow_image">
+                <div  *ngFor="let image of images" class="a_dashboard_existing_slideshow_image">
                     <div *ngIf="image.fileStream !== null" class="image_cross_icon" (click)="deleteDashboardSlideshowImage(image)">
                         <img src="icon/cross.svg">
                     </div>

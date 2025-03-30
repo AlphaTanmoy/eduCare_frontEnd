@@ -18,7 +18,6 @@
     flex-direction: column;
     align-items: center;
     border: 2px solid var(--default-theme);
-    padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
     background-color: var(--light1);
@@ -26,11 +25,13 @@
 
 .dashboard_existing_slideshow h1{
     color: var(--default-theme);
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
 }
 
 .dashboard_existing_slideshow_image{
     display: flex;
-    margin-top: 1rem;
+    padding: 0rem 1rem 1rem 1rem;
     width: 100%;
     justify-content: space-between;
 }
