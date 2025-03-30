@@ -63,7 +63,7 @@ export class HomeSlideshowComponent {
             });
           });
 
-          this.hideMatProgressBar();
+          if(this.images.length === 0) this.hideMatProgressBar();
         } catch (error) {
           console.error("Error processing images:", error);
           this.hideMatProgressBar();
