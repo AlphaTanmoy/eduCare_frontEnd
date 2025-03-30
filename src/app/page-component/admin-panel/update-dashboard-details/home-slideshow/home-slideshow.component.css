@@ -79,6 +79,17 @@
         width: 100%;
         margin-top: 0.5rem;
     }
+
+    .image_cross_icon{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 1.7rem;
+        background-color: var(--white);
+        height: 1.7rem;
+        border-radius: 50px;
+        cursor: pointer;
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1000px){
