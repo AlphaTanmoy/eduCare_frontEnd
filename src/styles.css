@@ -52,7 +52,7 @@ body {
     background-color: var(--default-theme);
     border: none;
     color: white;
-    padding: 0.8rem 2rem;
+    padding: 0.7rem 1rem;
     text-align: center;
     font-size: 1rem;
     border-radius: 1.5rem;
@@ -62,4 +62,10 @@ body {
 
 .custom-button1:hover{
     background-color: var(--default-theme-hover);
+}
+
+@media (max-width: 768px) {
+    .custom-button1{
+        font-size: 0.8rem;
+    }
 }

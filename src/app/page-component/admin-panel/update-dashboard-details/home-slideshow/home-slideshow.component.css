@@ -27,6 +27,7 @@
     color: var(--default-theme);
     margin-top: 0.7rem;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .dashboard_existing_slideshow_image{
@@ -77,6 +78,13 @@
     
     .a_dashboard_existing_slideshow_image{
         width: 100%;
+    }
+
+    .a_dashboard_existing_slideshow_image:first-child {
+        margin-top: -0.5rem;
+    }
+
+    .a_dashboard_existing_slideshow_image:not(:first-child){
         margin-top: 0.5rem;
     }
 

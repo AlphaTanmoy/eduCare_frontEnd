@@ -71,7 +71,6 @@
     height: 100%;
     background-color: var(--white);
     border-radius: 0.5rem;
-    padding: 1rem;
     border: 2px solid var(--default-theme);
     margin-left: 1rem;
     display: flex;
@@ -83,6 +82,7 @@
 .imageDisplayDiv {
     width: 100%;
     flex-grow: 1;
+    padding: 0rem 1rem;
 }
 
 .imageDisplayDiv img {
@@ -94,11 +94,13 @@
 .imageDisplayDiv h1 {
     text-align: center;
     margin-bottom: 1rem;
+    margin-top: 0.7rem;
 }
 
 .imageDisplayDivFinalDataButtons{
     margin-top: 1rem;
     width: 100%;
+    padding: 0rem 1rem 1rem 1rem;
 }
 
 .imageDisplayDivFinalDataResetButton{

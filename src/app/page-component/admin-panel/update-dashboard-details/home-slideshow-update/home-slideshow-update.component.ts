@@ -3,10 +3,12 @@ import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../../../service/admin/admin.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-home-slideshow-update',
-  imports: [ImageCropperComponent, CommonModule],
+  imports: [ImageCropperComponent, CommonModule, MatProgressBarModule],
   templateUrl: './home-slideshow-update.component.html',
   styleUrl: './home-slideshow-update.component.css'
 })
