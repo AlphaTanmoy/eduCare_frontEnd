@@ -87,7 +87,7 @@
 
 .imageDisplayDiv img {
     width: 100%;
-    border: 4px solid var(--default-theme);
+    border: 2px solid var(--default-theme);
     border-radius: 0.6rem;
 }
 
@@ -112,6 +112,10 @@
 }
 
 @media (max-width: 768px) {
+    .app-custom-image-cropper-container{
+        padding: 0.5rem;
+    }
+
     #imageUpload{
         height: 10rem;
     }
@@ -134,7 +138,11 @@
 
     .imageDisplayDivFinalData{
         margin-left: 0;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .imageDisplayDiv{
+        padding: 0 0.5rem;
     }
 
     .imageDisplayDiv h1 {
@@ -143,6 +151,10 @@
 
     #imageUpload::before {
         font-size: 1.2rem;
+    }
+
+    .imageDisplayDivFinalDataButtons{
+        padding: 0rem 0.5rem 0.5rem 0.5rem;
     }
 }
 
