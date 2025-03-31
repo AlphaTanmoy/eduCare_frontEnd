@@ -43,29 +43,6 @@ export class EnumsComponent implements OnInit, OnDestroy {
     removeBootstrap(this.bootstrapElements);
   }
 
-  // private loadBootstrap(): void {
-  //   this.bootstrapCss = this.renderer.createElement('link');
-  //   this.bootstrapCss.rel = 'stylesheet';
-  //   this.bootstrapCss.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
-  //   document.head.appendChild(this.bootstrapCss);
-
-  //   this.bootstrapJs = this.renderer.createElement('script');
-  //   this.bootstrapJs.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-  //   this.bootstrapJs.type = 'text/javascript';
-  //   document.body.appendChild(this.bootstrapJs);
-  // }
-
-  // private removeBootstrap(): void {
-  //   if (this.bootstrapCss) {
-  //     document.head.removeChild(this.bootstrapCss);
-  //     this.bootstrapCss = null;
-  //   }
-  //   if (this.bootstrapJs) {
-  //     document.body.removeChild(this.bootstrapJs);
-  //     this.bootstrapJs = null;
-  //   }
-  // }
-
   fetchEnums(): void {
     if (this.isLoading || !this.hasMore) return;
     this.isLoading = true;
