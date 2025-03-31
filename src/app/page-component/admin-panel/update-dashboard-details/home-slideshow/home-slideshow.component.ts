@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { AdminService } from '../../../../service/admin/admin.service';
@@ -8,6 +8,7 @@ import { HomeSlideshowUpdateComponent } from '../home-slideshow-update/home-slid
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { DashboardInfo } from '../../../../constants/commonConstants';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 
 @Component({
@@ -17,13 +18,14 @@ import { DashboardInfo } from '../../../../constants/commonConstants';
   styleUrl: './home-slideshow.component.css'
 })
 
-export class HomeSlideshowComponent {
+export class HomeSlideshowComponent implements OnInit, OnDestroy  {
   selectedFile: File | null = null;
   uploadProgress: number = 0;
   uploadMessage: string = '';
   imageDivVisible: boolean = false;
   matProgressBarVisible: boolean = true;
   public dashboardInfo = DashboardInfo;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   images!: DashboardSlideshowImage[];
 
@@ -35,6 +37,8 @@ export class HomeSlideshowComponent {
   ) { }
 
   ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+
     this.dashboardService.getAllImages().subscribe({
       next: (resposne) => {
         try {
@@ -78,6 +82,10 @@ export class HomeSlideshowComponent {
       }
     });
   }
+
+  ngOnDestroy(): void {
+      removeBootstrap(this.bootstrapElements);
+    }
 
   hideMatProgressBar() {
     this.matProgressBarVisible = false;

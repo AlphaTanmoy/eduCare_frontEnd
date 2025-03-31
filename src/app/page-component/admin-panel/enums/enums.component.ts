@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { EnumsService } from '../../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -8,11 +8,11 @@ import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 @Component({
   selector: 'app-enums',
-  standalone: true,
   imports: [CommonModule, FontAwesomeModule, FormsModule],
   templateUrl: './enums.component.html',
-  styleUrls: ['./enums.component.css']
+  styleUrl: './enums.component.css'
 })
+
 export class EnumsComponent implements OnInit, OnDestroy {
   enums: any[] = [];
   filteredEnums: any[] = [];
@@ -30,7 +30,6 @@ export class EnumsComponent implements OnInit, OnDestroy {
 
   constructor(
     private enumsService: EnumsService,
-    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {

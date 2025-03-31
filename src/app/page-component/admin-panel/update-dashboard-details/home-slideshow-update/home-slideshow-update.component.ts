@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 @Component({
   selector: 'app-home-slideshow-update',
@@ -13,18 +14,27 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './home-slideshow-update.component.css'
 })
 
-export class HomeSlideshowUpdateComponent {
+export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   selectedFile: File | null = null;
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
   displayProperty: boolean = false;
   matProgressBarVisible: boolean = false;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private sanitizer: DomSanitizer,
     private adminService: AdminService,
     private cdr: ChangeDetectorRef
   ) { }
+
+  ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
+  }
 
   fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
