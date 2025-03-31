@@ -3,12 +3,14 @@ import { EnumsService } from '../../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { faExpandArrowsAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faExpandArrowsAlt, faL, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-enums',
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule, MatProgressBarModule],
   templateUrl: './enums.component.html',
   styleUrl: './enums.component.css'
 })
@@ -22,6 +24,7 @@ export class EnumsComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
   faSearch = faSearch;
+  matProgressBarVisible: boolean = false;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   enumNames: string[] = [];
@@ -31,10 +34,12 @@ export class EnumsComponent implements OnInit, OnDestroy {
 
   constructor(
     private enumsService: EnumsService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
+    this.activeMatProgressBar();
     this.fetchEnums();
     this.loadEnumNames();
   }
@@ -49,6 +54,7 @@ export class EnumsComponent implements OnInit, OnDestroy {
         console.log('Enum Names API Response:', response);
         if (response.status === 200 && response.data) {
           this.enumNames = response.data;
+          this.hideMatProgressBar();
         } else {
           this.enumNames = [];
         }
@@ -82,6 +88,7 @@ export class EnumsComponent implements OnInit, OnDestroy {
 
 
   filterEnums(): void {
+    this.activeMatProgressBar();
     if (!this.selectedEnumName) {
       this.searchResults = [];
       return;
@@ -96,11 +103,13 @@ export class EnumsComponent implements OnInit, OnDestroy {
           this.searchResults = [];
         }
         this.isSearching = false;
+        this.hideMatProgressBar();
       },
       error => {
         console.error('Error fetching filtered enums:', error);
         this.searchResults = [];
         this.isSearching = false;
+        this.hideMatProgressBar();
       }
     );
   }
@@ -110,5 +119,15 @@ export class EnumsComponent implements OnInit, OnDestroy {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
       this.fetchEnums();
     }
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
   }
 }

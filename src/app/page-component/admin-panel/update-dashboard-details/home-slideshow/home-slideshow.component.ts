@@ -18,7 +18,7 @@ import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
   styleUrl: './home-slideshow.component.css'
 })
 
-export class HomeSlideshowComponent implements OnInit, OnDestroy  {
+export class HomeSlideshowComponent implements OnInit, OnDestroy {
   selectedFile: File | null = null;
   uploadProgress: number = 0;
   uploadMessage: string = '';
@@ -27,7 +27,7 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy  {
   public dashboardInfo = DashboardInfo;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
-  images!: DashboardSlideshowImage[];
+  images: DashboardSlideshowImage[] = [];
 
   constructor(
     private dashboardService: DashboardService,
@@ -84,8 +84,8 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy(): void {
-      removeBootstrap(this.bootstrapElements);
-    }
+    removeBootstrap(this.bootstrapElements);
+  }
 
   hideMatProgressBar() {
     this.matProgressBarVisible = false;
