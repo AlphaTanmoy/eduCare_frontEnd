@@ -5,7 +5,7 @@
 
     <div class="imageCroppingDiv" *ngIf="displayProperty">
         <div class="imageCropperDiv">
-            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="8 / 3"
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="8 / 2"
                 format="png" class="imageCropper" (imageCropped)="imageCropped($event)"
                 (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
                 (loadImageFailed)="loadImageFailed()"></image-cropper>
