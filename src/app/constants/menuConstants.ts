@@ -225,4 +225,9 @@ export const MenuItems: any[] = [
             },
         ]
     },
+    {
+      id: 11,
+      name: 'Enums',
+      route: "/enums"
+  },
 ];
