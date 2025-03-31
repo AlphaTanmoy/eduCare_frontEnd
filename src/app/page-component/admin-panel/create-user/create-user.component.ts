@@ -1,10 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 
 @Component({
   selector: 'app-create-user',
-  imports: [CustomSingleSelectSearchableDropdownComponent],
+  imports: [CustomSingleSelectSearchableDropdownComponent, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
@@ -17,6 +25,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
+    this.openDialog();
   }
 
   ngOnDestroy(): void {
@@ -25,5 +34,16 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   handleOptionSelection(event: any): void {
     console.log(event, " is selected");
+  }
+
+  readonly dialog = inject(MatDialog);
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: 'Custom Dialog Title',
+        text: 'This is a dynamically passed dialog message.'
+      }
+    });
   }
 }
