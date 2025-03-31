@@ -2,9 +2,9 @@ import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/
 import { EnumsService } from '../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule } from '@angular/forms';
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
-import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap'
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-enums',
@@ -13,7 +13,6 @@ import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap'
   templateUrl: './enums.component.html',
   styleUrls: ['./enums.component.css']
 })
-
 export class EnumsComponent implements OnInit, OnDestroy {
   enums: any[] = [];
   filteredEnums: any[] = [];
@@ -22,12 +21,12 @@ export class EnumsComponent implements OnInit, OnDestroy {
   hasMore: boolean = true;
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
-
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
-  selectedEnumName: string = ''; // Search input
-  searchResults: any[] = []; // Holds search results
-  isSearching: boolean = false; // Loading state for search
+  enumNames: string[] = [];
+  selectedEnumName: string = '';
+  searchResults: any[] = [];
+  isSearching: boolean = false;
 
   constructor(
     private enumsService: EnumsService,
@@ -37,10 +36,28 @@ export class EnumsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.fetchEnums();
+    this.loadEnumNames();
   }
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  loadEnumNames(): void {
+    this.enumsService.getEnumNames().subscribe(
+      response => {
+        console.log('Enum Names API Response:', response);
+        if (response.status === 200 && response.data) {
+          this.enumNames = response.data;
+        } else {
+          this.enumNames = [];
+        }
+      },
+      error => {
+        console.error('Error fetching enum names:', error);
+        this.enumNames = [];
+      }
+    );
   }
 
   fetchEnums(): void {
@@ -63,8 +80,9 @@ export class EnumsComponent implements OnInit, OnDestroy {
     );
   }
 
+
   filterEnums(): void {
-    if (!this.selectedEnumName.trim()) {
+    if (!this.selectedEnumName) {
       this.searchResults = [];
       return;
     }
@@ -72,8 +90,8 @@ export class EnumsComponent implements OnInit, OnDestroy {
     this.isSearching = true;
     this.enumsService.getEnumsByName(this.selectedEnumName).subscribe(
       response => {
-        if (response.status === 200 && response.data) {  // Check correct response structure
-          this.searchResults = response.data;  // Update with correct response field
+        if (response.status === 200 && response.data) {
+          this.searchResults = response.data;
         } else {
           this.searchResults = [];
         }
