@@ -3,6 +3,7 @@ import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-create-user',
@@ -36,7 +37,8 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CustomAlertComponent, {
       data: {
         title: 'Custom Dialog Title',
-        text: 'This is a dynamically passed dialog message.'
+        text: 'This is a dynamically passed dialog message.',
+        type: ResponseTypeColor.SUCCESS
       }
     });
   }

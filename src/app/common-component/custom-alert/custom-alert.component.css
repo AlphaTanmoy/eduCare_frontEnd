@@ -1,12 +1,11 @@
-.alert_header{
-    padding: 0 1rem 1.2rem 1rem;
+#alert_header{
+    padding: 1rem;
     font-size: 1.3rem;
     font-weight: bold;
-    color: var(--default-theme);
     border-bottom: 2px solid var(--default-theme);
 }
 
-.alert_body{
+#alert_body{
     margin-top: 1rem;
     font-size: 1.1rem;
     padding: 0 1rem 1rem 1rem;

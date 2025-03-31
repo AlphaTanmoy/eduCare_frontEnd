@@ -10,3 +10,10 @@ export const NavbarInfo = {
 export const DashboardInfo = {
     maximum_slideshow_image_count: 8,
 }
+
+export const ResponseTypeColor = {
+    SUCCESS: 1,
+    WARNING: 2,
+    INFO: 3,
+    ERROR: 4
+}
