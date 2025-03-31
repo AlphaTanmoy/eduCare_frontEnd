@@ -1,50 +1,48 @@
 <div class="container">
   <h2 class="mb-4 text-center">Enums Search Customization</h2>
 
-<!-- Search Section with Dropdown -->
-<div class="row mb-4">
-  <div class="col-md-6 offset-md-3">
-    <div class="input-group">
-      <select class="form-select" [(ngModel)]="selectedEnumName">
-        <option value="" disabled selected>Select an Enum</option>
-        <option *ngFor="let enumName of enumNames" [value]="enumName">
-          {{ enumName }}
-        </option>
-      </select>
-      <button class="btn btn-primary" (click)="filterEnums()">Search</button>
+  <!-- Search Section with Dropdown -->
+  <div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+      <div class="input-group">
+        <select class="form-select" [(ngModel)]="selectedEnumName">
+          <option value="" disabled selected>Select an Enum</option>
+          <option *ngFor="let enumName of enumNames" [value]="enumName">
+            {{ enumName }}
+          </option>
+        </select>
+        <button class="btn btn-primary" (click)="filterEnums()">Search</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Search Results Section -->
-<div *ngIf="selectedEnumName && searchResults.length > 0" class="mt-4">
-  <h3 class="text-center">Search Results</h3>
-  <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let enumItem of searchResults; let i = index">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">
-            <fa-icon [icon]="faExpandArrowsAlt"></fa-icon>
-            {{ i + 1 }} - {{ enumItem.enum_name }}
-          </h5>
-          <p class="card-text"><strong>Value:</strong> {{ enumItem.enum_value }}</p>
-          <p class="card-text">
-            <strong>Status:</strong>
-            <span
-              [ngClass]="{
+  <!-- Search Results Section -->
+  <div *ngIf="selectedEnumName && searchResults.length > 0" class="mt-4">
+    <h3 class="text-center">Search Results</h3>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let enumItem of searchResults; let i = index">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <fa-icon [icon]="faExpandArrowsAlt"></fa-icon>
+              {{ i + 1 }} - {{ enumItem.enum_name }}
+            </h5>
+            <p class="card-text"><strong>Value:</strong> {{ enumItem.enum_value }}</p>
+            <p class="card-text">
+              <strong>Status:</strong>
+              <span [ngClass]="{
                 'text-success': enumItem.data_status === 'ACTIVE',
                 'text-danger': enumItem.data_status === 'INACTIVE'
-              }"
-            >
-              <b> {{ enumItem.data_status }}</b>
-            </span>
-          </p>
-          <p class="card-text"><strong>ID:</strong> {{ enumItem._id }}</p>
+              }">
+                <b> {{ enumItem.data_status }}</b>
+              </span>
+            </p>
+            <p class="card-text"><strong>ID:</strong> {{ enumItem._id }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <h2 class="mb-4 text-center">Available Enums</h2>
@@ -60,12 +58,10 @@
           <p class="card-text"><strong>Value:</strong> {{ enumItem.enum_value }}</p>
           <p class="card-text">
             <strong>Status:</strong>
-            <span
-              [ngClass]="{
+            <span [ngClass]="{
                 'text-success': enumItem.data_status === 'ACTIVE',
                 'text-danger': enumItem.data_status === 'INACTIVE'
-              }"
-            >
+              }">
               <b> {{ enumItem.data_status }}</b>
             </span>
           </p>
