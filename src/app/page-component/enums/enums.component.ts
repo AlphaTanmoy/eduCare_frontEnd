@@ -2,22 +2,28 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { EnumsService } from '../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-enums',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule], // Added FormsModule
   templateUrl: './enums.component.html',
   styleUrls: ['./enums.component.css']
 })
 export class EnumsComponent implements OnInit {
   enums: any[] = [];
+  filteredEnums: any[] = [];
   offsetToken: string | null = null;
   limit: number = 12;
   hasMore: boolean = true;
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
+
+  selectedEnumName: string = ''; // Search input
+  searchResults: any[] = []; // Holds search results
+  isSearching: boolean = false; // Loading state for search
 
   constructor(private enumsService: EnumsService) {}
 
@@ -41,6 +47,30 @@ export class EnumsComponent implements OnInit {
       error => {
         console.error('Error fetching enums:', error);
         this.isLoading = false;
+      }
+    );
+  }
+
+  filterEnums(): void {
+    if (!this.selectedEnumName.trim()) {
+      this.searchResults = [];
+      return;
+    }
+
+    this.isSearching = true;
+    this.enumsService.getEnumsByName(this.selectedEnumName).subscribe(
+      response => {
+        if (response.status === 200 && response.data) {  // Check correct response structure
+          this.searchResults = response.data;  // Update with correct response field
+        } else {
+          this.searchResults = [];
+        }
+        this.isSearching = false;
+      },
+      error => {
+        console.error('Error fetching filtered enums:', error);
+        this.searchResults = [];
+        this.isSearching = false;
       }
     );
   }

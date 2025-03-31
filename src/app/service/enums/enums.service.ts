@@ -29,16 +29,15 @@ export class EnumsService {
    * @param fileId Enum name identifier
    * @returns Observable with the enum details
    */
-  getEnumsByName(fileId: string): Observable<any> {
-    let params = new HttpParams().set('fileId', fileId);
-    return this.http.get<any>(GetBaseURL() + Endpoints.enums.get_enums_by_name, { params });
+  getEnumsByName(enumName: string): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.enums.get_enums_by_name + "/" + enumName);
   }
 
   /**
    * Fetch available enum names
    * @returns Observable with enum names list
    */
-  getEnumNames(): Observable<any> {
+  getEnumNames(enumName: string): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.enums.get_enum_names);
   }
 }
