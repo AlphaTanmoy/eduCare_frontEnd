@@ -4,8 +4,13 @@
         <div class="dashboard_existing_slideshow">
             <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible"
                 class="matProgressBar"></mat-progress-bar>
-            <h1>Existing Slideshow Images 
-                <span *ngIf="images.length === dashboardInfo.maximum_slideshow_image_count">(Maximum Image Limit {{dashboardInfo.maximum_slideshow_image_count}})</span></h1>
+            <h1>Existing Slideshow Images
+                <span
+                    *ngIf="images.length === dashboardInfo.maximum_slideshow_image_count
+                    && images[images.length-1].fileStream !== null && images[images.length-1].fileStream !== undefined">
+                    (Maximum Image Limit {{dashboardInfo.maximum_slideshow_image_count}})
+                </span>
+            </h1>
 
             <div *ngIf="imageDivVisible" class="dashboard_existing_slideshow_image">
                 <div *ngFor="let image of images" class="a_dashboard_existing_slideshow_image">
