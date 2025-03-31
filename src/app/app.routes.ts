@@ -29,6 +29,7 @@ import { RulesComponent } from './page-component/contact-us/rules/rules.componen
 import { CenterLoginComponent } from './page-component/center-login/center-login.component';
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
+import { EnumsComponent } from './page-component/enums/enums.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -61,5 +62,6 @@ export const routes: Routes = [
     { path: 'center-login', component: CenterLoginComponent },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent },
     { path: 'admin-panel/create-user', component: CreateUserComponent },
+    { path: 'enum', component: EnumsComponent },
     { path: '**', component: ErrorComponent },
 ];
