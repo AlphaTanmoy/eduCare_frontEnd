@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
-import { EnumsService } from '../../service/enums/enums.service';
+import { EnumsService } from '../../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
-import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 @Component({
   selector: 'app-enums',
