@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(), 
-    ...appConfig.providers // Spread `appConfig.providers`
+    provideHttpClient(),
+    ...appConfig.providers
   ]
 }).catch((err) => console.error(err));
