@@ -62,6 +62,6 @@ export const routes: Routes = [
     { path: 'center-login', component: CenterLoginComponent },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent },
     { path: 'admin-panel/create-user', component: CreateUserComponent },
-    { path: 'enum', component: EnumsComponent },
+    { path: 'admin-panel/enum', component: EnumsComponent },
     { path: '**', component: ErrorComponent },
 ];

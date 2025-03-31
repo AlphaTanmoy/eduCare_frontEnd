@@ -223,11 +223,11 @@ export const MenuItems: any[] = [
                 name: 'Create User',
                 route: "/admin-panel/create-user"
             },
+            {
+                id: 103,
+                name: 'Enums',
+                route: "/admin-panel/enum"
+            },
         ]
-    },
-    {
-      id: 11,
-      name: 'Enums',
-      route: "/enum"
-  },
+    }
 ];
