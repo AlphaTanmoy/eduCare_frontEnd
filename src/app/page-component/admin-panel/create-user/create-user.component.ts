@@ -11,7 +11,9 @@ import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-c
 
 export class CreateUserComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-  option: string[] = ['One', 'Two', 'Three', 'Four'];
+  dropdownOption: string[] = ['One', 'Two', 'Three', 'Four'];
+  dropdownplaceholder: string = "Search/Select an item";
+  dropdownpLabel: string = "Number selection";
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
@@ -21,7 +23,7 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     removeBootstrap(this.bootstrapElements);
   }
 
-  handleOptionSelection(event:any) : void {
+  handleOptionSelection(event: any): void {
     console.log(event, " is selected");
-  } 
+  }
 }

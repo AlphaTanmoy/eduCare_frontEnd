@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-custom-single-select-searchable-dropdown',
@@ -26,6 +26,8 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit {
   filteredOptions: Observable<string[]> | undefined;
 
   @Input() options: string[] = [];
+  @Input() ariaPlaceholder: string | undefined;
+  @Input() ariaLabel: string | undefined;
   @Output() optionSelected = new EventEmitter<string>();
 
   ngOnInit() {
