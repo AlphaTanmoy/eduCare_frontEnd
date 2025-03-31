@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap'
 
 @Component({
   selector: 'app-enums',
@@ -22,8 +23,7 @@ export class EnumsComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
 
-  private bootstrapCss: any | null = null;
-  private bootstrapJs: any | null = null;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   selectedEnumName: string = ''; // Search input
   searchResults: any[] = []; // Holds search results
@@ -35,36 +35,36 @@ export class EnumsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.loadBootstrap();
+    this.bootstrapElements = loadBootstrap();
     this.fetchEnums();
   }
 
   ngOnDestroy(): void {
-    this.removeBootstrap();
+    removeBootstrap(this.bootstrapElements);
   }
 
-  private loadBootstrap(): void {
-    this.bootstrapCss = this.renderer.createElement('link');
-    this.bootstrapCss.rel = 'stylesheet';
-    this.bootstrapCss.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
-    document.head.appendChild(this.bootstrapCss);
+  // private loadBootstrap(): void {
+  //   this.bootstrapCss = this.renderer.createElement('link');
+  //   this.bootstrapCss.rel = 'stylesheet';
+  //   this.bootstrapCss.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+  //   document.head.appendChild(this.bootstrapCss);
 
-    this.bootstrapJs = this.renderer.createElement('script');
-    this.bootstrapJs.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-    this.bootstrapJs.type = 'text/javascript';
-    document.body.appendChild(this.bootstrapJs);
-  }
+  //   this.bootstrapJs = this.renderer.createElement('script');
+  //   this.bootstrapJs.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+  //   this.bootstrapJs.type = 'text/javascript';
+  //   document.body.appendChild(this.bootstrapJs);
+  // }
 
-  private removeBootstrap(): void {
-    if (this.bootstrapCss) {
-      document.head.removeChild(this.bootstrapCss);
-      this.bootstrapCss = null;
-    }
-    if (this.bootstrapJs) {
-      document.body.removeChild(this.bootstrapJs);
-      this.bootstrapJs = null;
-    }
-  }
+  // private removeBootstrap(): void {
+  //   if (this.bootstrapCss) {
+  //     document.head.removeChild(this.bootstrapCss);
+  //     this.bootstrapCss = null;
+  //   }
+  //   if (this.bootstrapJs) {
+  //     document.body.removeChild(this.bootstrapJs);
+  //     this.bootstrapJs = null;
+  //   }
+  // }
 
   fetchEnums(): void {
     if (this.isLoading || !this.hasMore) return;

@@ -18,7 +18,7 @@ html {
 
 body {
     animation: transitionIn 0.75s;
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Noto Sans", sans-serif !important;
     overflow-x: hidden;
     max-width: 100%;
     background-color: var(--light);
