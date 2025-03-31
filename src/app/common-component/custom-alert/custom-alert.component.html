@@ -3,3 +3,29 @@
 <mat-dialog-actions class="alert_button">
   <button id="alert_button_element" class="btn" mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
+
+<!-- To call this component from another component
+=========================================================================
+
+another.component.ts
+--------------------------------------------------
+import { Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../../constants/commonConstants';
+
+@Component({
+  selector: 'app-another',
+  imports: [CustomSingleSelectSearchableDropdownComponent],
+  templateUrl: './another.component.html',
+  styleUrl: './another.component.css'
+})
+
+readonly dialog = inject(MatDialog);
+
+openDialog(dialogTitle: string, dialogTextL: string, dialogType: number): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {data: { title: dialogTitle, text: dialogTextL, type: dialogType}});
+}
+
+=========================================================================
+-->
