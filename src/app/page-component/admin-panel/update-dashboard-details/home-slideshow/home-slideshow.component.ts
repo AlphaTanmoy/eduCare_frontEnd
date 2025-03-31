@@ -85,6 +85,11 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
     removeBootstrap(this.bootstrapElements);
   }
 
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
   hideMatProgressBar() {
     this.matProgressBarVisible = false;
     this.cdr.detectChanges();
@@ -95,7 +100,7 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
   }
 
   deleteDashboardSlideshowImage(image: DashboardSlideshowImage) {
-    console.log(image);
+    this.activeMatProgressBar();
 
     this.dashboardService.deleteDashboardSlideshowImageFile(image.fileId).subscribe({
       next: (response) => {
@@ -105,10 +110,12 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
           return;
         }
 
+        this.hideMatProgressBar();
         window.alert(response.message);
       },
       error: (err) => {
         console.error("Error fetching image stream:", err);
+        this.hideMatProgressBar();
       }
     });
   }
