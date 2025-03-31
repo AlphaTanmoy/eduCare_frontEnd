@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { EnumsService } from '../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -8,11 +8,12 @@ import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-enums',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, FormsModule], // Added FormsModule
+  imports: [CommonModule, FontAwesomeModule, FormsModule],
   templateUrl: './enums.component.html',
   styleUrls: ['./enums.component.css']
 })
-export class EnumsComponent implements OnInit {
+
+export class EnumsComponent implements OnInit, OnDestroy {
   enums: any[] = [];
   filteredEnums: any[] = [];
   offsetToken: string | null = null;
@@ -21,14 +22,48 @@ export class EnumsComponent implements OnInit {
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
 
+  private bootstrapCss: any | null = null;
+  private bootstrapJs: any | null = null;
+
   selectedEnumName: string = ''; // Search input
   searchResults: any[] = []; // Holds search results
   isSearching: boolean = false; // Loading state for search
 
-  constructor(private enumsService: EnumsService) {}
+  constructor(
+    private enumsService: EnumsService,
+    private renderer: Renderer2
+  ) { }
 
   ngOnInit(): void {
+    this.loadBootstrap();
     this.fetchEnums();
+  }
+
+  ngOnDestroy(): void {
+    this.removeBootstrap();
+  }
+
+  private loadBootstrap(): void {
+    this.bootstrapCss = this.renderer.createElement('link');
+    this.bootstrapCss.rel = 'stylesheet';
+    this.bootstrapCss.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+    document.head.appendChild(this.bootstrapCss);
+
+    this.bootstrapJs = this.renderer.createElement('script');
+    this.bootstrapJs.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+    this.bootstrapJs.type = 'text/javascript';
+    document.body.appendChild(this.bootstrapJs);
+  }
+
+  private removeBootstrap(): void {
+    if (this.bootstrapCss) {
+      document.head.removeChild(this.bootstrapCss);
+      this.bootstrapCss = null;
+    }
+    if (this.bootstrapJs) {
+      document.body.removeChild(this.bootstrapJs);
+      this.bootstrapJs = null;
+    }
   }
 
   fetchEnums(): void {
