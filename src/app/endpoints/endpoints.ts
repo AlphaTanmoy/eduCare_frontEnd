@@ -11,6 +11,7 @@ export const Endpoints = {
     dashboard: {
         get_dashboard_slideshow_images: "dashboard/get_dashboard_slideshow_images",
         get_image_stream_by_id: "dashboard/get_image_stream_by_id",
+        upload_dashboard_slideshow_image: "dashboard/upload_dashboard_slideshow_image",
     },
     enums: {
         get_all_enums: "enums",

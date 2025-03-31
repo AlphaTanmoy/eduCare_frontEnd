@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:4000/dashboard/upload_dashboard_slideshow_image';
-
   constructor(private http: HttpClient) { }
 
   uploadFile(file: File): Observable<any> {
@@ -16,6 +15,6 @@ export class AdminService {
 
     const headers = new HttpHeaders();
 
-    return this.http.post<any>(this.apiUrl, formData, { headers });
+    return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.upload_dashboard_slideshow_image, formData, { headers });
   }
 }

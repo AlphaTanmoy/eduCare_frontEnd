@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
-import { AdminService } from '../../../../service/admin/admin.service';
 import { DashboardSlideshowImage } from '../../../../model/dashboard/dashboard.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeSlideshowUpdateComponent } from '../home-slideshow-update/home-slideshow-update.component';
@@ -31,7 +30,6 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
 
   constructor(
     private dashboardService: DashboardService,
-    private adminService: AdminService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef
   ) { }
