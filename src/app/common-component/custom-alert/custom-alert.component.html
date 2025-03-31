@@ -1,5 +1,7 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content>{{ data.text }}</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<div>
+    <h2 class="alert_header text-success" mat-dialog-title>{{ data.title }}</h2>
+    <mat-dialog-content class="alert_body text-success">{{ data.text }}</mat-dialog-content>
+    <mat-dialog-actions class="alert_button">
+      <button class="btn btn-success" mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>
