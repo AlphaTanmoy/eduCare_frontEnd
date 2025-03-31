@@ -1,18 +1,12 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
-import {
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 
 @Component({
   selector: 'app-create-user',
-  imports: [CustomSingleSelectSearchableDropdownComponent, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
+  imports: [CustomSingleSelectSearchableDropdownComponent],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
