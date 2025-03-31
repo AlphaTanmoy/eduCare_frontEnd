@@ -37,7 +37,7 @@ export class EnumsService {
    * Fetch available enum names
    * @returns Observable with enum names list
    */
-  getEnumNames(enumName: string): Observable<any> {
+  getEnumNames(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.enums.get_enum_names);
   }
 }
