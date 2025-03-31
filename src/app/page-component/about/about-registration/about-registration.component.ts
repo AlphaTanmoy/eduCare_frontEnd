@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 @Component({
   selector: 'app-about-registration',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './about-registration.component.html',
   styleUrl: './about-registration.component.css'
 })
-export class AboutRegistrationComponent {
 
+export class AboutRegistrationComponent implements OnInit, OnDestroy {
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
+  ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
+  }
 }

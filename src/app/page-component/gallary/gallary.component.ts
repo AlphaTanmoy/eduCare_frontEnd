@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-gallary',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './gallary.component.html',
   styleUrl: './gallary.component.css'
 })
-export class GallaryComponent {
 
+export class GallaryComponent implements OnInit, OnDestroy {
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
+  ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
+  }
 }

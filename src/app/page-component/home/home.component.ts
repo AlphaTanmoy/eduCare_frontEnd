@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, Renderer2, ElementRef } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -29,10 +30,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   intervalId: any;
   maxHeight = 0;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(private renderer: Renderer2, private elRef: ElementRef) {}
 
   ngOnInit() {
+    this.bootstrapElements = loadBootstrap();
     this.startSlider();
   }
 
@@ -43,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    removeBootstrap(this.bootstrapElements);
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
