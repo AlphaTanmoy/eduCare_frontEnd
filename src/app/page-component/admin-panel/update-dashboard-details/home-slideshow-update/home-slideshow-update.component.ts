@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { AdminService } from '../../../../service/admin/admin.service';
+import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
@@ -24,7 +24,7 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private adminService: AdminService,
+    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -82,7 +82,7 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
       .then(blob => {
         const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
 
-        this.adminService.uploadFile(file).subscribe({
+        this.dashboardService.uploadDashboardSlideshowImageFile(file).subscribe({
           next: (resposne: any) => {
             if (resposne.status !== 200) {
               console.error(resposne.message);
