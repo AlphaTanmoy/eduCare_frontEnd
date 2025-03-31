@@ -5,16 +5,19 @@
   <div class="row mb-4">
     <div class="col-md-6 offset-md-3">
       <div class="input-group">
-        <select class="form-select" [(ngModel)]="selectedEnumName">
+        <select class="form-select slate-dropdown" [(ngModel)]="selectedEnumName">
           <option value="" disabled selected>Select an Enum</option>
           <option *ngFor="let enumName of enumNames" [value]="enumName">
             {{ enumName }}
           </option>
         </select>
-        <button class="btn btn-primary" (click)="filterEnums()">Search</button>
+        <button class="btn search-btn" (click)="filterEnums()">
+          <fa-icon [icon]="faSearch"></fa-icon> Search
+        </button>
       </div>
     </div>
   </div>
+
 
   <!-- Search Results Section -->
   <div *ngIf="selectedEnumName && searchResults.length > 0" class="mt-4">

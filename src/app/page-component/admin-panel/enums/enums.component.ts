@@ -3,7 +3,7 @@ import { EnumsService } from '../../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExpandArrowsAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 @Component({
@@ -21,6 +21,7 @@ export class EnumsComponent implements OnInit, OnDestroy {
   hasMore: boolean = true;
   isLoading: boolean = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
+  faSearch = faSearch;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   enumNames: string[] = [];

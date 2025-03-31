@@ -1,0 +1,26 @@
+.search-btn {
+  background-color: var(--default-theme);
+  color: var(--white);
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: var(--default-theme-hover);
+}
+
+.slate-dropdown {
+  background-color: #b6bcc2; /* Slate Color */
+  color: white; /* Text Color */
+  border: 1px solid #b6bcc2; /* Optional Border */
+}
+
+.slate-dropdown:focus {
+  background-color: #b6bcc2; /* Darker Slate on Focus */
+  color: white;
+  border-color: #b6bcc2;
+}
+
+.slate-dropdown option {
+  background-color: white;
+  color: black;
+}
