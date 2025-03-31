@@ -22,8 +22,10 @@ export class DashboardService {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    const headers = new HttpHeaders();
+    return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.upload_dashboard_slideshow_image, formData);
+  }
 
-    return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.upload_dashboard_slideshow_image, formData, { headers });
+  deleteDashboardSlideshowImageFile(fileId: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.delete_dashboard_slideshow_image, { fileId });
   }
 }

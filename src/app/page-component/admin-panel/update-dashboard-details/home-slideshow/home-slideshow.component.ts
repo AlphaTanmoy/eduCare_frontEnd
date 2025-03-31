@@ -96,5 +96,20 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
 
   deleteDashboardSlideshowImage(image: DashboardSlideshowImage) {
     console.log(image);
+
+    this.dashboardService.deleteDashboardSlideshowImageFile(image.fileId).subscribe({
+      next: (response) => {
+        if(response.status === 200) {
+          window.alert(response.message);
+          location.reload();
+          return;
+        }
+
+        window.alert(response.message);
+      },
+      error: (err) => {
+        console.error("Error fetching image stream:", err);
+      }
+    });
   }
 }
