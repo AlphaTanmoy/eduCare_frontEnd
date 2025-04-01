@@ -43,15 +43,20 @@ body {
 :root {
     --default-theme: #094250;
     --default-theme-hover: #0d5f73;
+    --default-theme-hover2: #11748d;
+    --black: #000000;
     --white: #ffffff;
     --light: #f1f1f1;
-    --light1: rgb(204, 204, 204);
+    --light1: #f2f2f2;
+    --success: #2abe05;
+    --failed:  #fd0000;
+    --warning: #f1b100;
 }
 
 .custom-button1{
     background-color: var(--default-theme);
     border: none;
-    color: white;
+    color: ffffff;
     padding: 0.7rem 1rem;
     text-align: center;
     font-size: 1rem;
