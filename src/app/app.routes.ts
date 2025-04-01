@@ -26,10 +26,12 @@ import { ErrorComponent } from './error/error.component';
 import { ContactComponent } from './page-component/contact-us/contact/contact.component';
 import { FeedbackComponent } from './page-component/contact-us/feedback/feedback.component';
 import { RulesComponent } from './page-component/contact-us/rules/rules.component';
-import { CenterLoginComponent } from './page-component/center-login/center-login.component';
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 import { EnumsComponent } from './page-component/admin-panel/enums/enums.component';
+import { FranchiseRegistrationComponent } from './page-component/registration/franchise-registration/franchise-registration.component';
+import { StudentRegistrationComponent } from './page-component/registration/student-registration/student-registration.component';
+import { LoginComponent } from './page-component/login/login.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -59,9 +61,11 @@ export const routes: Routes = [
     { path: 'contact-us/contact', component: ContactComponent },
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
-    { path: 'center-login', component: CenterLoginComponent },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent },
     { path: 'admin-panel/create-user', component: CreateUserComponent },
     { path: 'admin-panel/enum', component: EnumsComponent },
+    { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
+    { path: 'registration/register-student', component: StudentRegistrationComponent },
+    { path: 'login', component: LoginComponent },
     { path: '**', component: ErrorComponent },
 ];
