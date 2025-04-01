@@ -71,15 +71,14 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   }
 
   uploadDashboardSlideshowImage() {
-    this.activeMatProgressBar();
-
     const imgElement = document.getElementById("cropepdSlideshowImage") as HTMLImageElement;
 
     if (!imgElement || !imgElement.src) {
-      this.hideMatProgressBar();
-      window.alert('No image found!');
+      this.openDialog("Dashboard", "Please select an image", ResponseTypeColor.INFO, false);
       return;
     }
+
+    this.activeMatProgressBar();
 
     fetch(imgElement.src)
       .then(res => res.blob())
