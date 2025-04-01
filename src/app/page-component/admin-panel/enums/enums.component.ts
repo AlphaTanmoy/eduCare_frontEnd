@@ -3,7 +3,7 @@ import { EnumsService } from '../../../service/enums/enums.service';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { faExpandArrowsAlt, faL, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faExpandArrowsAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
@@ -14,7 +14,6 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './enums.component.html',
   styleUrl: './enums.component.css'
 })
-
 export class EnumsComponent implements OnInit, OnDestroy {
   enums: any[] = [];
   filteredEnums: any[] = [];
@@ -85,7 +84,6 @@ export class EnumsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
 
   filterEnums(): void {
     this.activeMatProgressBar();
