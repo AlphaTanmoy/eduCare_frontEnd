@@ -1,14 +1,14 @@
 #alert_header{
-    padding: 1rem;
+    padding: 1rem 1rem;
     font-size: 1.3rem;
     font-weight: bold;
     border-bottom: 2px solid var(--default-theme);
 }
 
 #alert_body{
-    margin-top: 1rem;
+    margin: 1rem 0;
     font-size: 1.1rem;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0rem 1rem 0rem 1rem;
 }
 
 .alert_button{
