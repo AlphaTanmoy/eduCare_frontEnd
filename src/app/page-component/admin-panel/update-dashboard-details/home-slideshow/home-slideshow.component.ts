@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 import { DashboardSlideshowImage } from '../../../../model/dashboard/dashboard.model';
@@ -6,8 +6,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HomeSlideshowUpdateComponent } from '../home-slideshow-update/home-slideshow-update.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
-import { DashboardInfo } from '../../../../constants/commonConstants';
+import { DashboardInfo, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
   imageDivVisible: boolean = false;
   matProgressBarVisible: boolean = true;
   public dashboardInfo = DashboardInfo;
+  readonly dialog = inject(MatDialog);
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   images: DashboardSlideshowImage[] = [];
@@ -104,18 +107,28 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
 
     this.dashboardService.deleteDashboardSlideshowImageFile(image.fileId).subscribe({
       next: (response) => {
-        if(response.status === 200) {
-          window.alert(response.message);
-          location.reload();
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Dashboard", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
-
-        this.hideMatProgressBar();
-        window.alert(response.message);
+        
+        this.openDialog("Dashboard", response.message, ResponseTypeColor.ERROR, false);
       },
       error: (err) => {
-        console.error("Error fetching image stream:", err);
         this.hideMatProgressBar();
+        this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);     
+      }
+    });
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+  
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
       }
     });
   }
