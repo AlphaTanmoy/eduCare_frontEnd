@@ -22,6 +22,8 @@ export const UserRole = {
     ADMIN: 'ADMIN',
     MASTET: 'MASTER',
     STUDENT: 'STUDENT',
-    FRANCHISE: 'FRANCHISE', 
+    FRANCHISE: 'FRANCHISE',
     GUEST: 'GUEST'
 }
+
+export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
