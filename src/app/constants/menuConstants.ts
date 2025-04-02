@@ -58,7 +58,7 @@ export const MenuItems: any[] = [
       {
         id: 34,
         name: 'Apply Franchies',
-        route: '/academic/apply-franchies',
+        route: '/registration/register-franchise',
       },
     ],
   },
@@ -111,6 +111,11 @@ export const MenuItems: any[] = [
             name: 'Holiday Notice',
             route: '/student/notice/holiday',
           },
+          {
+            id: 513,
+            name: 'Student Login',
+            route: '/login',
+          },
         ],
       },
       {
@@ -133,6 +138,11 @@ export const MenuItems: any[] = [
         name: 'Software Download',
         route: '/student/software-download',
       },
+      {
+        id: 56,
+        name: 'Student Registration',
+        route: '/registration/register-student',
+      }
     ],
   },
   {
@@ -228,22 +238,26 @@ export const MenuItems: any[] = [
   {
     id: 10,
     name: 'Login',
+    route: '/login',
+    showWhenLoggedOut: true,
+    showWhenLoggedIn: false
+  },
+  {
+    id: 11,
+    name: 'User',
     subMenu: [
       {
-        id: 101,
-        name: 'Login',
-        route: '/login',
+        id: 111,
+        name: 'Profile',
+        route: '/profile',
       },
       {
-        id: 102,
-        name: 'Franchise Registration',
-        route: 'registration/register-franchise',
+        id: 112,
+        name: 'Logout',
+        action: 'logout',
       },
-      {
-        id: 103,
-        name: 'Student Registration',
-        route: 'registration/register-student',
-      }
-    ]
+    ],
+    showWhenLoggedOut: false,
+    showWhenLoggedIn: true
   },
 ];

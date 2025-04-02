@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './page-component/home/home.component';
-import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
 import { DownloadCertificateComponent } from './page-component/academic/download-certificate/download-certificate.component';
 import { DownloadFormComponent } from './page-component/academic/download-form/download-form.component';
 import { PayFeesComponent } from './page-component/academic/pay-fees/pay-fees.component';
@@ -29,9 +28,12 @@ import { RulesComponent } from './page-component/contact-us/rules/rules.componen
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 import { EnumsComponent } from './page-component/admin-panel/enums/enums.component';
-import { FranchiseRegistrationComponent } from './page-component/registration/franchise-registration/franchise-registration.component';
-import { StudentRegistrationComponent } from './page-component/registration/student-registration/student-registration.component';
+import { FranchiseRegistrationComponent } from './page-component/academic/franchise-registration/franchise-registration.component';
+import { StudentRegistrationComponent } from './page-component/student/student-registration/student-registration.component';
 import { LoginComponent } from './page-component/login/login.component';
+import { AuthGuard } from './service/auth/Auth.guard';
+import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
+
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -40,7 +42,6 @@ export const routes: Routes = [
     { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
     { path: 'verification/certificate/other', component: OtherCertificateVerifyComponent },
     { path: 'verification/student', component: StudentVerifyComponent },
-    { path: 'academic/apply-franchies', component: ApplyFranchiesComponent },
     { path: 'academic/download-certificate', component: DownloadCertificateComponent },
     { path: 'academic/download-form', component: DownloadFormComponent },
     { path: 'academic/pay-fees', component: PayFeesComponent },
@@ -61,11 +62,12 @@ export const routes: Routes = [
     { path: 'contact-us/contact', component: ContactComponent },
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
-    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent },
-    { path: 'admin-panel/create-user', component: CreateUserComponent },
-    { path: 'admin-panel/enum', component: EnumsComponent },
+    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
+    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
+    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
     { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: '**', component: ErrorComponent },
 ];

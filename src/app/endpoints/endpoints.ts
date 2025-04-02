@@ -18,5 +18,8 @@ export const Endpoints = {
         get_all_enums: "enums",
         get_enums_by_name: "enums/group-by",
         get_enum_names: "enums/name"
+    },
+    auth: {
+      login: "auth/login"
     }
 }

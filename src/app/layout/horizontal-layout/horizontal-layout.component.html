@@ -1,79 +1,79 @@
 <div class="navbar-container">
-    <div class="navbar" #navbar>
-        <div class="navbar_info">
-            <div class="navbar_logo">
-                <img src="/image/educare_logo.jpg" alt="Educare Logo">
-            </div>
-            <div class="navbar_details">
-                <span>{{ website_details_description }}</span>
-                <span>{{ website_details_email }}</span>
-                <span>{{ website_details_phone }}</span>
-            </div>
-        </div>
+  <div class="navbar" #navbar>
+    <div class="navbar_info">
+      <div class="navbar_logo">
+        <img src="/image/educare_logo.jpg" alt="Educare Logo">
+      </div>
+      <div class="navbar_details">
+        <span>{{ website_details_description }}</span>
+        <span>{{ website_details_email }}</span>
+        <span>{{ website_details_phone }}</span>
+      </div>
     </div>
+  </div>
 
-    <div class="navbar_navigations" [class.fixed]="isNavFixed" #navbarNav>
-        <nav class="navbar_menu">
-            <ul class="menu-list">
-                <ng-container *ngFor="let item of menuItems">
-                    <li class="menu-item" (mouseenter)="item.subMenu && openItems.add(item.id)"
-                        (mouseleave)="onMouseLeave(item.id)">
-                        <div class="a-menu-item">
-                            <span (click)="toggleMenu(item.id, item.route)">
-                                {{ item.name }}
-                            </span>
-                            <span *ngIf="item.subMenu">
-                                <img src="/icon/expand_white_down.png" class="a-menu-item-down-arrow"
-                                    [class.rotated]="openItems.has(item.id)">
-                            </span>
-                        </div>
+  <div class="navbar_navigations" [class.fixed]="isNavFixed" #navbarNav>
+    <nav class="navbar_menu">
+      <ul class="menu-list">
+        <ng-container *ngFor="let item of getFilteredMenuItems()">
+          <li class="menu-item"
+              (mouseenter)="item.subMenu && openItems.add(item.id)"
+              (mouseleave)="onMouseLeave(item.id)">
 
-                        <ul *ngIf="item.subMenu" [@submenuAnimation]="openItems.has(item.id) ? 'open' : 'closed'"
-                            class="submenu">
-                            <ng-container
-                                *ngTemplateOutlet="recursiveList; context: { $implicit: item.subMenu }"></ng-container>
-                        </ul>
-                    </li>
-                </ng-container>
+            <div class="a-menu-item">
+              <span (click)="toggleMenu(item.id, item.route, item.action)">
+                {{ item.name === 'User' ? userName : item.name }}
+              </span>
+              <span *ngIf="item.subMenu">
+                <img src="/icon/expand_white_down.png" class="a-menu-item-down-arrow"
+                    [class.rotated]="openItems.has(item.id)">
+              </span>
+            </div>
+
+            <ul *ngIf="item.subMenu" [@submenuAnimation]="openItems.has(item.id) ? 'open' : 'closed'"
+                class="submenu">
+              <ng-container *ngTemplateOutlet="recursiveList; context: { $implicit: item.subMenu }"></ng-container>
             </ul>
-        </nav>
+          </li>
+        </ng-container>
+      </ul>
+    </nav>
 
-        <!-- Recursive Template -->
-        <ng-template #recursiveList let-subItems>
-            <ng-container *ngFor="let subItem of subItems">
-                <li class="menu-item" (mouseenter)="subItem.subMenu && openItems.add(subItem.id)"
-                    (mouseleave)="onMouseLeave(subItem.id)">
-                    <span (click)="toggleMenu(subItem.id, subItem.route)">
-                        {{ subItem.name }}
-                        <span *ngIf="subItem.subMenu">
-                            <img src="/icon/expand_white_down.png" class="a-menu-item-right-arrow"
-                                [class.rotated]="openItems.has(subItem.id)">
-                        </span>
-                    </span>
+    <!-- Recursive Template -->
+    <ng-template #recursiveList let-subItems>
+      <ng-container *ngFor="let subItem of subItems">
+        <li class="menu-item" (mouseenter)="subItem.subMenu && openItems.add(subItem.id)"
+            (mouseleave)="onMouseLeave(subItem.id)">
+          <span (click)="toggleMenu(subItem.id, subItem.route)">
+            {{ subItem.name }}
+            <span *ngIf="subItem.subMenu">
+              <img src="/icon/expand_white_down.png" class="a-menu-item-right-arrow"
+                  [class.rotated]="openItems.has(subItem.id)">
+            </span>
+          </span>
 
-                    <ul *ngIf="subItem.subMenu" [@submenuAnimation]="openItems.has(subItem.id) ? 'open' : 'closed'"
-                        class="submenu">
-                        <ng-container
-                            *ngTemplateOutlet="recursiveList; context: { $implicit: subItem.subMenu }"></ng-container>
-                    </ul>
-                </li>
-            </ng-container>
-        </ng-template>
+          <ul *ngIf="subItem.subMenu" [@submenuAnimation]="openItems.has(subItem.id) ? 'open' : 'closed'"
+              class="submenu">
+            <ng-container *ngTemplateOutlet="recursiveList; context: { $implicit: subItem.subMenu }"></ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-template>
 
-        <div class="navbar_menu_icons">
-            <a href={{website_details_facebook_url}} target="_blank">
-                <fa-icon [icon]="faFacebookIcon" class="a_navbar_menu_icons"></fa-icon>
-            </a>
-            <a href={{website_details_whatsapp_url}} target="_blank">
-                <fa-icon [icon]="faWhatsappIcon" class="a_navbar_menu_icons"></fa-icon>
-            </a>
-            <a href={{website_details_youtube_url}} target="_blank">
-                <fa-icon [icon]="faYoutubeIcon" class="a_navbar_menu_icons"></fa-icon>
-            </a>
-        </div>
+    <div class="navbar_menu_icons">
+      <a href={{website_details_facebook_url}} target="_blank">
+        <fa-icon [icon]="faFacebookIcon" class="a_navbar_menu_icons"></fa-icon>
+      </a>
+      <a href={{website_details_whatsapp_url}} target="_blank">
+        <fa-icon [icon]="faWhatsappIcon" class="a_navbar_menu_icons"></fa-icon>
+      </a>
+      <a href={{website_details_youtube_url}} target="_blank">
+        <fa-icon [icon]="faYoutubeIcon" class="a_navbar_menu_icons"></fa-icon>
+      </a>
     </div>
+  </div>
 </div>
 
 <div id="main-content">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
