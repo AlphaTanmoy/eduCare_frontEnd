@@ -7,6 +7,7 @@ import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
 import { ResponseTypeColor } from '../../constants/commonConstants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent {
     removeBootstrap(this.bootstrapElements);
   }
 
-  constructor(private authService: AuthService, private dialog: MatDialog) { }
+  constructor(private authService: AuthService, private dialog: MatDialog, private router: Router) { }
 
   login(userType: string) {
     this.authService.login(this.email, this.password, userType).subscribe({
@@ -47,21 +48,21 @@ export class LoginComponent {
 
             if (jwtUserRole !== userType) {
               this.logoutUser();
-              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.INFO, false);
+              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.INFO, null);
               return;
             }
 
-            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, true);
+            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "home");
           } catch (error) {
-            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, false);
+            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, null);
             this.logoutUser();
           }
         } else {
-          this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, false);
+          this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, null);
         }
       },
       error: (error) => {
-        this.openDialog("Login", 'An unexpected error occurred. Please try again later', ResponseTypeColor.ERROR, false);
+        this.openDialog("Login", 'An unexpected error occurred. Please try again later', ResponseTypeColor.ERROR, null);
       },
     });
   }
@@ -71,13 +72,12 @@ export class LoginComponent {
     this.authService.logout();
   }
 
-
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (pageReloadNeeded) {
-        location.reload();
+      if (navigateRoute) {
+        this.router.navigate([`/${navigateRoute}`]);
       }
     });
   }

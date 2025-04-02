@@ -219,7 +219,7 @@ export const MenuItems: any[] = [
   {
     id: 9,
     name: 'Admin Panel',
-    visible: true,
+    showWhenAdminLoggedIn: true,
     subMenu: [
       {
         id: 91,
@@ -248,7 +248,7 @@ export const MenuItems: any[] = [
     id: 10,
     name: 'Login',
     route: '/login',
-    showWhenLoggedIn: false,
+    showWhenLoggedOut: true,
   },
   {
     id: 11,

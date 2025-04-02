@@ -1,2 +1,2 @@
-<app-horizontal-layout *ngIf="!isLoggedIn && !isSmallScreen"></app-horizontal-layout>
-<app-vertical-layout *ngIf="isLoggedIn || isSmallScreen"></app-vertical-layout>
+<app-horizontal-layout *ngIf="!isAuthenticatedAndLoggedIn() && !isSmallScreen"></app-horizontal-layout>
+<app-vertical-layout *ngIf="isAuthenticatedAndLoggedIn() || isSmallScreen"></app-vertical-layout>

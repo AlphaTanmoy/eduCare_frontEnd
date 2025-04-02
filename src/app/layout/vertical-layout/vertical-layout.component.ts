@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faYoutube, faFacebook, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { NavbarInfo } from '../../constants/commonConstants';
+import { NavbarInfo, UserRole } from '../../constants/commonConstants';
 import { MenuItems } from '../../constants/menuConstants';
 import { RouterModule, Routes } from '@angular/router';
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-vertical-layout',
@@ -52,14 +53,23 @@ export class VerticalLayoutComponent {
   isUserLoggedIn: boolean = false;
   userName: string | null = null;
 
-  constructor(private router: Router, private cdRef: ChangeDetectorRef,) { }
+  constructor(private router: Router, private cdRef: ChangeDetectorRef, private authService: AuthService) { }
 
   ngOnInit() {
-    this.menuItems = this.menuItems
-      .filter(item => (item.visible && item.visible === true) || item.showWhenLoggedIn === true)
-      .map(item => {
-        return item;
-      });
+    let isLoggedIn = this.authService.isUserLoggedIn();
+
+    if (!isLoggedIn) {
+      this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedOut && item.showWhenLoggedOut === true));
+      return;
+    }
+
+    let isLoggedInUserNotAnAdmin = (this.authService.getUserRole() !== UserRole.ADMIN);
+
+    if (isLoggedInUserNotAnAdmin) {
+      this.menuItems = this.menuItems.filter(item => !item.showWhenAdminLoggedIn);
+    }
+
+    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenAdminLoggedIn && item.showWhenAdminLoggedIn === true) || (item.showWhenLoggedIn && item.showWhenLoggedIn === true));
     this.adjustNavbar();
   }
 
@@ -136,35 +146,5 @@ export class VerticalLayoutComponent {
 
   openCloseMenuList(): void {
     this.isNavbarOpen = !this.isNavbarOpen;
-  }
-
-  checkUserSession() {
-    try {
-      const userData = sessionStorage.getItem('user');
-      console.log('Session Storage Data:', userData); // Debugging Log
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        this.isUserLoggedIn = !!parsedData.name;
-        this.userName = parsedData.name || 'User';
-      } else {
-        this.isUserLoggedIn = false;
-        this.userName = null;
-      }
-
-      this.cdRef.detectChanges(); 
-    } catch (error) {
-      console.error('Error parsing user session data:', error);
-      this.isUserLoggedIn = false;
-      this.userName = null;
-    }
-  }
-
-  getFilteredMenuItems() {
-    return this.menuItems.filter(
-      (item) =>
-        (this.isUserLoggedIn && item.showWhenLoggedIn) ||
-        (!this.isUserLoggedIn && item.showWhenLoggedOut) ||
-        (!item.showWhenLoggedIn && !item.showWhenLoggedOut) // For items that always show
-    );
   }
 }

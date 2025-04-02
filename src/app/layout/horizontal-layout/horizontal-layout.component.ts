@@ -13,7 +13,7 @@ import {
   faFacebook,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import { NavbarInfo } from '../../constants/commonConstants';
+import { NavbarInfo, UserRole } from '../../constants/commonConstants';
 import { MenuItems } from '../../constants/menuConstants';
 import {
   trigger,
@@ -80,11 +80,20 @@ export class HorizontalLayoutComponent implements AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.menuItems = this.menuItems
-      .filter(item => (item.visible && item.visible === true) || item.showWhenLoggedIn === false)
-      .map(item => {
-        return item;
-      });
+    let isLoggedIn = this.authService.isUserLoggedIn();
+
+    if(!isLoggedIn){
+      this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedOut && item.showWhenLoggedOut === true));
+      return;
+    }
+
+    let isLoggedInUserNotAnAdmin = (this.authService.getUserRole() !== UserRole.ADMIN);
+
+    if (isLoggedInUserNotAnAdmin) {
+      this.menuItems = this.menuItems.filter(item => !item.showWhenAdminLoggedIn);
+    }
+
+    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedIn &&item.showWhenLoggedIn === true));
   }
 
   ngAfterViewInit() {

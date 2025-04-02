@@ -87,7 +87,7 @@
     overflow-y: auto;
     transition: 0.3s all ease-in-out;
     float: left;
-    z-index: 1;
+    z-index: 1000;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }

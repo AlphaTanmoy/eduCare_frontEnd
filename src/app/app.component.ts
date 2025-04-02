@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
@@ -19,27 +19,25 @@ import { AuthService } from './service/auth/Auth.Service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  isSmallScreen = window.innerWidth < 1200;
+  isSmallScreen = window.innerWidth < 1350;
   isLoggedIn = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
 
-  constructor(library: FaIconLibrary, private authService: AuthService,) {
+  constructor(library: FaIconLibrary, private cdRef: ChangeDetectorRef, private authService: AuthService,) {
     library.addIcons(faExpandArrowsAlt);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.isSmallScreen = window.innerWidth < 1350;
-    this.setLayout();
+    //this.setLayout();
   }
 
   ngOnInit(): void {
-    this.setLayout();
+    //this.setLayout();
   }
 
-  setLayout() : void {
-    if(this.authService.isUserLoggedIn() && this.authService.isAuthenticated()){
-      this.isLoggedIn = true;
-    }
+  isAuthenticatedAndLoggedIn() : boolean {
+    return this.authService.isUserLoggedIn() && this.authService.isAuthenticated();
   }
 }
