@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -49,9 +49,17 @@ export class VerticalLayoutComponent {
   openMenus: { [key: string]: boolean } = {};
   selectedMenu: string = '';
 
-  constructor(private router: Router) { }
+  isUserLoggedIn: boolean = false;
+  userName: string | null = null;
+
+  constructor(private router: Router, private cdRef: ChangeDetectorRef,) { }
 
   ngOnInit() {
+    this.menuItems = this.menuItems
+      .filter(item => (item.visible && item.visible === true) || item.showWhenLoggedIn === true)
+      .map(item => {
+        return item;
+      });
     this.adjustNavbar();
   }
 
@@ -128,5 +136,35 @@ export class VerticalLayoutComponent {
 
   openCloseMenuList(): void {
     this.isNavbarOpen = !this.isNavbarOpen;
+  }
+
+  checkUserSession() {
+    try {
+      const userData = sessionStorage.getItem('user');
+      console.log('Session Storage Data:', userData); // Debugging Log
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        this.isUserLoggedIn = !!parsedData.name;
+        this.userName = parsedData.name || 'User';
+      } else {
+        this.isUserLoggedIn = false;
+        this.userName = null;
+      }
+
+      this.cdRef.detectChanges(); 
+    } catch (error) {
+      console.error('Error parsing user session data:', error);
+      this.isUserLoggedIn = false;
+      this.userName = null;
+    }
+  }
+
+  getFilteredMenuItems() {
+    return this.menuItems.filter(
+      (item) =>
+        (this.isUserLoggedIn && item.showWhenLoggedIn) ||
+        (!this.isUserLoggedIn && item.showWhenLoggedOut) ||
+        (!item.showWhenLoggedIn && !item.showWhenLoggedOut) // For items that always show
+    );
   }
 }

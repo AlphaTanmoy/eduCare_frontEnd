@@ -15,7 +15,7 @@
   <div class="navbar_navigations" [class.fixed]="isNavFixed" #navbarNav>
     <nav class="navbar_menu">
       <ul class="menu-list">
-        <ng-container *ngFor="let item of getFilteredMenuItems()">
+        <ng-container *ngFor="let item of menuItems">
           <li class="menu-item"
               (mouseenter)="item.subMenu && openItems.add(item.id)"
               (mouseleave)="onMouseLeave(item.id)">

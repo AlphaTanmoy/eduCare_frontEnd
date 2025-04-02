@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.isSmallScreen = window.innerWidth < 1200;
+    this.isSmallScreen = window.innerWidth < 1350;
     this.setLayout();
   }
 

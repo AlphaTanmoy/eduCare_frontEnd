@@ -48,13 +48,13 @@ import { AuthService } from '../../service/auth/Auth.Service';
     ]),
   ],
 })
-export class HorizontalLayoutComponent implements OnInit, AfterViewInit {
+export class HorizontalLayoutComponent implements AfterViewInit {
   isUserLoggedIn: boolean = false;
   userName: string | null = null;
+  menuItems: any[] = MenuItems;
 
   // Navbar constants with safe defaults
-  website_details_description: string =
-    NavbarInfo?.description || 'Default Description';
+  website_details_description: string = NavbarInfo?.description || 'Default Description';
   website_details_email: string = NavbarInfo?.email || 'default@example.com';
   website_details_phone: string = NavbarInfo?.phone || '000-000-0000';
   website_details_youtube_url: string = NavbarInfo?.youtube_url || '#';
@@ -65,15 +65,6 @@ export class HorizontalLayoutComponent implements OnInit, AfterViewInit {
   faYoutubeIcon = faYoutube;
   faFacebookIcon = faFacebook;
   faWhatsappIcon = faWhatsapp;
-
-  get menuItems(): any[] {
-    return MenuItems.filter(
-      (item) =>
-        (this.isUserLoggedIn && item.showWhenLoggedIn) ||
-        (!this.isUserLoggedIn && item.showWhenLoggedOut) ||
-        (!item.showWhenLoggedIn && !item.showWhenLoggedOut)
-    );
-  }
 
   @ViewChild('navbar') navbar?: ElementRef;
   @ViewChild('navbarNav') navbarNav?: ElementRef;
@@ -86,20 +77,17 @@ export class HorizontalLayoutComponent implements OnInit, AfterViewInit {
     private router: Router,
     private cdRef: ChangeDetectorRef,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.isUserLoggedIn = this.authService.isUserLoggedIn();
-
-    this.authService.loginStatus$.subscribe((status) => {
-      this.isUserLoggedIn = status;
-      this.getFilteredMenuItems();
-      this.cdRef.detectChanges();
-    });
+    this.menuItems = this.menuItems
+      .filter(item => (item.visible && item.visible === true) || item.showWhenLoggedIn === false)
+      .map(item => {
+        return item;
+      });
   }
 
   ngAfterViewInit() {
-    // Ensure navbar exists before accessing properties
     if (this.navbar?.nativeElement) {
       this.navbarHeight = this.navbar.nativeElement.offsetHeight;
     }
@@ -113,47 +101,6 @@ export class HorizontalLayoutComponent implements OnInit, AfterViewInit {
       document.body.scrollTop ||
       0;
     this.isNavFixed = scrollPosition >= this.navbarHeight;
-  }
-
-  checkUserSession() {
-    try {
-      const userData = sessionStorage.getItem('user');
-      console.log('Session Storage Data:', userData); // Debugging Log
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        this.isUserLoggedIn = !!parsedData.name;
-        this.userName = parsedData.name || 'User';
-      } else {
-        this.isUserLoggedIn = false;
-        this.userName = null;
-      }
-      console.log(
-        'isUserLoggedIn:',
-        this.isUserLoggedIn,
-        'userName:',
-        this.userName
-      ); // Debugging Log
-      this.cdRef.detectChanges(); // Force UI update
-    } catch (error) {
-      console.error('Error parsing user session data:', error);
-      this.isUserLoggedIn = false;
-      this.userName = null;
-    }
-  }
-
-  loginUser(user: any) {
-    sessionStorage.setItem('user', JSON.stringify(user));
-    this.checkUserSession(); // Call again after setting user session
-    this.router.navigate(['/dashboard']); // Redirect after login
-  }
-
-  getFilteredMenuItems() {
-    return this.menuItems.filter(
-      (item) =>
-        (this.isUserLoggedIn && item.showWhenLoggedIn) ||
-        (!this.isUserLoggedIn && item.showWhenLoggedOut) ||
-        (!item.showWhenLoggedIn && !item.showWhenLoggedOut) // For items that always show
-    );
   }
 
   toggleMenu(itemId: any, route?: string, action?: string) {
