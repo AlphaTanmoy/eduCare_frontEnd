@@ -1,8 +1,11 @@
 <h2 id="alert_header">{{ data.title }}</h2>
+
 <mat-dialog-content id="alert_body">{{ data.text }}</mat-dialog-content>
+
 <mat-dialog-actions class="alert_button">
   <button id="alert_button_element" class="btn" mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
+
 
 <!-- To call this component from another component
 =========================================================================
@@ -16,7 +19,7 @@ import { ResponseTypeColor } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-another',
-  imports: [CustomSingleSelectSearchableDropdownComponent],
+  imports: [],
   templateUrl: './another.component.html',
   styleUrl: './another.component.css'
 })

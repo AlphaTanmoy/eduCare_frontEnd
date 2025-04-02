@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,9 @@ import { DashboardService } from '../../../../service/dashboard/dashboard.servic
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 @Component({
   selector: 'app-home-slideshow-update',
@@ -20,6 +23,7 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   croppedImage: any | null = null;
   displayProperty: boolean = false;
   matProgressBarVisible: boolean = false;
+  readonly dialog = inject(MatDialog);
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
@@ -67,15 +71,14 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   }
 
   uploadDashboardSlideshowImage() {
-    this.activeMatProgressBar();
-
     const imgElement = document.getElementById("cropepdSlideshowImage") as HTMLImageElement;
 
     if (!imgElement || !imgElement.src) {
-      this.hideMatProgressBar();
-      window.alert('No image found!');
+      this.openDialog("Dashboard", "Please select an image", ResponseTypeColor.INFO, false);
       return;
     }
+
+    this.activeMatProgressBar();
 
     fetch(imgElement.src)
       .then(res => res.blob())
@@ -84,25 +87,24 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
 
         this.dashboardService.uploadDashboardSlideshowImageFile(file).subscribe({
           next: (resposne: any) => {
+            this.hideMatProgressBar();
+
             if (resposne.status !== 200) {
-              console.error(resposne.message);
-              this.hideMatProgressBar();
+              this.openDialog("Dashboard", resposne.message, ResponseTypeColor.ERROR, false);
               return;
             }
-
-            this.hideMatProgressBar();
-            window.alert(resposne.message);
-            location.reload();
+        
+            this.openDialog("Dashboard", resposne.message, ResponseTypeColor.SUCCESS, true);
           },
           error: (err) => {
             this.hideMatProgressBar();
-            window.alert('File upload failed');
+            this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
           }
         });
       })
       .catch(error => {
         this.hideMatProgressBar();
-        window.alert('File upload failed');
+        this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
       });
   }
 
@@ -114,5 +116,15 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   hideMatProgressBar() {
     this.matProgressBarVisible = false;
     this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+  
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
   }
 }
