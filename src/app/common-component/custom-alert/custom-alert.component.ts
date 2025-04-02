@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Inject, ElementRef, Renderer2  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Inject, ElementRef, Renderer2 } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
-import { ResponseTypeColor } from '../../constants/commonConstants';
+import { ResponseTypeColor, type ResponseTypeColor as ResponseType } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-custom-alert',
@@ -12,50 +12,57 @@ import { ResponseTypeColor } from '../../constants/commonConstants';
   templateUrl: './custom-alert.component.html',
   styleUrls: ['./custom-alert.component.css']
 })
+export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
+  // Make the enum available in template
+  ResponseTypeColor = ResponseTypeColor;
+  textColorClass: string = 'text-success';
+  buttonClass: string = 'alert-button success'; // Default class
 
-export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy  {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { title: string; text: string; type: number },
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; text: string; type: ResponseType },
     private el: ElementRef,
     private renderer: Renderer2,
   ) {}
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-  color_class_text: string = 'text-success';
-  color_class_button: string = 'btn-success';
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
   }
 
   ngAfterViewInit(): void {
-    this.bootstrapElements = loadBootstrap();
-
-    if (this.data.type === ResponseTypeColor.WARNING) {
-      this.color_class_text = 'text-warning';
-      this.color_class_button = 'btn-warning';
-    } else if (this.data.type === ResponseTypeColor.INFO) {
-      this.color_class_text = 'text-primary';
-      this.color_class_button = 'btn-primary';
-    } else if (this.data.type === ResponseTypeColor.ERROR) {
-      this.color_class_text = 'text-danger';
-      this.color_class_button = 'btn-danger';
+    // Set classes based on alert type
+    switch (this.data.type) {
+      case ResponseTypeColor.WARNING:
+        this.textColorClass = 'text-warning';
+        this.buttonClass = 'alert-button warning';
+        break;
+      case ResponseTypeColor.INFO:
+        this.textColorClass = 'text-info';
+        this.buttonClass = 'alert-button info';
+        break;
+      case ResponseTypeColor.ERROR:
+        this.textColorClass = 'text-error';
+        this.buttonClass = 'alert-button error';
+        break;
+      default:
+        this.textColorClass = 'text-success';
+        this.buttonClass = 'alert-button success';
     }
 
-    console.log(this.color_class_button, this.color_class_text);
-
+    // Apply color classes
     const titleElement = this.el.nativeElement.querySelector('#alert_header');
     const bodyElement = this.el.nativeElement.querySelector('#alert_body');
     const buttonElement = this.el.nativeElement.querySelector('#alert_button_element');
 
     if (titleElement) {
-      this.renderer.addClass(titleElement, this.color_class_text);
+      this.renderer.addClass(titleElement, this.textColorClass);
     }
     if (bodyElement) {
-      this.renderer.addClass(bodyElement, this.color_class_text);
+      this.renderer.addClass(bodyElement, this.textColorClass);
     }
     if (buttonElement) {
-      this.renderer.addClass(buttonElement, this.color_class_button);
+      this.renderer.setAttribute(buttonElement, 'class', this.buttonClass);
     }
   }
 
