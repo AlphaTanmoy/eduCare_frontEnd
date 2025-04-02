@@ -1,16 +1,100 @@
-#alert_header{
-    padding: 1rem 1rem;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-bottom: 2px solid var(--default-theme);
+.alert-container {
+  position: relative;
+  padding: 24px;
+  min-width: 300px;
+  max-width: 500px;
+  overflow: hidden;
 }
 
-#alert_body{
-    margin: 1rem 0;
-    font-size: 1.1rem;
-    padding: 0rem 1rem 0rem 1rem;
+.alert-svg {
+  position: absolute;
+  opacity: 0.1;
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.alert_button{
-    padding: 1rem 1rem;
+.alert-content {
+  position: relative;
+  z-index: 1;
+}
+
+.alert-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert-message {
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.alert-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.alert-button {
+  padding: 0.2rem;
+  margin: 0.2rem;
+  border-radius: 10%;
+  border-style: none;
+}
+
+/* SVG Colors */
+.success-svg {
+  fill: #28a745; /* Green */
+}
+
+.warning-svg {
+  fill: #ffc107; /* Yellow */
+}
+
+.error-svg {
+  fill: #dc3545; /* Red */
+}
+
+.info-svg {
+  fill: #17a2b8; /* Blue */
+}
+
+.alert-button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  border-style: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert-button.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.alert-button.warning {
+  background-color: #ffc107;
+  color: white;
+}
+
+.alert-button.error {
+  background-color: #dc3545;
+  color: white;
+}
+
+.alert-button.info {
+  background-color: #17a2b8;
+  color: white;
 }
