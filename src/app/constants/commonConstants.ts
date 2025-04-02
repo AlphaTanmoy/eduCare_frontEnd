@@ -17,3 +17,11 @@ export const ResponseTypeColor = {
     INFO: 3,
     ERROR: 4
 }
+
+export const UserRole = {
+    ADMIN: 'ADMIN',
+    MASTET: 'MASTER',
+    STUDENT: 'STUDENT',
+    FRANCHISE: 'FRANCHISE', 
+    GUEST: 'GUEST'
+}

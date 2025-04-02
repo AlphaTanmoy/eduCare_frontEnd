@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
+import { UserRole } from '../../constants/commonConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -33,19 +34,19 @@ export class AuthService {
 
   saveToken(token: string) {
     sessionStorage.setItem('authToken', token);
-    this.loginStatusSubject.next(true); // Notify UI of login
+    this.loginStatusSubject.next(true);
   }
 
   getUserRole(): string {
     const token = this.getToken();
-    if (!token) return "GUEST";
+    if (!token) return UserRole.GUEST;
 
     try {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken?.user_role || "GUEST";
+      return decodedToken?.user_role || UserRole.GUEST;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return "GUEST";
+      return UserRole.GUEST;
     }
   }
 

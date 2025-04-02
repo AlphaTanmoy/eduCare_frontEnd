@@ -28,7 +28,7 @@ export class LoginComponent {
     removeBootstrap(this.bootstrapElements);
   }
 
-  constructor(private authService: AuthService, private dialog: MatDialog) {}
+  constructor(private authService: AuthService, private dialog: MatDialog) { }
 
   login(userType: string) {
     this.authService.login(this.email, this.password, userType).subscribe({
@@ -46,7 +46,7 @@ export class LoginComponent {
             console.log('Selected User Type -> ', userType);
 
             if (jwtUserRole !== userType) {
-              this.logoutUser();    
+              this.logoutUser();
               this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.SUCCESS, false);
               return;
             }
@@ -73,12 +73,12 @@ export class LoginComponent {
 
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
-      const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
-    
-      dialogRef.afterClosed().subscribe((result: any) => {
-        if (pageReloadNeeded) {
-          location.reload();
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
+  }
 }

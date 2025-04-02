@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './page-component/home/home.component';
 import { DownloadCertificateComponent } from './page-component/academic/download-certificate/download-certificate.component';
 import { DownloadFormComponent } from './page-component/academic/download-form/download-form.component';
@@ -62,9 +63,9 @@ export const routes: Routes = [
     { path: 'contact-us/contact', component: ContactComponent },
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
-    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
-    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
-    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: 'ADMIN' } },
+    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
