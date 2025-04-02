@@ -1,0 +1,16 @@
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+mat-dialog-content {
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
