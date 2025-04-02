@@ -37,7 +37,6 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-      this.openDialog("Login", "Access granted", ResponseTypeColor.SUCCESS, null);
       return true;
     } catch (error) {
       this.openDialog("Login", "Error decoding token", ResponseTypeColor.ERROR, "login");
