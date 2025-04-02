@@ -52,7 +52,7 @@ export class LoginComponent {
               return;
             }
 
-            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "home");
+            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "/home");
           } catch (error) {
             this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, null);
             this.authService.logout();
@@ -72,7 +72,7 @@ export class LoginComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (navigateRoute) {
-        this.router.navigate([`/${navigateRoute}`]);
+        this.router.navigate([navigateRoute]);
       }
     });
   }

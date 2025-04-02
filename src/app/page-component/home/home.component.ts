@@ -55,7 +55,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dashboardService.getAllImages().subscribe({
       next: (response) => {
         try {
-          console.log(response);
           if (response.status !== 200) {
             this.hideMatProgressBar();
             this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);

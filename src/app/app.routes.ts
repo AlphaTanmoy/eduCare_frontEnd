@@ -35,10 +35,12 @@ import { LoginComponent } from './page-component/login/login.component';
 import { AuthGuard } from './service/auth/Auth.guard';
 import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
 import { LogoutComponent } from './logout/logout.component';
+import { AppComponent } from './app.component';
 
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
+    // { path: 'app', component: AppComponent },
     { path: 'home', component: HomeComponent },
     { path: 'verification/center', component: CenterVerifyComponent },
     { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
