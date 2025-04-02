@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
-import { CommonDialogComponent } from '../../common-component/common-dialog/common-dialog.component';
 import { jwtDecode } from 'jwt-decode';
+import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-login',
@@ -33,69 +34,51 @@ export class LoginComponent {
     this.authService.login(this.email, this.password, userType).subscribe({
       next: (response) => {
         if (response.status === 200 && response.responseType === 'SUCCESS') {
-          const token = response.token.token; // Extract JWT from response
+          const token = response.token.token;
           sessionStorage.setItem('authToken', token);
           this.authService.saveToken(token);
 
           try {
             const decodedToken: any = jwtDecode(token);
-            const jwtUserRole = decodedToken?.user_role; // Extract user_role from JWT
+            const jwtUserRole = decodedToken?.user_role;
 
             console.log('JWT User Role -> ', jwtUserRole);
             console.log('Selected User Type -> ', userType);
 
-            // Validate role
             if (jwtUserRole !== userType) {
-              this.logoutUser();
-              this.openDialog(
-                'Login Mismatch',
-                `Please log in as a ${jwtUserRole} instead.`,
-                'OK'
-              );
+              this.logoutUser();    
+              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.SUCCESS, false);
               return;
             }
 
-            this.openDialog(
-              'Login Successful',
-              'You have logged in successfully!',
-              'OK'
-            );
+            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, false);
           } catch (error) {
-            console.error('JWT Decoding Error:', error);
-            this.openDialog(
-              'Error',
-              'Invalid token. Please log in again.',
-              'Close'
-            );
+            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, false);
             this.logoutUser();
           }
         } else {
-          this.openDialog(
-            'Login Failed',
-            'Invalid credentials, please try again.',
-            'Retry'
-          );
+          this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, false);
         }
       },
       error: (error) => {
-        console.error('Login error:', error);
-        this.openDialog(
-          'Error',
-          'An unexpected error occurred. Please try again later.',
-          'Close'
-        );
+        this.openDialog("Login", 'An unexpected error occurred. Please try again later', ResponseTypeColor.ERROR, false);
       },
     });
   }
 
   logoutUser() {
-    sessionStorage.clear(); // Clear session data
-    this.authService.logout(); // Call logout method if available in AuthService
+    sessionStorage.clear();
+    this.authService.logout();
   }
 
-  openDialog(title: string, message: string, buttonText: string) {
-    this.dialog.open(CommonDialogComponent, {
-      data: { title, message, buttonText },
-    });
-  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+      const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+    
+      dialogRef.afterClosed().subscribe((result: any) => {
+        if (pageReloadNeeded) {
+          location.reload();
+        }
+      });
+    }
 }
