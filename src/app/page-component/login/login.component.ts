@@ -72,7 +72,7 @@ export class LoginComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (navigateRoute) {
-        this.router.navigate([navigateRoute]);
+        window.location.href = navigateRoute;
       }
     });
   }
