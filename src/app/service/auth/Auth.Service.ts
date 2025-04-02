@@ -22,7 +22,6 @@ export class AuthService {
     return this.http.post(this.endPoint, { email, password, userType });
   }
 
-
   getToken(): string | null {
     return sessionStorage.getItem(this.tokenKey);
   }

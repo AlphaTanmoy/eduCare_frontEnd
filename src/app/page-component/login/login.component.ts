@@ -47,11 +47,11 @@ export class LoginComponent {
 
             if (jwtUserRole !== userType) {
               this.logoutUser();
-              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.SUCCESS, false);
+              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.INFO, false);
               return;
             }
 
-            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, false);
+            this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, true);
           } catch (error) {
             this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, false);
             this.logoutUser();
