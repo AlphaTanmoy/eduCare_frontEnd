@@ -29,6 +29,7 @@
 .toggle_bar{
     width: 1.8rem;
     margin-right: 1rem;
+    cursor: pointer;
 }
 
 .toggle_bar img{

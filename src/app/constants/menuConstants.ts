@@ -263,7 +263,7 @@ export const MenuItems: any[] = [
       {
         id: 112,
         name: 'Logout',
-        action: 'logout',
+        route: '/logout',
       },
     ],
   },

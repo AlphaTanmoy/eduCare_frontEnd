@@ -34,6 +34,7 @@ import { StudentRegistrationComponent } from './page-component/student/student-r
 import { LoginComponent } from './page-component/login/login.component';
 import { AuthGuard } from './service/auth/Auth.guard';
 import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
+import { LogoutComponent } from './logout/logout.component';
 
 
 export const routes: Routes = [
@@ -70,5 +71,6 @@ export const routes: Routes = [
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
     { path: 'un-authorized', component: UnAuthorizeComponent },
+    { path: 'logout', component: LogoutComponent },
     { path: '**', component: ErrorComponent },
 ];
