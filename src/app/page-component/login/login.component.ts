@@ -47,15 +47,15 @@ export class LoginComponent {
             console.log('Selected User Type -> ', userType);
 
             if (jwtUserRole !== userType) {
-              this.logoutUser();
-              this.openDialog("Login", `Please log in as a ${jwtUserRole} instead.`, ResponseTypeColor.INFO, null);
+              this.authService.logout();
+              this.openDialog("Login", `Your credential has ${jwtUserRole} role assigned.`, ResponseTypeColor.INFO, null);
               return;
             }
 
             this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "home");
           } catch (error) {
             this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, null);
-            this.logoutUser();
+            this.authService.logout();
           }
         } else {
           this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, null);
@@ -65,11 +65,6 @@ export class LoginComponent {
         this.openDialog("Login", 'An unexpected error occurred. Please try again later', ResponseTypeColor.ERROR, null);
       },
     });
-  }
-
-  logoutUser() {
-    sessionStorage.clear();
-    this.authService.logout();
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
