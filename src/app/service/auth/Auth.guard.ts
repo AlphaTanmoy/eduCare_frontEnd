@@ -20,8 +20,7 @@ export class AuthGuard implements CanActivate {
     const token = this.authService.getToken();
 
     if (!token || this.jwtHelper.isTokenExpired(token)) {
-      console.log('Token expired or not found. Redirecting to login.');
-      this.router.navigate(['/login']);
+      this.openDialog("Login", "Token expired or not found. Redirecting to login", ResponseTypeColor.ERROR, 'login');
       return false;
     }
 
@@ -34,26 +33,24 @@ export class AuthGuard implements CanActivate {
       console.log('Token User Role:', decodedToken?.user_role);
 
       if (requiredRole && decodedToken?.user_role?.toUpperCase() !== requiredRole.toUpperCase()) {
-        this.openDialog("Login", "Role mismatch", ResponseTypeColor.ERROR, false);
-        this.router.navigate(['/un-authorized']);
+        this.openDialog("Login", "Role mismatch", ResponseTypeColor.ERROR, "un-authorized");
         return false;
       }
 
-      this.openDialog("Login", "Access granted", ResponseTypeColor.SUCCESS, false);
+      this.openDialog("Login", "Access granted", ResponseTypeColor.SUCCESS, null);
       return true;
     } catch (error) {
-      this.openDialog("Login", "Error decoding token", ResponseTypeColor.ERROR, false);
-      this.router.navigate(['/login']);
+      this.openDialog("Login", "Error decoding token", ResponseTypeColor.ERROR, "login");
       return false;
     }
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (pageReloadNeeded) {
-        location.reload();
+      if (navigateRoute) {
+        this.router.navigate([`/${navigateRoute}`]);
       }
     });
   }
