@@ -82,7 +82,7 @@ export class HorizontalLayoutComponent implements AfterViewInit {
   ngOnInit() {
     let isLoggedIn = this.authService.isUserLoggedIn();
 
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
       this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedOut && item.showWhenLoggedOut === true));
       return;
     }
@@ -93,7 +93,7 @@ export class HorizontalLayoutComponent implements AfterViewInit {
       this.menuItems = this.menuItems.filter(item => !item.showWhenAdminLoggedIn);
     }
 
-    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedIn &&item.showWhenLoggedIn === true));
+    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenAdminLoggedIn && item.showWhenAdminLoggedIn === true) || (item.showWhenLoggedIn && item.showWhenLoggedIn === true));
   }
 
   ngAfterViewInit() {
