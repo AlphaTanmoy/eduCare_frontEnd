@@ -1,0 +1,15 @@
+.body-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background-color: #f8d7da;
+  color: #721c24;
+  text-align: center;
+}
+svg {
+  width: 200px;
+  height: 200px;
+}
