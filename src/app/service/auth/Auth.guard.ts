@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
     const token = this.authService.getToken();
 
     if (!token || this.jwtHelper.isTokenExpired(token)) {
+      this.authService.logout();
       this.openDialog("Login", "Token expired or not found. Redirecting to login", ResponseTypeColor.ERROR, 'login');
       return false;
     }
