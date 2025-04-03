@@ -230,6 +230,11 @@ export const MenuItems: any[] = [
             name: 'Home Slideshow',
             route: '/admin-panel/update-dashboard-details/home-slideshow',
           },
+          {
+            id: 912,
+            name: 'Master Details',
+            route: '/admin-panel/update-dashboard-details/master-details',
+          },
         ],
       },
       {

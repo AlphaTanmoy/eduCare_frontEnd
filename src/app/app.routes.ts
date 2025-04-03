@@ -36,6 +36,7 @@ import { AuthGuard } from './service/auth/Auth.guard';
 import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AppComponent } from './app.component';
+import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 
 
 export const routes: Routes = [
@@ -67,6 +68,7 @@ export const routes: Routes = [
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
