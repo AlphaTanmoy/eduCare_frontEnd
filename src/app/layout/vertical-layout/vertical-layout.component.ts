@@ -63,6 +63,14 @@ export class VerticalLayoutComponent {
       return;
     }
 
+    let user_name = this.authService.getUsername();
+
+    this.menuItems.forEach(item => {
+      if (item.name === 'User') {
+        item.name = user_name;
+      }
+    });
+
     let isLoggedInUserNotAnAdmin = (this.authService.getUserRole() !== UserRole.ADMIN);
 
     if (isLoggedInUserNotAnAdmin) {

@@ -49,6 +49,19 @@ export class AuthService {
     }
   }
 
+  getUsername(): string {
+    const token = this.getToken();
+    if (!token) return "User";
+
+    try {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return (decodedToken?.user_name) ? "User/@" + decodedToken?.user_name : "User";
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return UserRole.GUEST;
+    }
+  }
+
   isUserLoggedIn(): boolean {
     return !!sessionStorage.getItem('authToken');
   }
