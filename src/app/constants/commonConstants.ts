@@ -31,4 +31,8 @@ export class IndexedDB {
     value: any | undefined;
 }
 
+export const IndexedDBItemKey = {
+    dashboard_slideshow_images: "dashboard_slideshow_images",
+}
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

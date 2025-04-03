@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DashboardSlideshowImage } from '../../model/dashboard/dashboard.model';
 import { DashboardService } from '../../service/dashboard/dashboard.service';
 import { CommonModule } from '@angular/common';
@@ -11,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ResponseTypeColor } from '../../constants/commonConstants';
 import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
 import { convertBlobToBase64 } from '../../utility/common-util';
+import { IndexedDBItemKey } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-home',
@@ -43,9 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
-    private renderer: Renderer2,
-    private elRef: ElementRef,
-    private sanitizer: DomSanitizer,
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
     private indexedDbService: IndexedDbService
@@ -55,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
 
-    let cachedImages = await this.indexedDbService.getItem('dashboard_slideshow_image');
+    let cachedImages = await this.indexedDbService.getItem(IndexedDBItemKey.dashboard_slideshow_images);
 
     if (cachedImages && cachedImages.value.length > 0) {
       this.images = cachedImages.value;
@@ -94,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 renderedImage++;
 
                 if (renderedImage === totalImages) {
-                  await this.indexedDbService.addItem('dashboard_slideshow_image', this.images);
+                  await this.indexedDbService.addItem(IndexedDBItemKey.dashboard_slideshow_images, this.images);
                   this.allImageRendered = true;
                   this.hideMatProgressBar();
                   this.startSlider();

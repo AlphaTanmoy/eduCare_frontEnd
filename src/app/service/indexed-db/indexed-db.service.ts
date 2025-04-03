@@ -8,17 +8,18 @@ import { IndexedDB } from '../../constants/commonConstants';
 
 export class IndexedDbService {
   private db!: IDBPDatabase<IndexedDB>;
-  private dbInitialized = false;
+  private dbName = 'eci.educare.db';
+  private dbVersion = 1;
 
   constructor() {
     this.initDB();
   }
 
   async initDB() {
-    this.db = await openDB<IndexedDB>('eci.educare.db', 1, {
+    this.db = await openDB<IndexedDB>(this.dbName, this.dbVersion, {
       upgrade(db) {
-        if (!db.objectStoreNames.contains('items')) {
-          db.createObjectStore('items', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('eci.items')) {
+          db.createObjectStore('eci.items', { keyPath: 'id' });
         }
       },
     });
@@ -30,21 +31,21 @@ export class IndexedDbService {
 
   async addItem(id: string, value: any) {
     await this.ensureDBReady();
-    return this.db.put('items', { id, value });
+    return this.db.put('eci.items', { id, value });
   }
 
   async getItem(id: string) {
     await this.ensureDBReady();
-    return this.db.get('items', id);
+    return this.db.get('eci.items', id);
   }
 
   async deleteItem(id: string) {
     await this.ensureDBReady();
-    return this.db.delete('items', id);
+    return this.db.delete('eci.items', id);
   }
 
   async getAllItems() {
     await this.ensureDBReady();
-    return this.db.getAll('items');
+    return this.db.getAll('eci.items');
   }
 }
