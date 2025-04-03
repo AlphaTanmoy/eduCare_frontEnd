@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
 
     if (!token || this.jwtHelper.isTokenExpired(token)) {
       this.authService.logout();
-      this.openDialog("Login", "Token expired or not found. Redirecting to login", ResponseTypeColor.ERROR, 'login');
+      this.openDialog("Login", "Token expired or not found. Redirecting to login", ResponseTypeColor.ERROR, '/login');
       return false;
     }
 
@@ -34,13 +34,13 @@ export class AuthGuard implements CanActivate {
       console.log('Token User Role:', decodedToken?.user_role);
 
       if (requiredRole && decodedToken?.user_role?.toUpperCase() !== requiredRole.toUpperCase()) {
-        this.openDialog("Login", "Role mismatch", ResponseTypeColor.ERROR, "un-authorized");
+        this.openDialog("Login", "Role mismatch", ResponseTypeColor.ERROR, "/un-authorized");
         return false;
       }
 
       return true;
     } catch (error) {
-      this.openDialog("Login", "Error decoding token", ResponseTypeColor.ERROR, "login");
+      this.openDialog("Login", "Error decoding token", ResponseTypeColor.ERROR, "/login");
       return false;
     }
   }
@@ -50,7 +50,7 @@ export class AuthGuard implements CanActivate {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (navigateRoute) {
-        this.router.navigate([`/${navigateRoute}`]);
+        window.location.href = navigateRoute;
       }
     });
   }
