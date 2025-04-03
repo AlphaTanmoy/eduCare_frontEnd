@@ -9,6 +9,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ResponseTypeColor } from '../../constants/commonConstants';
+import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
+import { convertBlobToBase64 } from '../../utility/common-util';
 
 @Component({
   selector: 'app-home',
@@ -45,12 +47,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     private elRef: ElementRef,
     private sanitizer: DomSanitizer,
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private indexedDbService: IndexedDbService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
+
+    let cachedImages = await this.indexedDbService.getItem('dashboard_slideshow_image');
+
+    if (cachedImages && cachedImages.value.length > 0) {
+      this.images = cachedImages.value;
+
+      this.allImageRendered = true;
+      this.hideMatProgressBar();
+      this.startSlider();
+      return;
+    }
 
     this.dashboardService.getAllImages().subscribe({
       next: (response) => {
@@ -73,12 +87,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           this.images.forEach((image: DashboardSlideshowImage) => {
             this.dashboardService.getImageStream(image.fileId).subscribe({
-              next: (imageData) => {
-                const objectURL = URL.createObjectURL(imageData);
-                image.fileStream = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              next: async (imageData) => {
+                const base64String = await convertBlobToBase64(imageData);
+                image.fileStream = `data:image/jpg;base64,${base64String}`;
+
                 renderedImage++;
 
                 if (renderedImage === totalImages) {
+                  await this.indexedDbService.addItem('dashboard_slideshow_image', this.images);
                   this.allImageRendered = true;
                   this.hideMatProgressBar();
                   this.startSlider();
@@ -87,17 +103,11 @@ export class HomeComponent implements OnInit, OnDestroy {
               error: (err) => {
                 this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);
                 renderedImage++;
-
-                if (renderedImage === totalImages) {
-                  this.allImageRendered = true;
-                  this.hideMatProgressBar();
-                  if (this.images.some(img => img.fileStream)) {
-                    this.startSlider();
-                  }
-                }
               }
             });
           });
+
+          console.log("From API", this.images);
         } catch (error) {
           this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);
           this.hideMatProgressBar();
@@ -154,12 +164,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
-      const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
-    
-      dialogRef.afterClosed().subscribe((result: any) => {
-        if (pageReloadNeeded) {
-          location.reload();
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
+  }
 }
