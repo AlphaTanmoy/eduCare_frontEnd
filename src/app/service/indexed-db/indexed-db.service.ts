@@ -26,6 +26,9 @@ export class IndexedDbService {
       },
     });
 
+    // Cleaning expired items on page load then start a periodically cleanup process
+    this.cleanupExpiredItems();
+
     setInterval(() => {
       this.cleanupExpiredItems();
     }, this.IndexedDBPeriodicCleanupTime);
