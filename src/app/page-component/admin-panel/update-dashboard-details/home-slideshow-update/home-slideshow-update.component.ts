@@ -8,7 +8,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { IndexedDBItemKey, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
 
 @Component({
   selector: 'app-home-slideshow-update',
@@ -29,7 +30,8 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
   constructor(
     private sanitizer: DomSanitizer,
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private indexedDbService: IndexedDbService
   ) { }
 
   ngOnInit(): void {
@@ -93,7 +95,8 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
               this.openDialog("Dashboard", resposne.message, ResponseTypeColor.ERROR, false);
               return;
             }
-        
+            
+            this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
             this.openDialog("Dashboard", resposne.message, ResponseTypeColor.SUCCESS, true);
           },
           error: (err) => {
