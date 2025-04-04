@@ -10,7 +10,7 @@ export class IndexedDbService {
   private DB!: IDBPDatabase<IndexedDB>;
   private DbName = 'eci.educare.db';
   private DbVersion = 1;
-  private IndexedDBExpirationTime = 3600000; //1hr
+  private IndexedDBExpirationTime = 900000; //15min
 
   constructor() {
     this.initDB();
@@ -24,16 +24,20 @@ export class IndexedDbService {
         }
       },
     });
+
+    this.ensureDBReady();
   }
 
   private async ensureDBReady() {
+    await new Promise(resolve => setTimeout(resolve, 50));
+    await this.cleanupExpiredItems();
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
   async addItem(id: string, value: any) {
     await this.ensureDBReady();
 
-    const expirationTimestamp = Date.now() + this.IndexedDBExpirationTime; 
+    const expirationTimestamp = Date.now() + this.IndexedDBExpirationTime;
     const item = { id, value, expirationTimestamp };
 
     return this.DB.put('eci.items', item);
@@ -41,7 +45,6 @@ export class IndexedDbService {
 
   async getItem(id: string) {
     await this.ensureDBReady();
-    await this.cleanupExpiredItems();
 
     const item = await this.DB.get('eci.items', id);
     return item;
@@ -49,15 +52,17 @@ export class IndexedDbService {
 
   async getAllItems() {
     await this.ensureDBReady();
-    await this.cleanupExpiredItems();
 
     let items = await this.DB.getAll('eci.items');
     return items;
   }
 
-  async cleanupExpiredItems() {
+  async deleteItem(id: string) {
     await this.ensureDBReady();
+    return this.DB.delete('eci.items', id);
+  }
 
+  async cleanupExpiredItems() {
     const items = await this.DB.getAll('eci.items');
 
     for (const item of items) {
@@ -65,10 +70,5 @@ export class IndexedDbService {
         await this.deleteItem(item.id);
       }
     }
-  }
-
-  async deleteItem(id: string) {
-    await this.ensureDBReady();
-    return this.DB.delete('eci.items', id);
   }
 }
