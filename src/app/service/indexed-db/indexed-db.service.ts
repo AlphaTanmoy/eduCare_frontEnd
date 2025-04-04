@@ -39,7 +39,7 @@ export class IndexedDbService {
   }
 
   async addItem(id: string, value: any) {
-    await this.ensureDBReady();
+    await this.cleanupExpiredItems();
 
     const expirationTimestamp = Date.now() + this.IndexedDBExpirationTime;
     const item = { id, value, expirationTimestamp };
@@ -48,21 +48,21 @@ export class IndexedDbService {
   }
 
   async getItem(id: string) {
-    await this.ensureDBReady();
+    await this.cleanupExpiredItems();
 
     const item = await this.DB.get('eci.items', id);
     return item;
   }
 
   async getAllItems() {
-    await this.ensureDBReady();
+    await this.cleanupExpiredItems();
 
     let items = await this.DB.getAll('eci.items');
     return items;
   }
 
   async deleteItem(id: string) {
-    await this.ensureDBReady();
+    await this.cleanupExpiredItems();
     return this.DB.delete('eci.items', id);
   }
 
