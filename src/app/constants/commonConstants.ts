@@ -29,6 +29,7 @@ export const UserRole = {
 export class IndexedDB {
     id: string | undefined;
     value: any | undefined;
+    expirationTime: number | undefined;
 }
 
 export const IndexedDBItemKey = {

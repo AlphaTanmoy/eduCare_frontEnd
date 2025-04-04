@@ -7,16 +7,17 @@ import { IndexedDB } from '../../constants/commonConstants';
 })
 
 export class IndexedDbService {
-  private db!: IDBPDatabase<IndexedDB>;
-  private dbName = 'eci.educare.db';
-  private dbVersion = 1;
+  private DB!: IDBPDatabase<IndexedDB>;
+  private DbName = 'eci.educare.db';
+  private DbVersion = 1;
+  private IndexedDBExpirationTime = 3600000; //1hr
 
   constructor() {
     this.initDB();
   }
 
   async initDB() {
-    this.db = await openDB<IndexedDB>(this.dbName, this.dbVersion, {
+    this.DB = await openDB<IndexedDB>(this.DbName, this.DbVersion, {
       upgrade(db) {
         if (!db.objectStoreNames.contains('eci.items')) {
           db.createObjectStore('eci.items', { keyPath: 'id' });
@@ -31,21 +32,43 @@ export class IndexedDbService {
 
   async addItem(id: string, value: any) {
     await this.ensureDBReady();
-    return this.db.put('eci.items', { id, value });
+
+    const expirationTimestamp = Date.now() + this.IndexedDBExpirationTime; 
+    const item = { id, value, expirationTimestamp };
+
+    return this.DB.put('eci.items', item);
   }
 
   async getItem(id: string) {
     await this.ensureDBReady();
-    return this.db.get('eci.items', id);
-  }
+    await this.cleanupExpiredItems();
 
-  async deleteItem(id: string) {
-    await this.ensureDBReady();
-    return this.db.delete('eci.items', id);
+    const item = await this.DB.get('eci.items', id);
+    return item;
   }
 
   async getAllItems() {
     await this.ensureDBReady();
-    return this.db.getAll('eci.items');
+    await this.cleanupExpiredItems();
+
+    let items = await this.DB.getAll('eci.items');
+    return items;
+  }
+
+  async cleanupExpiredItems() {
+    await this.ensureDBReady();
+
+    const items = await this.DB.getAll('eci.items');
+
+    for (const item of items) {
+      if (item.expirationTime <= Date.now()) {
+        await this.deleteItem(item.id);
+      }
+    }
+  }
+
+  async deleteItem(id: string) {
+    await this.ensureDBReady();
+    return this.DB.delete('eci.items', id);
   }
 }

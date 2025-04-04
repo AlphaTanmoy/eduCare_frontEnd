@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   isSmallScreen = window.innerWidth < 1350;
   isLoggedIn = false;
   faExpandArrowsAlt = faExpandArrowsAlt;
+  title: any;
 
   constructor(library: FaIconLibrary, private cdRef: ChangeDetectorRef, private authService: AuthService,) {
     library.addIcons(faExpandArrowsAlt);

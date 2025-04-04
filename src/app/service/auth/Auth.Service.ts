@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
-import { UserRole } from '../../constants/commonConstants';
+import { IndexedDBItemKey, UserRole } from '../../constants/commonConstants';
+import { IndexedDbService } from '../indexed-db/indexed-db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
   private loginStatusSubject = new BehaviorSubject<boolean>(this.isUserLoggedIn());
   loginStatus$ = this.loginStatusSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private indexedDbService: IndexedDbService) { }
 
   login(email: string, password: string, userType: string): Observable<any> {
     return this.http.post(this.endPoint, { email, password, userType });
@@ -68,5 +69,6 @@ export class AuthService {
 
   logout() {
     sessionStorage.clear();
+    this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
   }
 }
