@@ -10,7 +10,8 @@ export class IndexedDbService {
   private DB!: IDBPDatabase<IndexedDB>;
   private DbName = 'eci.educare.db';
   private DbVersion = 1;
-  private IndexedDBExpirationTime = 900000; //15min
+  private IndexedDBExpirationTime = 15 * 60 * 1000; //15min
+  private IndexedDBPeriodicCleanupTime = 5 * 60 * 1000; //5min
 
   constructor() {
     this.initDB();
@@ -25,12 +26,12 @@ export class IndexedDbService {
       },
     });
 
-    this.ensureDBReady();
+    setInterval(() => {
+      this.cleanupExpiredItems();
+    }, this.IndexedDBPeriodicCleanupTime);
   }
 
   private async ensureDBReady() {
-    await new Promise(resolve => setTimeout(resolve, 50));
-    await this.cleanupExpiredItems();
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
@@ -63,10 +64,12 @@ export class IndexedDbService {
   }
 
   async cleanupExpiredItems() {
+    await this.ensureDBReady();
+
     const items = await this.DB.getAll('eci.items');
 
     for (const item of items) {
-      if (item.expirationTime <= Date.now()) {
+      if (item.expirationTimestamp && Number(item.expirationTimestamp) <= Date.now()) {
         await this.deleteItem(item.id);
       }
     }

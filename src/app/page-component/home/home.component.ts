@@ -103,8 +103,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               }
             });
           });
-
-          console.log("From API", this.images);
         } catch (error) {
           this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);
           this.hideMatProgressBar();
