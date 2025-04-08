@@ -122,7 +122,7 @@ export class HorizontalLayoutComponent implements AfterViewInit {
         this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
-
+    
 
     let isLoggedIn = this.authService.isUserLoggedIn();
 
