@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.dashboardService.getAllImages().subscribe({
+    this.dashboardService.getAllDashboardSlideshowImages().subscribe({
       next: (response) => {
         try {
           if (response.status !== 200) {

@@ -5,6 +5,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -13,7 +14,7 @@ import {
   faFacebook,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import { NavbarInfo, UserRole } from '../../constants/commonConstants';
+import { MasterDataType, NavbarInfo, ResponseTypeColor, UserRole } from '../../constants/commonConstants';
 import { MenuItems } from '../../constants/menuConstants';
 import {
   trigger,
@@ -26,6 +27,9 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../service/auth/Auth.Service';
+import { DashboardService } from '../../service/dashboard/dashboard.service';
+import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-horizontal-layout',
@@ -73,13 +77,53 @@ export class HorizontalLayoutComponent implements AfterViewInit {
   navbarHeight = 0;
   openItems: Set<number> = new Set();
 
+  readonly dialog = inject(MatDialog);
+
   constructor(
     private router: Router,
-    private cdRef: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
+    this.dashboardService.getAllDashboardMasterData().subscribe({
+      next: (response) => {
+        try {
+          if (response.status !== 200) {
+            this.openDialog("Dashboard", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          for (let item of response.data) {
+            if (item.master_data_type === MasterDataType.EMAIL) {
+              this.website_details_email = item.master_data_value;
+            }
+            if (item.master_data_type === MasterDataType.PRIMARY_PHONE) {
+              this.website_details_phone = "+91 " + item.master_data_value;
+            }
+            if (item.master_data_type === MasterDataType.SECONDARY_PHONE) {
+              this.website_details_phone += " / " + item.master_data_value;
+            }
+            if (item.master_data_type === MasterDataType.FACEBOOK) {
+              this.website_details_facebook_url = item.master_data_value;
+            }
+            if (item.master_data_type === MasterDataType.YOUTUBE) {
+              this.website_details_youtube_url = item.master_data_value;
+            }
+            if (item.master_data_type === MasterDataType.WHATSAPP) {
+              this.website_details_whatsapp_url = item.master_data_value;
+            }
+          }
+        } catch (error) {
+          this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
+
+
     let isLoggedIn = this.authService.isUserLoggedIn();
 
     if (!isLoggedIn) {
@@ -137,5 +181,15 @@ export class HorizontalLayoutComponent implements AfterViewInit {
 
   onMouseLeave(itemId: any) {
     this.openItems.delete(itemId);
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
   }
 }

@@ -36,4 +36,13 @@ export const IndexedDBItemKey = {
     dashboard_slideshow_images: "dashboard_slideshow_images",
 }
 
+export const MasterDataType = {
+    EMAIL: 'EMAIL',
+    PRIMARY_PHONE: 'PRIMARY_PHONE',
+    SECONDARY_PHONE: 'SECONDARY_PHONE',
+    FACEBOOK: 'FACEBOOK',
+    YOUTUBE: 'YOUTUBE',
+    WHATSAPP: 'WHATSAPP',
+}
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

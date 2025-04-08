@@ -13,6 +13,7 @@ export const Endpoints = {
         get_image_stream_by_id: "dashboard/get_image_stream_by_id",
         upload_dashboard_slideshow_image: "dashboard/upload_dashboard_slideshow_image",
         delete_dashboard_slideshow_image: "dashboard/delete_dashboard_slideshow_image",
+        get_dashboard_master_data: "dashboard/get_dashboard_master_data",
     },
     admin: {
         update_email_id: "admin/update_email_id",

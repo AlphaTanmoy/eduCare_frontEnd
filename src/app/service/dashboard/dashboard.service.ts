@@ -10,7 +10,7 @@ import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 export class DashboardService {
   constructor(private http: HttpClient) { }
 
-  getAllImages(): Observable<any> {
+  getAllDashboardSlideshowImages(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.dashboard.get_dashboard_slideshow_images);
   }
 
@@ -27,5 +27,9 @@ export class DashboardService {
 
   deleteDashboardSlideshowImageFile(fileId: string): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.delete_dashboard_slideshow_image, { fileId });
+  }
+
+  getAllDashboardMasterData(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.dashboard.get_dashboard_master_data);
   }
 }

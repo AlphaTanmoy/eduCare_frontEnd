@@ -53,7 +53,7 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.dashboardService.getAllImages().subscribe({
+    this.dashboardService.getAllDashboardSlideshowImages().subscribe({
       next: (resposne) => {
         try {
           if (resposne.status !== 200) {
