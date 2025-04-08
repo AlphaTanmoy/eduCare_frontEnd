@@ -9,5 +9,27 @@ import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 export class AdminService {
   constructor(private http: HttpClient) { }
 
-  
+  UploadDashboardEmailID(EmailID: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_email_id, { emailID: EmailID });
+  }
+
+  UploadDashboardPhone1(Phone1: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone1, Phone1);
+  }
+
+  UploadDashboardPhone2(Phone2: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone2, Phone2);
+  }
+
+  UploadDashboardFacebook(Facebook: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_facebook, Facebook);
+  }
+
+  UploadDashboardYoutube(Youtube: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_youtube, Youtube);
+  }
+
+  UploadDashboardWhatsapp(Whatsapp: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_whatsapp, Whatsapp);
+  }
 }
