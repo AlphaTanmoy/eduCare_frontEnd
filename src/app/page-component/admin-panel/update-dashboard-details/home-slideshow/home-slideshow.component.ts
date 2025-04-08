@@ -57,7 +57,7 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
       next: (resposne) => {
         try {
           if (resposne.status !== 200) {
-            console.error(resposne.message);
+            this.openDialog("Dashboard", resposne.message, ResponseTypeColor.ERROR, false);
             this.hideMatProgressBar();
             return;
           }
@@ -80,21 +80,21 @@ export class HomeSlideshowComponent implements OnInit, OnDestroy {
                 }
               },
               error: (err) => {
-                console.error("Error fetching image stream:", err);
                 this.hideMatProgressBar();
+                this.openDialog("Dashboard", "Error fetching image stream", ResponseTypeColor.ERROR, false);
               }
             });
           });
 
           if (this.images.length === 0) this.hideMatProgressBar();
         } catch (error) {
-          console.error("Error processing images:", error);
           this.hideMatProgressBar();
+          this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
         }
       },
       error: (err) => {
-        console.error("Error fetching images:", err);
         this.hideMatProgressBar();
+        this.openDialog("Dashboard", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
   }
