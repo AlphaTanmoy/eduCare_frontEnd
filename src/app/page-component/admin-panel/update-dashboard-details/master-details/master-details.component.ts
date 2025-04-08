@@ -6,10 +6,11 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { MatDialog } from '@angular/material/dialog';
 import { IndexedDBItemKey, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-master-details',
-  imports: [FormsModule, MatProgressBarModule],
+  imports: [CommonModule, FormsModule, MatProgressBarModule],
   templateUrl: './master-details.component.html',
   styleUrl: './master-details.component.css'
 })
@@ -23,7 +24,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   whatsapp: string = "5";
 
   readonly dialog = inject(MatDialog);
-  matProgressBarVisible: boolean = true;
+  matProgressBarVisible: boolean = false;
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
@@ -41,13 +42,15 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveEmail(): void {
+    if(!this.email || this.email.trim().length === 0) {
+      this.openDialog("Master Data", "Email ID is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
     this.activeMatProgressBar();
 
-    console.log("email", this.email);
     this.adminService.UploadDashboardEmailID(this.email).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
-        console.log(response)
 
         if (response.status === 200) {
           this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
@@ -63,21 +66,129 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  savePhone(phoneType: string): void {
-    console.log("phone1", this.phone1);
-    console.log("phone2", this.phone2);
+  savePhone1(): void {
+    if(!this.phone1 || this.phone1.trim().length === 0) {
+      this.openDialog("Master Data", "Primary phone number is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
+    this.activeMatProgressBar();
+
+    this.adminService.UploadDashboardPhone1(this.phone1).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          return;
+        }
+
+        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
+  }
+
+  savePhone2(): void {
+    if(!this.phone2 || this.phone2.trim().length === 0) {
+      this.openDialog("Master Data", "Secondary phone number is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
+    this.activeMatProgressBar();
+
+    this.adminService.UploadDashboardEmailID(this.phone2).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          return;
+        }
+
+        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   saveFacebook(): void {
-    console.log("facebook", this.facebook);
+    if(!this.facebook || this.facebook.trim().length === 0) {
+      this.openDialog("Master Data", "Facebook url is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
+    this.activeMatProgressBar();
+
+    this.adminService.UploadDashboardEmailID(this.facebook).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          return;
+        }
+
+        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   saveYoutube(): void {
-    console.log("youtube", this.youtube);
+    if(!this.youtube || this.youtube.trim().length === 0) {
+      this.openDialog("Master Data", "Youtube url is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
+    this.activeMatProgressBar();
+
+    this.adminService.UploadDashboardEmailID(this.youtube).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          return;
+        }
+
+        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   saveWhatsapp(): void {
-    console.log("whatsapp", this.whatsapp);
+    if(!this.whatsapp || this.whatsapp.trim().length === 0) {
+      this.openDialog("Master Data", "Whatsapp url is required", ResponseTypeColor.ERROR, false);
+      return;
+    }
+    this.activeMatProgressBar();
+
+    this.adminService.UploadDashboardEmailID(this.whatsapp).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          return;
+        }
+
+        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
