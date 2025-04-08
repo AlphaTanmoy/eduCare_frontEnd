@@ -98,7 +98,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     }
     this.activeMatProgressBar();
 
-    this.adminService.UploadDashboardEmailID(this.phone2).subscribe({
+    this.adminService.UploadDashboardPhone2(this.phone2).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
@@ -123,7 +123,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     }
     this.activeMatProgressBar();
 
-    this.adminService.UploadDashboardEmailID(this.facebook).subscribe({
+    this.adminService.UploadDashboardFacebook(this.facebook).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
@@ -148,7 +148,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     }
     this.activeMatProgressBar();
 
-    this.adminService.UploadDashboardEmailID(this.youtube).subscribe({
+    this.adminService.UploadDashboardYoutube(this.youtube).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
@@ -173,7 +173,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     }
     this.activeMatProgressBar();
 
-    this.adminService.UploadDashboardEmailID(this.whatsapp).subscribe({
+    this.adminService.UploadDashboardWhatsapp(this.whatsapp).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
