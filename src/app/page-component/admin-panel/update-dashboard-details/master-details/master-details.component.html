@@ -4,29 +4,51 @@
     <div class="row justify-content-center">
         <div class="col-md-10 mx-auto">
             <div class="d-flex flex-column justify-content-center w-100">
-                <div class="input-group mb-3 w-100">
-                    <input type="text" class="form-control" [(ngModel)]="email" placeholder="Org's email id">
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1">
+                        <label class="form-label mb-1">Email ID<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="email" placeholder="Org's email id">
+                    </div>
                     <button class="btn custom-btn1" type="button" (click)="saveEmail()">Save</button>
                 </div>
 
-                <div class="input-group mb-3 w-100">
-                    <input type="text" class="form-control" [(ngModel)]="phone1" placeholder="Org's phone no.">
-                    <input type="text" class="form-control" [(ngModel)]="phone2" placeholder="Org's alternative phone no.">
-                    <button class="btn custom-btn1" type="button" (click)="savePhone()">Save</button>
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1">
+                        <label class="form-label mb-1">Phone Number - 1<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="phone1" placeholder="Phone Number - 1">
+                    </div>
+                    <button class="btn custom-btn1" type="button" (click)="savePhone('primary')">Save</button>
                 </div>
 
-                <div class="input-group mb-3 w-100">
-                    <input type="text" class="form-control" [(ngModel)]="facebook" placeholder="Org's facebook">
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1">
+                        <label class="form-label mb-1">Phone Number - 2<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="phone2" placeholder="Phone Number - 2">
+                    </div>
+                    <button class="btn custom-btn1" type="button" (click)="savePhone('secondary')">Save</button>
+                </div>
+
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1">
+                        <label class="form-label mb-1">Facebook URL<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="facebook" placeholder="Facebook URL">
+                    </div>
                     <button class="btn custom-btn1" type="button" (click)="saveFacebook()">Save</button>
                 </div>
 
-                <div class="input-group mb-3 w-100">
-                    <input type="text" class="form-control" [(ngModel)]="youtube" placeholder="Org's youtube">
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1">
+                        <label class="form-label mb-1">YouTube URL<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="youtube" placeholder="YouTube URL">
+                    </div>
                     <button class="btn custom-btn1" type="button" (click)="saveYoutube()">Save</button>
                 </div>
 
-                <div class="input-group mb-3 w-100">
-                    <input type="text" class="form-control" [(ngModel)]="whatsapp" placeholder="Org's whatsapp">
+                <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
+                    <div class="flex-grow-1 me-2">
+                        <label class="form-label mb-1">WhatsApp URL<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [(ngModel)]="whatsapp" placeholder="WhatsApp URL">
+                    </div>
                     <button class="btn custom-btn1" type="button" (click)="saveWhatsapp()">Save</button>
                 </div>
             </div>

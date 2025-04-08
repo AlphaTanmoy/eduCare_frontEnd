@@ -30,7 +30,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     console.log("email", this.email);
   }
 
-  savePhone(): void {
+  savePhone(phoneType: string): void {
     console.log("phone1", this.phone1);
     console.log("phone2", this.phone2);
   }
