@@ -37,12 +37,14 @@ import { DashboardService } from '../../service/dashboard/dashboard.service';
 })
 
 export class VerticalLayoutComponent {
-  website_details_description: string = NavbarInfo.description;
-  website_details_email: string = NavbarInfo.email;
-  website_details_phone: string = NavbarInfo.phone;
-  website_details_youtube_url: string = NavbarInfo.youtube_url;
-  website_details_facebook_url: string = NavbarInfo.facebook_url;
-  website_details_whatsapp_url: string = NavbarInfo.whatsapp_url;
+  // Navbar constants with safe defaults
+  website_details_description: string = NavbarInfo?.description || 'Default Description';
+  website_details_email: string = NavbarInfo?.email || 'default@example.com';
+  website_details_phone: string = NavbarInfo?.phone || '000-000-0000';
+  website_details_youtube_url: string = NavbarInfo?.youtube_url || '#';
+  website_details_facebook_url: string = NavbarInfo?.facebook_url || '#';
+  website_details_whatsapp_url: string = NavbarInfo?.whatsapp_url || '#';
+
 
   faYoutubeIcon = faYoutube;
   faFacebookIcon = faFacebook;

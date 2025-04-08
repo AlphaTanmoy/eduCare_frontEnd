@@ -101,7 +101,7 @@ export class HorizontalLayoutComponent implements AfterViewInit {
             if (item.master_data_type === MasterDataType.PRIMARY_PHONE) {
               this.website_details_phone = "+91 " + item.master_data_value;
             }
-            if (item.master_data_type === MasterDataType.SECONDARY_PHONE) {
+            if (item.master_data_type === MasterDataType.SECONDARY_PHONE && item.master_data_value!==null && item.master_data_value!==undefined && item.master_data_value.trim().length>0) {
               this.website_details_phone += " / " + item.master_data_value;
             }
             if (item.master_data_type === MasterDataType.FACEBOOK) {
