@@ -43,8 +43,12 @@
     <div class="container mt-4">
         <div class="row g-3">
             <div *ngFor="let item of schemaDetails" class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <div class="card shadow-sm border-1 text-center h-100">
-                    <div class="card-body p-3 d-flex align-items-center justify-content-center">
+                <div class="card shadow-sm border-1 text-center h-100 position-relative overflow-hidden">
+                    <div class="progress-bg position-absolute top-0 start-0 h-100"
+                        [ngStyle]="{ width: item.progress + '%', backgroundColor: '#cfe2ff' }">
+                    </div>
+
+                    <div class="card-body p-3 d-flex align-items-center justify-content-center position-relative">
                         <span class="fw-semibold">{{ item.schemaName }}</span>
                     </div>
                 </div>
@@ -57,7 +61,7 @@
     </div>
 
     <div class="mt-4">
-        <div *ngFor="let msg of messages" class="alert alert-info">
+        <div *ngFor="let msg of messages">
             {{ msg }}
         </div>
     </div>

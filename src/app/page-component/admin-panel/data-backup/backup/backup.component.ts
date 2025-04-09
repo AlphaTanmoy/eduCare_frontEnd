@@ -117,7 +117,7 @@ export class BackupComponent implements OnInit, OnDestroy {
   
     await this.connectSocket();
   
-    this.serverService.BackupAccessControlCategoryData(this.socketId).subscribe({
+    this.serverService.BackupAccessControlCategoryData(this.socketId, this.schemaDetails[0].schemaId).subscribe({
       next: () => {
         console.log('✅ Backup API called successfully');
       },
@@ -139,6 +139,7 @@ export class BackupComponent implements OnInit, OnDestroy {
   
       this.socket.on('task-progress', (data) => {
         this.messages.push(data.message);
+        this.schemaDetails[0].progress = data.step * 20;
       });
   
       this.socket.on('disconnect', () => {

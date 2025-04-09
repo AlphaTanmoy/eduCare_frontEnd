@@ -1,4 +1,14 @@
-.server_container_img{
-    max-height: 15rem; 
+.server_container_img {
+    max-height: 15rem;
     object-fit: contain;
+}
+
+.progress-bg {
+    z-index: 1;
+    transition: width 0.4s ease;
+    border-radius: inherit;
+}
+
+.card-body {
+    z-index: 2;
 }

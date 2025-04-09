@@ -18,7 +18,7 @@ export class ServerService {
     return this.http.get<any>(GetBaseURL() + Endpoints.server.get_database_schema_info);
   }
 
-  BackupAccessControlCategoryData(socketId: any): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.backup.access_control_category_data, {socketId});
+  BackupAccessControlCategoryData(socketId: any, schemaId: Number): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.backup.access_control_category_data, {socketId, schemaId});
   }
 }
