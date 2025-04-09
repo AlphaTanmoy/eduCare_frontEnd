@@ -46,4 +46,10 @@ export const MasterDataType = {
     WHATSAPP: 'WHATSAPP',
 }
 
+export enum ServerStatusType {
+    HEALTHY = 'Healthy',
+    HIGH_LOAD = 'High Load',
+}
+
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

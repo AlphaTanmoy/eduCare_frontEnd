@@ -1,14 +1,15 @@
 import { Component, HostListener, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ResponseTypeColor, ServerStatusType } from '../../../../constants/commonConstants';
 import { ServerService } from '../../../../service/server/server.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util'
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-backup',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './backup.component.html',
   styleUrl: './backup.component.css'
 })
@@ -21,6 +22,11 @@ export class BackupComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   readonly dialog = inject(MatDialog);
   matProgressBarVisible: boolean = false;
+
+  statusClassMap: any = {
+    [ServerStatusType.HEALTHY]: 'text-success',
+    [ServerStatusType.HIGH_LOAD]: 'text-danger',
+  };
 
   serverStatus: string = "";
   serverResponseTime: string = "";

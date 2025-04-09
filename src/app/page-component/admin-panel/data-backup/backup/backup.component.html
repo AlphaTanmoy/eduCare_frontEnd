@@ -8,7 +8,8 @@
 
                 <div class="d-flex flex-column justify-content-center text-md-start text-center">
                     <div class="mb-1 mt-1">
-                        <strong>Status : </strong> <strong class="text-success">{{serverStatus}}</strong>
+                        <strong>Status: </strong> <strong
+                            [ngClass]="statusClassMap[serverStatus]">{{serverStatus}}</strong>
                     </div>
                     <div class="mb-1">
                         <strong>Response Time : </strong> <span class="text-muted">{{serverResponseTime}}</span>
