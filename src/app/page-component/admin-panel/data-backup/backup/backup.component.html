@@ -51,4 +51,9 @@
             </div>
         </div>
     </div>
+
+    <div class="d-flex justify-content-center mt-4 mb-4" *ngIf="!isBackupStarted">
+        <button class="custom-button1" (click)="StartBackup()">Start Database Backup</button>
+    </div>
+
 </div>

@@ -40,6 +40,8 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   schemaDetails: any[] = [];
 
+  isBackupStarted: boolean = false;
+
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
 
@@ -87,7 +89,7 @@ export class BackupComponent implements OnInit, OnDestroy {
           }
 
           this.schemaDetails = response.data;
-          
+
           this.hideMatProgressBar();
         } catch (error) {
           this.hideMatProgressBar();
@@ -103,6 +105,10 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  StartBackup() : void {
+    this.isBackupStarted = true;
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
