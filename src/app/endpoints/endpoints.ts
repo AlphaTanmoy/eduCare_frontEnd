@@ -30,5 +30,8 @@ export const Endpoints = {
     },
     auth: {
       login: "auth/login"
+    },
+    server: {
+        get_server_status: "server/get_server_status",
     }
 }

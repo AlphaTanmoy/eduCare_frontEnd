@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="OnlineDatabase">
+  <g fill="#000000" class="color000000 svgShape">
+    <path fill="#b3b3b3" d="M24,12H40a2,2,0,0,1,2,2V26a0,0,0,0,1,0,0H22a0,0,0,0,1,0,0V14A2,2,0,0,1,24,12Z" class="colorb3b3b3 svgShape"></path>
+    <rect width="12" height="6" x="26" y="16" fill="#54cbe8" class="color54bce8 svgShape"></rect>
+    <rect width="9" height="6" x="26" y="16" fill="#7fd8ee" class="color7fcdee svgShape"></rect>
+    <rect width="24" height="4" x="20" y="26" fill="#094250" class="color3f3f40 svgShape"></rect>
+    <rect width="21" height="4" x="20" y="26" fill="#7d7f7f" class="color7d7e7f svgShape"></rect>
+    <rect width="12" height="20" x="50" y="2" fill="#868686" rx="2" class="color868686 svgShape"></rect>
+    <rect width="9" height="20" x="50" y="2" fill="#b3b3b3" rx="2" class="colorb3b3b3 svgShape"></rect>
+    <rect width="12" height="20" x="2" y="2" fill="#868686" rx="2" class="color868686 svgShape"></rect>
+    <rect width="9" height="20" x="2" y="2" fill="#b3b3b3" rx="2" class="colorb3b3b3 svgShape"></rect>
+    <rect width="12" height="12" x="2" y="6" fill="#54cbe8" class="color54bce8 svgShape"></rect>
+    <rect width="9" height="12" x="2" y="6" fill="#7fd8ee" class="color7fcdee svgShape"></rect>
+    <rect width="12" height="12" x="50" y="6" fill="#54cbe8" class="color54bce8 svgShape"></rect>
+    <rect width="9" height="12" x="50" y="6" fill="#7fd8ee" class="color7fcdee svgShape"></rect>
+    <rect width="40" height="12" x="12" y="50" fill="#7d7f7f" class="color7d7e7f svgShape"></rect>
+    <rect width="37" height="12" x="12" y="50" fill="#b3b3b3" class="colorb3b3b3 svgShape"></rect>
+    <rect width="40" height="12" x="12" y="38" fill="#7d7f7f" class="color7d7e7f svgShape"></rect>
+    <rect width="37" height="12" x="12" y="38" fill="#b3b3b3" class="colorb3b3b3 svgShape"></rect>
+    <circle cx="26" cy="44" r="2" fill="#27a3c1" class="colorc1272d svgShape"></circle>
+    <circle cx="18" cy="44" r="2" fill="#27a3c1" class="colorc1272d svgShape"></circle>
+    <circle cx="18" cy="56" r="2" fill="#27a3c1" class="colorc1272d svgShape"></circle>
+    <circle cx="26" cy="56" r="2" fill="#27a3c1" class="colorc1272d svgShape"></circle>
+    <rect width="10" height="4" x="38" y="42" fill="#1d7a91" class="color911d22 svgShape"></rect>
+    <rect width="7" height="4" x="38" y="42" fill="#27a3c1" class="colorc1272d svgShape"></rect>
+    <rect width="10" height="4" x="38" y="54" fill="#1d7a91" class="color911d22 svgShape"></rect>
+    <rect width="7" height="4" x="38" y="54" fill="#27a3c1" class="colorc1272d svgShape"></rect>
+    <rect width="40" height="12" x="12" y="50" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <circle cx="18" cy="56" r="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></circle>
+    <circle cx="26" cy="56" r="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></circle>
+    <rect width="10" height="4" x="38" y="54" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <rect width="40" height="12" x="12" y="38" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <circle cx="18" cy="44" r="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></circle>
+    <circle cx="26" cy="44" r="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></circle>
+    <rect width="10" height="4" x="38" y="42" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <rect width="12" height="20" x="2" y="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" rx="2" class="colorStroke000000 svgStroke"></rect>
+    <line x1="2" x2="14" y1="6" y2="6" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></line>
+    <line x1="2" x2="14" y1="18" y2="18" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></line>
+    <rect width="12" height="20" x="50" y="2" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" rx="2" class="colorStroke000000 svgStroke"></rect>
+    <line x1="50" x2="62" y1="6" y2="6" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></line>
+    <line x1="50" x2="62" y1="18" y2="18" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></line>
+    <path fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" d="M24,12H40a2,2,0,0,1,2,2V26a0,0,0,0,1,0,0H22a0,0,0,0,1,0,0V14A2,2,0,0,1,24,12Z" class="colorStroke000000 svgStroke"></path>
+    <rect width="24" height="4" x="20" y="26" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <rect width="12" height="6" x="26" y="16" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></rect>
+    <polyline fill="none" stroke="#000" stroke-linejoin="round" stroke-width="2" points="9 50 4 50 4 25"></polyline>
+    <polyline fill="none" stroke="#000" stroke-linejoin="round" stroke-width="2" points="55 50 60 50 60 25"></polyline>
+    <line x1="32" x2="32" y1="38" y2="30" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="2" class="colorStroke000000 svgStroke"></line>
+  </g>
+</svg>
