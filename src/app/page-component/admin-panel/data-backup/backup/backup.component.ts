@@ -7,6 +7,8 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util'
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { io, Socket } from 'socket.io-client';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-backup',
@@ -17,7 +19,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 export class BackupComponent implements OnInit, OnDestroy {
   constructor(
     private cdr: ChangeDetectorRef,
-    private serverService: ServerService
+    private serverService: ServerService,
+    private http: HttpClient
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -41,6 +44,9 @@ export class BackupComponent implements OnInit, OnDestroy {
   schemaDetails: any[] = [];
 
   isBackupStarted: boolean = false;
+  socket: Socket | null = null;
+  socketId: any = '';
+  messages: string[] = [];
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
@@ -81,7 +87,6 @@ export class BackupComponent implements OnInit, OnDestroy {
     this.serverService.GetAllDatabaseSchemaDetails().subscribe({
       next: (response) => {
         try {
-          console.log("response", response)
           if (response.status !== 200) {
             this.hideMatProgressBar();
             this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
@@ -109,6 +114,36 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   StartBackup() : void {
     this.isBackupStarted = true;
+    this.connectSocket();
+  }
+
+
+  connectSocket() {
+    this.socket = io('http://localhost:4000');
+
+    this.socket.on('connect', () => {
+      this.socketId = this.socket!.id;
+      console.log('🟢 Socket connected with ID:', this.socketId);
+    });
+
+    this.socket.on('task-progress', (data) => {
+      this.messages.push(data.message);
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('🔴 Disconnected from socket');
+    });
+  }
+
+  startTask() {
+    if (!this.socket || !this.socket.connected) {
+      this.connectSocket();
+
+      // Wait for connection to establish
+      setTimeout(() => this.connectSocket(), 500);
+    } else {
+      this.connectSocket();
+    }
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {

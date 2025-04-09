@@ -56,4 +56,10 @@
         <button class="custom-button1" (click)="StartBackup()">Start Database Backup</button>
     </div>
 
+    <div class="mt-4">
+        <div *ngFor="let msg of messages" class="alert alert-info">
+            {{ msg }}
+        </div>
+    </div>
+
 </div>
