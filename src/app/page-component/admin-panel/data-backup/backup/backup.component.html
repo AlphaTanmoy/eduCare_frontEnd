@@ -1,41 +1,42 @@
 <div class="container">
-    <h2 class="m-4 text-center">Database Backup</h2>
-
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3 mx-2">
         <div class="col-md-10 mx-auto border rounded shadow-sm bg-light">
-            <h3 class="m-4 text-center">Server Status</h3>
-            
-          <div class="d-flex justify-content-between p-3 server_container">
-            <img src="./icon/database_server.svg" alt="Server Icon" class="me-3 server_container_img">
+            <h2 class="m-4 text-center">Server Status</h2>
 
-            <div class="d-flex flex-column justify-content-center">
-              <div class="mb-1">
-                <strong>Status : </strong> <strong class="text-success">{{serverStatus}}</strong>
-              </div>
-              <div class="mb-1">
-                <strong>Response Time : </strong> <span class="text-muted">{{serverResponseTime}}</span>
-              </div>
-              <div class="mb-1">
-                <strong>Uptime : </strong> <span class="text-muted">{{serverUptime}}</span>
-              </div>
-              <div class="mb-1">
-                <strong>Platform : </strong> <span class="text-muted">{{serverPlatform}}</span>
-              </div>
-              <div class="mb-1">
-                <strong>CPU Load : </strong> <span class="text-muted">{{serverCpuLoad}}</span>
-              </div>
-              <div class="mb-1">
-                <strong>Server Free RAM : </strong> <span class="text-muted">{{serverMemoryFree}}</span>
-              </div>
-              <div class="mb-1">
-                <strong>Total RAM : </strong> <span class="text-muted">{{serverMemoryTotal}}</span>
-              </div>
-              <div>
-                <strong>Current Time : </strong> <span class="text-muted">{{currentTime}}</span>
-              </div>
+            <div class="d-flex flex-column flex-md-row justify-content-md-around align-items-center p-3">
+                <img src="./icon/database_server.svg" alt="Server Icon" class="img-fluid"
+                    style="max-height: 200px; object-fit: contain;">
+
+                <div class="d-flex flex-column justify-content-center text-md-start text-center">
+                    <div class="m-1">
+                        <strong>Status : </strong> <strong class="text-success">{{serverStatus}}</strong>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Response Time : </strong> <span class="text-muted">{{serverResponseTime}}</span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Uptime : </strong> <span class="text-muted">{{serverUptime}}</span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Platform : </strong> <span class="text-muted">{{serverPlatform}}</span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>CPU Load : </strong> <span class="text-muted">{{serverCpuLoad}}</span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Server Free RAM : </strong> <span class="text-muted">{{serverMemoryFree}}</span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Total RAM : </strong> <span class="text-muted">{{serverMemoryTotal}}</span>
+                    </div>
+                    <div>
+                        <strong>Time : </strong> <span class="text-muted">{{currentTime}}</span>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      
+    </div>
+
+
+    <h2 class="m-4 text-center">Database Backup</h2>
 </div>
