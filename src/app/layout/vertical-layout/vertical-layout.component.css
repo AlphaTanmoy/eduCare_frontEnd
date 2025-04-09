@@ -107,6 +107,11 @@
     align-items: center;
 }
 
+.single_menu_icon{
+    width: 1rem;
+    margin-right: 0.5rem;
+}
+
 .subItem, .nested-subItem {
     display: flex;
     flex-direction: column;
@@ -129,7 +134,6 @@
 }
 
 .a_single_menu.selected span::before, .submenu-item-container.selected span::before {
-    content: "- ";
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }

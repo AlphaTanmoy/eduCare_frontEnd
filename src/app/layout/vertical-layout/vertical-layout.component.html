@@ -34,7 +34,7 @@
     <div id="navbar_menu" [ngStyle]="{'width': isNavbarOpen ? '18rem' : '0rem'}">
         <div *ngFor="let item of menuItems" class="a_single_menu" [class.selected]="isSelected(item.id.toString())">
             <div class="a_single_menu_item" (click)="toggleMenu(item.id.toString(), '', item.route); selectMenu(item)">
-                <span>{{ item.name }}</span>
+                <span><img src="./icon/menu.svg" class="single_menu_icon">{{ item.name }}</span>
                 <span *ngIf="hasSubMenu(item)">
                     <img src="/icon/down_arrow.png" [ngStyle]="{
                         'transform': isMenuOpen(item.id.toString()) ? 'rotate(180deg)' : 'rotate(0deg)', 
@@ -58,7 +58,7 @@
             [class.selected]="isSelected(subItem.id.toString())">
             <div class="submenu-item-container"
                 (click)="toggleMenu(parentId + '-' + subItem.id.toString(), parentId, subItem.route); selectMenu(subItem)">
-                <span>{{ subItem.name }}</span>
+                <span>- {{ subItem.name }}</span>
                 <span *ngIf="hasSubMenu(subItem)">
                     <img src="/icon/down_arrow.png" [ngStyle]="{
                         'transform': isMenuOpen(parentId + '-' + subItem.id.toString()) ? 'rotate(180deg)' : 'rotate(0deg)', 
