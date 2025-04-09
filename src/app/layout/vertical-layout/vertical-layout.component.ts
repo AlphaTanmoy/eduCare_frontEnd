@@ -40,7 +40,8 @@ export class VerticalLayoutComponent {
   // Navbar constants with safe defaults
   website_details_description: string = NavbarInfo?.description || 'Default Description';
   website_details_email: string = NavbarInfo?.email || 'default@example.com';
-  website_details_phone: string = NavbarInfo?.phone || '000-000-0000';
+  website_details_phone1: string = NavbarInfo?.phone1 || '000-000-0000';
+  website_details_phone2: string = " / " + NavbarInfo?.phone2 || '000-000-0001';
   website_details_youtube_url: string = NavbarInfo?.youtube_url || '#';
   website_details_facebook_url: string = NavbarInfo?.facebook_url || '#';
   website_details_whatsapp_url: string = NavbarInfo?.whatsapp_url || '#';
@@ -75,23 +76,25 @@ export class VerticalLayoutComponent {
           }
 
           for (let item of response.data) {
-            if (item.master_data_type === MasterDataType.EMAIL) {
-              this.website_details_email = item.master_data_value;
-            }
-            if (item.master_data_type === MasterDataType.PRIMARY_PHONE) {
-              this.website_details_phone = "+91 " + item.master_data_value;
-            }
-            if (item.master_data_type === MasterDataType.SECONDARY_PHONE) {
-              this.website_details_phone += " / " + item.master_data_value;
-            }
-            if (item.master_data_type === MasterDataType.FACEBOOK) {
-              this.website_details_facebook_url = item.master_data_value;
-            }
-            if (item.master_data_type === MasterDataType.YOUTUBE) {
-              this.website_details_youtube_url = item.master_data_value;
-            }
-            if (item.master_data_type === MasterDataType.WHATSAPP) {
-              this.website_details_whatsapp_url = item.master_data_value;
+            if (item && item.master_data_value !== null && item.master_data_value !== undefined && item.master_data_value.trim().length > 0) {
+              if (item.master_data_type === MasterDataType.EMAIL) {
+                this.website_details_email = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.PRIMARY_PHONE) {
+                this.website_details_phone1 = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.SECONDARY_PHONE) {
+                this.website_details_phone2 = " / " + item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.FACEBOOK) {
+                this.website_details_facebook_url = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.YOUTUBE) {
+                this.website_details_youtube_url = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.WHATSAPP) {
+                this.website_details_whatsapp_url = item.master_data_value;
+              }
             }
           }
         } catch (error) {
