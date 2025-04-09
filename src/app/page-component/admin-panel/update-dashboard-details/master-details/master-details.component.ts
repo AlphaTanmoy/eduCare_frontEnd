@@ -17,12 +17,12 @@ import { DashboardService } from '../../../../service/dashboard/dashboard.servic
 })
 
 export class MasterDetailsComponent implements OnInit, OnDestroy {
-  email: string = "1";
-  phone1: string = "2";
-  phone2: string = "2";
-  facebook: string = "3";
-  youtube: string = "4";
-  whatsapp: string = "5";
+  email: string = "";
+  phone1: string = "";
+  phone2: string = "";
+  facebook: string = "";
+  youtube: string = "";
+  whatsapp: string = "";
 
   readonly dialog = inject(MatDialog);
   matProgressBarVisible: boolean = false;
