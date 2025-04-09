@@ -112,38 +112,44 @@ export class BackupComponent implements OnInit, OnDestroy {
     removeBootstrap(this.bootstrapElements);
   }
 
-  StartBackup() : void {
+  async StartBackup(): Promise<void> {
     this.isBackupStarted = true;
-    this.connectSocket();
-  }
-
-
-  connectSocket() {
-    this.socket = io('http://localhost:4000');
-
-    this.socket.on('connect', () => {
-      this.socketId = this.socket!.id;
-      console.log('🟢 Socket connected with ID:', this.socketId);
-    });
-
-    this.socket.on('task-progress', (data) => {
-      this.messages.push(data.message);
-    });
-
-    this.socket.on('disconnect', () => {
-      console.log('🔴 Disconnected from socket');
+  
+    await this.connectSocket();
+  
+    this.serverService.BackupAccessControlCategoryData(this.socketId).subscribe({
+      next: () => {
+        console.log('✅ Backup API called successfully');
+      },
+      error: (err) => {
+        console.error('❌ Error calling Backup API:', err);
+      }
     });
   }
-
-  startTask() {
-    if (!this.socket || !this.socket.connected) {
-      this.connectSocket();
-
-      // Wait for connection to establish
-      setTimeout(() => this.connectSocket(), 500);
-    } else {
-      this.connectSocket();
-    }
+  
+  connectSocket(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.socket = io('http://localhost:4000');
+  
+      this.socket.on('connect', () => {
+        this.socketId = this.socket!.id;
+        console.log('🟢 Socket connected with ID:', this.socketId);
+        resolve();
+      });
+  
+      this.socket.on('task-progress', (data) => {
+        this.messages.push(data.message);
+      });
+  
+      this.socket.on('disconnect', () => {
+        console.log('🔴 Disconnected from socket');
+      });
+  
+      this.socket.on('connect_error', (err) => {
+        console.error('❌ Socket connection failed:', err);
+        reject(err);
+      });
+    });
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {

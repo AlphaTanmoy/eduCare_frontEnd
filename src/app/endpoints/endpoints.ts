@@ -34,5 +34,8 @@ export const Endpoints = {
     server: {
         get_server_status: "server/get_server_status",
         get_database_schema_info: "server/get_database_schema_info",
+    },
+    backup: {
+        access_control_category_data: "backup/access_control_category_data",
     }
 }
