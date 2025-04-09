@@ -114,9 +114,9 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   async StartBackup(): Promise<void> {
     this.isBackupStarted = true;
-  
+
     await this.connectSocket();
-  
+
     this.serverService.BackupAccessControlCategoryData(this.socketId, this.schemaDetails[0].schemaId).subscribe({
       next: () => {
         console.log('✅ Backup API called successfully');
@@ -126,26 +126,29 @@ export class BackupComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   connectSocket(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.socket = io('http://localhost:4000');
-  
+
       this.socket.on('connect', () => {
         this.socketId = this.socket!.id;
         console.log('🟢 Socket connected with ID:', this.socketId);
         resolve();
       });
-  
+
       this.socket.on('task-progress', (data) => {
         this.messages.push(data.message);
-        this.schemaDetails[0].progress = data.step * 20;
+        const targetItem = this.schemaDetails.find(item => item.schemaId === data.schemaId);
+        if (targetItem) {
+          targetItem.progress = data.step * 20;
+        }
       });
-  
+
       this.socket.on('disconnect', () => {
         console.log('🔴 Disconnected from socket');
       });
-  
+
       this.socket.on('connect_error', (err) => {
         console.error('❌ Socket connection failed:', err);
         reject(err);
