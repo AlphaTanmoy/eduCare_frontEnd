@@ -37,6 +37,7 @@ import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
+import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
 
 
 export const routes: Routes = [
@@ -71,6 +72,7 @@ export const routes: Routes = [
     { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },

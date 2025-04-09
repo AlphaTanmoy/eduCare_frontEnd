@@ -247,6 +247,11 @@ export const MenuItems: any[] = [
         name: 'Enums',
         route: '/admin-panel/enum',
       },
+      {
+        id: 94,
+        name: 'Data Backup',
+        route: '/admin-panel/data-backup',
+      },
     ],
   },
   {
