@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
-import { IndexedDBItemKey, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { IndexedDBItemKey, MasterDataType, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
+import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-master-details',
@@ -31,10 +32,50 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private adminService: AdminService,
     private cdr: ChangeDetectorRef,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
+
+    this.dashboardService.getAllDashboardMasterData().subscribe({
+      next: (response) => {
+        try {
+          if (response.status !== 200) {
+            this.openDialog("Dashboard", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          for (let item of response.data) {
+            if (item && item.master_data_value !== null && item.master_data_value !== undefined && item.master_data_value.trim().length > 0) {
+              if (item.master_data_type === MasterDataType.EMAIL) {
+                this.email = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.PRIMARY_PHONE) {
+                this.phone1 = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.SECONDARY_PHONE) {
+                this.phone2 = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.FACEBOOK) {
+                this.facebook = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.YOUTUBE) {
+                this.youtube = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.WHATSAPP) {
+                this.whatsapp = item.master_data_value;
+              }
+            }
+          }
+        } catch (error) {
+          this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -42,7 +83,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveEmail(): void {
-    if(!this.email || this.email.trim().length === 0) {
+    if (!this.email || this.email.trim().length === 0) {
       this.openDialog("Master Data", "Email ID is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -53,7 +94,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
@@ -67,7 +108,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   savePhone1(): void {
-    if(!this.phone1 || this.phone1.trim().length === 0) {
+    if (!this.phone1 || this.phone1.trim().length === 0) {
       this.openDialog("Master Data", "Primary phone number is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -78,7 +119,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
@@ -92,7 +133,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   savePhone2(): void {
-    if(!this.phone2 || this.phone2.trim().length === 0) {
+    if (!this.phone2 || this.phone2.trim().length === 0) {
       this.openDialog("Master Data", "Secondary phone number is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -103,7 +144,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
@@ -117,7 +158,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveFacebook(): void {
-    if(!this.facebook || this.facebook.trim().length === 0) {
+    if (!this.facebook || this.facebook.trim().length === 0) {
       this.openDialog("Master Data", "Facebook url is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -128,7 +169,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
@@ -142,7 +183,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveYoutube(): void {
-    if(!this.youtube || this.youtube.trim().length === 0) {
+    if (!this.youtube || this.youtube.trim().length === 0) {
       this.openDialog("Master Data", "Youtube url is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -153,7 +194,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
@@ -167,7 +208,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveWhatsapp(): void {
-    if(!this.whatsapp || this.whatsapp.trim().length === 0) {
+    if (!this.whatsapp || this.whatsapp.trim().length === 0) {
       this.openDialog("Master Data", "Whatsapp url is required", ResponseTypeColor.ERROR, false);
       return;
     }
@@ -178,7 +219,7 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, false);
+          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
           return;
         }
 
