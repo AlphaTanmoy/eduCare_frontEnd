@@ -6,10 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util'
 import { CommonModule } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-backup',
-  imports: [CommonModule],
+  imports: [CommonModule, MatProgressBarModule],
   templateUrl: './backup.component.html',
   styleUrl: './backup.component.css'
 })
@@ -21,7 +22,7 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   readonly dialog = inject(MatDialog);
-  matProgressBarVisible: boolean = false;
+  matProgressBarVisible: boolean = true;
 
   statusClassMap: any = {
     [ServerStatusType.HEALTHY]: 'text-success',
@@ -37,6 +38,8 @@ export class BackupComponent implements OnInit, OnDestroy {
   serverMemoryTotal: string = "";
   currentTime: string = "";
 
+  schemaDetails: any[] = [];
+
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
 
@@ -45,11 +48,11 @@ export class BackupComponent implements OnInit, OnDestroy {
       this.currentTime = GetFormattedCurrentDatetime(now);
     }, 1000);
 
-    this.serverService.GetAllDashboardMasterData().subscribe({
+    this.serverService.GetServerStatus().subscribe({
       next: (response) => {
         try {
-          console.log("response", response)
           if (response.status !== 200) {
+            this.hideMatProgressBar();
             this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
             return;
           }
@@ -63,12 +66,36 @@ export class BackupComponent implements OnInit, OnDestroy {
           this.serverCpuLoad = data.cpuLoad;
           this.serverMemoryFree = data.memory.free;
           this.serverMemoryTotal = data.memory.total;
-
         } catch (error) {
           this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
         }
       },
       error: (err) => {
+        this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
+
+
+    this.serverService.GetAllDatabaseSchemaDetails().subscribe({
+      next: (response) => {
+        try {
+          console.log("response", response)
+          if (response.status !== 200) {
+            this.hideMatProgressBar();
+            this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          this.schemaDetails = response.data;
+          
+          this.hideMatProgressBar();
+        } catch (error) {
+          this.hideMatProgressBar();
+          this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
         this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
