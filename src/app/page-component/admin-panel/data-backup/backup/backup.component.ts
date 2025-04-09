@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { ResponseTypeColor, ServerStatusType } from '../../../../constants/commonConstants';
+import { DatabaseSchemaInfo, ResponseTypeColor, ServerStatusType } from '../../../../constants/commonConstants';
 import { ServerService } from '../../../../service/server/server.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { io, Socket } from 'socket.io-client';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-backup',
@@ -56,6 +57,7 @@ export class BackupComponent implements OnInit, OnDestroy {
       this.currentTime = GetFormattedCurrentDatetime(now);
     }, 1000);
 
+    // Get server status
     this.serverService.GetServerStatus().subscribe({
       next: (response) => {
         try {
@@ -83,7 +85,7 @@ export class BackupComponent implements OnInit, OnDestroy {
       }
     });
 
-
+    // Get schema details
     this.serverService.GetAllDatabaseSchemaDetails().subscribe({
       next: (response) => {
         try {
@@ -114,17 +116,21 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   async StartBackup(): Promise<void> {
     this.isBackupStarted = true;
-
     await this.connectSocket();
-
-    this.serverService.BackupAccessControlCategoryData(this.socketId, this.schemaDetails[0].schemaId).subscribe({
-      next: () => {
-        console.log('✅ Backup API called successfully');
-      },
-      error: (err) => {
-        console.error('❌ Error calling Backup API:', err);
+  
+    for (const item of this.schemaDetails) {
+      try {
+        await lastValueFrom(
+          this.serverService.BackupAccessControlCategoryData(this.socketId, item.schemaId)
+        );
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.messages = [];
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } catch (err) {
+        console.error(`❌ Error backing up ${item.schemaName}:`, err);
       }
-    });
+    }
   }
 
   connectSocket(): Promise<void> {
