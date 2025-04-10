@@ -51,18 +51,5 @@ export enum ServerStatusType {
     HIGH_LOAD = 'High Load',
 }
 
-export const DatabaseSchemaInfo = {
-    Access_Control_Category: 1,
-    Api_Routes: 2,
-    Center_Addresses: 3,
-    Center_Details: 4,
-    Center_Documents: 5,
-    Center_Heads: 6,
-    Enums: 7,
-    Master_Datas: 8,
-    States: 9,
-    Users: 10,
-}
-
 
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

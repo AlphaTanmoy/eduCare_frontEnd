@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { DatabaseSchemaInfo, ResponseTypeColor, ServerStatusType } from '../../../../constants/commonConstants';
+import { ResponseTypeColor, ServerStatusType } from '../../../../constants/commonConstants';
 import { ServerService } from '../../../../service/server/server.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
