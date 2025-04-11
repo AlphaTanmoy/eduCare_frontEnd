@@ -1,6 +1,6 @@
 <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
 <div class="container">
-    <div class="row justify-content-center mt-3 mx-2">
+    <div *ngIf="!isBackupStarted" class="row justify-content-center mt-3 mx-2">
         <div class="col-md-10 mx-auto border rounded shadow-sm bg-light">
             <div class="d-flex flex-column flex-md-row justify-content-md-around align-items-center p-3">
                 <img src="./icon/database_server.svg" alt="Server Icon" class="img-fluid server_container_img">
@@ -45,7 +45,7 @@
             <div *ngFor="let item of schemaDetails" class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow-sm border-1 text-center h-100 position-relative overflow-hidden">
                     <div class="progress-bg position-absolute top-0 start-0 h-100"
-                        [ngStyle]="{ width: item.progress + '%', backgroundColor: '#cfe2ff' }">
+                        [ngStyle]="{ width: item.progress + '%', backgroundColor: '#0db002' }">
                     </div>
 
                     <div class="card-body p-3 d-flex align-items-center justify-content-center position-relative">
@@ -60,7 +60,9 @@
         <button class="custom-button1" (click)="StartBackup()">Start Database Backup</button>
     </div>
 
-    <div class="mt-4 space-y-2">
+    <h2 class="m-4 text-center" *ngIf="isBackupStarted && backupSchemaName.length > 0 && backupSchemaName !== ''">Backup Schema {{backupSchemaName}}</h2>
+    
+    <div class="container mt-4 mb-4">
         <div *ngFor="let msg of messages"
             class="bg-blue-100 border border-blue-300 text-blue-900 px-4 py-2 rounded-lg shadow-sm animate-fade-in">
             {{ msg }}

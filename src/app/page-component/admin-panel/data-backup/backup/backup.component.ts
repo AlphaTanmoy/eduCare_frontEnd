@@ -47,6 +47,8 @@ export class BackupComponent implements OnInit, OnDestroy {
   isBackupStarted: boolean = false;
   socket: Socket | null = null;
   socketId: any = '';
+
+  backupSchemaName: string = '';
   messages: string[] = [];
 
   ngOnInit(): void {
@@ -120,17 +122,21 @@ export class BackupComponent implements OnInit, OnDestroy {
   
     for (const item of this.schemaDetails) {
       try {
+        this.backupSchemaName = " : " + item.schemaName;
         await lastValueFrom(
           this.serverService.BackupAccessControlCategoryData(this.socketId, item.schemaId)
         );
         
         await new Promise(resolve => setTimeout(resolve, 1000));
         this.messages = [];
+        this.backupSchemaName = '';
         await new Promise(resolve => setTimeout(resolve, 1000));
       } catch (err) {
         console.error(`❌ Error backing up ${item.schemaName}:`, err);
       }
     }
+
+    this.isBackupStarted = false;
   }
 
   connectSocket(): Promise<void> {
