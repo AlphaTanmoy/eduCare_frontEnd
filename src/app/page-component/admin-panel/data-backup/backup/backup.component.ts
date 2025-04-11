@@ -92,7 +92,6 @@ export class BackupComponent implements OnInit, OnDestroy {
       next: async (response) => {
         try {
           if (response.status !== 200) {
-            this.hideMatProgressBar();
             this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
             return;
           }
@@ -176,6 +175,16 @@ export class BackupComponent implements OnInit, OnDestroy {
     });
   }
 
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
 
@@ -184,17 +193,5 @@ export class BackupComponent implements OnInit, OnDestroy {
         location.reload();
       }
     });
-  }
-
-  activeMatProgressBar() {
-    this.matProgressBarVisible = true;
-    console.log('Showing progress bar');
-    this.cdr.detectChanges();
-  }
-
-  hideMatProgressBar() {
-    this.matProgressBarVisible = false;
-    console.log('Closing progress bar');
-    this.cdr.detectChanges();
   }
 }
