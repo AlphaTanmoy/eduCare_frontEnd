@@ -40,6 +40,7 @@ export class BackupComponent implements OnInit, OnDestroy {
   serverCpuLoad: string = "";
   serverMemoryFree: string = "";
   serverMemoryTotal: string = "";
+  lastBackupTime: string = "";
   currentTime: string = "";
 
   schemaDetails: any[] = [];
@@ -78,6 +79,7 @@ export class BackupComponent implements OnInit, OnDestroy {
           this.serverCpuLoad = data.cpuLoad;
           this.serverMemoryFree = data.memory.free;
           this.serverMemoryTotal = data.memory.total;
+          this.lastBackupTime = GetFormattedCurrentDatetime(new Date(data.lastBackupTime));
         } catch (error) {
           this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
         }
