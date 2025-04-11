@@ -17,16 +17,11 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './backup.component.html',
   styleUrl: './backup.component.css'
 })
-export class BackupComponent implements OnInit, OnDestroy {
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private serverService: ServerService,
-    private http: HttpClient
-  ) { }
 
+export class BackupComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   readonly dialog = inject(MatDialog);
-  matProgressBarVisible: boolean = false;
+  matProgressBarVisible = false;
 
   statusClassMap: any = {
     [ServerStatusType.HEALTHY]: 'text-success',
@@ -52,7 +47,13 @@ export class BackupComponent implements OnInit, OnDestroy {
   backupSchemaName: string = '';
   messages: string[] = [];
 
-  ngOnInit() {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private serverService: ServerService,
+    private http: HttpClient
+  ) { }
+
+  async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
 
@@ -66,7 +67,7 @@ export class BackupComponent implements OnInit, OnDestroy {
 
     // Get schema details
     this.serverService.GetAllDatabaseSchemaDetails().subscribe({
-      next: async (response) => {
+      next: (response) => {
         try {
           if (response.status !== 200) {
             this.hideMatProgressBar();
@@ -89,7 +90,7 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   GetServerStatus(): void {
     this.serverService.GetServerStatus().subscribe({
-      next: async (response) => {
+      next: (response) => {
         try {
           if (response.status !== 200) {
             this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
