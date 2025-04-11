@@ -26,7 +26,7 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   readonly dialog = inject(MatDialog);
-  matProgressBarVisible: boolean = true;
+  matProgressBarVisible: boolean = false;
 
   statusClassMap: any = {
     [ServerStatusType.HEALTHY]: 'text-success',
@@ -52,8 +52,9 @@ export class BackupComponent implements OnInit, OnDestroy {
   backupSchemaName: string = '';
   messages: string[] = [];
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    this.activeMatProgressBar();
 
     setInterval(() => {
       const now = new Date();
@@ -61,8 +62,34 @@ export class BackupComponent implements OnInit, OnDestroy {
     }, 1000);
 
     // Get server status
+    this.GetServerStatus();
+
+    // Get schema details
+    this.serverService.GetAllDatabaseSchemaDetails().subscribe({
+      next: async (response) => {
+        try {
+          if (response.status !== 200) {
+            this.hideMatProgressBar();
+            this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          this.schemaDetails = response.data;
+        } catch (error) {
+          this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
+
+    this.hideMatProgressBar();
+  }
+
+  GetServerStatus(): void {
     this.serverService.GetServerStatus().subscribe({
-      next: (response) => {
+      next: async (response) => {
         try {
           if (response.status !== 200) {
             this.hideMatProgressBar();
@@ -85,30 +112,6 @@ export class BackupComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-
-    // Get schema details
-    this.serverService.GetAllDatabaseSchemaDetails().subscribe({
-      next: (response) => {
-        try {
-          if (response.status !== 200) {
-            this.hideMatProgressBar();
-            this.openDialog("Backup", response.message, ResponseTypeColor.ERROR, false);
-            return;
-          }
-
-          this.schemaDetails = response.data;
-
-          this.hideMatProgressBar();
-        } catch (error) {
-          this.hideMatProgressBar();
-          this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
-        }
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
         this.openDialog("Backup", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
@@ -139,6 +142,9 @@ export class BackupComponent implements OnInit, OnDestroy {
     }
 
     this.isBackupStarted = false;
+    this.activeMatProgressBar();
+    this.GetServerStatus();
+    this.hideMatProgressBar();
   }
 
   connectSocket(): Promise<void> {
@@ -182,11 +188,13 @@ export class BackupComponent implements OnInit, OnDestroy {
 
   activeMatProgressBar() {
     this.matProgressBarVisible = true;
+    console.log('Showing progress bar');
     this.cdr.detectChanges();
   }
 
   hideMatProgressBar() {
     this.matProgressBarVisible = false;
+    console.log('Closing progress bar');
     this.cdr.detectChanges();
   }
 }
