@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,4 +12,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class CustomMultiSelectDropdownComponent {
   toppings = new FormControl('');
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
+  @Output() selectedItemsChanged = new EventEmitter<string[]>();
+
+  constructor() {
+    this.toppings.valueChanges.subscribe((value: any) => {
+      this.selectedItemsChanged.emit(value);
+    });
+  }
 }

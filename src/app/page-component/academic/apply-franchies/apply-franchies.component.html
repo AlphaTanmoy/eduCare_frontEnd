@@ -23,7 +23,7 @@
                                 <label class="form-label mb-1">Gender <span class="text-danger">*</span></label>
                                 <app-custom-single-select-searchable-dropdown [options]="dropdownOption"
                                     [ariaPlaceholder]="dropdownPlaceholder" [ariaLabel]="dropdownpLabel"
-                                    (optionSelected)="handleOptionSelection($event)">
+                                    (optionSelected)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>
@@ -109,7 +109,8 @@
                             </div>
                         </div>
 
-                        <app-custom-multi-select-dropdown></app-custom-multi-select-dropdown>
+                        <app-custom-multi-select-dropdown (selectedItemsChanged)="handleSelectedCourses($event)">
+                        </app-custom-multi-select-dropdown>
 
                         <hr>
 

@@ -90,13 +90,17 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     this.selectedStepIndex = event.selectedIndex;
   }
 
-  handleOptionSelection(event: any): void {
+  handleGenderSelection(event: any): void {
     console.log(event, " is selected");
   }
 
   onCheckboxChange(event: Event): void {
     this.CenterAddressStatus = (event.target as HTMLInputElement).checked;
     console.log('Checkbox is checked:', this.CenterAddressStatus);
+  }
+
+  handleSelectedCourses(selectedItems: string[]) {
+    console.log('Selected items:', selectedItems);
   }
 
   activeMatProgressBar() {
