@@ -36,6 +36,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   selectedStepIndex: number = 0;
 
+
+  CenterAddressStatus: boolean = false;
+
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
   }
@@ -58,5 +61,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   handleOptionSelection(event: any): void {
     console.log(event, " is selected");
+  }
+
+  onCheckboxChange(event: Event): void {
+    this.CenterAddressStatus = (event.target as HTMLInputElement).checked;
+    console.log('Checkbox is checked:', this.CenterAddressStatus);
   }
 }
