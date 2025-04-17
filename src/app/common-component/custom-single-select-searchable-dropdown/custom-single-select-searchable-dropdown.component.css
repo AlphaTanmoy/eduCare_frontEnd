@@ -1,4 +1,8 @@
-.mat-mdc-autocomplete-pane,
+::ng-deep .mat-mdc-autocomplete-panel {
+    padding: 0 0 !important;
+}
+
+.mat-mdc-autocomplete-panel,
 div.mat-mdc-autocomplete-panel {
     padding: 0 0 !important;
 }
