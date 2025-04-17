@@ -6,6 +6,7 @@ import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-custom-single-select-searchable-dropdown',
@@ -22,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 
 export class CustomSingleSelectSearchableDropdownComponent implements OnInit {
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   myControl = new FormControl('');
   filteredOptions: Observable<string[]> | undefined;
 
@@ -31,6 +33,7 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit {
   @Output() optionSelected = new EventEmitter<string>();
 
   ngOnInit() {
+    this.bootstrapElements = loadBootstrap();
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -45,5 +48,9 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit {
 
   onOptionSelected(event: any) {
     this.optionSelected.emit(event.option.value);
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 }

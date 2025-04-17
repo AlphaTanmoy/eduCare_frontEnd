@@ -2,14 +2,22 @@
     <h2 class="m-4 text-center">Apply Franchises</h2>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
+
             <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
                 <mat-step [stepControl]="firstFormGroup">
                     <form [formGroup]="firstFormGroup">
-                        <ng-template matStepLabel>Fill out your name</ng-template>
-                        <mat-form-field>
-                            <mat-label>Name</mat-label>
-                            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                        </mat-form-field>
+                        <ng-template matStepLabel>Center Head Details</ng-template>
+                        <div class="flex-grow-1">
+                            <label class="form-label mb-1">Center Head Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Type Center Head Name">
+                        </div>
+                        <div class="flex-grow-1 mt-1">
+                            <label class="form-label mb-1">Gender<span class="text-danger">*</span></label>
+                            <app-custom-single-select-searchable-dropdown [options]="dropdownOption"
+                                [ariaPlaceholder]="dropdownPlaceholder" [ariaLabel]="dropdownpLabel"
+                                (optionSelected)="handleOptionSelection($event)"></app-custom-single-select-searchable-dropdown>
+                        </div>
+
                         <div>
                             <button mat-button matStepperPrevious>Reset</button>
                             <button mat-button matStepperNext>Next</button>
@@ -18,7 +26,7 @@
                 </mat-step>
                 <mat-step [stepControl]="secondFormGroup">
                     <form [formGroup]="secondFormGroup">
-                        <ng-template matStepLabel>Fill out your address</ng-template>
+                        <ng-template matStepLabel>Center Details</ng-template>
                         <mat-form-field>
                             <mat-label>Address</mat-label>
                             <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
@@ -33,7 +41,7 @@
                 </mat-step>
                 <mat-step [stepControl]="secondFormGroup">
                     <form [formGroup]="secondFormGroup">
-                        <ng-template matStepLabel>Done</ng-template>
+                        <ng-template matStepLabel>Documents</ng-template>
                         <mat-form-field>
                             <mat-label>Address</mat-label>
                             <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"

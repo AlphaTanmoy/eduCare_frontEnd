@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -14,7 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    CustomSingleSelectSearchableDropdownComponent
   ],
   templateUrl: './apply-franchies.component.html',
   styleUrl: './apply-franchies.component.css'
@@ -23,6 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
 export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
+
+  dropdownOption: string[] = ['Male', 'Female', 'Other'];
+  dropdownPlaceholder: string = "Search/Select Gender";
+  dropdownpLabel: string = "Gender selection";
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -39,4 +45,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     secondCtrl: ['', Validators.required],
   });
   isLinear = false;
+
+
+
+  handleOptionSelection(event: any): void {
+    console.log(event, " is selected");
+  }
 }
