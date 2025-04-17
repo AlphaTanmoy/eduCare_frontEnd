@@ -2,11 +2,15 @@
     <mat-label>{{ dropdownLabel }}</mat-label>
 
     <mat-select [formControl]="selectedItems" multiple>
-        <mat-option style="background-color: var(--white);">
-            Select All</mat-option>
+        <!-- Select All with dummy value -->
+        <mat-option (click)="toggleSelectAll()" [value]="'__select_all__'" [disabled]="itemList.length === 0"
+            style="background-color: var(--white);">
+            {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
+        </mat-option>
 
         <mat-divider></mat-divider>
 
+        <!-- Regular options -->
         <mat-option *ngFor="let item of itemList" [value]="item" style="background-color: var(--white);">
             {{ item }}
         </mat-option>

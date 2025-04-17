@@ -12,16 +12,34 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './custom-multi-select-dropdown.component.html',
   styleUrl: './custom-multi-select-dropdown.component.css'
 })
+
 export class CustomMultiSelectDropdownComponent {
-  selectedItems = new FormControl('');
+  selectedItems = new FormControl<string[]>([]);
   itemList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  readonly SELECT_ALL_VALUE = '__select_all__';
 
   @Input() dropdownLabel: string = "";
   @Output() selectedItemsChanged = new EventEmitter<string[]>();
 
   constructor() {
     this.selectedItems.valueChanges.subscribe((value: any) => {
-      this.selectedItemsChanged.emit(value);
+      const cleaned = value?.filter((v: string) => v !== this.SELECT_ALL_VALUE) || [];
+      this.selectedItems.setValue(cleaned, { emitEvent: false });
+      this.selectedItemsChanged.emit(cleaned);
     });
+  }
+
+  isAllSelected(): boolean {
+    return this.itemList.length > 0 &&
+      this.selectedItems.value?.length === this.itemList.length;
+  }
+
+  toggleSelectAll(): void {
+    if (this.isAllSelected()) {
+      this.selectedItems.setValue([]);
+    } else {
+      this.selectedItems.setValue([...this.itemList]);
+    }
+    this.selectedItemsChanged.emit(this.selectedItems.value || []);
   }
 }
