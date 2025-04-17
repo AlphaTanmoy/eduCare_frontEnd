@@ -1,8 +1,9 @@
-<mat-form-field>
-    <mat-label>Toppings</mat-label>
-    <mat-select [formControl]="toppings" multiple style="background-color: var(--white);">
-        @for (topping of toppingList; track topping) {
-        <mat-option [value]="topping" style="background-color: var(--white);">{{topping}}</mat-option>
-        }
+<mat-form-field appearance="fill" class="w-100">
+    <mat-label>{{ dropdownLabel }}</mat-label>
+
+    <mat-select [formControl]="selectedItems" multiple>
+        <mat-option *ngFor="let item of itemList" [value]="item" style="background-color: var(--white);">
+            {{ item }}
+        </mat-option>
     </mat-select>
 </mat-form-field>

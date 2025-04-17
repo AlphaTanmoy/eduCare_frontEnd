@@ -109,7 +109,8 @@
                             </div>
                         </div>
 
-                        <app-custom-multi-select-dropdown (selectedItemsChanged)="handleSelectedCourses($event)">
+                        <app-custom-multi-select-dropdown [dropdownLabel]="'Select Courses'"
+                            (selectedItemsChanged)="handleSelectedCourses($event)">
                         </app-custom-multi-select-dropdown>
 
                         <hr>
