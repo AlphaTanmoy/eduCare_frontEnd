@@ -41,8 +41,6 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
       map(value => (typeof value === 'string' ? value : value?.text || '')),
       map(text => this._filter(text))
     );
-
-    console.log(this.filteredOptions)
   }
 
   private _filter(value: string): { id: number; text: string }[] {

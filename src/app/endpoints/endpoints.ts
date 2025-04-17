@@ -29,7 +29,7 @@ export const Endpoints = {
         get_enum_names: "enums/name"
     },
     auth: {
-      login: "auth/login"
+        login: "auth/login"
     },
     server: {
         get_server_status: "server/get_server_status",
@@ -37,5 +37,8 @@ export const Endpoints = {
     },
     backup: {
         access_control_category_data: "backup/access_control_category_data",
+    },
+    common: {
+        get_all_courses: "common/get_all_courses",
     }
 }

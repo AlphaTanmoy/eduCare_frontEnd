@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -6,9 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { Gender } from '../../../constants/commonConstants';
+import { Gender, ResponseTypeColor } from '../../../constants/commonConstants';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
+import { CommonService } from '../../../service/common/common.service';
+import { IndexedDbService } from '../../../service/indexed-db/indexed-db.service';
+import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -20,7 +25,8 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    CustomSingleSelectSearchableDropdownComponent
+    CustomSingleSelectSearchableDropdownComponent,
+    MatProgressBarModule
   ],
   templateUrl: './apply-franchies.component.html',
   styleUrl: './apply-franchies.component.css'
@@ -30,6 +36,15 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
 
+  constructor(
+    private commonService: CommonService,
+    private cdr: ChangeDetectorRef,
+    private indexedDbService: IndexedDbService
+  ) { }
+
+  matProgressBarVisible = false;
+  readonly dialog = inject(MatDialog);
+
   dropdownOption = Gender;
   dropdownPlaceholder: string = "Search/Select Gender";
   dropdownpLabel: string = "Gender selection";
@@ -38,9 +53,21 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   isLinear = false;
 
   CenterAddressStatus: boolean = false;
+  AvilableCourses: any[] = [];
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    this.activeMatProgressBar();
+    this.commonService.getAllAvailableCourses().subscribe({
+      next: async (response) => {
+        this.AvilableCourses = response.data;
+        this.hideMatProgressBar();
+      },
+      error: (err) => {
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.hideMatProgressBar();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -65,5 +92,25 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   onCheckboxChange(event: Event): void {
     this.CenterAddressStatus = (event.target as HTMLInputElement).checked;
     console.log('Checkbox is checked:', this.CenterAddressStatus);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
   }
 }
