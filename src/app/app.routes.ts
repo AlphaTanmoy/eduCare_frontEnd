@@ -39,6 +39,7 @@ import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
 import { AddEditCourseComponent } from './page-component/admin-panel/add-edit-course/add-edit-course.component';
+import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
 
 
 export const routes: Routes = [
@@ -52,6 +53,7 @@ export const routes: Routes = [
     { path: 'academic/download-certificate', component: DownloadCertificateComponent },
     { path: 'academic/download-form', component: DownloadFormComponent },
     { path: 'academic/pay-fees', component: PayFeesComponent },
+    { path: 'academic/apply-franchise', component: ApplyFranchiesComponent },
     { path: 'course-offered/computer', component: ComputerCourseComponent },
     { path: 'course-offered/dance', component: DanceCourseComponent },
     { path: 'course-offered/drawing', component: DrawingCourseComponent },
@@ -75,7 +77,6 @@ export const routes: Routes = [
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/add-edit-course', component: AddEditCourseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
     { path: 'un-authorized', component: UnAuthorizeComponent },
