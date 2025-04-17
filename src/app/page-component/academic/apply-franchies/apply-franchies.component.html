@@ -109,6 +109,8 @@
                             </div>
                         </div>
 
+                        <app-custom-multi-select-dropdown></app-custom-multi-select-dropdown>
+
                         <hr>
 
                         <div class="form-check mb-2">
@@ -162,8 +164,8 @@
                 </mat-step>
 
                 <!-- Step 3 -->
-                <mat-step [stepControl]="secondFormGroup">
-                    <form [formGroup]="secondFormGroup">
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="thirdFormGroup">
                         <ng-template matStepLabel>
                             <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Documents</span>
                         </ng-template>

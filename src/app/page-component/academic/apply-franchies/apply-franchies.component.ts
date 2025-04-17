@@ -14,6 +14,7 @@ import { IndexedDbService } from '../../../service/indexed-db/indexed-db.service
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CustomMultiSelectDropdownComponent } from '../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -26,6 +27,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatFormFieldModule,
     MatInputModule,
     CustomSingleSelectSearchableDropdownComponent,
+    CustomMultiSelectDropdownComponent,
     MatProgressBarModule
   ],
   templateUrl: './apply-franchies.component.html',
@@ -79,6 +81,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+  });
+  thirdFormGroup = this._formBuilder.group({
+    thirdFormGroup: ['', Validators.required],
   });
 
   onStepChange(event: StepperSelectionEvent): void {
