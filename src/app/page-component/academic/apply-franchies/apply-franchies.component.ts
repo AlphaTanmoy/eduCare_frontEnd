@@ -35,7 +35,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   dropdownpLabel: string = "Gender selection";
 
   selectedStepIndex: number = 0;
-
+  isLinear = false;
 
   CenterAddressStatus: boolean = false;
 
@@ -53,7 +53,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
   });
-  isLinear = false;
 
   onStepChange(event: StepperSelectionEvent): void {
     this.selectedStepIndex = event.selectedIndex;

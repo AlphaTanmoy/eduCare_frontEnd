@@ -165,15 +165,25 @@
                         <ng-template matStepLabel>
                             <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Documents</span>
                         </ng-template>
-                        <div class="row mb-3">
-                            <div class="col-12">
-                                <mat-form-field appearance="fill" class="w-100">
-                                    <mat-label>Upload Address Proof</mat-label>
-                                    <input matInput formControlName="secondCtrl"
-                                        placeholder="Ex. 1 Main St, New York, NY" required>
-                                </mat-form-field>
+
+                        <div class="row mb-3 mt-3">
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept="image/jpeg,image/jpg,image/png">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept="image/jpeg,image/jpg,image/png">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Supportable Document (PDF) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept="application/pdf">
                             </div>
                         </div>
+
 
                         <div class="d-flex justify-content-between">
                             <button class="custom-button1" matStepperPrevious>Back</button>
