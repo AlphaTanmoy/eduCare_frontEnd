@@ -1,0 +1,4 @@
+.mat-mdc-autocomplete-pane,
+div.mat-mdc-autocomplete-panel {
+    padding: 0 0 !important;
+}
