@@ -62,19 +62,24 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
 
-    this.commonService.getAllAvailableCourses().subscribe({
-      next: async (response) => {
-        response.data.forEach((element: any) => {
-          this.AvilableCourses.push(new Dropdown(element.course_code, element.course_name));
-        });
+    try {
+      this.commonService.getAllAvailableCourses().subscribe({
+        next: async (response) => {
+          response.data.forEach((element: any) => {
+            this.AvilableCourses.push(new Dropdown(element.course_code, element.course_name));
+          });
 
-        this.hideMatProgressBar();
-      },
-      error: (err) => {
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        this.hideMatProgressBar();
-      }
-    });
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+          this.hideMatProgressBar();
+        }
+      });
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+      this.hideMatProgressBar();
+    }
   }
 
   ngOnDestroy(): void {
