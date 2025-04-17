@@ -9,3 +9,15 @@
 .gender_franchise {
     margin-bottom: -2rem;
 }
+
+::ng-deep .selected-step-label {
+    background-color: var(--light-blue) !important;
+    color: #fff !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px !important;
+    display: inline-block;
+}
+
+.stepper_button_of_middle {
+    margin-right: 1rem;
+}

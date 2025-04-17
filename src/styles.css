@@ -49,11 +49,12 @@ body {
     --light: #f1f1f1;
     --light1: #f2f2f2;
     --success: #2abe05;
-    --failed:  #fd0000;
+    --failed: #fd0000;
     --warning: #f1b100;
+    --light-blue: #007bff;
 }
 
-.custom-button1{
+.custom-button1 {
     background-color: var(--default-theme);
     border: none;
     color: #ffffff;
@@ -65,17 +66,17 @@ body {
     transition: 0.3s all ease-in-out;
 }
 
-.custom-button1:hover{
+.custom-button1:hover {
     background-color: var(--default-theme-hover);
 }
 
-.matProgressBar{
+.matProgressBar {
     border-radius: 50px;
     color: var(--default-theme);
 }
 
 @media (max-width: 768px) {
-    .custom-button1{
+    .custom-button1 {
         font-size: 0.8rem;
     }
 }

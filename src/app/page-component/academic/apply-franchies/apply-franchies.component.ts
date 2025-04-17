@@ -7,10 +7,13 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { Gender } from '../../../constants/commonConstants';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-apply-franchies',
   imports: [
+    CommonModule,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
@@ -31,6 +34,8 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   dropdownPlaceholder: string = "Search/Select Gender";
   dropdownpLabel: string = "Gender selection";
 
+  selectedStepIndex: number = 0;
+
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
   }
@@ -47,7 +52,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   });
   isLinear = false;
 
-
+  onStepChange(event: StepperSelectionEvent): void {
+    this.selectedStepIndex = event.selectedIndex;
+  }
 
   handleOptionSelection(event: any): void {
     console.log(event, " is selected");
