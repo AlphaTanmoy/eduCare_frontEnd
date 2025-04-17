@@ -1,12 +1,14 @@
 <mat-form-field appearance="fill" class="w-100">
     <mat-label>{{ dropdownLabel }}</mat-label>
 
-    <mat-select [formControl]="selectedItems" multiple>
+    <mat-select [formControl]="selectedItems" multiple style="background-color: var(--white);">
         <!-- Select All with dummy value -->
-        <mat-option (click)="toggleSelectAll()" [value]="'__select_all__'" [disabled]="itemList.length === 0"
-            style="background-color: var(--white);">
-            {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
-        </mat-option>
+        <div style="background-color: var(--white); padding-left: 1rem;">
+            <button (click)="toggleSelectAll()" [value]="'__select_all__'" [disabled]="itemList.length === 0"
+                class="btn btn-primary mb-2">
+                {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
+            </button>
+        </div>
 
         <mat-divider></mat-divider>
 
