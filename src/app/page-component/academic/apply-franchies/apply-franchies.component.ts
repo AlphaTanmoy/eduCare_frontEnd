@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { Gender } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -26,11 +27,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
 
-  dropdownOption = [
-    { id: 1, text: 'Male' },
-    { id: 2, text: 'Female' },
-    { id: 3, text: 'Other' }
-  ]
+  dropdownOption = Gender;
   dropdownPlaceholder: string = "Search/Select Gender";
   dropdownpLabel: string = "Gender selection";
 

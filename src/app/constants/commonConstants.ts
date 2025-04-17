@@ -51,5 +51,11 @@ export enum ServerStatusType {
     HIGH_LOAD = 'High Load',
 }
 
+export const Gender = [
+    { id: 1, text: 'Male' },
+    { id: 2, text: 'Female' },
+    { id: 3, text: 'Other' },
+]
+
 
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
