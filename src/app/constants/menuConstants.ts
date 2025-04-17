@@ -249,6 +249,11 @@ export const MenuItems: any[] = [
       },
       {
         id: 94,
+        name: 'Add/Edit Course',
+        route: '/admin-panel/add-edit-course',
+      },
+      {
+        id: 95,
         name: 'Data Backup',
         route: '/admin-panel/data-backup',
       },

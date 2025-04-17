@@ -38,6 +38,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
+import { AddEditCourseComponent } from './page-component/admin-panel/add-edit-course/add-edit-course.component';
 
 
 export const routes: Routes = [
@@ -73,6 +74,7 @@ export const routes: Routes = [
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/add-edit-course', component: AddEditCourseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-franchise', component: FranchiseRegistrationComponent },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
