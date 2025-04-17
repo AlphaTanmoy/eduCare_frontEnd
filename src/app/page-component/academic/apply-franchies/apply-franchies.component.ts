@@ -26,7 +26,11 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
 
-  dropdownOption: string[] = ['Male', 'Female', 'Other'];
+  dropdownOption = [
+    { id: 1, text: 'Male' },
+    { id: 2, text: 'Female' },
+    { id: 3, text: 'Other' }
+  ]
   dropdownPlaceholder: string = "Search/Select Gender";
   dropdownpLabel: string = "Gender selection";
 

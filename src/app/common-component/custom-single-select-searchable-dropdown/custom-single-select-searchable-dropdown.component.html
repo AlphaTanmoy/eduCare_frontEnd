@@ -1,12 +1,14 @@
-<form style="background-color: white; width: 100%;">
-  <mat-form-field style="background-color: white; width: 100%;">
-    <input type="text" placeholder={{ariaPlaceholder}} aria-label="Number" matInput [formControl]="myControl"
-      [matAutocomplete]="auto" style="background-color: white; width: 100%;">
+<form style="background-color: var(--white); width: 100%;">
+  <mat-form-field style="background-color: var(--white); width: 100%;">
+    <input type="text" [placeholder]="ariaPlaceholder" [attr.aria-label]="ariaLabel" matInput [formControl]="myControl"
+      [matAutocomplete]="auto" [value]="myControl.value?.text || ''"
+      style="background-color: var(--white); width: 100%;">
 
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-      @for (option of filteredOptions | async; track option) {
-      <mat-option [value]="option" style="background-color: white; width: 100%;">{{option}}</mat-option>
-      }
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+        style="background-color: var(--white);">
+        {{ option.text }}
+      </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </form>
