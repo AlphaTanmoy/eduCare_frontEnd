@@ -109,9 +109,20 @@
                             </div>
                         </div>
 
-                        <app-custom-multi-select-dropdown [dropdownLabel]="'Select Courses'"
-                            [dropdownList]="AvilableCourses" (selectedItemsChanged)="handleSelectedCourses($event)">
-                        </app-custom-multi-select-dropdown>
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <app-custom-multi-select-dropdown [dropdownLabel]="'Select Category'"
+                                    [dropdownList]="AvilableCourses"
+                                    (selectedItemsChanged)="handleSelectedCourses($event)">
+                                </app-custom-multi-select-dropdown>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-custom-multi-select-dropdown [dropdownLabel]="'Center Type'"
+                                    [dropdownList]="AvilableCourses"
+                                    (selectedItemsChanged)="handleSelectedCourses($event)">
+                                </app-custom-multi-select-dropdown>
+                            </div>
+                        </div>
 
                         <hr>
 
