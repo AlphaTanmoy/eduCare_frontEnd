@@ -51,6 +51,16 @@ export enum ServerStatusType {
     HIGH_LOAD = 'High Load',
 }
 
+export class Dropdown {
+    id: string | undefined;
+    text: string | undefined;
+
+    constructor(id: string | undefined, text: string | undefined) {
+        this.id = id;
+        this.text = text;
+    }
+}
+
 export const Gender = [
     { id: 1, text: 'Male' },
     { id: 2, text: 'Female' },

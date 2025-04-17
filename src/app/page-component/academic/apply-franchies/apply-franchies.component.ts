@@ -14,6 +14,7 @@ import { IndexedDbService } from '../../../service/indexed-db/indexed-db.service
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Dropdown } from '../../../constants/commonConstants';
 import { CustomMultiSelectDropdownComponent } from '../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
@@ -55,14 +56,18 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   isLinear = false;
 
   CenterAddressStatus: boolean = false;
-  AvilableCourses: any[] = [];
+  AvilableCourses: Dropdown[] = [];
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
+
     this.commonService.getAllAvailableCourses().subscribe({
       next: async (response) => {
-        this.AvilableCourses = response.data;
+        response.data.forEach((element: any) => {
+          this.AvilableCourses.push(new Dropdown(element.course_code, element.course_name));
+        });
+
         this.hideMatProgressBar();
       },
       error: (err) => {
@@ -99,7 +104,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     console.log('Checkbox is checked:', this.CenterAddressStatus);
   }
 
-  handleSelectedCourses(selectedItems: string[]) {
+  handleSelectedCourses(selectedItems: Dropdown[]) {
     console.log('Selected items:', selectedItems);
   }
 

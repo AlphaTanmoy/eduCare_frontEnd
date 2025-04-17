@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { Dropdown } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-custom-multi-select-dropdown',
@@ -14,12 +15,41 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 
 export class CustomMultiSelectDropdownComponent {
-  selectedItems = new FormControl<string[]>([]);
-  itemList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  selectedItems = new FormControl<Dropdown[]>([]);
+  itemList: Dropdown[] = [];
   readonly SELECT_ALL_VALUE = '__select_all__';
 
-  @Input() dropdownLabel: string = "";
-  @Output() selectedItemsChanged = new EventEmitter<string[]>();
+  @Input() dropdownLabel: string | undefined = "Select";
+  // @Input() dropdownList: Dropdown[] = [];
+  @Output() selectedItemsChanged = new EventEmitter<Dropdown[]>();
+
+  @Input()
+  set dropdownList(value: Dropdown[]) {
+    this.itemList = value;
+    if (value?.length) {
+      this.itemList = value;
+      console.log('dropdownList updated via setter:', value);
+    }
+  }
+  get dropdownList(): Dropdown[] {
+    return this.itemList;
+  }
+
+  // ngOnInit(): void {
+  //   console.log("this.dropdownList", this.dropdownList)
+  //   // Optional: fallback or default list
+  //   if (this.dropdownList?.length) {
+  //     this.itemList = this.dropdownList;
+  //   }
+  // }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log("this.dropdownList1", this.dropdownList)
+  //   if (changes['dropdownList'] && this.dropdownList?.length) {
+  //     this.itemList = this.dropdownList;
+  //     console.log("this.dropdownList2", this.dropdownList)
+  //   }
+  // }
 
   constructor() {
     this.selectedItems.valueChanges.subscribe((value: any) => {
