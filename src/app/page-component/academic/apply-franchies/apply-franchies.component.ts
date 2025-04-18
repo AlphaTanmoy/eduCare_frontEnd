@@ -236,7 +236,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       }
 
       // 2. Second API call (saveCenterDetails)
-      const center = await this.saveCenterDetails(center_head);
+      const center = await this.saveCenterDetails(center_head.data);
       if (!center) {
         throw new Error("Failed to save center details");
       }
@@ -275,7 +275,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   async saveCenterDetails(center_head: any): Promise<any> {
     const center_details = {
-      center_head_id: center_head.center_head_id,
+      center_head_id: center_head[0].center_head_id,
       center_name: this.center_name,
       center_contact_number: this.center_contact_number,
       center_email_id: this.center_email_id,
