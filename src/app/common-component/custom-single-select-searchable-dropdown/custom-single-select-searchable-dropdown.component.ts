@@ -61,6 +61,11 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
     return option && option.text ? option.text : '';
   }
 
+  onSelectionChange(event: any): void {
+    const selectedOption = event.option?.value;
+    this.optionSelected.emit(selectedOption);
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
