@@ -52,6 +52,7 @@ export enum ServerStatusType {
 }
 
 export class Dropdown {
+    value: any;
     id: string | undefined;
     text: string | undefined;
 

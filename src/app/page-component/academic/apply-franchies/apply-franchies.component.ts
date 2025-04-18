@@ -81,8 +81,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
             this.AvilableCenterTypes.push(new Dropdown(element.center_type_code, element.center_type_name));
           });
 
-          console.log("this.AvilableCenterTypes", this.AvilableCenterTypes);
-
           this.hideMatProgressBar();
         },
         error: (err) => {

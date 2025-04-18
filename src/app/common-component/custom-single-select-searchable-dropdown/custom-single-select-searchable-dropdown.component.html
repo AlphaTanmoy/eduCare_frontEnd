@@ -1,20 +1,15 @@
-<form style="background-color: var(--white); width: 100%; padding: 0 0;">
-  <mat-form-field style="background-color: var(--white); width: 100%; padding: 0 0;">
-    <input type="text" [placeholder]="ariaPlaceholder" [attr.aria-label]="ariaLabel" matInput [formControl]="myControl"
-      [matAutocomplete]="auto" [value]="myControl.value?.text || ''"
-      style="background-color: var(--white); width: 100%; padding: 0;">
-
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
-      <div class="autocomplete-scroll-container" style="height: auto; max-height: 200px; overflow-y: auto;">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" class="custom-option"
-          style="background-color: white;">
-          {{ option.text }}
-        </mat-option>
-      </div>
+<form class="example-form w-100" style="background-color: var(--white);">
+  <mat-form-field class=" w-100" style="background-color: var(--white);">
+    <mat-label>{{ariaLabel}}</mat-label>
+    <input matInput [formControl]="myControl" [matAutocomplete]="auto" [attr.aria-placeholder]="ariaPlaceholder"
+      [attr.aria-label]="ariaLabel" style="background-color: var(--white);" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      @for (option of filteredOptions | async; track option) {
+      <mat-option [value]="option" style="background-color: var(--white);">{{option.text}}</mat-option>
+      }
     </mat-autocomplete>
   </mat-form-field>
 </form>
-
 
 <!-- To call this component from another component
 =========================================================================

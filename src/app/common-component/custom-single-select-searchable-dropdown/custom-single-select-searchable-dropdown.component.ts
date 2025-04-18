@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { Dropdown } from '../../constants/commonConstants';
 
@@ -13,49 +14,57 @@ import { Dropdown } from '../../constants/commonConstants';
   selector: 'app-custom-single-select-searchable-dropdown',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatAutocompleteModule,
+    ReactiveFormsModule,
     AsyncPipe,
   ],
   templateUrl: './custom-single-select-searchable-dropdown.component.html',
-  styleUrl: './custom-single-select-searchable-dropdown.component.css',
+  styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
 })
-export class CustomSingleSelectSearchableDropdownComponent implements OnInit, OnDestroy {
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-  myControl = new FormControl<any | null>(null); // store full object
-
-  filteredOptions!: Observable<Dropdown[]>;
+export class CustomSingleSelectSearchableDropdownComponent
+  implements OnInit, OnDestroy {
+  private bootstrapElements!: {
+    css: HTMLLinkElement;
+    js: HTMLScriptElement;
+  };
 
   @Input() options: Dropdown[] = [];
-  @Input() ariaPlaceholder: any;
-  @Input() ariaLabel: any;
-  @Output() optionSelected = new EventEmitter<Dropdown>();
+  @Input() ariaPlaceholder: string = '';
+  @Input() ariaLabel: string = '';
+  @Output() optionSelected = new EventEmitter<Dropdown | null>();
+
+  myControl = new FormControl<Dropdown | null>(null);
+  filteredOptions: Observable<Dropdown[]> | undefined;
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value?.text || '')),
-      map(text => this._filter(text))
+      map(value => {
+        const inputValue = typeof value === 'string' ? value : (value?.text ?? '');
+        return this._filter(inputValue);
+      })
     );
   }
 
   private _filter(value: string): Dropdown[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter((option: Dropdown) => option?.text?.toLowerCase().includes(filterValue));
+    return this.options.filter(option =>
+      (option.text || '').toLowerCase().includes(filterValue)
+    );
   }
 
-  onOptionSelected(event: any) {
-    const selected: Dropdown = event.option.value;
-    this.optionSelected.emit(selected);
+  displayFn(option: Dropdown | null): string {
+    return option ? option.text || '' : '';
   }
 
-  displayFn(option: Dropdown): string {
-    return option && option.text ? option.text : '';
+  onOptionSelected(event: any): void {
+    const selected = event.option.value;
+    console.log(selected)
+    this.optionSelected.emit(selected); // Emits the full Dropdown object
   }
 
   ngOnDestroy(): void {
