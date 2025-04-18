@@ -117,8 +117,8 @@
                                 </app-custom-multi-select-dropdown>
                             </div>
                             <div class="col-12 col-md-6">
-                                <app-custom-single-select-searchable-dropdown *ngIf="AvilableCenterTypes.length > 0"
-                                    [options]="AvilableCenterTypes" [ariaPlaceholder]="'Search/Select Center Type'"
+                                <app-custom-single-select-searchable-dropdown [options]="AvilableCenterTypes"
+                                    [ariaPlaceholder]="'Search/Select Center Type'"
                                     [ariaLabel]="'Center Type selection'"
                                     (optionSelected)="handleCenterTypeSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
