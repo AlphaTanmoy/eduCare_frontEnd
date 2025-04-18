@@ -5,7 +5,7 @@
         <!-- Select All with dummy value -->
         <div style="background-color: var(--white); padding-left: 1rem;">
             <button (click)="toggleSelectAll()" [value]="'__select_all__'" [disabled]="itemList.length === 0"
-                class="btn btn-primary mb-2">
+                class="btn btn-primary mb-2 mt-2">
                 {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
             </button>
         </div>
@@ -13,7 +13,7 @@
         <mat-divider></mat-divider>
 
         <!-- Regular options -->
-        <mat-option *ngFor="let item of itemList" [value]="item" style="background-color: var(--white);">
+        <mat-option *ngFor="let item of itemList" [value]="item" style="background-color: var(--light);">
             {{ item.text }}
         </mat-option>
     </mat-select>

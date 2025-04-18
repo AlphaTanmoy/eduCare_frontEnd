@@ -5,7 +5,7 @@
       [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSelectionChange($event)">
       @for (option of filteredOptions | async; track option) {
-      <mat-option [value]="option" style="background-color: var(--white);">{{option.text}}</mat-option>
+      <mat-option [value]="option" style="background-color: var(--light);">{{option.text}}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>

@@ -1,3 +1,8 @@
-.mat-mdc-select-panel {
+.mat-mdc-select-panel,
+div.mat-mdc-select-panel {
     padding: 0 0;
+}
+
+::ng-deep .mat-mdc-select-panel {
+    padding: 0 0 !important;
 }
