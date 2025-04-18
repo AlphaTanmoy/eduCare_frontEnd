@@ -3,9 +3,9 @@
     <mat-label>{{ariaLabel}}</mat-label>
     <input type="text" placeholder={{ariaPlaceholder}} aria-label="Number" matInput [formControl]="myControl"
       [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       @for (option of filteredOptions | async; track option) {
-      <mat-option [value]="option" style="background-color: var(--white);">{{option}}</mat-option>
+      <mat-option [value]="option" style="background-color: var(--white);">{{option.text}}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>

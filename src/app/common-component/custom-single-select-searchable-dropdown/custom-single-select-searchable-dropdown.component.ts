@@ -33,24 +33,32 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   @Input() ariaLabel: string = '';
   @Output() optionSelected = new EventEmitter<Dropdown | null>();
 
-  // filteredOptions: Observable<Dropdown[]> | undefined;
-
   myControl = new FormControl('');
-  optionsList: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> | undefined;
+  optionsList: Dropdown[] = [];
+  filteredOptions: Observable<Dropdown[]> | undefined;
 
   ngOnInit() {
+    this.optionsList = this.options;
     this.bootstrapElements = loadBootstrap();
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
+      map(value => this._filter(value || ''))
     );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: string | Dropdown): Dropdown[] {
+    // Handle case where value might be the selected Dropdown object
+    const filterValue = typeof value === 'string' ? value.toLowerCase() :
+      typeof value === 'object' ? value.text?.toLowerCase() || '' : '';
 
-    return this.optionsList.filter(option => option.toLowerCase().includes(filterValue));
+    return this.optionsList.filter((option: Dropdown) =>
+      option.text?.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayFn(option: Dropdown): string {
+    return option && option.text ? option.text : '';
   }
 
   ngOnDestroy(): void {
