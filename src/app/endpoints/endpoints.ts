@@ -43,6 +43,7 @@ export const Endpoints = {
         get_all_center_types: "common/get_all_center_types",
     },
     franchise: {
-        add_center_head_details: "franchise/add_center_head_details"
+        add_center_head_details: "franchise/add_center_head_details",
+        add_center_details: "franchise/add_center_details",
     }
 }

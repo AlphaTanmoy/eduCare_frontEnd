@@ -150,8 +150,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   onCheckboxChange(event: Event): void {
     this.CenterAddressStatus = (event.target as HTMLInputElement).checked;
 
-    console.log("This.,center_head_state", this.center_head_state);
-
     if (this.CenterAddressStatus === true) {
       this.center_state = this.center_head_state;
       this.center_district = this.center_head_district;
@@ -227,8 +225,19 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   }
 
-  submit() {
+  async submit() {
     this.activeMatProgressBar();
+
+    const center_head = await this.saveCenterHeadDetails();
+    const center = await this.saveCenterDetails(null);
+
+    console.log("center_head", center_head)
+    console.log("center", center)
+
+    this.hideMatProgressBar();
+  }
+
+  async saveCenterHeadDetails() {
     const center_head_details = {
       center_head_name: this.center_head_name,
       center_head_gender: this.center_head_gender,
@@ -244,15 +253,44 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
     this.franchiseService.AddCenterHead(center_head_details).subscribe({
       next: async (response) => {
-        console.log(response)
-
-        this.hideMatProgressBar();
+        return response.center_head_id;
       },
       error: (err) => {
         this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        this.hideMatProgressBar();
+        return null;
       }
     });
+
+    return null;
+  }
+
+  async saveCenterDetails(center_head: any) {
+    const center_details = {
+      center_head_id: center_head.center_head_id,
+      center_name: this.center_name,
+      center_contact_number: this.center_contact_number,
+      center_email_id: this.center_email_id,
+      center_category: this.center_category,
+      center_type: this.center_type,
+      center_state: this.center_state,
+      center_district: this.center_district,
+      center_post_office: this.center_post_office,
+      center_police_station: this.center_police_station,
+      center_village_city: this.center_village_city,
+      center_pin_code: this.center_pin_code
+    }
+
+    this.franchiseService.AddCenter(center_details).subscribe({
+      next: async (response) => {
+        return response.center_head_id;
+      },
+      error: (err) => {
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        return null;
+      }
+    });
+
+    return null;
   }
 
   activeMatProgressBar() {
