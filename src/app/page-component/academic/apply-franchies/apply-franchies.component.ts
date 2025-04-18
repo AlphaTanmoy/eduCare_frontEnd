@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Dropdown } from '../../../constants/commonConstants';
 import { CustomMultiSelectDropdownComponent } from '../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
+import { FranchiseService } from '../../../service/franchise/franchise.service';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -41,6 +42,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   constructor(
     private commonService: CommonService,
+    private franchiseService: FranchiseService,
     private cdr: ChangeDetectorRef,
     private indexedDbService: IndexedDbService
   ) { }
@@ -226,7 +228,31 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.activeMatProgressBar();
+    const center_head_details = {
+      center_head_name: this.center_head_name,
+      center_head_gender: this.center_head_gender,
+      center_head_contact_number: this.center_head_contact_number,
+      center_head_email_id: this.center_head_email_id,
+      center_head_state: this.center_head_state,
+      center_head_district: this.center_head_district,
+      center_head_post_office: this.center_head_post_office,
+      center_head_police_station: this.center_head_police_station,
+      center_head_village_city: this.center_head_village_city,
+      center_head_pin_code: this.center_head_pin_code
+    }
 
+    this.franchiseService.AddCenterHead(center_head_details).subscribe({
+      next: async (response) => {
+        console.log(response)
+
+        this.hideMatProgressBar();
+      },
+      error: (err) => {
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.hideMatProgressBar();
+      }
+    });
   }
 
   activeMatProgressBar() {
