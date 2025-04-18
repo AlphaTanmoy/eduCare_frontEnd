@@ -62,9 +62,9 @@ export class Dropdown {
 }
 
 export const Gender = [
-    { id: 1, text: 'Male' },
-    { id: 2, text: 'Female' },
-    { id: 3, text: 'Other' },
+    new Dropdown("1", 'Male'),
+    new Dropdown("2", 'Female'),
+    new Dropdown("3", 'Other'),
 ]
 
 

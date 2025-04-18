@@ -7,6 +7,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
+import { Dropdown } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-custom-single-select-searchable-dropdown',
@@ -27,12 +28,12 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   myControl = new FormControl<any | null>(null); // store full object
 
-  filteredOptions!: Observable<{ id: number; text: string }[]>;
+  filteredOptions!: Observable<Dropdown[]>;
 
-  @Input() options: { id: number; text: string }[] = [];
+  @Input() options: Dropdown[] = [];
   @Input() ariaPlaceholder: any;
   @Input() ariaLabel: any;
-  @Output() optionSelected = new EventEmitter<{ id: number; text: string }>();
+  @Output() optionSelected = new EventEmitter<Dropdown>();
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -43,18 +44,18 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
     );
   }
 
-  private _filter(value: string): { id: number; text: string }[] {
+  private _filter(value: string): Dropdown[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.text.toLowerCase().includes(filterValue));
+    return this.options.filter((option: Dropdown) => option?.text?.toLowerCase().includes(filterValue));
   }
 
   onOptionSelected(event: any) {
-    const selected: { id: number; text: string } = event.option.value;
+    const selected: Dropdown = event.option.value;
     this.optionSelected.emit(selected);
   }
 
-  displayFn(option: { id: number; text: string } | null): string {
-    return option ? option.text : '';
+  displayFn(option: Dropdown): string {
+    return option && option.text ? option.text : '';
   }
 
   ngOnDestroy(): void {
