@@ -20,8 +20,7 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <!-- <label class="form-label mb-1">Gender <span class="text-danger">*</span></label> -->
-                                <app-custom-single-select-searchable-dropdown [options]="dropdownOption"
+                                <app-custom-single-select-searchable-dropdown [options]="genderDropdownOption"
                                     [ariaPlaceholder]="'Search/Select Gender'" [ariaLabel]="'Gender selection'"
                                     (optionSelected)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>

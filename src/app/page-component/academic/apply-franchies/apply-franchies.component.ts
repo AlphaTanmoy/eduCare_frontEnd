@@ -48,9 +48,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
 
-  dropdownOption = Gender;
-  dropdownPlaceholder: string = "Search/Select Gender";
-  dropdownpLabel: string = "Gender selection";
+  genderDropdownOption = Gender;
 
   selectedStepIndex: number = 0;
   isLinear = false;
