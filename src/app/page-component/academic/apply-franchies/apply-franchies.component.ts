@@ -57,6 +57,37 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   AvilableCourses: Dropdown[] = [];
   AvilableCenterTypes: Dropdown[] = [];
 
+  //#region Form Fields
+  form1_visible: boolean = true;
+  center_head_name: string = "";
+  center_head_gender: string = "";
+  center_head_contact_number: string = "";
+  center_head_email_id: string = "";
+  center_head_state: string = "";
+  center_head_district: string = "";
+  center_head_post_office: string = "";
+  center_head_police_station: string = "";
+  center_head_village_city: string = "";
+  center_head_pin_code: string = "";
+
+  form2_visible: boolean = true;
+  center_name: string = "";
+  center_contact_number: string = "";
+  center_email_id: string = "";
+  center_category: string[] = [];
+  center_type: string = "";
+  center_state: string = "";
+  center_district: string = "";
+  center_post_office: string = "";
+  center_police_station: string = "";
+  center_village_city: string = "";
+  center_pin_code: string = "";
+
+  center_head_photo: File | null = null;
+  center_head_signature: File | null = null;
+  supportable_document: File | null = null;
+  //#endregion 
+
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
@@ -111,20 +142,91 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   }
 
   handleGenderSelection(event: any): void {
-    console.log(event, " is selected");
+    this.center_head_gender = event.text;
   }
 
   onCheckboxChange(event: Event): void {
     this.CenterAddressStatus = (event.target as HTMLInputElement).checked;
-    console.log('Checkbox is checked:', this.CenterAddressStatus);
+
+    console.log("This.,center_head_state", this.center_head_state);
+
+    if (this.CenterAddressStatus === true) {
+      this.center_state = this.center_head_state;
+      this.center_district = this.center_head_district;
+      this.center_post_office = this.center_head_post_office;
+      this.center_police_station = this.center_head_police_station;
+      this.center_village_city = this.center_head_village_city;
+      this.center_pin_code = this.center_head_pin_code;
+    } else {
+      this.center_state = "";
+      this.center_district = "";
+      this.center_post_office = "";
+      this.center_police_station = "";
+      this.center_village_city = "";
+      this.center_pin_code = "";
+    }
   }
 
   handleSelectedCourses(selectedItems: Dropdown[]) {
-    console.log('Selected items:', selectedItems);
+    this.center_category = selectedItems.map((item: Dropdown) => item.text ?? "");
   }
 
-  handleCenterTypeSelection(event: any) {
-    console.log('Selected items:', event);
+  handleCenterTypeSelection(selectedItem: any) {
+    this.center_type = selectedItem.text ?? "";
+  }
+
+  reset_center_head_form() {
+    this.center_head_name = "";
+    this.center_head_gender = "";
+    this.center_head_contact_number = "";
+    this.center_head_email_id = "";
+    this.center_head_state = "";
+    this.center_head_district = "";
+    this.center_head_post_office = "";
+    this.center_head_police_station = "";
+    this.center_head_village_city = "";
+    this.center_head_pin_code = "";
+
+    this.form1_visible = false;
+    setTimeout(() => this.form1_visible = true);
+
+    if (this.CenterAddressStatus) {
+      this.center_state = "";
+      this.center_district = "";
+      this.center_post_office = "";
+      this.center_police_station = "";
+      this.center_village_city = "";
+      this.center_pin_code = "";
+
+      this.CenterAddressStatus = false;
+    }
+  }
+
+  reset_center_form() {
+    this.center_name = "";
+    this.center_contact_number = "";
+    this.center_email_id = "";
+    this.center_category = [];
+    this.center_type = "";
+    this.center_state = "";
+    this.center_district = "";
+    this.center_post_office = "";
+    this.center_police_station = "";
+    this.center_village_city = "";
+    this.center_pin_code = "";
+
+    this.CenterAddressStatus = false;
+
+    this.form2_visible = false;
+    setTimeout(() => this.form2_visible = true);
+  }
+
+  reset_document_form() {
+
+  }
+
+  submit() {
+
   }
 
   activeMatProgressBar() {

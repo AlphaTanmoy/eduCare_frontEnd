@@ -12,17 +12,19 @@
                             <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Center Head
                                 Details</span>
                         </ng-template>
+
                         <div class="row mb-2 d-flex justify-content-end mt-2">
                             <div class="col-12 col-md-6 mb-2" style="margin-top: -0.5rem;">
                                 <label class="form-label mb-1">Center Head Name <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Center Head Name">
+                                <input type="text" class="form-control" placeholder="Type Center Head Name"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_name">
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <app-custom-single-select-searchable-dropdown [options]="genderDropdownOption"
-                                    [ariaPlaceholder]="'Search/Select Gender'" [ariaLabel]="'Gender selection'"
-                                    (optionSelected)="handleGenderSelection($event)">
+                                <app-custom-single-select-searchable-dropdown *ngIf="form1_visible"
+                                    [options]="genderDropdownOption" [ariaPlaceholder]="'Search/Select Gender'"
+                                    [ariaLabel]="'Gender selection'" (optionSelected)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>
@@ -31,12 +33,14 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Center Head Contact Number <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Center Head Contact Number">
+                                <input type="number" class="form-control" placeholder="Type Center Head Contact Number"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_contact_number">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Center Head Email ID<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control mb-2" placeholder="Type Center Head Email ID">
+                                <input type="email" class="form-control mb-2" placeholder="Type Center Head Email ID"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_email_id">
                             </div>
                         </div>
 
@@ -45,42 +49,49 @@
                         <div class="row mb-2">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">State <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type State">
+                                <input type="text" class="form-control" placeholder="Type State"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_state">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">District <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type District">
+                                <input type="text" class="form-control" placeholder="Type District"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_district">
                             </div>
                         </div>
 
                         <div class="row mb-2 mt-3">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Post Office <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Post Office">
+                                <input type="text" class="form-control" placeholder="Type Post Office"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_post_office">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Police Station <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Police Station">
+                                <input type="text" class="form-control" placeholder="Type Police Station"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_police_station">
                             </div>
                         </div>
 
                         <div class="row mb-3 mt-3">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Village/City <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Village/City">
+                                <input type="text" class="form-control" placeholder="Type Village/City"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_village_city">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Pin Code <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Pin Code">
+                                <input type="number" class="form-control" placeholder="Type Pin Code"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_pin_code">
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="custom-button1">Reset</button>
+                            <button class="custom-button1" (click)="reset_center_head_form()">Reset</button>
                             <button matStepperNext class="custom-button1">Next</button>
                         </div>
                     </form>
                 </mat-step>
+
 
                 <!-- Step 2 -->
                 <mat-step [stepControl]="secondFormGroup">
@@ -92,7 +103,8 @@
                         <div class="row mb-2">
                             <div class="col-12 col-md-6 mb-2 w-100">
                                 <label class="form-label mb-1">Center Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Center Name">
+                                <input type="text" class="form-control" placeholder="Type Center Name"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_name">
                             </div>
                         </div>
 
@@ -100,24 +112,26 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Center Contact Number <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Center Contact Number">
+                                <input type="number" class="form-control" placeholder="Type Center Contact Number"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_contact_number">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Center Email ID<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control mb-2" placeholder="Type Center Email ID">
+                                <input type="email" class="form-control mb-2" placeholder="Type Center Email ID"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_email_id">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-12 col-md-6 mb-2">
-                                <app-custom-multi-select-dropdown [dropdownLabel]="'Select Center Category'"
-                                    [dropdownList]="AvilableCourses"
+                                <app-custom-multi-select-dropdown *ngIf="form2_visible"
+                                    [dropdownLabel]="'Select Center Category'" [dropdownList]="AvilableCourses"
                                     (selectedItemsChanged)="handleSelectedCourses($event)">
                                 </app-custom-multi-select-dropdown>
                             </div>
                             <div class="col-12 col-md-6">
-                                <app-custom-single-select-searchable-dropdown [options]="AvilableCenterTypes"
-                                    [ariaPlaceholder]="'Search/Select Center Type'"
+                                <app-custom-single-select-searchable-dropdown *ngIf="form2_visible"
+                                    [options]="AvilableCenterTypes" [ariaPlaceholder]="'Search/Select Center Type'"
                                     [ariaLabel]="'Center Type selection'"
                                     (optionSelected)="handleCenterTypeSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
@@ -129,44 +143,57 @@
                         <div class="form-check mb-2">
                             <label class="form-label mb-1">Check here if center address is same as center head
                                 address</label>
-                            <input class="form-check-input" type="checkbox" (change)="onCheckboxChange($event)">
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="CenterAddressStatus" (change)="onCheckboxChange($event)">
                         </div>
 
-                        <div *ngIf="!CenterAddressStatus" class="row mb-2">
+                        <div class="row mb-2">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">State <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type State">
+                                <input type="text" class="form-control" placeholder="Type State"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_state"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">District <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type District">
+                                <input type="text" class="form-control" placeholder="Type District"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_district"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                         </div>
 
-                        <div *ngIf="!CenterAddressStatus" class="row mb-2 mt-3">
+                        <div class="row mb-2 mt-3">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Post Office <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Post Office">
+                                <input type="text" class="form-control" placeholder="Type Post Office"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_post_office"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Police Station <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Police Station">
+                                <input type="text" class="form-control" placeholder="Type Police Station"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_police_station"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                         </div>
 
-                        <div *ngIf="!CenterAddressStatus" class="row mb-3 mt-3">
+                        <div class="row mb-3 mt-3">
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Village/City <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Village/City">
+                                <input type="text" class="form-control" placeholder="Type Village/City"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_village_city"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label mb-1">Pin Code <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Type Pin Code">
+                                <input type="number" class="form-control" placeholder="Type Pin Code"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_pin_code"
+                                    [disabled]="CenterAddressStatus">
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="custom-button1">Reset</button>
+                            <button class="custom-button1" (click)="reset_center_form()">Reset</button>
 
                             <div class="d-flex justify-content-around">
                                 <button class="custom-button1 stepper_button_of_middle" matStepperPrevious>Back</button>
@@ -206,8 +233,9 @@
                             <button class="custom-button1" matStepperPrevious>Back</button>
 
                             <div class="d-flex justify-content-around">
-                                <button class="custom-button1 stepper_button_of_middle">Reset</button>
-                                <button class="custom-button1" matStepperNext>Submit</button>
+                                <button class="custom-button1 stepper_button_of_middle"
+                                    (click)="reset_document_form()">Reset</button>
+                                <button class="custom-button1" matStepperNext (click)="submit()">Submit</button>
                             </div>
                         </div>
                     </form>
