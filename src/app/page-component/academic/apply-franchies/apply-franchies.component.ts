@@ -229,25 +229,27 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     try {
       this.activeMatProgressBar();
 
-      // 1. First API call (saveCenterHeadDetails)
       const center_head = await this.saveCenterHeadDetails();
       if (!center_head) {
-        throw new Error("Failed to save center head details");
+        this.hideMatProgressBar();
+        this.openDialog("Franchise", "Failed to save center head details", ResponseTypeColor.ERROR, false);
+        return;
       }
 
-      // 2. Second API call (saveCenterDetails)
+      console.log("center_head", center_head)
+
       const center = await this.saveCenterDetails(center_head.data);
       if (!center) {
-        throw new Error("Failed to save center details");
+        this.hideMatProgressBar();
+        this.openDialog("Franchise", "Failed to save center details", ResponseTypeColor.ERROR, false);
+        return;
       }
 
-      console.log("center_head", center_head);
-      console.log("center", center);
-
       this.hideMatProgressBar();
+      this.openDialog("Franchise", "Franchise creation is successful", ResponseTypeColor.SUCCESS, false);
     } catch (error) {
       this.hideMatProgressBar();
-      //this.openDialog("Franchise", error.message, ResponseTypeColor.ERROR, false);
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
 
@@ -267,8 +269,15 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenterHead(center_head_details).subscribe({
-        next: (response) => resolve(response),
-        error: (err) => reject(err)
+        next: (response) => {
+          resolve(response);
+          if (response.status !== 200) {
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          }
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
       });
     });
   }
@@ -289,10 +298,19 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_pin_code: this.center_pin_code
     };
 
+    console.log("center_details", center_details)
+
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
-        next: (response) => resolve(response),
-        error: (err) => reject(err)
+        next: (response) => {
+          resolve(response);
+          if (response.status !== 200) {
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          }
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
       });
     });
   }
