@@ -12,7 +12,6 @@ import { Dropdown } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-custom-single-select-searchable-dropdown',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -25,22 +24,28 @@ import { Dropdown } from '../../constants/commonConstants';
   templateUrl: './custom-single-select-searchable-dropdown.component.html',
   styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
 })
-export class CustomSingleSelectSearchableDropdownComponent implements OnInit, OnDestroy {
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-
-  @Input() options: Dropdown[] = [];
-  @Input() ariaPlaceholder: string = '';
-  @Input() ariaLabel: string = '';
-  @Output() optionSelected = new EventEmitter<Dropdown | null>();
-
+export class CustomSingleSelectSearchableDropdownComponent {
   myControl = new FormControl('');
   optionsList: Dropdown[] = [];
   filteredOptions: Observable<Dropdown[]> | undefined;
 
-  ngOnInit() {
-    this.optionsList = this.options;
-    this.bootstrapElements = loadBootstrap();
+  @Input() ariaPlaceholder: string = '';
+  @Input() ariaLabel: string = '';
+  @Output() optionSelected = new EventEmitter<Dropdown | null>();
 
+  @Input()
+  set options(value: Dropdown[]) {
+    if (value?.length) {
+      this.optionsList = value;
+      // Re-initialize the filtered options when new data arrives
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(this.myControl.value),
+        map(inputValue => this._filter(inputValue || ''))
+      );
+    }
+  }
+
+  constructor() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || ''))
@@ -48,7 +53,6 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   }
 
   private _filter(value: string | Dropdown): Dropdown[] {
-    // Handle case where value might be the selected Dropdown object
     const filterValue = typeof value === 'string' ? value.toLowerCase() :
       typeof value === 'object' ? value.text?.toLowerCase() || '' : '';
 
@@ -64,9 +68,5 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   onSelectionChange(event: any): void {
     const selectedOption = event.option?.value;
     this.optionSelected.emit(selectedOption);
-  }
-
-  ngOnDestroy(): void {
-    removeBootstrap(this.bootstrapElements);
   }
 }

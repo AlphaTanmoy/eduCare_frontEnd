@@ -22,7 +22,7 @@
                             <div class="col-12 col-md-6">
                                 <!-- <label class="form-label mb-1">Gender <span class="text-danger">*</span></label> -->
                                 <app-custom-single-select-searchable-dropdown [options]="dropdownOption"
-                                    [ariaPlaceholder]="dropdownPlaceholder" [ariaLabel]="dropdownpLabel"
+                                    [ariaPlaceholder]="'Search/Select Gender'" [ariaLabel]="'Gender selection'"
                                     (optionSelected)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
@@ -117,10 +117,11 @@
                                 </app-custom-multi-select-dropdown>
                             </div>
                             <div class="col-12 col-md-6">
-                                <app-custom-multi-select-dropdown [dropdownLabel]="'Center Type'"
-                                    [dropdownList]="AvilableCourses"
-                                    (selectedItemsChanged)="handleSelectedCourses($event)">
-                                </app-custom-multi-select-dropdown>
+                                <app-custom-single-select-searchable-dropdown *ngIf="AvilableCenterTypes.length > 0"
+                                    [options]="AvilableCenterTypes" [ariaPlaceholder]="'Search/Select Center Type'"
+                                    [ariaLabel]="'Center Type selection'"
+                                    (optionSelected)="handleCenterTypeSelection($event)">
+                                </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>
 

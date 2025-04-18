@@ -125,6 +125,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     console.log('Selected items:', selectedItems);
   }
 
+  handleCenterTypeSelection(event: any) {
+    console.log('Selected items:', event);
+  }
+
   activeMatProgressBar() {
     this.matProgressBarVisible = true;
     this.cdr.detectChanges();

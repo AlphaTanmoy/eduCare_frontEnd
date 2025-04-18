@@ -20,7 +20,6 @@ export class CustomMultiSelectDropdownComponent {
   readonly SELECT_ALL_VALUE = '__select_all__';
 
   @Input() dropdownLabel: string | undefined = "Select";
-  // @Input() dropdownList: Dropdown[] = [];
   @Output() selectedItemsChanged = new EventEmitter<Dropdown[]>();
 
   @Input()
@@ -28,28 +27,11 @@ export class CustomMultiSelectDropdownComponent {
     this.itemList = value;
     if (value?.length) {
       this.itemList = value;
-      console.log('dropdownList updated via setter:', value);
     }
   }
   get dropdownList(): Dropdown[] {
     return this.itemList;
   }
-
-  // ngOnInit(): void {
-  //   console.log("this.dropdownList", this.dropdownList)
-  //   // Optional: fallback or default list
-  //   if (this.dropdownList?.length) {
-  //     this.itemList = this.dropdownList;
-  //   }
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log("this.dropdownList1", this.dropdownList)
-  //   if (changes['dropdownList'] && this.dropdownList?.length) {
-  //     this.itemList = this.dropdownList;
-  //     console.log("this.dropdownList2", this.dropdownList)
-  //   }
-  // }
 
   constructor() {
     this.selectedItems.valueChanges.subscribe((value: any) => {
