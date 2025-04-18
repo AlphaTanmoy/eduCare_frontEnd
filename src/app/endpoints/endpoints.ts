@@ -40,5 +40,6 @@ export const Endpoints = {
     },
     common: {
         get_all_courses: "common/get_all_courses",
+        get_all_center_types: "common/get_all_center_types",
     }
 }

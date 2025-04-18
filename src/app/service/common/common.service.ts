@@ -12,4 +12,8 @@ export class CommonService {
   getAllAvailableCourses(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_courses);
   }
+
+  getAllAvailableCenterTypes(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_center_types);
+  }
 }

@@ -57,6 +57,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   CenterAddressStatus: boolean = false;
   AvilableCourses: Dropdown[] = [];
+  AvilableCenterTypes: Dropdown[] = [];
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -68,6 +69,19 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
           response.data.forEach((element: any) => {
             this.AvilableCourses.push(new Dropdown(element.course_code, element.course_name));
           });
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      });
+
+      this.commonService.getAllAvailableCenterTypes().subscribe({
+        next: async (response) => {
+          response.data.forEach((element: any) => {
+            this.AvilableCenterTypes.push(new Dropdown(element.center_type_code, element.center_type_name));
+          });
+
+          console.log("this.AvilableCenterTypes", this.AvilableCenterTypes);
 
           this.hideMatProgressBar();
         },
