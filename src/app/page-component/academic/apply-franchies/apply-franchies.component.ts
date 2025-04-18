@@ -226,18 +226,32 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   }
 
   async submit() {
-    this.activeMatProgressBar();
+    try {
+      this.activeMatProgressBar();
 
-    const center_head = await this.saveCenterHeadDetails();
-    const center = await this.saveCenterDetails(null);
+      // 1. First API call (saveCenterHeadDetails)
+      const center_head = await this.saveCenterHeadDetails();
+      if (!center_head) {
+        throw new Error("Failed to save center head details");
+      }
 
-    console.log("center_head", center_head)
-    console.log("center", center)
+      // 2. Second API call (saveCenterDetails)
+      const center = await this.saveCenterDetails(center_head);
+      if (!center) {
+        throw new Error("Failed to save center details");
+      }
 
-    this.hideMatProgressBar();
+      console.log("center_head", center_head);
+      console.log("center", center);
+
+      this.hideMatProgressBar();
+    } catch (error) {
+      this.hideMatProgressBar();
+      //this.openDialog("Franchise", error.message, ResponseTypeColor.ERROR, false);
+    }
   }
 
-  async saveCenterHeadDetails() {
+  async saveCenterHeadDetails(): Promise<any> {
     const center_head_details = {
       center_head_name: this.center_head_name,
       center_head_gender: this.center_head_gender,
@@ -249,22 +263,17 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_head_police_station: this.center_head_police_station,
       center_head_village_city: this.center_head_village_city,
       center_head_pin_code: this.center_head_pin_code
-    }
+    };
 
-    this.franchiseService.AddCenterHead(center_head_details).subscribe({
-      next: async (response) => {
-        return response.center_head_id;
-      },
-      error: (err) => {
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        return null;
-      }
+    return new Promise((resolve, reject) => {
+      this.franchiseService.AddCenterHead(center_head_details).subscribe({
+        next: (response) => resolve(response),
+        error: (err) => reject(err)
+      });
     });
-
-    return null;
   }
 
-  async saveCenterDetails(center_head: any) {
+  async saveCenterDetails(center_head: any): Promise<any> {
     const center_details = {
       center_head_id: center_head.center_head_id,
       center_name: this.center_name,
@@ -278,19 +287,14 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_police_station: this.center_police_station,
       center_village_city: this.center_village_city,
       center_pin_code: this.center_pin_code
-    }
+    };
 
-    this.franchiseService.AddCenter(center_details).subscribe({
-      next: async (response) => {
-        return response.center_head_id;
-      },
-      error: (err) => {
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        return null;
-      }
+    return new Promise((resolve, reject) => {
+      this.franchiseService.AddCenter(center_details).subscribe({
+        next: (response) => resolve(response),
+        error: (err) => reject(err)
+      });
     });
-
-    return null;
   }
 
   activeMatProgressBar() {
