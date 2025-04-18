@@ -1,16 +1,15 @@
-<form class="example-form w-100" style="background-color: var(--white);">
-  <mat-form-field class=" w-100" style="background-color: var(--white);">
+<form class="example-form w-100">
+  <mat-form-field class="example-full-width w-100">
     <mat-label>{{ariaLabel}}</mat-label>
-    <input matInput [formControl]="myControl" [matAutocomplete]="auto" [attr.aria-placeholder]="ariaPlaceholder"
-      [attr.aria-label]="ariaLabel" style="background-color: var(--white);" />
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <input type="text" placeholder={{ariaPlaceholder}} aria-label="Number" matInput [formControl]="myControl"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
       @for (option of filteredOptions | async; track option) {
-      <mat-option [value]="option" style="background-color: var(--white);">{{option.text}}</mat-option>
+      <mat-option [value]="option" style="background-color: var(--white);">{{option}}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>
 </form>
-
 <!-- To call this component from another component
 =========================================================================
 

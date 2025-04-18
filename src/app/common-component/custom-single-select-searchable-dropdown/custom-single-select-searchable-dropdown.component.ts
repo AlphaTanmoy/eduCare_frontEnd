@@ -14,57 +14,43 @@ import { Dropdown } from '../../constants/commonConstants';
   selector: 'app-custom-single-select-searchable-dropdown',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,
     AsyncPipe,
   ],
   templateUrl: './custom-single-select-searchable-dropdown.component.html',
   styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
 })
-export class CustomSingleSelectSearchableDropdownComponent
-  implements OnInit, OnDestroy {
-  private bootstrapElements!: {
-    css: HTMLLinkElement;
-    js: HTMLScriptElement;
-  };
+export class CustomSingleSelectSearchableDropdownComponent implements OnInit, OnDestroy {
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   @Input() options: Dropdown[] = [];
   @Input() ariaPlaceholder: string = '';
   @Input() ariaLabel: string = '';
   @Output() optionSelected = new EventEmitter<Dropdown | null>();
 
-  myControl = new FormControl<Dropdown | null>(null);
-  filteredOptions: Observable<Dropdown[]> | undefined;
+  // filteredOptions: Observable<Dropdown[]> | undefined;
+
+  myControl = new FormControl('');
+  optionsList: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]> | undefined;
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => {
-        const inputValue = typeof value === 'string' ? value : (value?.text ?? '');
-        return this._filter(inputValue);
-      })
+      map(value => this._filter(value || '')),
     );
   }
 
-  private _filter(value: string): Dropdown[] {
+  private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter(option =>
-      (option.text || '').toLowerCase().includes(filterValue)
-    );
-  }
 
-  displayFn(option: Dropdown | null): string {
-    return option ? option.text || '' : '';
-  }
-
-  onOptionSelected(event: any): void {
-    const selected = event.option.value;
-    console.log(selected)
-    this.optionSelected.emit(selected); // Emits the full Dropdown object
+    return this.optionsList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {
