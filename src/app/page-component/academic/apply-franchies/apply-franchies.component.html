@@ -23,8 +23,8 @@
 
                             <div class="col-12 col-md-6">
                                 <app-custom-single-select-searchable-dropdown *ngIf="form1_visible"
-                                    [options]="genderDropdownOption" [ariaPlaceholder]="'Search/Select Gender'"
-                                    [ariaLabel]="'Gender selection'" (optionSelected)="handleGenderSelection($event)">
+                                    [options]="genderDropdownOption" [ariaLabel]="'Gender selection'"
+                                    (selectionChange)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>
@@ -131,9 +131,8 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <app-custom-single-select-searchable-dropdown *ngIf="form2_visible"
-                                    [options]="AvilableCenterTypes" [ariaPlaceholder]="'Search/Select Center Type'"
-                                    [ariaLabel]="'Center Type selection'"
-                                    (optionSelected)="handleCenterTypeSelection($event)">
+                                    [options]="AvilableCenterTypes" [ariaLabel]="'Center Type selection'"
+                                    (selectionChange)="handleCenterTypeSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>

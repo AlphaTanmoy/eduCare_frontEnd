@@ -1,5 +1,5 @@
 <form class="example-form w-100">
-  <mat-form-field class="example-full-width w-100">
+  <!-- <mat-form-field class="example-full-width w-100">
     <mat-label>{{ariaLabel}}</mat-label>
     <input type="text" placeholder={{ariaPlaceholder}} aria-label="Number" matInput [formControl]="myControl"
       [matAutocomplete]="auto">
@@ -8,6 +8,15 @@
       <mat-option [value]="option" style="background-color: var(--light);">{{option.text}}</mat-option>
       }
     </mat-autocomplete>
+  </mat-form-field> -->
+
+  <mat-form-field class="example-full-width w-100">
+    <mat-label>{{ariaLabel}}</mat-label>
+    <mat-select (selectionChange)="onSelectionChange($event)">
+      @for (option of options; track option) {
+      <mat-option [value]="option" style="background-color: var(--light);">{{option.text}}</mat-option>
+      }
+    </mat-select>
   </mat-form-field>
 </form>
 <!-- To call this component from another component
@@ -15,30 +24,33 @@
 
 another.component.html
 --------------------------------------------------
-<app-custom-single-select-searchable-dropdown 
-    [options]=" dropdownOption" [ariaPlaceholder]="dropdownPlaceholder" [ariaLabel]="dropdownpLabel"
-        (optionSelected)="handleOptionSelection($event)"></app-custom-single-select-searchable-dropdown>
+
+<app-custom-single-select-searchable-dropdown *ngIf="form2_visible"
+  [options]="AvilableCenterTypes"
+  [ariaLabel]="'Center Type selection'"
+  (selectionChange)="handleOptionSelection($event)">
+</app-custom-single-select-searchable-dropdown>
 
 
-        another.component.ts
-        --------------------------------------------------
-        import { CustomSingleSelectSearchableDropdownComponent } from
-        '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+another.component.ts
+--------------------------------------------------
+import { CustomSingleSelectSearchableDropdownComponent } from
+''../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 
-        @Component({
-        selector: 'app-another',
-        imports: [CustomSingleSelectSearchableDropdownComponent],
-        templateUrl: './another.component.html',
-        styleUrl: './another.component.css'
-        })
+@Component({
+  selector: 'app-another',
+  imports: [CustomSingleSelectSearchableDropdownComponent],
+  templateUrl: './another.component.html',
+  styleUrl: './another.component.css'
+})
 
-        dropdownOption: string[] = ['One', 'Two', 'Three', 'Four'];
-        dropdownPlaceholder: string = "Search/Select an item";
-        dropdownpLabel: string = "Number selection";
+dropdownOption: string[] = ['One', 'Two', 'Three', 'Four'];
+dropdownPlaceholder: string = "Search/Select an item";
+dropdownpLabel: string = "Number selection";
 
-        handleOptionSelection(event: any): void {
-        console.log(event, " is selected");
-        }
+handleOptionSelection(event: any): void {
+  console.log(event, " is selected");
+}
 
-        =========================================================================
-        -->
+=========================================================================
+-->

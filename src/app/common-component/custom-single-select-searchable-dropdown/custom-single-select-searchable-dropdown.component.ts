@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Dropdown } from '../../constants/commonConstants';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-custom-single-select-searchable-dropdown',
@@ -20,6 +21,7 @@ import { Dropdown } from '../../constants/commonConstants';
     MatInputModule,
     MatAutocompleteModule,
     AsyncPipe,
+    MatSelectModule
   ],
   templateUrl: './custom-single-select-searchable-dropdown.component.html',
   styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
@@ -29,10 +31,9 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   filteredOptions: Observable<Dropdown[]> = new Observable<Dropdown[]>();
   private _options: Dropdown[] = [];
 
-  @Input() ariaPlaceholder: string = '';
   @Input() ariaLabel: string = '';
   @Input() initialValue: Dropdown | null = null;
-  @Output() optionSelected = new EventEmitter<Dropdown | null>();
+  @Output() selectionChange = new EventEmitter<Dropdown | null>();
 
   @Input()
   set options(value: Dropdown[]) {
@@ -87,7 +88,7 @@ export class CustomSingleSelectSearchableDropdownComponent implements OnInit, On
   }
 
   onSelectionChange(event: any): void {
-    const selectedOption = event.option?.value;
-    this.optionSelected.emit(selectedOption);
+    const selectedOption = event.value;
+    this.selectionChange.emit(selectedOption);
   }
 }
