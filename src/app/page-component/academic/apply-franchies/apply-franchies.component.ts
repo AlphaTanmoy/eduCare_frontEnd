@@ -227,6 +227,11 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   async submit() {
     try {
+      const isValid = await this.validateForm();
+      if (!isValid) {
+        return;
+      }
+
       this.activeMatProgressBar();
 
       const center_head = await this.saveCenterHeadDetails();
@@ -235,8 +240,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
         this.openDialog("Franchise", "Failed to save center head details", ResponseTypeColor.ERROR, false);
         return;
       }
-
-      console.log("center_head", center_head)
 
       const center = await this.saveCenterDetails(center_head.data);
       if (!center) {
@@ -251,6 +254,134 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       this.hideMatProgressBar();
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
+  }
+
+  async validateForm() {
+    // Center Head Validation
+    this.center_head_name = this.center_head_name.trim();
+    if (this.center_head_name === "") {
+      this.openDialog("Franchise", "Center Head Name is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (this.center_head_gender === "") {
+      this.openDialog("Franchise", "Center Head Gender is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_contact_number = this.center_head_contact_number.trim();
+    if (this.center_head_contact_number === "") {
+      this.openDialog("Franchise", "Center Head Contact Number is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_email_id = this.center_head_email_id.trim();
+    if (this.center_head_email_id === "") {
+      this.openDialog("Franchise", "Center Head Email ID is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_state = this.center_head_state.trim();
+    if (this.center_head_state === "") {
+      this.openDialog("Franchise", "Center Head State is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_district = this.center_head_district.trim();
+    if (this.center_head_district === "") {
+      this.openDialog("Franchise", "Center Head District is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_post_office = this.center_head_post_office.trim();
+    if (this.center_head_post_office === "") {
+      this.openDialog("Franchise", "Center Head Post Office is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_police_station = this.center_head_police_station.trim();
+    if (this.center_head_police_station === "") {
+      this.openDialog("Franchise", "Center Head Police Station is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_village_city = this.center_head_village_city.trim();
+    if (this.center_head_village_city === "") {
+      this.openDialog("Franchise", "Center Head Village/City is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_head_pin_code = this.center_head_pin_code.trim();
+    if (this.center_head_pin_code === "") {
+      this.openDialog("Franchise", "Center Head Pin Code is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    // Center Validation
+    this.center_name = this.center_name.trim();
+    if (this.center_name === "") {
+      this.openDialog("Franchise", "Center Name is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_contact_number = this.center_contact_number.trim();
+    if (this.center_contact_number === "") {
+      this.openDialog("Franchise", "Center Contact Number is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_email_id = this.center_email_id.trim();
+    if (this.center_email_id === "") {
+      this.openDialog("Franchise", "Center Email ID is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (this.center_category.length === 0) {
+      this.openDialog("Franchise", "Center Category is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (this.center_type === "") {
+      this.openDialog("Franchise", "Center Type is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (this.center_state === "") {
+      this.openDialog("Franchise", "Center State is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_district = this.center_district.trim();
+    if (this.center_district === "") {
+      this.openDialog("Franchise", "Center District is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_post_office = this.center_post_office.trim();
+    if (this.center_post_office === "") {
+      this.openDialog("Franchise", "Center Post Office is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_police_station = this.center_police_station.trim();
+    if (this.center_police_station === "") {
+      this.openDialog("Franchise", "Center Police Station is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_village_city = this.center_village_city.trim();
+    if (this.center_village_city === "") {
+      this.openDialog("Franchise", "Center Village/City is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    this.center_pin_code = this.center_pin_code.trim();
+    if (this.center_pin_code === "") {
+      this.openDialog("Franchise", "Center Pin Code is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    return true;
   }
 
   async saveCenterHeadDetails(): Promise<any> {
@@ -297,8 +428,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_village_city: this.center_village_city,
       center_pin_code: this.center_pin_code
     };
-
-    console.log("center_details", center_details)
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
