@@ -56,7 +56,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   isLinear = false;
 
   CenterAddressStatus: boolean = false;
-  AvilableCourses: Dropdown[] = [];
+  AvilableCourseCategories: Dropdown[] = [];
   AvilableCenterTypes: Dropdown[] = [];
 
   //#region Form Fields
@@ -95,10 +95,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     this.activeMatProgressBar();
 
     try {
-      this.commonService.getAllAvailableCourses().subscribe({
+      this.commonService.getAllAvailableCourseCategories().subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
-            this.AvilableCourses.push(new Dropdown(element.course_code, element.course_name));
+            this.AvilableCourseCategories.push(new Dropdown(element.course_code, element.course_name));
           });
         },
         error: (err) => {

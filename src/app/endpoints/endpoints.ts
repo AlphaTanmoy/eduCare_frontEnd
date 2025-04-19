@@ -39,7 +39,7 @@ export const Endpoints = {
         access_control_category_data: "backup/access_control_category_data",
     },
     common: {
-        get_all_courses: "common/get_all_courses",
+        get_all_course_categories: "common/get_all_course_categories",
         get_all_center_types: "common/get_all_center_types",
     },
     franchise: {

@@ -9,8 +9,8 @@ import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 export class CommonService {
   constructor(private http: HttpClient) { }
 
-  getAllAvailableCourses(): Observable<any> {
-    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_courses);
+  getAllAvailableCourseCategories(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_course_categories);
   }
 
   getAllAvailableCenterTypes(): Observable<any> {
