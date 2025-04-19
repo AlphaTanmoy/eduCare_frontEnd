@@ -257,6 +257,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   }
 
   async validateForm() {
+    debugger
     // Center Head Validation
     this.center_head_name = this.center_head_name.trim();
     if (this.center_head_name === "") {
@@ -269,7 +270,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    this.center_head_contact_number = this.center_head_contact_number.trim();
     if (this.center_head_contact_number === "") {
       this.openDialog("Franchise", "Center Head Contact Number is required", ResponseTypeColor.INFO, false);
       return false;
@@ -311,7 +311,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    this.center_head_pin_code = this.center_head_pin_code.trim();
     if (this.center_head_pin_code === "") {
       this.openDialog("Franchise", "Center Head Pin Code is required", ResponseTypeColor.INFO, false);
       return false;
@@ -324,7 +323,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    this.center_contact_number = this.center_contact_number.trim();
     if (this.center_contact_number === "") {
       this.openDialog("Franchise", "Center Contact Number is required", ResponseTypeColor.INFO, false);
       return false;
@@ -375,7 +373,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    this.center_pin_code = this.center_pin_code.trim();
     if (this.center_pin_code === "") {
       this.openDialog("Franchise", "Center Pin Code is required", ResponseTypeColor.INFO, false);
       return false;
@@ -397,6 +394,8 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_head_village_city: this.center_head_village_city,
       center_head_pin_code: this.center_head_pin_code
     };
+
+    console.log(center_head_details)
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenterHead(center_head_details).subscribe({
@@ -428,6 +427,8 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_village_city: this.center_village_city,
       center_pin_code: this.center_pin_code
     };
+
+    console.log(center_details)
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
