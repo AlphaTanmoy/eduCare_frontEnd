@@ -395,8 +395,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_head_pin_code: this.center_head_pin_code
     };
 
-    console.log(center_head_details)
-
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenterHead(center_head_details).subscribe({
         next: (response) => {
@@ -427,8 +425,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       center_village_city: this.center_village_city,
       center_pin_code: this.center_pin_code
     };
-
-    console.log(center_details)
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
