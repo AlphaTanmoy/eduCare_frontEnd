@@ -67,5 +67,4 @@ export const Gender = [
     new Dropdown("3", 'Other'),
 ]
 
-
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
