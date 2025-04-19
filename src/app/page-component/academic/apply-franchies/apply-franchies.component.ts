@@ -273,23 +273,23 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // const center_head_photo_response = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
-      // if (!center_head_photo_response) {
-      //   this.hideMatProgressBar();
-      //   return;
-      // }
+      const center_head_photo_response = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
+      if (!center_head_photo_response) {
+        this.hideMatProgressBar();
+        return;
+      }
 
-      // const center_head_signature_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
-      // if (!center_head_signature_responsee) {
-      //   this.hideMatProgressBar();
-      //   return;
-      // }
+      const center_head_signature_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
+      if (!center_head_signature_responsee) {
+        this.hideMatProgressBar();
+        return;
+      }
 
-      // const supportable_document_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
-      // if (!supportable_document_responsee) {
-      //   this.hideMatProgressBar();
-      //   return;
-      // }
+      const supportable_document_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
+      if (!supportable_document_responsee) {
+        this.hideMatProgressBar();
+        return;
+      }
 
       this.hideMatProgressBar();
       this.openDialog("Franchise", "Thank You for successfully registering yourself as our franchise.<br>Pleaese wait for the admin approval.", ResponseTypeColor.SUCCESS, false);
