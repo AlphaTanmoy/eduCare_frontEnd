@@ -16,18 +16,20 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
   // Make the enum available in template
   ResponseTypeColor = ResponseTypeColor;
   textColorClass: string = 'text-success';
+  formattedText: string = '';
   buttonClass: string = 'alert-button success'; // Default class
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { title: string; text: string; type: ResponseType },
     private el: ElementRef,
     private renderer: Renderer2,
-  ) {}
+  ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
+    this.formattedText = this.data.text.replace(/\n/g, '<br>');
   }
 
   ngAfterViewInit(): void {

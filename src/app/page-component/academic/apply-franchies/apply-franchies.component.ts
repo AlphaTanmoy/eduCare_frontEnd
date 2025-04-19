@@ -175,6 +175,27 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     this.center_type = selectedItem.text ?? "";
   }
 
+  handleCenterHeadPhotoSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.center_head_photo = input.files[0];
+    }
+  }
+
+  handleCenterHeadSignatureSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.center_head_signature = input.files[0];
+    }
+  }
+
+  handleSupportableDocumentSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.supportable_document = input.files[0];
+    }
+  }
+
   reset_center_head_form() {
     this.center_head_name = "";
     this.center_head_gender = "";
@@ -221,8 +242,14 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     setTimeout(() => this.form2_visible = true);
   }
 
-  reset_document_form() {
+  reset_document_form(CenterHeadPhotoInput: HTMLInputElement, CenterHeadSignatureInput: HTMLInputElement, SupportableDocumentInput: HTMLInputElement) {
+    this.center_head_photo = null;
+    this.center_head_signature = null;
+    this.supportable_document = null;
 
+    CenterHeadPhotoInput.value = '';
+    CenterHeadSignatureInput.value = '';
+    SupportableDocumentInput.value = '';
   }
 
   async submit() {
@@ -237,19 +264,35 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       const center_head = await this.saveCenterHeadDetails();
       if (!center_head) {
         this.hideMatProgressBar();
-        this.openDialog("Franchise", "Failed to save center head details", ResponseTypeColor.ERROR, false);
         return;
       }
 
       const center = await this.saveCenterDetails(center_head.data);
       if (!center) {
         this.hideMatProgressBar();
-        this.openDialog("Franchise", "Failed to save center details", ResponseTypeColor.ERROR, false);
         return;
       }
 
+      // const center_head_photo_response = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
+      // if (!center_head_photo_response) {
+      //   this.hideMatProgressBar();
+      //   return;
+      // }
+
+      // const center_head_signature_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
+      // if (!center_head_signature_responsee) {
+      //   this.hideMatProgressBar();
+      //   return;
+      // }
+
+      // const supportable_document_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
+      // if (!supportable_document_responsee) {
+      //   this.hideMatProgressBar();
+      //   return;
+      // }
+
       this.hideMatProgressBar();
-      this.openDialog("Franchise", "Franchise creation is successful", ResponseTypeColor.SUCCESS, false);
+      this.openDialog("Franchise", "Thank You for successfully registering yourself as our franchise.<br>Pleaese wait for the admin approval.", ResponseTypeColor.SUCCESS, false);
     } catch (error) {
       this.hideMatProgressBar();
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
@@ -377,6 +420,22 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       return false;
     }
 
+    // Supportable Document Validation
+    if (!this.center_head_photo || this.center_head_photo === null) {
+      this.openDialog("Franchise", "Center Head Photo is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (!this.center_head_signature || this.center_head_signature === null) {
+      this.openDialog("Franchise", "Center Head Signature is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
+    if (!this.supportable_document || this.supportable_document === null) {
+      this.openDialog("Franchise", "Supportable Document is required", ResponseTypeColor.INFO, false);
+      return false;
+    }
+
     return true;
   }
 
@@ -427,6 +486,22 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
+        next: (response) => {
+          resolve(response);
+          if (response.status !== 200) {
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          }
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      });
+    });
+  }
+
+  async saveCenterSupportiveDocumentDetails(center: any, file: any, fileName: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.franchiseService.UploadFranchiseDocument(center[0].center_id, file, fileName).subscribe({
         next: (response) => {
           resolve(response);
           if (response.status !== 200) {

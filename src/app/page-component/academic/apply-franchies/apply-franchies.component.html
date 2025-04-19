@@ -213,17 +213,22 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
-                                <input type="file" class="form-control" accept="image/jpeg,image/jpg,image/png">
+                                <input type="file" #CenterHeadPhotoInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png"
+                                    (change)="handleCenterHeadPhotoSelected($event)">
                             </div>
                             <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
-                                <input type="file" class="form-control" accept="image/jpeg,image/jpg,image/png">
+                                <input type="file" #CenterHeadSignatureInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png"
+                                    (change)="handleCenterHeadSignatureSelected($event)">
                             </div>
                             <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label mb-1">Supportable Document (PDF) <span
                                         class="text-danger">*</span></label>
-                                <input type="file" class="form-control" accept="application/pdf">
+                                <input type="file" #SupportableDocumentInput class="form-control"
+                                    accept="application/pdf" (change)="handleSupportableDocumentSelected($event)">
                             </div>
                         </div>
 
@@ -233,7 +238,7 @@
 
                             <div class="d-flex justify-content-around">
                                 <button class="custom-button1 stepper_button_of_middle"
-                                    (click)="reset_document_form()">Reset</button>
+                                    (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
                                 <button class="custom-button1" matStepperNext (click)="submit()">Submit</button>
                             </div>
                         </div>
