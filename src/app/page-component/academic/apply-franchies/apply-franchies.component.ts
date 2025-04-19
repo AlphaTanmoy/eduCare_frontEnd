@@ -295,7 +295,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       this.openDialog("Franchise", "Thank You for successfully registering yourself as our franchise.<br>Pleaese wait for the admin approval.", ResponseTypeColor.SUCCESS, false);
     } catch (error) {
       this.hideMatProgressBar();
-      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
 
@@ -456,13 +455,16 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenterHead(center_head_details).subscribe({
         next: (response) => {
-          resolve(response);
           if (response.status !== 200) {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+            reject(response);
+          } else {
+            resolve(response);
           }
         },
         error: (err) => {
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+          this.openDialog("Franchise", 'Internal server error', ResponseTypeColor.ERROR, false);
+          reject(err);
         }
       });
     });
@@ -487,13 +489,16 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
         next: (response) => {
-          resolve(response);
           if (response.status !== 200) {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+            reject(response);
+          } else {
+            resolve(response);
           }
         },
         error: (err) => {
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+          this.openDialog("Franchise", 'Internal server error', ResponseTypeColor.ERROR, false);
+          reject(err);
         }
       });
     });
