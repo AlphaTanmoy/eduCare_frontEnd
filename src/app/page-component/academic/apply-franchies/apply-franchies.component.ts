@@ -255,48 +255,32 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   async submit() {
     try {
       const isValid = await this.validateForm();
-      if (!isValid) {
-        return;
-      }
+      if (!isValid) return;
 
       this.activeMatProgressBar();
 
       const center_head = await this.saveCenterHeadDetails();
-      if (!center_head) {
-        this.hideMatProgressBar();
-        return;
-      }
-
       const center = await this.saveCenterDetails(center_head.data);
-      if (!center) {
-        this.hideMatProgressBar();
-        return;
-      }
 
-      const center_head_photo_response = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
-      if (!center_head_photo_response) {
-        this.hideMatProgressBar();
-        return;
-      }
-
-      const center_head_signature_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
-      if (!center_head_signature_responsee) {
-        this.hideMatProgressBar();
-        return;
-      }
-
-      const supportable_document_responsee = await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
-      if (!supportable_document_responsee) {
-        this.hideMatProgressBar();
-        return;
-      }
+      await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
+      await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
+      await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
 
       this.hideMatProgressBar();
-      this.openDialog("Franchise", "Thank You for successfully registering yourself as our franchise.<br>Pleaese wait for the admin approval.", ResponseTypeColor.SUCCESS, false);
-    } catch (error) {
+      this.openDialog(
+        "Franchise",
+        "Thank You for successfully registering yourself as our franchise.<br>Please wait for the admin approval.",
+        ResponseTypeColor.SUCCESS,
+        false
+      );
+    } catch (error: any) {
+      debugger;
       this.hideMatProgressBar();
+      const message = error?.error?.message || "Internal server error";
+      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
     }
   }
+
 
   async validateForm() {
     // Center Head Validation
@@ -455,15 +439,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenterHead(center_head_details).subscribe({
         next: (response) => {
-          if (response.status !== 200) {
-            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
-            reject(response);
-          } else {
-            resolve(response);
-          }
+          response.status === 200 ? resolve(response) : reject(response);
         },
         error: (err) => {
-          this.openDialog("Franchise", 'Internal server error', ResponseTypeColor.ERROR, false);
           reject(err);
         }
       });
@@ -489,15 +467,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.franchiseService.AddCenter(center_details).subscribe({
         next: (response) => {
-          if (response.status !== 200) {
-            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
-            reject(response);
-          } else {
-            resolve(response);
-          }
+          response.status === 200 ? resolve(response) : reject(response);
         },
         error: (err) => {
-          this.openDialog("Franchise", 'Internal server error', ResponseTypeColor.ERROR, false);
           reject(err);
         }
       });
@@ -508,13 +480,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.franchiseService.UploadFranchiseDocument(center[0].center_id, file, fileName).subscribe({
         next: (response) => {
-          resolve(response);
-          if (response.status !== 200) {
-            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
-          }
+          response.status === 200 ? resolve(response) : reject(response);
         },
         error: (err) => {
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+          reject(err);
         }
       });
     });
