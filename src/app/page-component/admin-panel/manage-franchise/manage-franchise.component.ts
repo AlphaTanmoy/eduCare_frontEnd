@@ -1,41 +1,40 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  inject,
-  ViewChild,
-  AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, AfterViewInit } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { FranchiseService } from '../../../service/franchise/franchise.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 import { firstValueFrom } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-manage-franchise',
   standalone: true,
-  imports: [MatTableModule, MatPaginator],
+  imports: [MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
   templateUrl: './manage-franchise.component.html',
   styleUrl: './manage-franchise.component.css'
 })
 export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  private _liveAnnouncer = inject(LiveAnnouncer);
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
 
   page_size: number = 2;
   page_index: number = 0;
-  franchise_list: any[] = [];
+
+  dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['name', 'email'];
+  displayedColumns: string[] = ['center_head_id', 'center_name'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private franchiseService: FranchiseService,
@@ -53,19 +52,34 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       this.page_size = event.pageSize;
       await this.getFranchises(this.page_index, this.page_size);
     });
+
+    this.dataSource.sort = this.sort;
   }
 
   async getFranchises(page: number, size: number) {
     try {
       this.activeMatProgressBar();
       const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises(page, size));
-      this.franchise_list = res.data;
-      this.totalCount = 5; // make sure your backend sends this
-      console.log("this.franchise_list", this.franchise_list)
+      this.dataSource.data = res.data;
+      this.dataSource.sort = this.sort;
+      this.totalCount = 5;
     } catch (error) {
       console.error("Failed to fetch franchises:", error);
     } finally {
       this.hideMatProgressBar();
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 
