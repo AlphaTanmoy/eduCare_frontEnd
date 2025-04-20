@@ -46,5 +46,14 @@ export const Endpoints = {
         add_center_head_details: "franchise/add_center_head_details",
         add_center_details: "franchise/add_center_details",
         upload_franchise_documents: "franchise/upload_franchise_documents",
+    },
+    course: {
+        get_all_parent_categories: 'parent-category/getAll',
+        add_parent_category: 'parent-category/add',
+        edit_parent_category: 'parent-category/edit',
+        delete_parent_category: 'parent-category/delete',
+        add_sub_category: 'sub-category/add',
+        edit_sub_category: 'sub-category/edit',
+        delete_sub_category: 'sub-category/delete'
     }
 }
