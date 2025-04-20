@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
-import { AuthService } from '../../../service/auth/Auth.Service';
-import { EnumsService } from '../../../service/enums/enums.service';
-import { CourseService } from '../../../service/course/course.service';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
+import { AuthService } from '../../../../service/auth/Auth.Service';
+import { EnumsService } from '../../../../service/enums/enums.service';
+import { CourseService } from '../../../../service/course/course.service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 interface EnumOption {
   value: string;

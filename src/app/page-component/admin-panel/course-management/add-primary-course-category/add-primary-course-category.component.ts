@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
-import { AuthService } from '../../../service/auth/Auth.Service';
+import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
+import { AuthService } from '../../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-add-primary-course-category',

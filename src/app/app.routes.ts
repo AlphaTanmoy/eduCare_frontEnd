@@ -1,4 +1,4 @@
-import { CourseListComponent } from './page-component/admin-panel/course-list/course-list.component';
+import { CourseListComponent } from './page-component/admin-panel/course-management/course-list/course-list.component';
 import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './page-component/home/home.component';
@@ -40,10 +40,10 @@ import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
 import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
-import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/add-primary-course-category/add-primary-course-category.component';
-import { AddSubCourseCategoryComponent } from './page-component/admin-panel/add-sub-course-category/add-sub-course-category.component';
-import { ViewCourseComponent } from './page-component/admin-panel/view-course/view-course.component';
-import { EditSubCourseCategoryComponent } from './page-component/admin-panel/edit-sub-course-category/edit-sub-course-category.component';
+import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/course-management/add-primary-course-category/add-primary-course-category.component';
+import { AddSubCourseCategoryComponent } from './page-component/admin-panel/course-management/add-sub-course-category/add-sub-course-category.component';
+import { ViewCourseComponent } from './page-component/admin-panel/course-management/view-course/view-course.component';
+import { EditSubCourseCategoryComponent } from './page-component/admin-panel/course-management/edit-sub-course-category/edit-sub-course-category.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },

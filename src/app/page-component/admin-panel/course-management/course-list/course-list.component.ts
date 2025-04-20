@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
-import { AuthService } from '../../../service/auth/Auth.Service';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
+import { AuthService } from '../../../../service/auth/Auth.Service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faEye,

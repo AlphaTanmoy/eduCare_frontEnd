@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CourseService } from '../../../service/course/course.service';
-import { EnumsService } from '../../../service/enums/enums.service';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { CourseService } from '../../../../service/course/course.service';
+import { EnumsService } from '../../../../service/enums/enums.service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 interface EnumOption {
   value: string;
