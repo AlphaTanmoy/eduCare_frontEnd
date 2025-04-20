@@ -16,6 +16,20 @@
   color: #333;
 }
 
+.btn-primary {
+  background-color: #3b82f6; /* Tailwind-inspired blue */
+  color: white;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+
 .action-buttons {
   display: flex;
   gap: 1rem;

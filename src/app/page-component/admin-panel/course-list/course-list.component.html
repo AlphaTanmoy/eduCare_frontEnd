@@ -23,16 +23,16 @@
           <h2>{{ course.courseName }}</h2>
           <div class="course-actions">
             <button class="btn btn-info" (click)="viewCourse(course.courseCode)">
-              <i class="fas fa-eye"></i> View
+              <i class="fas fa-eye"></i> <span class="ms-1">View</span>
             </button>
             <button class="btn btn-success" (click)="addSubCategory(course)">
-              <i class="fas fa-plus"></i> Add Sub Category
+              <i class="fas fa-plus"></i> <span class="ms-1">Add Sub Category</span>
             </button>
             <button class="btn btn-warning" (click)="editCategory(course.courseCode, true)">
-              <i class="fas fa-edit"></i> Edit
+              <i class="fas fa-edit"></i> <span class="ms-1">Edit</span>
             </button>
             <button class="btn btn-danger" (click)="deleteCategory(course.courseCode, true)">
-              <i class="fas fa-trash"></i> Delete
+              <i class="fas fa-trash"></i> <span class="ms-1">Delete</span>
             </button>
           </div>
         </div>
@@ -49,10 +49,10 @@
           </div>
           <div class="sub-category-actions">
             <button class="btn btn-warning" (click)="editCategory(sub.courseCode, false)">
-              <i class="fas fa-edit"></i> Edit
+              <i class="fas fa-edit"></i> <span class="ms-1">Edit</span>
             </button>
             <button class="btn btn-danger" (click)="deleteCategory(sub.courseCode, false)">
-              <i class="fas fa-trash"></i> Delete
+              <i class="fas fa-trash"></i> <span class="ms-1">Delete</span>
             </button>
           </div>
         </div>

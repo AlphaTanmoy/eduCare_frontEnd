@@ -4,6 +4,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { Router } from '@angular/router';
 import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
 import { AuthService } from '../../../service/auth/Auth.Service';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface SubCategory {
   courseCode: string;
@@ -45,6 +46,7 @@ export class CourseListComponent implements OnInit {
   courses: ParentCategory[] = [];
   loading: boolean = true;
   error: string | null = null;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private http: HttpClient,
@@ -54,6 +56,7 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit() {
     this.fetchCourses();
+    this.bootstrapElements = loadBootstrap();
   }
 
   private getHeaders(): HttpHeaders {
@@ -83,6 +86,10 @@ export class CourseListComponent implements OnInit {
 
   addParentCategory() {
     this.router.navigate(['/admin-panel/add/primary-course']);
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 
   addSubCategory(parentCourse: ParentCategory) {

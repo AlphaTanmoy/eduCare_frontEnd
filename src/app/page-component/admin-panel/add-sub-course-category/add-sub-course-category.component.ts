@@ -7,6 +7,7 @@ import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
 import { AuthService } from '../../../service/auth/Auth.Service';
 import { EnumsService } from '../../../service/enums/enums.service';
 import { CourseService } from '../../../service/course/course.service';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface EnumOption {
   value: string;
@@ -33,7 +34,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
   error: string = '';
   success: string = '';
   parentCourseId: string = '';
-
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   durationOptions: EnumOption[] = [];
   moduleOptions: EnumOption[] = [];
 
@@ -47,6 +48,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.bootstrapElements = loadBootstrap();
     this.route.queryParams.subscribe(params => {
       this.parentCourseId = params['parentCourseId'];
       if (!this.parentCourseId) {
@@ -59,6 +61,10 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.fetchEnums();
   }
+
+   ngOnDestroy(): void {
+      removeBootstrap(this.bootstrapElements);
+    }
 
   private fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
@@ -100,10 +106,10 @@ export class AddSubCourseCategoryComponent implements OnInit {
     if (this.module) {
       // Reset module details
       this.moduleDetails = [];
-      
+
       // Get the number from the module type (e.g., "MODULE_TYPE_2" -> 2)
       const moduleNumber = parseInt(this.module.split('_').pop() || '1');
-      
+
       // Generate the required number of module details
       for (let i = 0; i < moduleNumber; i++) {
         this.moduleDetails.push({ content: '' });

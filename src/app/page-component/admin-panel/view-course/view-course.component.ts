@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../../service/course/course.service';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface SubCategory {
   courseCode: string;
@@ -34,6 +35,7 @@ export class ViewCourseComponent implements OnInit {
   loading: boolean = true;
   error: string = '';
 
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -41,6 +43,7 @@ export class ViewCourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.bootstrapElements = loadBootstrap();
     this.route.params.subscribe(params => {
       this.courseCode = params['courseCode'];
       if (!this.courseCode) {
@@ -84,6 +87,10 @@ export class ViewCourseComponent implements OnInit {
 
   hasSubCategories(): boolean {
     return !!this.course && !!this.course.subCategories && this.course.subCategories.length > 0;
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 
 }
