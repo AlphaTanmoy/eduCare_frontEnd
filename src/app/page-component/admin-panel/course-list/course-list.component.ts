@@ -5,6 +5,13 @@ import { Router } from '@angular/router';
 import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
 import { AuthService } from '../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faEye,
+  faEdit,
+  faTrash,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 
 interface SubCategory {
   id: string;
@@ -40,7 +47,7 @@ interface ApiResponse {
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
@@ -49,7 +56,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-
+  faEye = faEye;
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faPlus = faPlus;
   constructor(
     private http: HttpClient,
     private router: Router,
