@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -7,12 +7,14 @@ import { AuthService } from '../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface SubCategory {
+  id: string;
   courseCode: string;
   courseName: string;
   dataStatus: string;
   duration: string;
   module: string;
 }
+
 
 interface ParentCategory {
   id: string;
@@ -40,9 +42,9 @@ interface ApiResponse {
   standalone: true,
   imports: [CommonModule, HttpClientModule],
   templateUrl: './course-list.component.html',
-  styleUrl: './course-list.component.css'
+  styleUrls: ['./course-list.component.css']
 })
-export class CourseListComponent implements OnInit {
+export class CourseListComponent implements OnInit, OnDestroy {
   courses: ParentCategory[] = [];
   loading: boolean = true;
   error: string | null = null;
@@ -75,12 +77,14 @@ export class CourseListComponent implements OnInit {
       next: (response) => {
         this.courses = response.data;
         this.loading = false;
+        console.log('Fetched course data:', response.data);
       },
       error: (error) => {
         this.error = 'Failed to fetch courses';
         this.loading = false;
         console.error('Error fetching courses:', error);
       }
+
     });
   }
 
@@ -98,30 +102,27 @@ export class CourseListComponent implements OnInit {
     });
   }
 
-  editCategory(courseCode: string, isParent: boolean) {
-    if (isParent) {
-      this.router.navigate(['/admin-panel/edit/primary-course'], {
-        queryParams: { courseCode }
-      });
-    } else {
-      this.router.navigate(['/admin-panel/edit/sub-course'], {
-        queryParams: { courseCode }
-      });
-    }
+  editCategory(id: string, isParent: boolean) {
+    const endpoint = isParent ? '/admin-panel/edit/primary-course' : '/admin-panel/edit/sub-course';
+    this.router.navigate([endpoint], {
+      queryParams: { id }
+    });
   }
 
-  deleteCategory(courseCode: string, isParent: boolean) {
+  deleteCategory(id: string, isParent: boolean) {
+    console.log('Delete called with id:', id, 'isParent:', isParent); // 🔍 Debug line
+
     if (confirm('Are you sure you want to delete this category?')) {
       const endpoint = isParent
         ? Endpoints.course.delete_parent_category
         : Endpoints.course.delete_sub_category;
 
       this.http.delete(
-        GetBaseURL() + endpoint + `/${courseCode}`,
+        `${GetBaseURL()}${endpoint}/${id}`,
         { headers: this.getHeaders() }
       ).subscribe({
         next: () => {
-          this.fetchCourses(); // Refresh the list after deletion
+          this.fetchCourses();
         },
         error: (error) => {
           console.error('Error deleting category:', error);
@@ -130,6 +131,8 @@ export class CourseListComponent implements OnInit {
       });
     }
   }
+
+
 
   viewCourse(courseCode: string) {
     this.router.navigate(['/admin-panel/view-course', courseCode]);
