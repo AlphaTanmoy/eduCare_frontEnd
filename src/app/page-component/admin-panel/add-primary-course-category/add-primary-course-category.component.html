@@ -1,1 +1,30 @@
-<p>add-primary-course-category works!</p>
+<div class="add-course-container">
+  <h2>Add Primary Course Category</h2>
+  
+  <div class="error-message" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="course-form">
+    <div class="form-group">
+      <label for="courseName">Course Name</label>
+      <input
+        type="text"
+        id="courseName"
+        [(ngModel)]="courseName"
+        name="courseName"
+        placeholder="Enter course name"
+        required
+      >
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="loading">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? 'Adding...' : 'Add Course' }}
+      </button>
+    </div>
+  </form>
+</div>
