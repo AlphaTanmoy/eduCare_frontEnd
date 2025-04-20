@@ -1,1 +1,59 @@
-<p>view-course works!</p>
+<div class="container">
+  <div class="header">
+    <button class="btn btn-secondary" (click)="backToCourseList()">
+      <i class="fas fa-arrow-left"></i> Back to Course List
+    </button>
+    <h1>Course Details</h1>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Loading course details...
+  </div>
+
+  <div *ngIf="!loading && !error && course" class="course-details">
+    <div class="section">
+      <h2>{{ course.courseName }}</h2>
+      <ul class="info-list">
+        <li><strong>Course Code:</strong> {{ course.courseCode }}</li>
+        <li><strong>Status:</strong> {{ formatEnumValue(course.dataStatus) }}</li>
+      </ul>
+    </div>
+
+    <div *ngIf="hasSubCategories()" class="section">
+      <h3>Sub Courses</h3>
+      <ol class="sub-course-list">
+        <li *ngFor="let subCourse of course.subCategories">
+          <div class="sub-card">
+            <h4>{{ subCourse.courseName }}</h4>
+            <ul class="info-list">
+              <li><strong>Course Code:</strong> {{ subCourse.courseCode }}</li>
+              <li><strong>Duration:</strong> {{ formatEnumValue(subCourse.duration) }}</li>
+              <li><strong>Status:</strong> {{ formatEnumValue(subCourse.dataStatus) }}</li>
+              <li><strong>Module Type:</strong> {{ formatEnumValue(subCourse.module) }}</li>
+              <li *ngIf="subCourse.moduleDetails?.length">
+                <strong>Module Details:</strong>
+                <ol class="module-details">
+                  <li *ngFor="let moduleGroup of subCourse.moduleDetails; let i = index">
+                    <strong>Module {{ i + 1 }}:</strong>
+                    <ul>
+                      <li *ngFor="let topic of moduleGroup">{{ topic }}</li>
+                    </ul>
+                  </li>
+                </ol>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div *ngIf="course.subCategories?.length === 0" class="no-sub-courses">
+      <p>No sub courses available yet.</p>
+    </div>
+  </div>
+</div>
