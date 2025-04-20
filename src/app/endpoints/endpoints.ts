@@ -54,6 +54,7 @@ export const Endpoints = {
         delete_parent_category: 'parent-category/delete',
         add_sub_category: 'sub-category/add',
         edit_sub_category: 'sub-category/edit',
-        delete_sub_category: 'sub-category/delete'
+        delete_sub_category: 'sub-category/delete',
+        get_course: 'parent-category/byCode'
     }
 }
