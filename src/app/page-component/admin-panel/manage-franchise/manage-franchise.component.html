@@ -1,57 +1,57 @@
-<h2>Paginated franchises</h2>
+<h2 class="mb-4">Paginated Franchises</h2>
 
-<mat-form-field>
+<mat-form-field class="mb-3 w-100">
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input class="form-control" />
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="table table-bordered text-center align-middle">
 
   <ng-container matColumnDef="center_name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_name }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Name </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_name }} </td>
   </ng-container>
 
   <ng-container matColumnDef="center_contact_number">
-    <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_contact_number }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Contact Number </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_contact_number }} </td>
   </ng-container>
 
   <ng-container matColumnDef="center_email_id">
-    <th mat-header-cell *matHeaderCellDef> Email ID </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_email_id }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Email ID </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_email_id }} </td>
   </ng-container>
 
   <ng-container matColumnDef="center_category">
-    <th mat-header-cell *matHeaderCellDef> Category </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_category }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Category </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_category }} </td>
   </ng-container>
 
   <ng-container matColumnDef="center_type">
-    <th mat-header-cell *matHeaderCellDef> Type </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_type }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Type </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_type }} </td>
   </ng-container>
 
   <ng-container matColumnDef="center_address">
-    <th mat-header-cell *matHeaderCellDef> Address </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.center_address }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="created_at">
-    <th mat-header-cell *matHeaderCellDef> Created At </th>
-    <td mat-cell *matCellDef="let franchise"> {{ FormatDateTime(franchise.created_at) }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Address </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_address }} </td>
   </ng-container>
 
   <ng-container matColumnDef="data_status">
-    <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.data_status }} </td>
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Data Status </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.data_status }} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Created At </th>
+    <td mat-cell *matCellDef="let franchise" class="text-center"> {{ FormatDateTime(franchise.created_at) }} </td>
+  </ng-container>
 
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="2">No data matching the filter "{{ input.value }}"</td>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="align-middle"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="align-middle"></tr>
+
+  <tr class="mat-row text-center" *matNoDataRow>
+    <td class="mat-cell" colspan="100%">No data matching the filter "{{ input.value }}"</td>
   </tr>
 </table>
 
