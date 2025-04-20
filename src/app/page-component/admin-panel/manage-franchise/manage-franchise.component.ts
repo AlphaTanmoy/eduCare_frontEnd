@@ -30,7 +30,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'created_at'];
+  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'approve_or_reject','created_at'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
