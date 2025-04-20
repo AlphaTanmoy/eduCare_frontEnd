@@ -249,8 +249,8 @@ export const MenuItems: any[] = [
       },
       {
         id: 94,
-        name: 'Add/Edit Course',
-        route: '/admin-panel/add-edit-course',
+        name: 'Courses',
+        route: '/admin-panel/course-list',
       },
       {
         id: 95,

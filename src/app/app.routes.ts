@@ -1,3 +1,4 @@
+import { CourseListComponent } from './page-component/admin-panel/course-list/course-list.component';
 import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './page-component/home/home.component';
@@ -39,6 +40,8 @@ import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
 import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
+import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/add-primary-course-category/add-primary-course-category.component';
+import { AddSubCourseCategoryComponent } from './page-component/admin-panel/add-sub-course-category/add-sub-course-category.component';
 
 
 export const routes: Routes = [
@@ -70,6 +73,9 @@ export const routes: Routes = [
     { path: 'contact-us/contact', component: ContactComponent },
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
+    { path: 'admin-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/add/primary-course', component: AddPrimaryCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
