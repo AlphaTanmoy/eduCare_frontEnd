@@ -9,7 +9,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
 
 @Component({
   selector: 'app-manage-franchise',
@@ -68,6 +68,10 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  FormatDateTime(datetimeValue: any) {
+    return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
   ngOnDestroy(): void {

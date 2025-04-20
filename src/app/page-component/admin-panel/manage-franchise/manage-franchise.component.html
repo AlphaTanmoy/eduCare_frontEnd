@@ -39,7 +39,7 @@
 
   <ng-container matColumnDef="created_at">
     <th mat-header-cell *matHeaderCellDef> Created At </th>
-    <td mat-cell *matCellDef="let franchise"> {{ franchise.created_at }} </td>
+    <td mat-cell *matCellDef="let franchise"> {{ FormatDateTime(franchise.created_at) }} </td>
   </ng-container>
 
   <ng-container matColumnDef="data_status">
