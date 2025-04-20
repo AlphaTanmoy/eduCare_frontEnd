@@ -43,6 +43,7 @@ import { ApplyFranchiesComponent } from './page-component/academic/apply-franchi
 import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/add-primary-course-category/add-primary-course-category.component';
 import { AddSubCourseCategoryComponent } from './page-component/admin-panel/add-sub-course-category/add-sub-course-category.component';
 import { ViewCourseComponent } from './page-component/admin-panel/view-course/view-course.component';
+import { ManageFranchiseComponent } from './page-component/admin-panel/manage-franchise/manage-franchise.component';
 
 
 export const routes: Routes = [
@@ -82,6 +83,7 @@ export const routes: Routes = [
     { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/manage-franchise', component: ManageFranchiseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },

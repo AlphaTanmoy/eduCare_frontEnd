@@ -274,10 +274,10 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
         false
       );
     } catch (error: any) {
-      debugger;
       this.hideMatProgressBar();
       const message = error?.error?.message || "Internal server error";
       this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
+      return;
     }
   }
 

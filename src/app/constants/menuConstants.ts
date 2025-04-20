@@ -254,6 +254,11 @@ export const MenuItems: any[] = [
       },
       {
         id: 95,
+        name: 'Manage Franchise',
+        route: '/admin-panel/manage-franchise',
+      },
+      {
+        id: 96,
         name: 'Data Backup',
         route: '/admin-panel/data-backup',
       },

@@ -25,4 +25,14 @@ export class FranchiseService {
 
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.upload_franchise_documents, formData);
   }
+
+  GetAllAvailableFranchises(page_number: number, page_size: number): Observable<any> {
+    const obj = {
+      page_number,
+      page_size
+    };
+  
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises, obj);
+  }
+  
 }
