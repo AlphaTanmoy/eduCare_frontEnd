@@ -1,1 +1,61 @@
-<p>course-list works!</p>
+<div class="course-list-container">
+  <div class="header">
+    <h1>Course Management</h1>
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="addParentCategory()">
+        Add Parent Category
+      </button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading courses...
+  </div>
+
+  <div class="error" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <div class="course-list" *ngIf="!loading && !error">
+    <div class="course-card" *ngFor="let course of courses">
+      <div class="course-header">
+        <h2>{{ course.courseName }}</h2>
+        <div class="course-actions">
+          <button class="btn btn-secondary" (click)="addSubCategory(course)">
+            Add Sub Category
+          </button>
+          <button class="btn btn-edit" (click)="editCategory(course.courseCode, true)">
+            Edit
+          </button>
+          <button class="btn btn-danger" (click)="deleteCategory(course.courseCode, true)">
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="sub-categories" *ngIf="course.subCategories.length > 0">
+        <div class="sub-category-item" *ngFor="let sub of course.subCategories">
+          <div class="sub-category-info">
+            <h3>{{ sub.courseName }}</h3>
+            <div class="sub-category-details">
+              <span>Duration: {{ sub.duration }}</span>
+              <span>Module: {{ sub.module }}</span>
+            </div>
+          </div>
+          <div class="sub-category-actions">
+            <button class="btn btn-edit" (click)="editCategory(sub.courseCode, false)">
+              Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteCategory(sub.courseCode, false)">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-sub-categories" *ngIf="course.subCategories.length === 0">
+        No sub-categories available
+      </div>
+    </div>
+  </div>
+</div>
