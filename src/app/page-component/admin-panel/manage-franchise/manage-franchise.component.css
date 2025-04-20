@@ -1,3 +1,7 @@
 .table_header_background {
     background-color: var(--light);
 }
+
+.btn_cursor_pointer {
+    cursor: pointer;
+}

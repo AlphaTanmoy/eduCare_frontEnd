@@ -10,16 +10,22 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
+import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-manage-franchise',
   standalone: true,
-  imports: [MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
+  imports: [CommonModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule],
   templateUrl: './manage-franchise.component.html',
   styleUrl: './manage-franchise.component.css'
 })
 export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faDownload = faDownload;
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
@@ -30,7 +36,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'approve_or_reject','created_at'];
+  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'approve_or_reject', 'created_at', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -56,8 +62,9 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     try {
       this.activeMatProgressBar();
       const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises(page, size));
-      this.dataSource.data = res.data;
-      this.totalCount = 5;
+      this.dataSource.data = res.data[0].franchises;
+      this.totalCount = res.data[0].total_documents;
+      console.log(res.data)
     } catch (error) {
       console.error("Failed to fetch franchises:", error);
     } finally {
