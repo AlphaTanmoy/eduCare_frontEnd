@@ -2,9 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { GetBaseURL, Endpoints } from '../../../endpoints/endpoints';
-import { AuthService } from '../../../service/auth/Auth.Service';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
+import { AuthService } from '../../../../service/auth/Auth.Service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faEye,
+  faEdit,
+  faTrash,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 
 interface SubCategory {
   id: string;
@@ -40,7 +47,7 @@ interface ApiResponse {
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
@@ -49,7 +56,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-
+  faEye = faEye;
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faPlus = faPlus;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -103,14 +113,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   editCategory(id: string, isParent: boolean) {
-    const endpoint = isParent ? '/admin-panel/edit/primary-course' : '/admin-panel/edit/sub-course';
-    this.router.navigate([endpoint], {
-      queryParams: { id }
-    });
+    if (!isParent) {
+      this.router.navigate(['/admin-panel/edit-sub-course'], {
+        queryParams: { id }
+      });
+    }
   }
 
   deleteCategory(id: string, isParent: boolean) {
-    console.log('Delete called with id:', id, 'isParent:', isParent); // 🔍 Debug line
+    console.log('Delete called with id:', id, 'isParent:', isParent);
 
     if (confirm('Are you sure you want to delete this category?')) {
       const endpoint = isParent

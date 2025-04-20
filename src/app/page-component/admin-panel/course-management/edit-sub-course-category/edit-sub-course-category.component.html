@@ -1,0 +1,61 @@
+<div class="edit-sub-category-container">
+  <h2 class="header">Edit Sub-Course Category</h2>
+
+  <div class="loading" *ngIf="loading">Loading...</div>
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <form *ngIf="!loading && !error" (ngSubmit)="onSubmit()" #editForm="ngForm" class="edit-form">
+    <div class="form-group">
+      <label>Course Name</label>
+      <input type="text" class="form-control" [(ngModel)]="subCategory.courseName" name="courseName" required />
+    </div>
+
+    <div class="form-group">
+      <label>Course Code</label>
+      <input type="text" class="form-control" [(ngModel)]="subCategory.courseCode" name="courseCode" required />
+    </div>
+
+    <div class="form-group">
+      <label>Duration</label>
+      <select class="form-control" [(ngModel)]="subCategory.duration" name="duration" required>
+        <option value="">Select Duration</option>
+        <option *ngFor="let duration of durationOptions" [value]="duration.value">
+          {{ duration.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Module Type</label>
+      <select class="form-control" [(ngModel)]="subCategory.module" name="module" (change)="onModuleChange()" required>
+        <option value="">Select Module Type</option>
+        <option *ngFor="let module of moduleOptions" [value]="module.value">
+          {{ module.label }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="subCategory.moduleDetails.length > 0" class="module-details">
+      <h4>Module Details ({{subCategory.moduleDetails.length}} modules)</h4>
+      <small class="text-muted">Enter topics for each module, separated by commas</small>
+      <div *ngFor="let module of subCategory.moduleDetails; let i = index" class="module-detail-item">
+        <div class="form-group">
+          <label>Module {{ i + 1 }} Topics</label>
+          <textarea
+            class="form-control"
+            [(ngModel)]="module.content"
+            [name]="'moduleDetail' + i"
+            rows="4"
+            required
+            placeholder="Enter topics, separated by commas"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="navigateToCourseList()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save Changes</button>
+    </div>
+  </form>
+</div>

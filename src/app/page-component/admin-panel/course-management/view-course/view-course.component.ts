@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CourseService } from '../../../service/course/course.service';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { CourseService } from '../../../../service/course/course.service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 interface SubCategory {
   courseCode: string;
