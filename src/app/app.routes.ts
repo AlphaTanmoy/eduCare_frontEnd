@@ -43,7 +43,7 @@ import { ApplyFranchiesComponent } from './page-component/academic/apply-franchi
 import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/add-primary-course-category/add-primary-course-category.component';
 import { AddSubCourseCategoryComponent } from './page-component/admin-panel/add-sub-course-category/add-sub-course-category.component';
 import { ViewCourseComponent } from './page-component/admin-panel/view-course/view-course.component';
-
+import { EditSubCourseCategoryComponent } from './page-component/admin-panel/edit-sub-course-category/edit-sub-course-category.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -80,6 +80,7 @@ export const routes: Routes = [
     { path: 'admin-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },

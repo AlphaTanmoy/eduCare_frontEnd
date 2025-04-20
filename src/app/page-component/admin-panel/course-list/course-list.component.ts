@@ -103,14 +103,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   editCategory(id: string, isParent: boolean) {
-    const endpoint = isParent ? '/admin-panel/edit/primary-course' : '/admin-panel/edit/sub-course';
-    this.router.navigate([endpoint], {
-      queryParams: { id }
-    });
+    if (!isParent) {
+      this.router.navigate(['/admin-panel/edit-sub-course'], {
+        queryParams: { id }
+      });
+    }
   }
 
   deleteCategory(id: string, isParent: boolean) {
-    console.log('Delete called with id:', id, 'isParent:', isParent); // 🔍 Debug line
+    console.log('Delete called with id:', id, 'isParent:', isParent);
 
     if (confirm('Are you sure you want to delete this category?')) {
       const endpoint = isParent

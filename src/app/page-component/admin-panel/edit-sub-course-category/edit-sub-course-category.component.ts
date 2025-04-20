@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../../service/course/course.service';
+import { EnumsService } from '../../../service/enums/enums.service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
-interface SubCategory {
-  id: string;
-  courseCode: string;
-  courseName: string;
-  duration: string;
-  module: string;
-  moduleDetails: string[][];
+interface EnumOption {
+  value: string;
+  label: string;
+}
+
+interface ModuleDetail {
+  content: string;
 }
 
 @Component({
@@ -19,98 +20,158 @@ interface SubCategory {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './edit-sub-course-category.component.html',
-  styleUrl: './edit-sub-course-category.component.css'
+  styleUrls: ['./edit-sub-course-category.component.css']
 })
-export class EditSubCourseCategoryComponent implements OnInit {
-  subCategory: SubCategory = {
-    id: '',
-    courseCode: '',
+export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
+  subCategory = {
+    _id: '',
     courseName: '',
+    courseCode: '',
     duration: '',
     module: '',
-    moduleDetails: [[]]
+    moduleDetails: [] as ModuleDetail[]
   };
-  
-  loading: boolean = false;
+  loading = false;
   error: string | null = null;
+  moduleOptions: EnumOption[] = [];
+  durationOptions: EnumOption[] = [];
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private enumsService: EnumsService
   ) {}
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
-    const id = this.route.snapshot.queryParamMap.get('id');
-    if (id) {
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      if (!id) {
+        this.error = 'No sub-category ID provided';
+        return;
+      }
+      this.loading = true;
+      this.fetchEnums();
       this.loadSubCategory(id);
-    } else {
-      this.error = 'No sub-category ID provided';
-    }
+    });
   }
 
-  loadSubCategory(id: string) {
-    this.loading = true;
-    this.courseService.getCourseById(id).subscribe({
+  private fetchEnums() {
+    this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
-        this.subCategory = response.data;
-        this.loading = false;
+        this.durationOptions = response.data.map((item: any) => ({
+          value: item.enum_value,
+          label: this.formatEnumLabel(item.enum_value)
+        }));
       },
       error: (error) => {
-        this.error = 'Failed to load sub-category';
-        this.loading = false;
-        console.error('Error loading sub-category:', error);
+        console.error('Error fetching duration types:', error);
+        this.error = 'Failed to load duration types';
+      }
+    });
+
+    this.enumsService.getEnumsByName('module_type').subscribe({
+      next: (response) => {
+        this.moduleOptions = response.data.map((item: any) => ({
+          value: item.enum_value,
+          label: this.formatEnumLabel(item.enum_value)
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching module types:', error);
+        this.error = 'Failed to load module types';
       }
     });
   }
 
-  addModuleDetail() {
-    this.subCategory.moduleDetails.push([]);
+  private formatEnumLabel(value: string): string {
+    return value
+      .toLowerCase()
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 
-  addModuleItem(moduleIndex: number) {
-    this.subCategory.moduleDetails[moduleIndex].push('');
+  private loadSubCategory(id: string) {
+    this.courseService.getSubCourseById(id).subscribe({
+      next: response => {
+        const data = response.data;
+        this.subCategory = {
+          _id: data._id,
+          courseName: data.course_name,
+          courseCode: data.course_code,
+          duration: data.duration,
+          module: data.module,
+          moduleDetails: (data.module_details || []).map((arr: string[]) => ({
+            content: arr.join(', ')
+          }))
+        };
+
+        // If module exists but no details, generate empty ones
+        if (data.module && (!data.module_details || data.module_details.length === 0)) {
+          this.onModuleChange();
+        }
+
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load sub-category';
+        this.loading = false;
+      }
+    });
   }
 
-  removeModuleDetail(index: number) {
-    this.subCategory.moduleDetails.splice(index, 1);
-  }
-
-  removeModuleItem(moduleIndex: number, itemIndex: number) {
-    this.subCategory.moduleDetails[moduleIndex].splice(itemIndex, 1);
-  }
-
-  onSubmit() {
-    if (!this.subCategory.courseName || !this.subCategory.duration || !this.subCategory.module) {
-      this.error = 'Please fill in all required fields';
+  onModuleChange() {
+    if (!this.subCategory.module) {
+      this.subCategory.moduleDetails = [];
       return;
     }
 
+    // Get the number from the module type (e.g., "MODULE_TYPE_2" -> 2)
+    const moduleNumber = parseInt(this.subCategory.module.split('_').pop() || '1');
+
+    // Create new array with existing data or empty content
+    const newModuleDetails = [];
+    for (let i = 0; i < moduleNumber; i++) {
+      newModuleDetails.push({
+        content: this.subCategory.moduleDetails[i]?.content || ''
+      });
+    }
+
+    this.subCategory.moduleDetails = newModuleDetails;
+  }
+
+  onSubmit() {
+    if (!this.subCategory._id) {
+      this.error = 'No sub-category ID found';
+      return;
+    }
+
+    const payload = {
+      id: this.subCategory._id,
+      course_name: this.subCategory.courseName,
+      course_code: this.subCategory.courseCode,
+      duration: this.subCategory.duration,
+      module: this.subCategory.module,
+      module_details: this.subCategory.moduleDetails.map(detail =>
+        detail.content.split(',').map(item => item.trim()).filter(Boolean)
+      )
+    };
+
     this.loading = true;
-    this.courseService.editSubCategory(
-      this.subCategory.id,
-      this.subCategory.courseCode,
-      this.subCategory.courseName,
-      this.subCategory.duration,
-      this.subCategory.module,
-      this.subCategory.moduleDetails
-    ).subscribe({
-      next: (response) => {
-        if (response.status === 200) {
-          this.router.navigate(['/admin-panel/course-list']);
-        } else {
-          this.error = 'Failed to update sub-category';
-        }
+    this.courseService.editSubCategory(payload).subscribe({
+      next: () => this.router.navigate(['/admin-panel/course-list']),
+      error: () => {
+        this.error = 'Failed to update sub-category';
         this.loading = false;
-      },
-      error: (error) => {
-        this.error = error.error?.message || 'Failed to update sub-category';
-        this.loading = false;
-        console.error('Error updating sub-category:', error);
       }
     });
+  }
+
+  navigateToCourseList() {
+    this.router.navigate(['/admin-panel/course-list']);
   }
 
   ngOnDestroy(): void {

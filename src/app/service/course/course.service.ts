@@ -10,6 +10,11 @@ interface CourseResponse {
   status: number;
 }
 
+interface EnumValue {
+  value: string;
+  label: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,9 +32,30 @@ export class CourseService {
     });
   }
 
-  getCourseById(courseCode: string): Observable<CourseResponse> {
+  getModuleTypes(): Observable<EnumValue[]> {
+    return this.http.get<EnumValue[]>(
+      `${GetBaseURL()}${Endpoints.enums.get_enums_by_name}/module_type`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  getDurations(): Observable<EnumValue[]> {
+    return this.http.get<EnumValue[]>(
+      `${GetBaseURL()}${Endpoints.enums.get_enums_by_name}/duration_type`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  getCourseById(id: string): Observable<CourseResponse> {
     return this.http.get<CourseResponse>(
-      `${GetBaseURL()}${Endpoints.course.get_course}/${courseCode}`,
+      `${GetBaseURL()}${Endpoints.course.get_course}/${id}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  getSubCourseById(id: string): Observable<CourseResponse> {
+    return this.http.get<CourseResponse>(
+      `${GetBaseURL()}sub-category/byId/${id}`,
       { headers: this.getHeaders() }
     );
   }
@@ -80,23 +106,16 @@ export class CourseService {
     );
   }
 
-  editSubCategory(
-    id: String,
-    courseCode: string,
-    courseName: string,
-    duration: string,
-    module: string,
-    moduleDetails: string[][]
-  ): Observable<any> {
+  editSubCategory(requestBody: {
+    id: string;
+    course_code: string;
+    duration: string;
+    module: string;
+    module_details: string[][];
+  }): Observable<any> {
     return this.http.put(
       `${GetBaseURL()}${Endpoints.course.edit_sub_category}`,
-      {
-        courseCode,
-        course_name: courseName,
-        duration,
-        module,
-        module_details: moduleDetails
-      },
+      requestBody,
       { headers: this.getHeaders() }
     );
   }
