@@ -45,13 +45,13 @@
 
     <ng-container matColumnDef="data_status">
       <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Data Status </th>
-      <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.data_status }} </td>
+      <td mat-cell *matCellDef="let franchise" class="text-center"> {{ GetDataStatusLabel(franchise.data_status) }} </td>
     </ng-container>
 
     <ng-container matColumnDef="is_approved">
       <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6 table_header_background"> Approval Status
       </th>
-      <td mat-cell *matCellDef="let franchise" class="text-center"> Not Approved </td>
+      <td mat-cell *matCellDef="let franchise" class="text-center">{{ GetApprovalStatusLabel(franchise.is_approved) }} </td>
     </ng-container>
 
     <ng-container matColumnDef="approve_or_reject">

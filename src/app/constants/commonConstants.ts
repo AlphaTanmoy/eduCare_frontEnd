@@ -67,4 +67,26 @@ export const Gender = [
     new Dropdown("3", 'Other'),
 ]
 
+export enum ActiveInactiveStatus {
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE",
+}
+
+export const ActiveInactiveStatusDescriptions: Record<ActiveInactiveStatus, string> = {
+    [ActiveInactiveStatus.ACTIVE]: 'Active',
+    [ActiveInactiveStatus.INACTIVE]: 'Inactive',
+};
+
+export enum ApproveRejectionStatus {
+    PENDING = 0,
+    APPROVED = 1,
+    REJECTED = 2,
+}
+
+export const ApproveRejectionStatusDescriptions: Record<ApproveRejectionStatus, string> = {
+    [ApproveRejectionStatus.PENDING]: 'Pending',
+    [ApproveRejectionStatus.APPROVED]: 'Approved',
+    [ApproveRejectionStatus.REJECTED]: 'Rejected',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

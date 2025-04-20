@@ -13,6 +13,7 @@ import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
 import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-manage-franchise',
@@ -23,6 +24,11 @@ import { CommonModule } from '@angular/common';
 })
 export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  ApproveRejectionStatusDescriptions = ApproveRejectionStatusDescriptions;
+  ApproveRejectionStatus = ApproveRejectionStatus;
+  ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
+  ActiveInactiveStatus = ActiveInactiveStatus;
+
   faEdit = faEdit;
   faTrash = faTrash;
   faDownload = faDownload;
@@ -79,6 +85,14 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
 
   FormatDateTime(datetimeValue: any) {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
+  }
+
+  GetDataStatusLabel(value: string): string {
+    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
+  }
+
+  GetApprovalStatusLabel(value: number): string {
+    return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
   }
 
   ngOnDestroy(): void {
