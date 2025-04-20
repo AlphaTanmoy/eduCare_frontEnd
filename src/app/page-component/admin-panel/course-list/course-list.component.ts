@@ -123,4 +123,8 @@ export class CourseListComponent implements OnInit {
       });
     }
   }
+
+  viewCourse(courseCode: string) {
+    this.router.navigate(['/admin-panel/view-course', courseCode]);
+  }
 }

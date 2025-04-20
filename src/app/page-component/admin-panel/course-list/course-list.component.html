@@ -19,21 +19,26 @@
   <div class="course-list" *ngIf="!loading && !error">
     <div class="course-card" *ngFor="let course of courses">
       <div class="course-header">
-        <h2>{{ course.courseName }}</h2>
-        <div class="course-actions">
-          <button class="btn btn-secondary" (click)="addSubCategory(course)">
-            Add Sub Category
-          </button>
-          <button class="btn btn-edit" (click)="editCategory(course.courseCode, true)">
-            Edit
-          </button>
-          <button class="btn btn-danger" (click)="deleteCategory(course.courseCode, true)">
-            Delete
-          </button>
+        <div class="course-title">
+          <h2>{{ course.courseName }}</h2>
+          <div class="course-actions">
+            <button class="btn btn-info" (click)="viewCourse(course.courseCode)">
+              <i class="fas fa-eye"></i> View
+            </button>
+            <button class="btn btn-success" (click)="addSubCategory(course)">
+              <i class="fas fa-plus"></i> Add Sub Category
+            </button>
+            <button class="btn btn-warning" (click)="editCategory(course.courseCode, true)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteCategory(course.courseCode, true)">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="sub-categories" *ngIf="course.subCategories.length > 0">
+      <div class="sub-categories" *ngIf="course.subCategories && course.subCategories.length > 0">
         <div class="sub-category-item" *ngFor="let sub of course.subCategories">
           <div class="sub-category-info">
             <h3>{{ sub.courseName }}</h3>
@@ -43,17 +48,17 @@
             </div>
           </div>
           <div class="sub-category-actions">
-            <button class="btn btn-edit" (click)="editCategory(sub.courseCode, false)">
-              Edit
+            <button class="btn btn-warning" (click)="editCategory(sub.courseCode, false)">
+              <i class="fas fa-edit"></i> Edit
             </button>
             <button class="btn btn-danger" (click)="deleteCategory(sub.courseCode, false)">
-              Delete
+              <i class="fas fa-trash"></i> Delete
             </button>
           </div>
         </div>
       </div>
 
-      <div class="no-sub-categories" *ngIf="course.subCategories.length === 0">
+      <div class="no-sub-categories" *ngIf="!course.subCategories || course.subCategories.length === 0">
         No sub-categories available
       </div>
     </div>

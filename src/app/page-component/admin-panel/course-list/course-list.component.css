@@ -49,6 +49,7 @@
 .course-actions {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .sub-categories {
@@ -97,43 +98,51 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
 }
 
-.btn-primary {
-  background-color: #3498db;
+.btn-info {
+  background-color: #17a2b8;
   color: white;
 }
 
-.btn-primary:hover {
-  background-color: #2980b9;
+.btn-info:hover {
+  background-color: #138496;
 }
 
-.btn-secondary {
-  background-color: #2ecc71;
+.btn-success {
+  background-color: #28a745;
   color: white;
 }
 
-.btn-secondary:hover {
-  background-color: #27ae60;
+.btn-success:hover {
+  background-color: #218838;
 }
 
-.btn-edit {
-  background-color: #f1c40f;
-  color: white;
+.btn-warning {
+  background-color: #ffc107;
+  color: #000;
 }
 
-.btn-edit:hover {
-  background-color: #f39c12;
+.btn-warning:hover {
+  background-color: #e0a800;
 }
 
 .btn-danger {
-  background-color: #e74c3c;
+  background-color: #dc3545;
   color: white;
 }
 
 .btn-danger:hover {
-  background-color: #c0392b;
+  background-color: #c82333;
+}
+
+.course-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
 }
 
 .loading, .error {
