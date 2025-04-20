@@ -48,7 +48,7 @@ import { ManageFranchiseComponent } from './page-component/admin-panel/manage-fr
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    // { path: 'app', component: AppComponent },
+    // { path: 'app', component: AppComponent }, 
     { path: 'home', component: HomeComponent },
     { path: 'verification/center', component: CenterVerifyComponent },
     { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
