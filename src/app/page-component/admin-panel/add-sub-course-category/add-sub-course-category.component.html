@@ -1,1 +1,96 @@
-<p>add-sub-course-category works!</p>
+<div class="container">
+  <div class="header">
+    <h2>Add Sub-Course Category</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #subCourseForm="ngForm" *ngIf="!success">
+    <div class="form-group">
+      <label for="courseName">Course Name</label>
+      <input
+        type="text"
+        id="courseName"
+        name="courseName"
+        class="form-control"
+        [(ngModel)]="courseName"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration</label>
+      <select
+        id="duration"
+        name="duration"
+        class="form-control"
+        [(ngModel)]="duration"
+        required
+      >
+        <option value="">Select Duration</option>
+        <option *ngFor="let option of durationOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="module">Module Type</label>
+      <select
+        id="module"
+        name="module"
+        class="form-control"
+        [(ngModel)]="module"
+        (ngModelChange)="onModuleChange()"
+        required
+      >
+        <option value="">Select Module Type</option>
+        <option *ngFor="let option of moduleOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="moduleDetails.length > 0" class="module-details">
+      <h3>Module Details</h3>
+      <p class="help-text">Enter module topics separated by commas (e.g., "Intro, Variables, Loops")</p>
+      <div *ngFor="let module of moduleDetails; let i = index" class="form-group">
+        <label [for]="'module-' + i">Module {{ i + 1 }} Topics</label>
+        <input
+          [id]="'module-' + i"
+          type="text"
+          class="form-control"
+          [(ngModel)]="module.content"
+          [name]="'module-' + i"
+          placeholder="Enter topics separated by commas"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading || !subCourseForm.form.valid"
+      >
+        {{ loading ? 'Adding...' : 'Add Sub-Course' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <div class="form-actions" *ngIf="success">
+    <button type="button" class="btn btn-primary" (click)="onDone()">
+      Done
+    </button>
+  </div>
+</div>
