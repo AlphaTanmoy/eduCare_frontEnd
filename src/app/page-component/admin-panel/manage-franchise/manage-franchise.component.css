@@ -5,3 +5,16 @@
 .btn_cursor_pointer {
     cursor: pointer;
 }
+
+.overflow-auto {
+    overflow: auto;
+}
+
+/* Horizontal scrollbar styles */
+.overflow-auto::-webkit-scrollbar {
+    height: 10px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+}
