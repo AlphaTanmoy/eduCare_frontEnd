@@ -14,7 +14,8 @@ import { faEdit, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions } from '../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../constants/commonConstants';
+import { ApproveRejectOperation } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-manage-franchise',
@@ -29,6 +30,8 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   ApproveRejectionStatus = ApproveRejectionStatus;
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
+
+  ApproveRejectOperation = ApproveRejectOperation;
 
   faEdit = faEdit;
   faEye = faEye;
@@ -75,7 +78,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       this.dataSource.data = res.data[0].franchises;
       this.totalCount = res.data[0].total_documents;
     } catch (error) {
-      console.error("Failed to fetch franchises:", error);
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();
     }
@@ -111,6 +114,17 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       this.canApproveReject = true;
     } else {
       this.canApproveReject = false;
+    }
+  }
+
+  async ApprovOrReject(operation: number){
+    try {
+      this.activeMatProgressBar();
+      const res = await firstValueFrom(this.franchiseService.DoApprovOrReject(operation, this.approve_reject_items));
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+    } finally {
+      this.hideMatProgressBar();
     }
   }
 
