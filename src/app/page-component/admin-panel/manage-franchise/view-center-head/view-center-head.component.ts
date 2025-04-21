@@ -3,7 +3,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeColor, type ResponseTypeColor as ResponseType } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, FranchiseDocumentName, ResponseTypeColor, type ResponseTypeColor as ResponseType } from '../../../../constants/commonConstants';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
@@ -42,6 +42,8 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_documnt_photo: string = '';
   center_head_documnt_name: string = '';
   is_photo_loaded = false;
+
+  FranchiseDocumentName = FranchiseDocumentName;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string; center_id: string },

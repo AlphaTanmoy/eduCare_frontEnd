@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { Gender, ResponseTypeColor } from '../../../constants/commonConstants';
+import { FranchiseDocumentName, Gender, ResponseTypeColor } from '../../../constants/commonConstants';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { CommonService } from '../../../service/common/common.service';
@@ -269,9 +269,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       const formData = new FormData();
       formData.append("center_id", center.data[0].center_id);
       formData.append("document_info", JSON.stringify([
-        { fileName: "center_head_photo" },
-        { fileName: "center_head_signature" },
-        { fileName: "supportable_document" }
+        { fileName: FranchiseDocumentName.CENTER_HEAD_PHOTO },
+        { fileName: FranchiseDocumentName.CENTER_HEAD_SIGNATURE },
+        { fileName: FranchiseDocumentName.SUPPORTABLE_DOCUMENT }
       ]));
 
       if (this.center_head_photo) {

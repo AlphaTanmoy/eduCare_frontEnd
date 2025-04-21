@@ -89,4 +89,10 @@ export const ApproveRejectionStatusDescriptions: Record<ApproveRejectionStatus, 
     [ApproveRejectionStatus.REJECTED]: 'Rejected',
 };
 
+export enum FranchiseDocumentName {
+    CENTER_HEAD_PHOTO = "center_head_photo",
+    CENTER_HEAD_SIGNATURE = "center_head_signature",
+    SUPPORTABLE_DOCUMENT = "supportable_document",
+}
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
