@@ -40,6 +40,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_data_status: string = '';
 
   center_head_documnt_photo: string = '';
+  center_head_documnt_name: string = '';
   is_photo_loaded = false;
 
   constructor(
@@ -80,8 +81,9 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   ViewFranchisePhoto(filename: string) {
     this.activeMatProgressBar();
     this.is_photo_loaded = false;
+    this.center_head_documnt_name = filename;
 
-    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
+    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, this.center_head_documnt_name).subscribe({
       next: async (imageData) => {
         let base64String = await convertBlobToBase64(imageData);
         this.center_head_documnt_photo = `data:image/jpg;base64,${base64String}`;
@@ -93,6 +95,18 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
         this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
       }
     });
+  }
+
+  DownloadFranchisePhoto() {
+    if (!this.center_head_documnt_photo) {
+      this.openDialog("Download", "No photo available to download.", ResponseTypeColor.WARNING);
+      return;
+    }
+  
+    const link = document.createElement('a');
+    link.href = this.center_head_documnt_photo;
+    link.download = `${this.center_head_documnt_name}.jpg`;
+    link.click();
   }
 
   ngOnDestroy(): void {
