@@ -40,6 +40,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_data_status: string = '';
 
   center_head_documnt_photo: string = '';
+  is_photo_loaded = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string; center_id: string },
@@ -76,23 +77,22 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
     return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
 
-  async ViewFranchisePhoto(filename: string) {
-    try {
-      this.activeMatProgressBar();
-      await this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
-        next: async (imageData) => {
-          let base64String = await convertBlobToBase64(imageData);
-          this.center_head_documnt_photo = `data:image/jpg;base64,${base64String}`;
-        },
-        error: (err) => {
-          this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
-        }
-      });
-    } catch (error) {
-      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR);
-    } finally {
-      this.hideMatProgressBar();
-    }
+  ViewFranchisePhoto(filename: string) {
+    this.activeMatProgressBar();
+    this.is_photo_loaded = false;
+
+    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
+      next: async (imageData) => {
+        let base64String = await convertBlobToBase64(imageData);
+        this.center_head_documnt_photo = `data:image/jpg;base64,${base64String}`;
+        this.hideMatProgressBar();
+        this.is_photo_loaded = true;
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
+      }
+    });
   }
 
   ngOnDestroy(): void {
