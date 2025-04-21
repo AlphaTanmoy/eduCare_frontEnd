@@ -28,4 +28,8 @@ export class FranchiseService {
   DoApproveOrReject(operation: number, center_ids: string[]): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.approve_reject_franchises, { operation, center_ids });
   }
+
+  GetCenterHeadDetails(center_head_id: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_center_head_details, { center_head_id: center_head_id });
+  }
 }

@@ -1,7 +1,20 @@
-<h1>Center Head Details </h1>
-
-<h2 id="alert_header" class="alert-title">{{center_head_id}}</h2>
-<mat-dialog-content id="alert_body" class="alert-message" [innerHTML]="'This is center head name'"></mat-dialog-content>
-<mat-dialog-actions class="alert-actions">
-    <button id="alert_button_element" class="btn btn-primary" mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<div class="card">
+    <h5 class="card-header mt-2 pb-3">Center Head Details</h5>
+    <div class="card-body">
+        <p class="card-text">Name : {{center_head_name}}</p>
+        <p class="card-text">Gender : {{center_head_gender}}</p>
+        <p class="card-text">Contact Number: {{center_head_contact_number}}</p>
+        <p class="card-text">Email ID : {{center_head_email_id}}</p>
+        <p class="card-text">Address : {{center_head_address}}</p>
+        <p class="card-text">Status :
+            <span [ngClass]="
+                center_head_data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
+                center_head_data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' : 'text_card_idle'
+            ">{{ GetDataStatusLabel(center_head_data_status) }}
+            </span>
+        </p>
+    </div>
+    <div class="card-footer text-end">
+        <button id="alert_button_element" class="btn btn-primary" mat-button mat-dialog-close>Close</button>
+    </div>
+</div>
