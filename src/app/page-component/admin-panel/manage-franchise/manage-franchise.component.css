@@ -1,4 +1,4 @@
-.table :not(caption)>* {
+.table {
     padding: 0.2rem !important;
 }
 
