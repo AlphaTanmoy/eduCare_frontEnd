@@ -10,7 +10,7 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
-import { faEdit, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faDownload, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,6 +36,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   faEdit = faEdit;
   faEye = faEye;
   faDownload = faDownload;
+  faCircleInfo = faCircleInfo;
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
