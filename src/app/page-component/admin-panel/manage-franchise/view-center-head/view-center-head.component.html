@@ -8,13 +8,26 @@
         <p class="card-text"><span class="fw-bold">Contact Number :</span> {{center_head_contact_number}}</p>
         <p class="card-text"><span class="fw-bold">Email ID :</span> {{center_head_email_id}}</p>
         <p class="card-text"><span class="fw-bold">Address :</span> {{center_head_address}}</p>
-        <p class="card-text"><span class="fw-bold">Status : &nbsp;</span> 
+        <p class="card-text"><span class="fw-bold">Status : &nbsp;</span>
             <span [ngClass]="
                 center_head_data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
                 center_head_data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' : 'text_card_idle'
             ">{{ GetDataStatusLabel(center_head_data_status) }}
             </span>
         </p>
+
+        <div class="d-flex w-100 justify-content-between mt-3 mb-3">
+            <button class="btn btn-primary">View Center Head Photo
+                <fa-icon [icon]="faEye"></fa-icon>
+            </button>
+
+            <button class="btn btn-primary">View Center Head Signature
+                <fa-icon [icon]="faEye"></fa-icon>
+            </button>
+        </div>
+
+        <img src="image/educare_logo.jpg" class="center_head_image_width">
+        <fa-icon class="center_head_image_download_btn text-danger" title="Download" [icon]="faFileDownload"></fa-icon>
     </div>
     <div class="card-footer text-end">
         <button id="alert_button_element" class="btn btn-primary" mat-button mat-dialog-close>Close</button>

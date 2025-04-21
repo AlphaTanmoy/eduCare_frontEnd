@@ -8,10 +8,12 @@ import { FranchiseService } from '../../../../service/franchise/franchise.servic
 import { firstValueFrom } from 'rxjs';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { faEye, faEyeSlash, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-view-center-head',
-  imports: [CommonModule, MatDialogModule, MatProgressBarModule],
+  imports: [CommonModule, MatDialogModule, MatProgressBarModule, FontAwesomeModule],
   templateUrl: './view-center-head.component.html',
   styleUrl: './view-center-head.component.css'
 })
@@ -21,6 +23,10 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faFileDownload = faFileDownload;
 
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;

@@ -1,0 +1,10 @@
+.center_head_image_width{
+    width: 100%;
+    border: 1px solid gray;
+}
+
+.center_head_image_download_btn{
+   float: right;
+   cursor: pointer;
+   font-size: 1.3rem;
+}
