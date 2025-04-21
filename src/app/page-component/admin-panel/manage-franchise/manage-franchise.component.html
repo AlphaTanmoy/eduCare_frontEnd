@@ -6,8 +6,8 @@
       <input matInput (keyup)="applyFilter($event)" #input class="form-control w-25" placeholder="Search..." />
 
       <div class="d-flex">
-        <button class="btn btn-primary me-2 btn-sm">Approve</button>
-        <button class="btn btn-warning btn-sm">Reject</button>
+        <button class="btn btn-primary me-2 btn-sm" [disabled]="!canAOrpproveReject">Approve</button>
+        <button class="btn btn-warning btn-sm" [disabled]="!canAOrpproveReject">Reject</button>
       </div>
     </div>
 
