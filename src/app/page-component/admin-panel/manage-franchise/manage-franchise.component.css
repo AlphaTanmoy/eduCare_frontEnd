@@ -1,3 +1,6 @@
+.table :not(caption) > * {
+    padding: 0.2rem !important;
+  }
 .table_header_background {
     background-color: var(--light);
 }
