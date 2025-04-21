@@ -259,12 +259,32 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
       this.activeMatProgressBar();
 
+      // Center head save
       const center_head = await this.saveCenterHeadDetails();
+
+      // Center details save
       const center = await this.saveCenterDetails(center_head.data);
 
-      await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_photo, "center_head_photo");
-      await this.saveCenterSupportiveDocumentDetails(center.data, this.center_head_signature, "center_head_signature");
-      await this.saveCenterSupportiveDocumentDetails(center.data, this.supportable_document, "supportable_document");
+      // Center supportive documents save
+      const formData = new FormData();
+      formData.append("center_id", center.data[0].center_id);
+      formData.append("document_info", JSON.stringify([
+        { fileName: "center_head_photo" },
+        { fileName: "center_head_signature" },
+        { fileName: "supportable_document" }
+      ]));
+
+      if (this.center_head_photo) {
+        formData.append("files", this.center_head_photo);
+      }
+      if (this.center_head_signature) {
+        formData.append("files", this.center_head_signature);
+      }
+      if (this.supportable_document) {
+        formData.append("files", this.supportable_document);
+      }
+
+      await this.saveCenterSupportiveDocumentDetails(formData);
 
       this.hideMatProgressBar();
       this.openDialog(
@@ -476,9 +496,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     });
   }
 
-  async saveCenterSupportiveDocumentDetails(center: any, file: any, fileName: string): Promise<any> {
+  async saveCenterSupportiveDocumentDetails(formData: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.franchiseService.UploadFranchiseDocument(center[0].center_id, file, fileName).subscribe({
+      this.franchiseService.UploadFranchiseDocument(formData).subscribe({
         next: (response) => {
           response.status === 200 ? resolve(response) : reject(response);
         },

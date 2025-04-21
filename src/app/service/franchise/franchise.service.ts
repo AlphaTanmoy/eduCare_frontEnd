@@ -17,12 +17,7 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.add_center_details, { data: center_head });
   }
 
-  UploadFranchiseDocument(center_id: string, file: File, fileName: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('center_id', center_id);
-    formData.append('file', file);
-    formData.append('fileName', fileName);
-
+  UploadFranchiseDocument(formData: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.upload_franchise_documents, formData);
   }
 
