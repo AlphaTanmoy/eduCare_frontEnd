@@ -103,6 +103,11 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
   }
 
+  GetFormattedAddress(value: string): string {
+    value = value.replace(/\n/g, '<br>');
+    return value;
+  }
+
   ApprovalRejectCheckboxChange(event: any, elemnt: any) {
     let is_checked = (event.target as HTMLInputElement).checked;
 
@@ -125,7 +130,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       const res = await firstValueFrom(this.franchiseService.DoApproveOrReject(operation, this.approve_reject_items));
       if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
-      }else{
+      } else {
         this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
       }
     } catch (error) {

@@ -1,5 +1,6 @@
-.table {
-    padding: 0.2rem !important;
+th,
+td {
+    padding: 0.1rem 0.2rem !important;
 }
 
 .table_header_background {
