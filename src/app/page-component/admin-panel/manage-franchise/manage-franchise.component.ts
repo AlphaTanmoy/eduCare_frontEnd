@@ -125,9 +125,9 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       const res = await firstValueFrom(this.franchiseService.DoApproveOrReject(operation, this.approve_reject_items));
       if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+      }else{
+        this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
       }
-
-      await this.getFranchises(this.page_index, this.page_size);
     } catch (error) {
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
@@ -165,7 +165,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     this.cdr.detectChanges();
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, reFetchNeeded: boolean): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, {
       data: {
         title: dialogTitle,
@@ -174,9 +174,9 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (pageReloadNeeded) {
-        location.reload();
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (reFetchNeeded) {
+        await this.getFranchises(this.page_index, this.page_size);
       }
     });
   }
