@@ -40,7 +40,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
 
-  page_size: number = 2;
+  page_size: number = 5;
   page_index: number = 0;
 
   dataSource = new MatTableDataSource<any>();
