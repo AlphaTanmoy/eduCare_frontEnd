@@ -17,6 +17,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_id: string = '';
+  center_id: string = '';
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
@@ -32,7 +33,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_data_status: string = '';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string },
+    @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string; center_id: string },
     private franchiseService: FranchiseService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -41,6 +42,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    this.center_id = this.data.center_id;
     this.center_head_id = this.data.center_head_id;
 
     try {
