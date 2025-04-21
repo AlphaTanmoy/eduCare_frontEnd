@@ -15,11 +15,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../constants/commonConstants';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-manage-franchise',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './manage-franchise.component.html',
   styleUrl: './manage-franchise.component.css'
 })
@@ -124,7 +125,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  async ApprovOrReject(operation: number) {
+  async ApproveOrReject(operation: number) {
     try {
       this.activeMatProgressBar();
       const res = await firstValueFrom(this.franchiseService.DoApproveOrReject(operation, this.approve_reject_items));
