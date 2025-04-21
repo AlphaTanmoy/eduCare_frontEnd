@@ -7,10 +7,11 @@ import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeCol
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-view-center-head',
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, MatProgressBarModule],
   templateUrl: './view-center-head.component.html',
   styleUrl: './view-center-head.component.css'
 })
@@ -51,7 +52,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
       this.center_head_gender = data.center_head_gender;
       this.center_head_contact_number = data.center_head_contact_number;
       this.center_head_email_id = data.center_head_email_id;
-      this.center_head_address = data.center_head_address.replace(/\n/g, '<br>');
+      this.center_head_address = data.center_head_address;
       this.center_head_data_status = data.data_status;
     } catch (error) {
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR);

@@ -1,3 +1,5 @@
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
 <div class="card">
     <h5 class="card-header mt-2 pb-3">Center Head Details</h5>
     <div class="card-body">
@@ -5,7 +7,7 @@
         <p class="card-text">Gender : {{center_head_gender}}</p>
         <p class="card-text">Contact Number: {{center_head_contact_number}}</p>
         <p class="card-text">Email ID : {{center_head_email_id}}</p>
-        <p class="card-text">Address : {{center_head_address}}</p>
+        <p class="card-text">Address: {{center_head_address}}</p>
         <p class="card-text">Status :
             <span [ngClass]="
                 center_head_data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
