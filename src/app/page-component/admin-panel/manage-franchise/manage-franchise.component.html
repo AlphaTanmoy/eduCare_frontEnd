@@ -6,8 +6,10 @@
       <input matInput (keyup)="applyFilter($event)" #input class="form-control w-25" placeholder="Search..." />
 
       <div class="d-flex">
-        <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject" (click)="ApprovOrReject(ApproveRejectOperation.approve)">Approve</button>
-        <button class="btn btn-warning btn-sm" [disabled]="!canApproveReject" (click)="ApprovOrReject(ApproveRejectOperation.reject)">Reject</button>
+        <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject"
+          (click)="ApprovOrReject(ApproveRejectOperation.approve)">Approve</button>
+        <button class="btn btn-warning btn-sm" [disabled]="!canApproveReject"
+          (click)="ApprovOrReject(ApproveRejectOperation.reject)">Reject</button>
       </div>
     </div>
 
@@ -79,7 +81,8 @@
               [disabled]="franchise.approval_rejection_status" [checked]="franchise.approval_rejection_status">
 
             <input type="checkbox" *ngIf="!franchise.approval_rejection_status" [ngModelOptions]="{ standalone: true }"
-              [(ngModel)]="franchise.new_approval_reject_status" (change)="ApprovalRejectCheckboxChange($event, franchise)">
+              [(ngModel)]="franchise.new_approval_reject_status"
+              (change)="ApprovalRejectCheckboxChange($event, franchise)">
           </td>
         </ng-container>
 

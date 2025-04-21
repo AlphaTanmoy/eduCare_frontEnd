@@ -75,7 +75,7 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     try {
       this.activeMatProgressBar();
       const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises(page, size));
-      if(res.status !== 200){
+      if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
         return;
       }
@@ -121,11 +121,11 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  async ApprovOrReject(operation: number){
+  async ApprovOrReject(operation: number) {
     try {
       this.activeMatProgressBar();
       const res = await firstValueFrom(this.franchiseService.DoApprovOrReject(operation, this.approve_reject_items));
-      if(res.status !== 200){
+      if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
       }
     } catch (error) {
