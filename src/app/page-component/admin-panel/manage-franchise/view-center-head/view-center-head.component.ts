@@ -39,7 +39,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_address: string = '';
   center_head_data_status: string = '';
 
-  center_head_photo: string = '';
+  center_head_documnt_photo: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string; center_id: string },
@@ -77,23 +77,22 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   }
 
   async ViewFranchisePhoto(filename: string) {
-    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
-      next: async (imageData) => {
-        let base64String = await convertBlobToBase64(imageData);
-        this.center_head_photo = `data:image/jpg;base64,${base64String}`;
-      },
-      error: (err) => {
-        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
-      }
-    });
-
-    // if (res.status !== 200) {
-    //   this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR);
-    // } else {
-    //   const blob = new Blob([res.data[0]], { type: 'image/jpeg' });
-    //   const url = window.URL.createObjectURL(blob);
-    //   window.open(url);
-    // }
+    try {
+      this.activeMatProgressBar();
+      await this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
+        next: async (imageData) => {
+          let base64String = await convertBlobToBase64(imageData);
+          this.center_head_documnt_photo = `data:image/jpg;base64,${base64String}`;
+        },
+        error: (err) => {
+          this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
+        }
+      });
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR);
+    } finally {
+      this.hideMatProgressBar();
+    }
   }
 
   ngOnDestroy(): void {

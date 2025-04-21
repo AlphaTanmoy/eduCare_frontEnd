@@ -21,12 +21,12 @@
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
 
-            <button class="btn btn-primary">View Center Head Signature
+            <button class="btn btn-primary" (click)="ViewFranchisePhoto('center_head_signature')">View Center Head Signature
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
         </div>
 
-        <img src={{center_head_photo}} class="center_head_image_width">
+        <img src={{center_head_documnt_photo}} class="center_head_image_width">
         <fa-icon class="center_head_image_download_btn text-danger" title="Download" [icon]="faFileDownload"></fa-icon>
     </div>
     <div class="card-footer text-end">
