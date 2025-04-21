@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
 
 @Component({
   selector: 'app-manage-center',
@@ -142,6 +143,11 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ViewFranchiseCenterHeadDetails(center_head_id: string) {
     console.log(center_head_id);
+    const dialogRef = this.dialog.open(ViewCenterHeadComponent, {
+      data: {
+        center_head_id: center_head_id,
+      }
+    });
   }
 
   ViewFranchiseDocuments(center_id: string) {
