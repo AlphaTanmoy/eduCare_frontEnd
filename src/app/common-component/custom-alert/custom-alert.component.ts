@@ -40,7 +40,7 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
         this.buttonClass = 'alert-button warning';
         break;
       case ResponseTypeColor.INFO:
-        this.textColorClass = 'text-info';
+        this.textColorClass = 'text-primary';
         this.buttonClass = 'alert-button info';
         break;
       case ResponseTypeColor.ERROR:

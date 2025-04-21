@@ -65,7 +65,7 @@
 }
 
 .info-svg {
-  fill: #17a2b8; /* Blue */
+  fill: var(--light-blue); /* Blue */
 }
 
 .alert-button {
@@ -95,6 +95,6 @@
 }
 
 .alert-button.info {
-  background-color: #17a2b8;
+  background-color: var(--light-blue);
   color: white;
 }
