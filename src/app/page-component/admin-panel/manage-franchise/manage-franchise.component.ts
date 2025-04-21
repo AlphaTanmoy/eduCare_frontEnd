@@ -13,12 +13,13 @@ import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
 import { faEdit, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-manage-franchise',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule],
   templateUrl: './manage-franchise.component.html',
   styleUrl: './manage-franchise.component.css'
 })
@@ -44,8 +45,10 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
 
   displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'approve_or_reject', 'created_at', 'action'];
 
-  canAOrpproveReject : boolean = false;
+  canApproveReject: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  approve_reject_items: string[] = [];
 
   constructor(
     private franchiseService: FranchiseService,
@@ -71,7 +74,6 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
       const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises(page, size));
       this.dataSource.data = res.data[0].franchises;
       this.totalCount = res.data[0].total_documents;
-      console.log(res.data)
     } catch (error) {
       console.error("Failed to fetch franchises:", error);
     } finally {
@@ -94,6 +96,22 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
 
   GetApprovalStatusLabel(value: number): string {
     return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
+  }
+
+  ApprovalRejectCheckboxChange(event: any, elemnt: any) {
+    let is_checked = (event.target as HTMLInputElement).checked;
+
+    if (is_checked) {
+      this.approve_reject_items.push(elemnt.center_id);
+    } else {
+      this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt.center_id);
+    }
+
+    if (this.approve_reject_items.length > 0) {
+      this.canApproveReject = true;
+    } else {
+      this.canApproveReject = false;
+    }
   }
 
   ngOnDestroy(): void {
