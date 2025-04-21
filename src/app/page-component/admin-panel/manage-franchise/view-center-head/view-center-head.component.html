@@ -17,7 +17,7 @@
         </p>
 
         <div class="d-flex w-100 justify-content-between mt-3 mb-3">
-            <button class="btn btn-primary">View Center Head Photo
+            <button class="btn btn-primary" (click)="ViewFranchisePhoto('center_head_photo')">View Center Head Photo
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
 
@@ -26,7 +26,7 @@
             </button>
         </div>
 
-        <img src="image/educare_logo.jpg" class="center_head_image_width">
+        <img src={{center_head_photo}} class="center_head_image_width">
         <fa-icon class="center_head_image_download_btn text-danger" title="Download" [icon]="faFileDownload"></fa-icon>
     </div>
     <div class="card-footer text-end">

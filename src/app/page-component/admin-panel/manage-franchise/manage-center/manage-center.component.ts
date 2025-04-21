@@ -142,7 +142,6 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ViewFranchiseCenterHeadDetails(center_id: string,center_head_id: string) {
-    console.log(center_head_id);
     const dialogRef = this.dialog.open(ViewCenterHeadComponent, {
       data: {
         center_id: center_id,

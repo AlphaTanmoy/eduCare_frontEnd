@@ -10,6 +10,7 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { faEye, faEyeSlash, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { convertBlobToBase64 } from '../../../../utility/common-util';
 
 @Component({
   selector: 'app-view-center-head',
@@ -37,6 +38,8 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   center_head_email_id: string = '';
   center_head_address: string = '';
   center_head_data_status: string = '';
+
+  center_head_photo: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { center_head_id: string; center_id: string },
@@ -71,6 +74,26 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
   GetDataStatusLabel(value: string): string {
     return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
+  }
+
+  async ViewFranchisePhoto(filename: string) {
+    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, filename).subscribe({
+      next: async (imageData) => {
+        let base64String = await convertBlobToBase64(imageData);
+        this.center_head_photo = `data:image/jpg;base64,${base64String}`;
+      },
+      error: (err) => {
+        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
+      }
+    });
+
+    // if (res.status !== 200) {
+    //   this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR);
+    // } else {
+    //   const blob = new Blob([res.data[0]], { type: 'image/jpeg' });
+    //   const url = window.URL.createObjectURL(blob);
+    //   window.open(url);
+    // }
   }
 
   ngOnDestroy(): void {
