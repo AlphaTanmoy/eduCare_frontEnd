@@ -136,6 +136,22 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
+  ViewFranchiseCenterHeadDetails(center_head_id: string) {
+    console.log(center_head_id);
+  }
+
+  ViewFranchiseDocuments(center_id: string) {
+    console.log(center_id);
+  }
+
+  EditFranchiseDetails(center_id: string) {
+    console.log(center_id);
+  }
+
+  DownloadFranchiseDocuments(center_id: string) {
+    console.log(center_id);
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
