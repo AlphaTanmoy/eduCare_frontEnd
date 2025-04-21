@@ -26,7 +26,10 @@
             </button>
         </div>
 
-        <img *ngIf="is_photo_loaded" src={{center_head_documnt_photo}} class="center_head_image_width">
+        
+        <div class="center_head_image">
+            <img *ngIf="is_photo_loaded" src="{{center_head_documnt_photo}}" class="center_head_image_width">
+        </div>
         <fa-icon *ngIf="is_photo_loaded" class="center_head_image_download_btn text-danger" title="Download" [icon]="faFileDownload"></fa-icon>
     </div>
     <div class="card-footer text-end">

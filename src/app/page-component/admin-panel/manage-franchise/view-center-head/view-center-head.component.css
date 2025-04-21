@@ -1,6 +1,11 @@
+.center_head_image{
+    width: 100%;
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+
 .center_head_image_width{
     width: 100%;
-    border: 2px solid gray;
 }
 
 .center_head_image_download_btn{
