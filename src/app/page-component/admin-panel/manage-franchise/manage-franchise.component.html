@@ -2,7 +2,7 @@
   <h2 class="m-4 text-center">Manage Franchises</h2>
 
   <div class="border p-2 rounded-2">
-    <h4 class="pt-2 pb-2 fw-bold">Center Details</h4>
+    <h4 class="pt-2 pb-2 fw-bold" style="color: var(--default-theme);">Center Details</h4>
 
     <div class="d-flex justify-content-between mb-3" style="height: 30px;">
       <input matInput (keyup)="applyFilter($event)" #input class="form-control w-25" placeholder="Search..." />
@@ -21,45 +21,45 @@
 
         <ng-container matColumnDef="center_name">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Name </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Name </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_name }} </td>
         </ng-container>
 
         <ng-container matColumnDef="center_contact_number">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Contact Number
+            style="background-color: var(--light); color: var(--default-theme);"> Contact Number
           </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_contact_number }} </td>
         </ng-container>
 
         <ng-container matColumnDef="center_email_id">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Email ID </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Email ID </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_email_id }} </td>
         </ng-container>
 
         <ng-container matColumnDef="center_category">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Category </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Category </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_category }} </td>
         </ng-container>
 
         <ng-container matColumnDef="center_type">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Type </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Type </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ franchise.center_type }} </td>
         </ng-container>
 
         <ng-container matColumnDef="center_address">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Address </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Address </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"
             [innerHTML]="GetFormattedAddress(franchise.center_address)"> </td>
         </ng-container>
 
         <ng-container matColumnDef="data_status">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Data Status
+            style="background-color: var(--light); color: var(--default-theme);"> Data Status
           </th>
           <td mat-cell *matCellDef="let franchise" class="text-center">
             <span [ngClass]="
@@ -72,7 +72,7 @@
 
         <ng-container matColumnDef="is_approved">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Approval
+            style="background-color: var(--light); color: var(--default-theme);"> Approval
             Status
           </th>
           <td mat-cell *matCellDef="let franchise" class="text-center">
@@ -87,7 +87,7 @@
 
         <ng-container matColumnDef="approve_or_reject">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Approve/Reject
+            style="background-color: var(--light); color: var(--default-theme);"> Approve/Reject
           </th>
           <td mat-cell *matCellDef="let franchise" class="text-center">
             <input type="checkbox" *ngIf="franchise.approval_rejection_status"
@@ -101,14 +101,14 @@
 
         <ng-container matColumnDef="created_at">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Created At
+            style="background-color: var(--light); color: var(--default-theme);"> Created At
           </th>
           <td mat-cell *matCellDef="let franchise" class="text-center"> {{ FormatDateTime(franchise.created_at) }} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
-            style="background-color: var(--light);"> Action </th>
+            style="background-color: var(--light); color: var(--default-theme);"> Action </th>
           <td mat-cell *matCellDef="let franchise" class="text-center">
 
             <div class="d-flex w-100 justify-content-around h-100">
