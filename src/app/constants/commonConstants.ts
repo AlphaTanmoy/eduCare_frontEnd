@@ -89,9 +89,4 @@ export const ApproveRejectionStatusDescriptions: Record<ApproveRejectionStatus, 
     [ApproveRejectionStatus.REJECTED]: 'Rejected',
 };
 
-export enum ApproveRejectOperation {
-    approve = 1,
-    reject = 2
-}
-
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

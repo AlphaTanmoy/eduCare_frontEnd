@@ -15,7 +15,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../constants/commonConstants';
-import { ApproveRejectOperation } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-manage-franchise',
@@ -30,8 +29,6 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   ApproveRejectionStatus = ApproveRejectionStatus;
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
-
-  ApproveRejectOperation = ApproveRejectOperation;
 
   faEdit = faEdit;
   faEye = faEye;
@@ -125,10 +122,12 @@ export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewIni
   async ApprovOrReject(operation: number) {
     try {
       this.activeMatProgressBar();
-      const res = await firstValueFrom(this.franchiseService.DoApprovOrReject(operation, this.approve_reject_items));
+      const res = await firstValueFrom(this.franchiseService.DoApproveOrReject(operation, this.approve_reject_items));
       if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
       }
+
+      await this.getFranchises(this.page_index, this.page_size);
     } catch (error) {
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {

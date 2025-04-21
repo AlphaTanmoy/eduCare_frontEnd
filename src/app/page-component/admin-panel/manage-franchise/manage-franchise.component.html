@@ -9,9 +9,9 @@
 
       <div class="d-flex">
         <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject"
-          (click)="ApprovOrReject(ApproveRejectOperation.approve)">Approve</button>
+          (click)="ApprovOrReject(ApproveRejectionStatus.APPROVED)">Approve</button>
         <button class="btn btn-danger btn-sm" [disabled]="!canApproveReject"
-          (click)="ApprovOrReject(ApproveRejectOperation.reject)">Reject</button>
+          (click)="ApprovOrReject(ApproveRejectionStatus.REJECTED)">Reject</button>
       </div>
     </div>
 

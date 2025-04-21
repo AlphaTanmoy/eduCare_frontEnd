@@ -25,7 +25,7 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises, { page_number, page_size });
   }
 
-  DoApprovOrReject(operation: number, center_ids: string[]): Observable<any> {
+  DoApproveOrReject(operation: number, center_ids: string[]): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.approve_reject_franchises, { operation, center_ids });
   }
 }
