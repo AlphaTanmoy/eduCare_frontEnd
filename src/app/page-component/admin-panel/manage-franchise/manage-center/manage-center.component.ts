@@ -1,30 +1,29 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, AfterViewInit } from '@angular/core';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
-import { FranchiseService } from '../../../service/franchise/franchise.service';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { firstValueFrom } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faEdit, faEye, faDownload, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
-  selector: 'app-manage-franchise',
-  standalone: true,
+  selector: 'app-manage-center',
   imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
-  templateUrl: './manage-franchise.component.html',
-  styleUrl: './manage-franchise.component.css'
+  templateUrl: './manage-center.component.html',
+  styleUrl: './manage-center.component.css'
 })
-export class ManageFranchiseComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   ApproveRejectionStatusDescriptions = ApproveRejectionStatusDescriptions;
   ApproveRejectionStatus = ApproveRejectionStatus;
