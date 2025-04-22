@@ -82,7 +82,10 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   }
 
   ViewFranchisePhoto(filename: string) {
-    if(this.center_head_documnt_name === filename) return;
+    if(this.center_head_documnt_name === filename){
+      this.is_photo_loaded = true;
+      return;
+    }
 
     this.activeMatProgressBar();
     this.is_photo_loaded = false;
@@ -116,8 +119,6 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
   CloseFranchisePhoto(){
     this.is_photo_loaded = false;
-    this.center_head_documnt_name = '';
-    this.center_head_documnt_photo = '';
   }
 
   ngOnDestroy(): void {

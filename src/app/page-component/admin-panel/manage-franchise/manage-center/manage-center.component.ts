@@ -9,18 +9,19 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faEdit, faEye, faDownload, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, FranchiseDocumentName, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-manage-center',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule, PdfViewerModule],
   templateUrl: './manage-center.component.html',
   styleUrl: './manage-center.component.css'
 })
@@ -51,6 +52,10 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   approve_reject_items: string[] = [];
+
+  center_document: string = '';
+  center_documnt_name: string = '';
+  is_document_loaded = false;
 
   constructor(
     private franchiseService: FranchiseService,
@@ -141,7 +146,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ViewFranchiseCenterHeadDetails(center_id: string,center_head_id: string) {
+  ViewFranchiseCenterHeadDetails(center_id: string, center_head_id: string) {
     const dialogRef = this.dialog.open(ViewCenterHeadComponent, {
       data: {
         center_id: center_id,
@@ -150,12 +155,29 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ViewFranchiseDocuments(center_id: string) {
+  EditFranchiseDetails(center_id: string) {
     console.log(center_id);
   }
 
-  EditFranchiseDetails(center_id: string) {
+  ViewFranchiseSupportableDocument(center_id: string) {
     console.log(center_id);
+    this.activeMatProgressBar();
+    this.is_document_loaded = false;
+    this.center_documnt_name = FranchiseDocumentName.SUPPORTABLE_DOCUMENT;
+
+    this.franchiseService.GetImageStreamByFolderAndFilename(center_id, this.center_documnt_name).subscribe({
+      next: async (blob: Blob) => {
+        console.log(blob);
+    
+        this.center_document = URL.createObjectURL(blob);
+        this.hideMatProgressBar();
+        this.is_document_loaded = true;
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   DownloadFranchiseDocuments(center_id: string) {
