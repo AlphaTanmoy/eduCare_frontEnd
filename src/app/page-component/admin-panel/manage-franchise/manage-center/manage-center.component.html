@@ -115,13 +115,14 @@
 
             <div class="d-flex w-100 justify-content-around h-100">
               <fa-icon class="icon btn_cursor_pointer text-primary me-1" title="View Franchise Center Head Details"
-                [icon]="faCircleInfo" (click)="ViewFranchiseCenterHeadDetails(franchise.center_id, franchise.center_head_id)"></fa-icon>
+                [icon]="faCircleInfo"
+                (click)="ViewFranchiseCenterHeadDetails(franchise.center_id, franchise.center_head_id)"></fa-icon>
 
-              <fa-icon class="icon btn_cursor_pointer text-success me-1" title="View Franchise Documents" [icon]="faEye"
-                (click)="ViewFranchiseDocuments(franchise.center_id)"></fa-icon>
-
-              <fa-icon class="icon btn_cursor_pointer text-danger me-1" title="Edit Franchise Information"
+              <fa-icon class="icon btn_cursor_pointer text-danger me-1" title="Edit Franchise Supportable Document"
                 [icon]="faEdit" (click)="EditFranchiseDetails(franchise.center_id)"></fa-icon>
+
+              <fa-icon class="icon btn_cursor_pointer text-success me-1" title="View Franchise Supportable Document"
+                [icon]="faEye" (click)="ViewFranchiseDocuments(franchise.center_id)"></fa-icon>
 
               <fa-icon class="icon btn_cursor_pointer text-secondary" title="Download Franchise Documents"
                 [icon]="faDownload" (click)="DownloadFranchiseDocuments(franchise.center_id)"></fa-icon>
