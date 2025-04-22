@@ -8,8 +8,19 @@
     width: 100%;
 }
 
-.center_head_image_download_btn{
+.center_head_image_btn{
    float: right;
    cursor: pointer;
    font-size: 1.3rem;
+}
+
+.center_head_image_close_btn{
+    color: var(--light-blue);
+    font-size: 1.5rem;
+    margin-top: -2px;
+    margin-right: 5px;
+}
+
+.center_head_image_download_btn{
+    color: var(--light-blue);
 }

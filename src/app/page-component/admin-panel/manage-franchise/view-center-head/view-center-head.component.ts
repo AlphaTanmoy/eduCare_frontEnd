@@ -8,7 +8,7 @@ import { FranchiseService } from '../../../../service/franchise/franchise.servic
 import { firstValueFrom } from 'rxjs';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEye, faEyeSlash, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faFileDownload, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64 } from '../../../../utility/common-util';
 
@@ -28,6 +28,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   faFileDownload = faFileDownload;
+  faClose = faClose;
 
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -81,6 +82,8 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   }
 
   ViewFranchisePhoto(filename: string) {
+    if(this.center_head_documnt_name === filename) return;
+
     this.activeMatProgressBar();
     this.is_photo_loaded = false;
     this.center_head_documnt_name = filename;
@@ -109,6 +112,12 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
     link.href = this.center_head_documnt_photo;
     link.download = `${this.center_head_documnt_name}.jpg`;
     link.click();
+  }
+
+  CloseFranchisePhoto(){
+    this.is_photo_loaded = false;
+    this.center_head_documnt_name = '';
+    this.center_head_documnt_photo = '';
   }
 
   ngOnDestroy(): void {
