@@ -17,11 +17,11 @@ import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, FranchiseDocumentName, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { CustomPdfViewerComponent } from '../../../../common-component/custom-pdf-viewer/custom-pdf-viewer.component';
 
 @Component({
   selector: 'app-manage-center',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule, PdfViewerModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './manage-center.component.html',
   styleUrl: './manage-center.component.css'
 })
@@ -172,6 +172,13 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.center_document = URL.createObjectURL(blob);
         this.hideMatProgressBar();
         this.is_document_loaded = true;
+
+        this.dialog.open(CustomPdfViewerComponent, {
+          data: {
+            pdf_url: this.center_document,
+            filename: this.center_documnt_name
+          }
+        });
       },
       error: (err) => {
         this.hideMatProgressBar();

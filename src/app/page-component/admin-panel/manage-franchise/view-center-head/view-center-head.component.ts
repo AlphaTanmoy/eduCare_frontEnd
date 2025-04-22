@@ -100,14 +100,14 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR);
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR);
       }
     });
   }
 
   DownloadFranchisePhoto() {
     if (!this.center_head_documnt_photo) {
-      this.openDialog("Download", "No photo available to download.", ResponseTypeColor.WARNING);
+      this.openDialog("Franchise", "No photo available to download.", ResponseTypeColor.WARNING);
       return;
     }
   
