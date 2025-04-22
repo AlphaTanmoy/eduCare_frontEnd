@@ -17,11 +17,11 @@
         </p>
 
         <div class="d-flex w-100 justify-content-between mt-3 mb-3">
-            <button class="btn btn-primary" (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_PHOTO)">View Center Head Photo
+            <button class="btn btn-primary btn-sm" (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_PHOTO)">View Center Head Photo
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
 
-            <button class="btn btn-primary" (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">View Center Head
+            <button class="btn btn-primary btn-sm" (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">View Center Head
                 Signature
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
@@ -31,7 +31,7 @@
         <div class="center_head_image">
             <img *ngIf="is_photo_loaded" src="{{center_head_documnt_photo}}" class="center_head_image_width">
         </div>
-        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_download_btn text-danger" title="Download"
+        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_download_btn text-primary" title="Download"
             [icon]="faFileDownload" (click)="DownloadFranchisePhoto()"></fa-icon>
     </div>
     <div class="card-footer text-end">
