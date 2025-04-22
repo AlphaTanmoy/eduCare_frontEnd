@@ -91,7 +91,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
     this.is_photo_loaded = false;
     this.center_head_documnt_name = filename;
 
-    this.franchiseService.GetImageStreamByFolderAndFilename(this.center_id, this.center_head_documnt_name).subscribe({
+    this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, this.center_head_documnt_name).subscribe({
       next: async (imageData) => {
         let base64String = await convertBlobToBase64(imageData);
         this.center_head_documnt_photo = `data:image/jpg;base64,${base64String}`;

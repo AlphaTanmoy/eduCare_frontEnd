@@ -165,7 +165,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.is_document_loaded = false;
     this.center_documnt_name = FranchiseDocumentName.SUPPORTABLE_DOCUMENT;
 
-    this.franchiseService.GetImageStreamByFolderAndFilename(center_id, this.center_documnt_name).subscribe({
+    this.franchiseService.GetFileStreamByFolderAndFilename(center_id, this.center_documnt_name).subscribe({
       next: async (blob: Blob) => {
         console.log(blob);
     
