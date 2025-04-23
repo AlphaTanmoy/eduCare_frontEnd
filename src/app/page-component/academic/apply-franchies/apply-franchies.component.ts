@@ -17,6 +17,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Dropdown } from '../../../constants/commonConstants';
 import { CustomMultiSelectDropdownComponent } from '../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { FranchiseService } from '../../../service/franchise/franchise.service';
+import { TermsAndConditionsComponent } from '../../../common-component/terms-and-conditions/terms-and-conditions.component';
 
 @Component({
   selector: 'app-apply-franchies',
@@ -30,7 +31,8 @@ import { FranchiseService } from '../../../service/franchise/franchise.service';
     MatInputModule,
     CustomSingleSelectSearchableDropdownComponent,
     CustomMultiSelectDropdownComponent,
-    MatProgressBarModule
+    MatProgressBarModule,
+    TermsAndConditionsComponent
   ],
   templateUrl: './apply-franchies.component.html',
   styleUrl: './apply-franchies.component.css'
