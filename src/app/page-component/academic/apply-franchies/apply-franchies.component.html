@@ -4,7 +4,7 @@
     <h2 class="m-4 text-center">Apply Franchises</h2>
     <div class="row justify-content-center">
         <div class="col-12">
-            <mat-stepper orientation="vertical" [linear]="isLinear" #stepper (selectionChange)="onStepChange($event)">
+            <mat-stepper [linear]="isLinear" #stepper (selectionChange)="onStepChange($event)">
                 <!-- Step 1 -->
                 <mat-step [stepControl]="firstFormGroup">
                     <form [formGroup]="firstFormGroup">
