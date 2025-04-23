@@ -42,6 +42,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
   center_head_documnt_photo: string = '';
   center_head_documnt_name: string = '';
+  center_head_documnt_display_header: string = '';
   is_photo_loaded = false;
 
   FranchiseDocumentName = FranchiseDocumentName;
@@ -82,6 +83,12 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   }
 
   ViewFranchisePhoto(filename: string) {
+    if(filename === FranchiseDocumentName.CENTER_HEAD_PHOTO){
+      this.center_head_documnt_display_header = "Center Head Photo";
+    } else if(filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE){
+      this.center_head_documnt_display_header = "Center Head Signature";
+    }
+    
     if(this.center_head_documnt_name === filename){
       this.is_photo_loaded = true;
       return;
