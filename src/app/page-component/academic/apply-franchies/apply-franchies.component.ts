@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -54,6 +54,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
 
   selectedStepIndex: number = 0;
   isLinear = false;
+  stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
   CenterAddressStatus: boolean = false;
   AvilableCourseCategories: Dropdown[] = [];
@@ -91,6 +92,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   //#endregion 
 
   ngOnInit() {
+    this.setStepperOrientation();
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
 
@@ -123,6 +125,15 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
       this.hideMatProgressBar();
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.setStepperOrientation();
+  }
+
+  setStepperOrientation() {
+    this.stepperOrientation = window.innerWidth < 1200 ? 'vertical' : 'horizontal';
   }
 
   ngOnDestroy(): void {
