@@ -267,7 +267,7 @@
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle"
                                     (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
-                                <button *ngIf="terms_and_conditions_status" class="btn btn-primary" matStepperNext
+                                <button [disabled]="!terms_and_conditions_status" class="btn btn-primary" matStepperNext
                                     (click)="submit()">Submit</button>
                             </div>
                         </div>
