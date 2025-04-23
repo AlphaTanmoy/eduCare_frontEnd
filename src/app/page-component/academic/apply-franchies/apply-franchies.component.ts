@@ -138,6 +138,9 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   thirdFormGroup = this._formBuilder.group({
     thirdFormGroup: ['', Validators.required],
   });
+  forthFormGroup = this._formBuilder.group({
+    forthFormGroup: ['', Validators.required],
+  });
 
   onStepChange(event: StepperSelectionEvent): void {
     this.selectedStepIndex = event.selectedIndex;
