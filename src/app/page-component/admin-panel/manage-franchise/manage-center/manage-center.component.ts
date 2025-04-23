@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, FranchiseDocumentName, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
-import { CustomPdfViewerComponent } from '../../../../common-component/custom-pdf-viewer/custom-pdf-viewer.component';
 
 @Component({
   selector: 'app-manage-center',
@@ -53,9 +52,9 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   approve_reject_items: string[] = [];
 
-  center_document: string = '';
-  center_documnt_name: string = '';
-  is_document_loaded = false;
+  // center_document: string = '';
+  // center_documnt_name: string = '';
+  // is_document_loaded = false;
 
   constructor(
     private franchiseService: FranchiseService,
@@ -159,36 +158,24 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(center_id);
   }
 
-  ViewFranchiseSupportableDocument(center_id: string) {
-    console.log(center_id);
+  DownloadFranchiseDocuments(center_id: string) {
     this.activeMatProgressBar();
-    this.is_document_loaded = false;
-    this.center_documnt_name = FranchiseDocumentName.SUPPORTABLE_DOCUMENT;
 
-    this.franchiseService.GetFileStreamByFolderAndFilename(center_id, this.center_documnt_name).subscribe({
+    this.franchiseService.GetFileStreamByFolderAndFilename(center_id, FranchiseDocumentName.SUPPORTABLE_DOCUMENT).subscribe({
       next: async (blob: Blob) => {
-        console.log(blob);
-    
-        this.center_document = URL.createObjectURL(blob);
+        let center_document = URL.createObjectURL(blob);
         this.hideMatProgressBar();
-        this.is_document_loaded = true;
 
-        this.dialog.open(CustomPdfViewerComponent, {
-          data: {
-            pdf_url: this.center_document,
-            filename: this.center_documnt_name
-          }
-        });
+        const link = document.createElement('a');
+        link.href = center_document;
+        link.download = `${FranchiseDocumentName.SUPPORTABLE_DOCUMENT}.pdf`;
+        link.click();
       },
       error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog("Home", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
-  }
-
-  DownloadFranchiseDocuments(center_id: string) {
-    console.log(center_id);
   }
 
   ngOnDestroy(): void {
