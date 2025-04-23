@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,8 +10,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class TermsAndConditionsComponent {
   IsChecked: boolean = false;
+  @Output() customEvent = new EventEmitter<boolean>();
 
-  onCheckboxChange(event: any){
-
+  onCheckboxChange(event: any) {
+    this.IsChecked = (event.target as HTMLInputElement).checked;
+    this.customEvent.emit(this.IsChecked);
   }
 }
