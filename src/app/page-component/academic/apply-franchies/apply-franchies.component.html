@@ -232,6 +232,28 @@
                             </div>
                         </div>
 
+                        <div class="d-flex justify-content-between">
+                            <button class="custom-button1" (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="custom-button1 stepper_button_of_middle" matStepperPrevious>Back</button>
+                                <button class="custom-button1" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 4 -->
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="thirdFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Terms & Conditions</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-3">
+                            <p>Bom bhola khankir pola</p>
+                        </div>
+
 
                         <div class="d-flex justify-content-between">
                             <button class="custom-button1" matStepperPrevious>Back</button>
