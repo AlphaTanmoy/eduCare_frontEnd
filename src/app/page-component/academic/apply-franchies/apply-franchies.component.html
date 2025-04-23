@@ -4,7 +4,8 @@
     <h2 class="m-4 text-center">Apply Franchises</h2>
     <div class="row justify-content-center">
         <div class="col-12">
-            <mat-stepper [orientation]="stepperOrientation" [linear]="isLinear" #stepper (selectionChange)="onStepChange($event)">
+            <mat-stepper [orientation]="stepperOrientation" [linear]="isLinear" #stepper
+                (selectionChange)="onStepChange($event)">
                 <!-- Step 1 -->
                 <mat-step [stepControl]="firstFormGroup">
                     <form [formGroup]="firstFormGroup">
@@ -195,7 +196,8 @@
                             <button class="btn btn-primary" (click)="reset_center_form()">Reset</button>
 
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-primary stepper_button_of_middle" matStepperPrevious>Back</button>
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    matStepperPrevious>Back</button>
                                 <button class="btn btn-primary" matStepperNext>Next</button>
                             </div>
                         </div>
@@ -233,10 +235,12 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
+                            <button class="btn btn-primary"
+                                (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
 
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-primary stepper_button_of_middle" matStepperPrevious>Back</button>
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    matStepperPrevious>Back</button>
                                 <button class="btn btn-primary" matStepperNext>Next</button>
                             </div>
                         </div>
@@ -247,11 +251,13 @@
                 <mat-step [stepControl]="forthFormGroup">
                     <form [formGroup]="forthFormGroup">
                         <ng-template matStepLabel>
-                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 3 }">Terms & Conditions</span>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 3 }">Terms &
+                                Conditions</span>
                         </ng-template>
 
                         <div class="row mb-3 mt-3">
-                            <app-terms-and-conditions></app-terms-and-conditions>
+                            <app-terms-and-conditions
+                                (termsAndConditionStatus)="TermsAndConditionStatus($event)"></app-terms-and-conditions>
                         </div>
 
 
@@ -261,7 +267,8 @@
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle"
                                     (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
-                                <button class="btn btn-primary" matStepperNext (click)="submit()">Submit</button>
+                                <button *ngIf="terms_and_conditions_status" class="btn btn-primary" matStepperNext
+                                    (click)="submit()">Submit</button>
                             </div>
                         </div>
                     </form>
