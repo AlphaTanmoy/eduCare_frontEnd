@@ -137,6 +137,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
       } else {
         this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+        this.approve_reject_items = [];
       }
     } catch (error) {
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
