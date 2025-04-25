@@ -1,23 +1,23 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
-import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
-import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { FranchiseDocumentName, Gender, ResponseTypeColor } from '../../../constants/commonConstants';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { FranchiseDocumentName, Gender, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { CommonService } from '../../../service/common/common.service';
-import { IndexedDbService } from '../../../service/indexed-db/indexed-db.service';
-import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { CommonService } from '../../../../service/common/common.service';
+import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Dropdown } from '../../../constants/commonConstants';
-import { CustomMultiSelectDropdownComponent } from '../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
-import { FranchiseService } from '../../../service/franchise/franchise.service';
-import { TermsAndConditionsComponent } from '../../../common-component/terms-and-conditions/terms-and-conditions.component';
+import { Dropdown } from '../../../../constants/commonConstants';
+import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
+import { FranchiseService } from '../../../../service/franchise/franchise.service';
+import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 
 @Component({
   selector: 'app-apply-franchies',
