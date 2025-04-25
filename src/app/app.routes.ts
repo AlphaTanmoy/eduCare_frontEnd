@@ -38,7 +38,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
-import { ApplyFranchiesComponent } from './page-component/academic/apply-franchies/apply-franchies.component';
+import { ApplyFranchiesComponent } from './page-component/academic/franchise/apply-franchies/apply-franchies.component';
 import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/course-management/add-primary-course-category/add-primary-course-category.component';
 import { AddSubCourseCategoryComponent } from './page-component/admin-panel/course-management/add-sub-course-category/add-sub-course-category.component';
 import { ViewCourseComponent } from './page-component/admin-panel/course-management/view-course/view-course.component';
