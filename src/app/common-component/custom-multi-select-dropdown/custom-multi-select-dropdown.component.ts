@@ -21,12 +21,12 @@ export class CustomMultiSelectDropdownComponent implements OnInit {
 
   @Input() dropdownLabel: string | undefined = "Select";
   @Input() dropdownList: Dropdown[] = [];
-  @Input() dropdownListSelected: string[] = [];
+  @Input() dropdownListSelected: Dropdown[] = [];
   @Output() selectedItemsChanged = new EventEmitter<Dropdown[]>();
 
   ngOnInit() {
     this.itemList = this.dropdownList || [];
-    this.selectedItems.setValue(this.itemList.filter((item : Dropdown) => this.dropdownListSelected.includes(item.id!)));
+    this.selectedItems.setValue(this.itemList.filter((item : Dropdown) => this.dropdownListSelected.includes(item)));
   }
 
   compareDropdowns(a: Dropdown, b: Dropdown){
