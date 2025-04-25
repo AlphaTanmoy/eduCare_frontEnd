@@ -17,7 +17,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Dropdown } from '../../../../constants/commonConstants';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
-import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -35,7 +34,6 @@ import { forkJoin } from 'rxjs';
     CustomSingleSelectSearchableDropdownComponent,
     CustomMultiSelectDropdownComponent,
     MatProgressBarModule,
-    TermsAndConditionsComponent
   ],
   templateUrl: './edit-franchise.component.html',
   styleUrl: './edit-franchise.component.css'
