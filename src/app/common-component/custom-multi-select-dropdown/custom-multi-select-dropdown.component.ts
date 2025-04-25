@@ -14,23 +14,23 @@ import { Dropdown } from '../../constants/commonConstants';
   styleUrl: './custom-multi-select-dropdown.component.css'
 })
 
-export class CustomMultiSelectDropdownComponent {
+export class CustomMultiSelectDropdownComponent implements OnInit {
   selectedItems = new FormControl<Dropdown[]>([]);
   itemList: Dropdown[] = [];
   readonly SELECT_ALL_VALUE = '__select_all__';
 
   @Input() dropdownLabel: string | undefined = "Select";
+  @Input() dropdownList: Dropdown[] = [];
+  @Input() dropdownListSelected: string[] = [];
   @Output() selectedItemsChanged = new EventEmitter<Dropdown[]>();
 
-  @Input()
-  set dropdownList(value: Dropdown[]) {
-    this.itemList = value;
-    if (value?.length) {
-      this.itemList = value;
-    }
+  ngOnInit() {
+    this.itemList = this.dropdownList || [];
+    this.selectedItems.setValue(this.itemList.filter((item : Dropdown) => this.dropdownListSelected.includes(item.id!)));
   }
-  get dropdownList(): Dropdown[] {
-    return this.itemList;
+
+  compareDropdowns(a: Dropdown, b: Dropdown){
+    return a && b && a.id === b.id;
   }
 
   constructor() {

@@ -1,7 +1,7 @@
 <mat-form-field appearance="fill" class="w-100">
     <mat-label>{{ dropdownLabel }}</mat-label>
 
-    <mat-select [formControl]="selectedItems" multiple style="background-color: var(--white);">
+    <mat-select [formControl]="selectedItems" multiple [compareWith]="compareDropdowns" style="background-color: var(--white);">
         <!-- Select All with dummy value -->
         <div style="background-color: var(--white); padding-left: 1rem;">
             <button (click)="toggleSelectAll()" [value]="'__select_all__'" [disabled]="itemList.length === 0"
