@@ -98,7 +98,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   terms_and_conditions_status: boolean = false;
   //#endregion 
 
-  ngOnInit() {
+  async ngOnInit() {
     this.center_id = this.route.snapshot.paramMap.get('center_id')!;
 
     this.setStepperOrientation();
@@ -106,7 +106,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     this.activeMatProgressBar();
 
     try {
-      this.commonService.getAllAvailableCourseCategories().subscribe({
+      await this.commonService.getAllAvailableCourseCategories().subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
             this.AvilableCourseCategories.push(new Dropdown(element.course_code, element.course_name));
@@ -117,12 +117,20 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.commonService.getAllAvailableCenterTypes().subscribe({
+      await this.commonService.getAllAvailableCenterTypes().subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
             this.AvilableCenterTypes.push(new Dropdown(element.center_type_code, element.center_type_name));
           });
+        },
+        error: (err) => {
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      });
 
+      await this.franchiseService.GetCenterDetails(this.center_id).subscribe({
+        next: async (response) => {
+          console.log(response.data[0])
           this.hideMatProgressBar();
         },
         error: (err) => {

@@ -36,4 +36,8 @@ export class FranchiseService {
   GetFileStreamByFolderAndFilename(center_id: string, filename: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_documents + "/" + center_id + "/" + filename, { responseType: 'blob' });
   }
+
+  GetCenterDetails(center_id: string): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_details + "/" + center_id);
+  }
 }

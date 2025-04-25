@@ -50,6 +50,7 @@ export const Endpoints = {
         approve_reject_franchises: "franchise/approve_reject_franchises",
         get_center_head_details: "franchise/get_center_head_details",
         get_center_documents: "franchise/get_center_documents",
+        get_center_details: "franchise/get_center_details",
     },
     course: {
         get_all_parent_categories: 'parent-category/getAll',
