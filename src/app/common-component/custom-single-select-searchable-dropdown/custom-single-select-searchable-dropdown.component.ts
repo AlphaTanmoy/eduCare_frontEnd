@@ -25,66 +25,19 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './custom-single-select-searchable-dropdown.component.html',
   styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
 })
-export class CustomSingleSelectSearchableDropdownComponent implements OnInit, OnChanges {
+export class CustomSingleSelectSearchableDropdownComponent {
   myControl = new FormControl<string | Dropdown>(''); // Allow both string and Dropdown types
   filteredOptions: Observable<Dropdown[]> = new Observable<Dropdown[]>();
   private _options: Dropdown[] = [];
 
   @Input() ariaLabel: string = '';
-  @Input() initialValue: Dropdown | null = null;
+  @Input() selectedOptions: Dropdown | null = null;
+  @Input() options: Dropdown[] = [];
   @Output() selectionChange = new EventEmitter<Dropdown | null>();
 
-  @Input()
-  set options(value: Dropdown[]) {
-    this._options = value || [];
-    this.initializeFilter();
-  }
-  get options(): Dropdown[] {
-    return this._options;
-  }
-
-  ngOnInit(): void {
-    this.initializeFilter();
-
-    if (this.initialValue) {
-      this.myControl.setValue(this.initialValue);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['initialValue'] && changes['initialValue'].currentValue) {
-      this.myControl.setValue(changes['initialValue'].currentValue);
-    }
-  }
-
-  private initializeFilter(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(this.myControl.value),
-      debounceTime(300),
-      distinctUntilChanged(),
-      map(value => this._filter(value))
-    );
-  }
-
-  private _filter(value: string | Dropdown | null): Dropdown[] {
-    if (!this.options || this.options.length === 0) {
-      return [];
-    }
-
-    const filterValue = typeof value === 'string'
-      ? value.toLowerCase()
-      : value && typeof value === 'object'
-        ? value.text?.toLowerCase() || ''
-        : '';
-
-    return this.options.filter(option =>
-      option.text?.toLowerCase().includes(filterValue)
-    );
-  }
-
-  displayFn(option: Dropdown): string {
-    return option && option.text ? option.text : '';
-  }
+  compareDropdowns(a: Dropdown, b: Dropdown){
+    return a && b && a.id === b.id;
+  };
 
   onSelectionChange(event: any): void {
     const selectedOption = event.value;
