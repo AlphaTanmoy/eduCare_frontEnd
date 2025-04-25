@@ -267,8 +267,6 @@
                             <button class="btn btn-primary" matStepperPrevious>Back</button>
 
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-primary stepper_button_of_middle"
-                                    (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
                                 <button [disabled]="!terms_and_conditions_status" class="btn btn-primary" matStepperNext
                                     (click)="submit()">Submit</button>
                             </div>

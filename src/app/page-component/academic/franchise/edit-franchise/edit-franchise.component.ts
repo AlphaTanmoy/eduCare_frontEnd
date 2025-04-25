@@ -99,8 +99,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   center_head_photo: File | null = null;
   center_head_signature: File | null = null;
   supportable_document: File | null = null;
-
-  terms_and_conditions_status: boolean = false;
   //#endregion 
 
   async ngOnInit() {
@@ -325,10 +323,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     CenterHeadPhotoInput.value = '';
     CenterHeadSignatureInput.value = '';
     SupportableDocumentInput.value = '';
-  }
-
-  TermsAndConditionStatus(status: boolean) {
-    this.terms_and_conditions_status = status;
   }
 
   async submit() {
