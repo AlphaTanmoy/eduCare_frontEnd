@@ -186,11 +186,11 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
   }
 
   handleSelectedCourses(selectedItems: Dropdown[]) {
-    this.center_category = selectedItems.map((item: Dropdown) => item.text ?? "");
+    this.center_category = selectedItems.map((item: Dropdown) => item.id ?? "");
   }
 
   handleCenterTypeSelection(selectedItem: any) {
-    this.center_type = selectedItem.text ?? "";
+    this.center_type = selectedItem.id ?? "";
   }
 
   handleCenterHeadPhotoSelected(event: any) {
