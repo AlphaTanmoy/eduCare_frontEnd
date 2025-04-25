@@ -292,6 +292,8 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
       this.CenterAddressStatus = false;
     }
+
+    this.AssignOldCenterHeadDetails();
   }
 
   reset_center_form() {
@@ -311,6 +313,8 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
     this.form2_visible = false;
     setTimeout(() => this.form2_visible = true);
+
+    this.AssignOldCenterDetails();
   }
 
   reset_document_form(CenterHeadPhotoInput: HTMLInputElement, CenterHeadSignatureInput: HTMLInputElement, SupportableDocumentInput: HTMLInputElement) {
