@@ -26,10 +26,6 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./custom-single-select-searchable-dropdown.component.css'],
 })
 export class CustomSingleSelectSearchableDropdownComponent {
-  myControl = new FormControl<string | Dropdown>(''); // Allow both string and Dropdown types
-  filteredOptions: Observable<Dropdown[]> = new Observable<Dropdown[]>();
-  private _options: Dropdown[] = [];
-
   @Input() ariaLabel: string = '';
   @Input() selectedOptions: Dropdown | null = null;
   @Input() options: Dropdown[] = [];
