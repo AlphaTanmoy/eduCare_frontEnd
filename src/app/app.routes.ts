@@ -30,7 +30,6 @@ import { RulesComponent } from './page-component/contact-us/rules/rules.componen
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 import { EnumsComponent } from './page-component/admin-panel/enums/enums.component';
-import { FranchiseRegistrationComponent } from './page-component/academic/franchise-registration/franchise-registration.component';
 import { StudentRegistrationComponent } from './page-component/student/student-registration/student-registration.component';
 import { LoginComponent } from './page-component/login/login.component';
 import { AuthGuard } from './service/auth/Auth.guard';
