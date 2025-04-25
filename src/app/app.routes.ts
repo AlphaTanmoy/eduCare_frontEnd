@@ -44,6 +44,7 @@ import { AddSubCourseCategoryComponent } from './page-component/admin-panel/cour
 import { ViewCourseComponent } from './page-component/admin-panel/course-management/view-course/view-course.component';
 import { EditSubCourseCategoryComponent } from './page-component/admin-panel/course-management/edit-sub-course-category/edit-sub-course-category.component';
 import { ManageCenterComponent } from './page-component/admin-panel/manage-franchise/manage-center/manage-center.component';
+import { EditFranchiseComponent } from './page-component/academic/franchise/edit-franchise/edit-franchise.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -57,6 +58,7 @@ export const routes: Routes = [
     { path: 'academic/download-form', component: DownloadFormComponent },
     { path: 'academic/pay-fees', component: PayFeesComponent },
     { path: 'academic/apply-franchise', component: ApplyFranchiesComponent },
+    { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent },
     { path: 'course-offered/computer', component: ComputerCourseComponent },
     { path: 'course-offered/dance', component: DanceCourseComponent },
     { path: 'course-offered/drawing', component: DrawingCourseComponent },

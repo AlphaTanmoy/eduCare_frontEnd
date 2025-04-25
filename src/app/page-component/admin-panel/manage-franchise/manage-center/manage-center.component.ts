@@ -157,6 +157,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   EditFranchiseDetails(center_id: string) {
     console.log(center_id);
+    window.location.href = "academic/edit-franchise/" + center_id;
   }
 
   DownloadFranchiseDocuments(center_id: string) {

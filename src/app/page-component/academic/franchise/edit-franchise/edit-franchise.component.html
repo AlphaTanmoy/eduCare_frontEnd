@@ -1,1 +1,281 @@
-<p>edit-franchise works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mt-4">
+    <h2 class="m-4 text-center">Edit Franchises</h2>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <mat-stepper [orientation]="stepperOrientation" [linear]="isLinear" #stepper
+                (selectionChange)="onStepChange($event)">
+                <!-- Step 1 -->
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Center Head
+                                Details</span>
+                        </ng-template>
+
+                        <div class="row mb-2 d-flex justify-content-end mt-2">
+                            <div class="col-12 col-md-6 mb-2" style="margin-top: -0.5rem;">
+                                <label class="form-label mb-1">Center Head Name <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Center Head Name"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_name">
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <app-custom-single-select-searchable-dropdown *ngIf="genderDropdownOption.length > 0 && form1_visible"
+                                    [options]="genderDropdownOption" [ariaLabel]="'Select Gender'"
+                                    [selectedOptions]="null"
+                                    (selectionChange)="handleGenderSelection($event)">
+                                </app-custom-single-select-searchable-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Center Head Contact Number <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Type Center Head Contact Number"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_contact_number">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Center Head Email ID<span
+                                        class="text-danger">*</span></label>
+                                <input type="email" class="form-control mb-2" placeholder="Type Center Head Email ID"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_email_id">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">State <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type State"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_state">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">District <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type District"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_district">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Post Office <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Post Office"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_post_office">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Police Station <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Police Station"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_police_station">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Village/City <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Village/City"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_village_city">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Pin Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Type Pin Code"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_head_pin_code">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" (click)="reset_center_head_form()">Reset</button>
+                            <button matStepperNext class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+
+
+                <!-- Step 2 -->
+                <mat-step [stepControl]="secondFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 1 }">Center Details</span>
+                        </ng-template>
+
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2 w-100">
+                                <label class="form-label mb-1">Center Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Center Name"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_name">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Center Contact Number <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Type Center Contact Number"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_contact_number">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Center Email ID<span class="text-danger">*</span></label>
+                                <input type="email" class="form-control mb-2" placeholder="Type Center Email ID"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_email_id">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-2">
+                                <app-custom-multi-select-dropdown *ngIf="AvilableCourseCategories.length > 0 && form2_visible"
+                                    [dropdownLabel]="'Select Center Category'" [dropdownList]="AvilableCourseCategories"
+                                    [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedCourses($event)">
+                                </app-custom-multi-select-dropdown>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-custom-single-select-searchable-dropdown *ngIf="AvilableCenterTypes.length > 0 && form2_visible"
+                                    [options]="AvilableCenterTypes" [ariaLabel]="'Select Center Type'"
+                                    [selectedOptions]="null"
+                                    (selectionChange)="handleCenterTypeSelection($event)">
+                                </app-custom-single-select-searchable-dropdown>
+                            </div>
+                        </div>
+
+                        <!-- <hr> -->
+
+                        <div class="form-check mb-2">
+                            <label class="form-label mb-1">Check here if center address is same as center head
+                                address</label>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="CenterAddressStatus" (change)="onCheckboxChange($event)">
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">State <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type State"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_state"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">District <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type District"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_district"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Post Office <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Post Office"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_post_office"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Police Station <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Police Station"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_police_station"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Village/City <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Type Village/City"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_village_city"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label mb-1">Pin Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Type Pin Code"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="center_pin_code"
+                                    [disabled]="CenterAddressStatus">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" (click)="reset_center_form()">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    matStepperPrevious>Back</button>
+                                <button class="btn btn-primary" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 3 -->
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="thirdFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Documents</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-3">
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" #CenterHeadPhotoInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png"
+                                    (change)="handleCenterHeadPhotoSelected($event)">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" #CenterHeadSignatureInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png"
+                                    (change)="handleCenterHeadSignatureSelected($event)">
+                            </div>
+                            <div class="col-12 col-md-4 mb-2">
+                                <label class="form-label mb-1">Supportable Document (PDF) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" #SupportableDocumentInput class="form-control"
+                                    accept="application/pdf" (change)="handleSupportableDocumentSelected($event)">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary"
+                                (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    matStepperPrevious>Back</button>
+                                <button class="btn btn-primary" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 4 -->
+                <mat-step [stepControl]="forthFormGroup">
+                    <form [formGroup]="forthFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 3 }">Terms &
+                                Conditions</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-3">
+                            <app-terms-and-conditions
+                                (termsAndConditionStatus)="TermsAndConditionStatus($event)"></app-terms-and-conditions>
+                        </div>
+
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" matStepperPrevious>Back</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
+                                <button [disabled]="!terms_and_conditions_status" class="btn btn-primary" matStepperNext
+                                    (click)="submit()">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+            </mat-stepper>
+        </div>
+    </div>
+</div>
