@@ -19,6 +19,7 @@ import { CustomMultiSelectDropdownComponent } from '../../../../common-component
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   readonly dialog = inject(MatDialog);
 
   genderDropdownOption = Gender;
+  selectedGenderDropdown: Dropdown | null = null;
 
   selectedStepIndex: number = 0;
   isLinear = false;
@@ -63,8 +65,11 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   CenterAddressStatus: boolean = false;
   AvilableCourseCategories: Dropdown[] = [];
+  SelectedCourseCategories: Dropdown[] = [];
   AvilableCenterTypes: Dropdown[] = [];
+  SelectedCenterType: Dropdown | null = null;
 
+  OldCenterDetails: any = {};
   //#region Form Fields
   form1_visible: boolean = true;
   center_head_name: string = "";
@@ -99,41 +104,33 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   //#endregion 
 
   async ngOnInit() {
+    this.activeMatProgressBar();
     this.center_id = this.route.snapshot.paramMap.get('center_id')!;
 
     this.setStepperOrientation();
     this.bootstrapElements = loadBootstrap();
-    this.activeMatProgressBar();
 
     try {
-      await this.commonService.getAllAvailableCourseCategories().subscribe({
-        next: async (response) => {
-          response.data.forEach((element: any) => {
+      forkJoin({
+        courseCategories: this.commonService.getAllAvailableCourseCategories(),
+        centerTypes: this.commonService.getAllAvailableCenterTypes(),
+        centerDetails: this.franchiseService.GetCenterDetails(this.center_id),
+      }).subscribe({
+        next: async ({ courseCategories, centerTypes, centerDetails }) => {
+          courseCategories.data.forEach((element: any) => {
             this.AvilableCourseCategories.push(new Dropdown(element.course_code, element.course_name));
           });
-        },
-        error: (err) => {
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        }
-      });
 
-      await this.commonService.getAllAvailableCenterTypes().subscribe({
-        next: async (response) => {
-          response.data.forEach((element: any) => {
+          centerTypes.data.forEach((element: any) => {
             this.AvilableCenterTypes.push(new Dropdown(element.center_type_code, element.center_type_name));
           });
-        },
-        error: (err) => {
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-        }
-      });
 
-      await this.franchiseService.GetCenterDetails(this.center_id).subscribe({
-        next: async (response) => {
-          console.log(response.data[0])
+          this.OldCenterDetails = centerDetails.data[0];
+          await this.AssignOldCenterDetails();
+          await this.AssignOldCenterHeadDetails();
           this.hideMatProgressBar();
         },
-        error: (err) => {
+        error: () => {
           this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
           this.hideMatProgressBar();
         }
@@ -169,6 +166,49 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   forthFormGroup = this._formBuilder.group({
     forthFormGroup: ['', Validators.required],
   });
+
+  async AssignOldCenterHeadDetails() {
+    this.center_head_name = this.OldCenterDetails.center_head_name;
+    this.center_head_gender = this.OldCenterDetails.center_head_gender;
+    this.center_head_contact_number = this.OldCenterDetails.center_head_contact_number;
+    this.center_head_email_id = this.OldCenterDetails.center_head_email_id;
+    this.center_head_state = this.OldCenterDetails.center_state;
+    this.center_head_district = this.OldCenterDetails.center_district;
+    this.center_head_post_office = this.OldCenterDetails.center_post_office;
+    this.center_head_police_station = this.OldCenterDetails.center_police_station;
+    this.center_head_village_city = this.OldCenterDetails.center_village_city;
+    this.center_head_pin_code = this.OldCenterDetails.center_pin_code;
+
+    this.genderDropdownOption.forEach(item => {
+      if (this.OldCenterDetails.center_head_gender === item.text) {
+        this.selectedGenderDropdown = item;
+      }
+    });
+  }
+
+  async AssignOldCenterDetails() {
+    this.center_name = this.OldCenterDetails.center_name;
+    this.center_contact_number = this.OldCenterDetails.center_contact_number;
+    this.center_email_id = this.OldCenterDetails.center_email_id;
+
+    this.center_type = this.OldCenterDetails.center_type;
+    this.center_state = this.OldCenterDetails.center_state;
+    this.center_district = this.OldCenterDetails.center_district;
+    this.center_post_office = this.OldCenterDetails.center_post_office;
+    this.center_police_station = this.OldCenterDetails.center_police_station;
+    this.center_village_city = this.OldCenterDetails.center_village_city;
+    this.center_pin_code = this.OldCenterDetails.center_pin_code;
+
+    this.SelectedCourseCategories = this.AvilableCourseCategories.filter(item =>
+      this.OldCenterDetails.center_categories.includes(item.id)
+    );
+
+    this.AvilableCenterTypes.forEach(item => {
+      if (this.OldCenterDetails.center_type === item.id) {
+        this.SelectedCenterType = item;
+      }
+    });
+  }
 
   onStepChange(event: StepperSelectionEvent): void {
     this.selectedStepIndex = event.selectedIndex;

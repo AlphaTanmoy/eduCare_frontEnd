@@ -25,7 +25,7 @@
                             <div class="col-12 col-md-6">
                                 <app-custom-single-select-searchable-dropdown *ngIf="genderDropdownOption.length > 0 && form1_visible"
                                     [options]="genderDropdownOption" [ariaLabel]="'Select Gender'"
-                                    [selectedOptions]="null"
+                                    [selectedOptions]="selectedGenderDropdown"
                                     (selectionChange)="handleGenderSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
@@ -128,13 +128,13 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <app-custom-multi-select-dropdown *ngIf="AvilableCourseCategories.length > 0 && form2_visible"
                                     [dropdownLabel]="'Select Center Category'" [dropdownList]="AvilableCourseCategories"
-                                    [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedCourses($event)">
+                                    [dropdownListSelected]="SelectedCourseCategories" (selectedItemsChanged)="handleSelectedCourses($event)">
                                 </app-custom-multi-select-dropdown>
                             </div>
                             <div class="col-12 col-md-6">
                                 <app-custom-single-select-searchable-dropdown *ngIf="AvilableCenterTypes.length > 0 && form2_visible"
                                     [options]="AvilableCenterTypes" [ariaLabel]="'Select Center Type'"
-                                    [selectedOptions]="null"
+                                    [selectedOptions]="SelectedCenterType"
                                     (selectionChange)="handleCenterTypeSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
