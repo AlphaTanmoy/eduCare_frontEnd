@@ -13,8 +13,8 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.add_center_head_details, { data: center_head_details });
   }
 
-  AddCenter(center_head: any): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.add_center_details, { data: center_head });
+  AddCenter(center_details: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.add_center_details, { data: center_details });
   }
 
   UploadFranchiseDocument(formData: any): Observable<any> {
@@ -43,5 +43,9 @@ export class FranchiseService {
 
   UpdateCenterHead(center_head_details: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_center_head_details, { data: center_head_details });
+  }
+
+  UpdateCenter(center_details: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_center_details, { data: center_details });
   }
 }

@@ -307,13 +307,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         center_head_village_city: this.center_head_village_city,
         center_head_pin_code: this.center_head_pin_code
       };
-  
+
       await this.franchiseService.UpdateCenterHead(center_head_details).subscribe({
         next: (response) => {
-          console.log(response)
-          if(response.status !== 200){
+          if (response.status !== 200) {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
-          }else{
+          } else {
             this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
           }
           this.hideMatProgressBar();
@@ -334,12 +333,38 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       const isValid = await this.validateCenterDetailsForm();
       if (!isValid) return;
 
-      
-    } catch (error: any) {
+      const center_details = {
+        center_id: this.center_id,
+        center_name: this.center_name,
+        center_contact_number: this.center_contact_number,
+        center_email_id: this.center_email_id,
+        center_category: this.center_category,
+        center_type: this.center_type,
+        center_state: this.center_state,
+        center_district: this.center_district,
+        center_post_office: this.center_post_office,
+        center_police_station: this.center_police_station,
+        center_village_city: this.center_village_city,
+        center_pin_code: this.center_pin_code
+      };
+
+      await this.franchiseService.UpdateCenter(center_details).subscribe({
+        next: (response) => {
+          if (response.status !== 200) {
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          } else {
+            this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
+          }
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Franchise", err.error.message, ResponseTypeColor.ERROR, false);
+        }
+      });
+    } catch (err) {
       this.hideMatProgressBar();
-      const message = error?.error?.message || "Internal server error";
-      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
-      return;
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
 
@@ -348,7 +373,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       const isValid = await this.validateSupportableDocumentsForm();
       if (!isValid) return;
 
-      
+
     } catch (error: any) {
       this.hideMatProgressBar();
       const message = error?.error?.message || "Internal server error";
@@ -420,64 +445,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   }
 
   async validateCenterDetailsForm() {
-    // Center Head Validation
-    this.center_head_name = this.center_head_name.trim();
-    if (this.center_head_name === "") {
-      this.openDialog("Franchise", "Center Head Name is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    if (this.center_head_gender === "") {
-      this.openDialog("Franchise", "Center Head Gender is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    if (this.center_head_contact_number === "") {
-      this.openDialog("Franchise", "Center Head Contact Number is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_email_id = this.center_head_email_id.trim();
-    if (this.center_head_email_id === "") {
-      this.openDialog("Franchise", "Center Head Email ID is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_state = this.center_head_state.trim();
-    if (this.center_head_state === "") {
-      this.openDialog("Franchise", "Center Head State is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_district = this.center_head_district.trim();
-    if (this.center_head_district === "") {
-      this.openDialog("Franchise", "Center Head District is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_post_office = this.center_head_post_office.trim();
-    if (this.center_head_post_office === "") {
-      this.openDialog("Franchise", "Center Head Post Office is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_police_station = this.center_head_police_station.trim();
-    if (this.center_head_police_station === "") {
-      this.openDialog("Franchise", "Center Head Police Station is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    this.center_head_village_city = this.center_head_village_city.trim();
-    if (this.center_head_village_city === "") {
-      this.openDialog("Franchise", "Center Head Village/City is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    if (this.center_head_pin_code === "") {
-      this.openDialog("Franchise", "Center Head Pin Code is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
     // Center Validation
     this.center_name = this.center_name.trim();
     if (this.center_name === "") {
@@ -540,22 +507,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    // Supportable Document Validation
-    if (!this.center_head_photo || this.center_head_photo === null) {
-      this.openDialog("Franchise", "Center Head Photo is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    if (!this.center_head_signature || this.center_head_signature === null) {
-      this.openDialog("Franchise", "Center Head Signature is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
-    if (!this.supportable_document || this.supportable_document === null) {
-      this.openDialog("Franchise", "Supportable Document is required", ResponseTypeColor.INFO, false);
-      return false;
-    }
-
     return true;
   }
 
@@ -577,34 +528,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     }
 
     return true;
-  }
-
-  async saveCenterDetails(center_head: any): Promise<any> {
-    const center_details = {
-      center_head_id: center_head[0].center_head_id,
-      center_name: this.center_name,
-      center_contact_number: this.center_contact_number,
-      center_email_id: this.center_email_id,
-      center_category: this.center_category,
-      center_type: this.center_type,
-      center_state: this.center_state,
-      center_district: this.center_district,
-      center_post_office: this.center_post_office,
-      center_police_station: this.center_police_station,
-      center_village_city: this.center_village_city,
-      center_pin_code: this.center_pin_code
-    };
-
-    return new Promise((resolve, reject) => {
-      this.franchiseService.AddCenter(center_details).subscribe({
-        next: (response) => {
-          response.status === 200 ? resolve(response) : reject(response);
-        },
-        error: (err) => {
-          reject(err);
-        }
-      });
-    });
   }
 
   async saveCenterSupportiveDocumentDetails(formData: any): Promise<any> {
