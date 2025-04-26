@@ -323,47 +323,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     SupportableDocumentInput.value = '';
   }
 
-  async submit() {
+  async submit_center_head_details() {
     try {
       const isValid = await this.validateForm();
       if (!isValid) return;
 
-      // this.activeMatProgressBar();
-
-      // // Center head save
-      // const center_head = await this.saveCenterHeadDetails();
-
-      // // Center details save
-      // const center = await this.saveCenterDetails(center_head.data);
-
-      // // Center supportive documents save
-      // const formData = new FormData();
-      // formData.append("center_id", center.data[0].center_id);
-      // formData.append("document_info", JSON.stringify([
-      //   { fileName: FranchiseDocumentName.CENTER_HEAD_PHOTO },
-      //   { fileName: FranchiseDocumentName.CENTER_HEAD_SIGNATURE },
-      //   { fileName: FranchiseDocumentName.SUPPORTABLE_DOCUMENT }
-      // ]));
-
-      // if (this.center_head_photo) {
-      //   formData.append("files", this.center_head_photo);
-      // }
-      // if (this.center_head_signature) {
-      //   formData.append("files", this.center_head_signature);
-      // }
-      // if (this.supportable_document) {
-      //   formData.append("files", this.supportable_document);
-      // }
-
-      // await this.saveCenterSupportiveDocumentDetails(formData);
-
-      // this.hideMatProgressBar();
-      // this.openDialog(
-      //   "Franchise",
-      //   "Thank You for successfully registering yourself as our franchise.<br>Please wait for the admin approval.",
-      //   ResponseTypeColor.SUCCESS,
-      //   false
-      // );
+      
     } catch (error: any) {
       this.hideMatProgressBar();
       const message = error?.error?.message || "Internal server error";
@@ -372,6 +337,33 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     }
   }
 
+  async submit_center_details() {
+    try {
+      const isValid = await this.validateForm();
+      if (!isValid) return;
+
+      
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      const message = error?.error?.message || "Internal server error";
+      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
+      return;
+    }
+  }
+
+  async submit_document() {
+    try {
+      const isValid = await this.validateForm();
+      if (!isValid) return;
+
+      
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      const message = error?.error?.message || "Internal server error";
+      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
+      return;
+    }
+  }
 
   async validateForm() {
     // Center Head Validation

@@ -23,7 +23,8 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <app-custom-single-select-searchable-dropdown *ngIf="genderDropdownOption.length > 0 && form1_visible"
+                                <app-custom-single-select-searchable-dropdown
+                                    *ngIf="genderDropdownOption.length > 0 && form1_visible"
                                     [options]="genderDropdownOption" [ariaLabel]="'Select Gender'"
                                     [selectedOptions]="selectedGenderDropdown"
                                     (selectionChange)="handleGenderSelection($event)">
@@ -88,8 +89,14 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" (click)="reset_center_head_form()">Reset</button>
                             <button matStepperNext class="btn btn-primary">Next</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    (click)="reset_center_head_form()">Reset</button>
+                                <button class="btn btn-primary" matStepperNext
+                                    (click)="submit_center_head_details()">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </mat-step>
@@ -126,13 +133,16 @@
 
                         <div class="row">
                             <div class="col-12 col-md-6 mb-2">
-                                <app-custom-multi-select-dropdown *ngIf="AvilableCourseCategories.length > 0 && form2_visible"
+                                <app-custom-multi-select-dropdown
+                                    *ngIf="AvilableCourseCategories.length > 0 && form2_visible"
                                     [dropdownLabel]="'Select Center Category'" [dropdownList]="AvilableCourseCategories"
-                                    [dropdownListSelected]="SelectedCourseCategories" (selectedItemsChanged)="handleSelectedCourses($event)">
+                                    [dropdownListSelected]="SelectedCourseCategories"
+                                    (selectedItemsChanged)="handleSelectedCourses($event)">
                                 </app-custom-multi-select-dropdown>
                             </div>
                             <div class="col-12 col-md-6">
-                                <app-custom-single-select-searchable-dropdown *ngIf="AvilableCenterTypes.length > 0 && form2_visible"
+                                <app-custom-single-select-searchable-dropdown
+                                    *ngIf="AvilableCenterTypes.length > 0 && form2_visible"
                                     [options]="AvilableCenterTypes" [ariaLabel]="'Select Center Type'"
                                     [selectedOptions]="SelectedCenterType"
                                     (selectionChange)="handleCenterTypeSelection($event)">
@@ -195,12 +205,17 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" (click)="reset_center_form()">Reset</button>
-
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle"
                                     matStepperPrevious>Back</button>
                                 <button class="btn btn-primary" matStepperNext>Next</button>
+                            </div>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle"
+                                    (click)="reset_center_form()">Reset</button>
+                                <button class="btn btn-primary" matStepperNext
+                                    (click)="submit_center_details()">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -237,14 +252,13 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary"
-                                (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
+                            <button class="btn btn-primary stepper_button_of_middle" matStepperPrevious>Back</button>
 
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle"
-                                    matStepperPrevious>Back</button>
+                                    (click)="reset_document_form(CenterHeadPhotoInput, CenterHeadSignatureInput, SupportableDocumentInput)">Reset</button>
                                 <button class="btn btn-primary" matStepperNext
-                                    (click)="submit()">Submit</button>
+                                    (click)="submit_document()">Submit</button>
                             </div>
                         </div>
                     </form>
