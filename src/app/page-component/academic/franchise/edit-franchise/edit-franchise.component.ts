@@ -328,42 +328,42 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       const isValid = await this.validateForm();
       if (!isValid) return;
 
-      this.activeMatProgressBar();
+      // this.activeMatProgressBar();
 
-      // Center head save
-      const center_head = await this.saveCenterHeadDetails();
+      // // Center head save
+      // const center_head = await this.saveCenterHeadDetails();
 
-      // Center details save
-      const center = await this.saveCenterDetails(center_head.data);
+      // // Center details save
+      // const center = await this.saveCenterDetails(center_head.data);
 
-      // Center supportive documents save
-      const formData = new FormData();
-      formData.append("center_id", center.data[0].center_id);
-      formData.append("document_info", JSON.stringify([
-        { fileName: FranchiseDocumentName.CENTER_HEAD_PHOTO },
-        { fileName: FranchiseDocumentName.CENTER_HEAD_SIGNATURE },
-        { fileName: FranchiseDocumentName.SUPPORTABLE_DOCUMENT }
-      ]));
+      // // Center supportive documents save
+      // const formData = new FormData();
+      // formData.append("center_id", center.data[0].center_id);
+      // formData.append("document_info", JSON.stringify([
+      //   { fileName: FranchiseDocumentName.CENTER_HEAD_PHOTO },
+      //   { fileName: FranchiseDocumentName.CENTER_HEAD_SIGNATURE },
+      //   { fileName: FranchiseDocumentName.SUPPORTABLE_DOCUMENT }
+      // ]));
 
-      if (this.center_head_photo) {
-        formData.append("files", this.center_head_photo);
-      }
-      if (this.center_head_signature) {
-        formData.append("files", this.center_head_signature);
-      }
-      if (this.supportable_document) {
-        formData.append("files", this.supportable_document);
-      }
+      // if (this.center_head_photo) {
+      //   formData.append("files", this.center_head_photo);
+      // }
+      // if (this.center_head_signature) {
+      //   formData.append("files", this.center_head_signature);
+      // }
+      // if (this.supportable_document) {
+      //   formData.append("files", this.supportable_document);
+      // }
 
-      await this.saveCenterSupportiveDocumentDetails(formData);
+      // await this.saveCenterSupportiveDocumentDetails(formData);
 
-      this.hideMatProgressBar();
-      this.openDialog(
-        "Franchise",
-        "Thank You for successfully registering yourself as our franchise.<br>Please wait for the admin approval.",
-        ResponseTypeColor.SUCCESS,
-        false
-      );
+      // this.hideMatProgressBar();
+      // this.openDialog(
+      //   "Franchise",
+      //   "Thank You for successfully registering yourself as our franchise.<br>Please wait for the admin approval.",
+      //   ResponseTypeColor.SUCCESS,
+      //   false
+      // );
     } catch (error: any) {
       this.hideMatProgressBar();
       const message = error?.error?.message || "Internal server error";
