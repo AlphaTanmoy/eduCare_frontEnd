@@ -290,6 +290,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   async submit_center_head_details() {
     try {
+      this.activeMatProgressBar();
       const isValid = await this.validateCenterHeadForm();
       if (!isValid) return;
 
@@ -307,21 +308,24 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         center_head_pin_code: this.center_head_pin_code
       };
   
-      return new Promise((resolve, reject) => {
-        this.franchiseService.UpdateCenterHead(center_head_details).subscribe({
-          next: (response) => {
-            console.log(response)
-          },
-          error: (err) => {
-            reject(err);
+      await this.franchiseService.UpdateCenterHead(center_head_details).subscribe({
+        next: (response) => {
+          console.log(response)
+          if(response.status !== 200){
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          }else{
+            this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
           }
-        });
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Franchise", err.error.message, ResponseTypeColor.ERROR, false);
+        }
       });
-    } catch (error: any) {
+    } catch (err) {
       this.hideMatProgressBar();
-      const message = error?.error?.message || "Internal server error";
-      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
-      return;
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
 
