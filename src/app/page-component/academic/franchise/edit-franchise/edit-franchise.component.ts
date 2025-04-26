@@ -123,7 +123,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
           });
 
           this.OldCenterDetails = centerDetails.data[0];
-          console.log(this.OldCenterDetails);
           await this.AssignOldCenterDetails();
           await this.AssignOldCenterHeadDetails();
           this.hideMatProgressBar();
