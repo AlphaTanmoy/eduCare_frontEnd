@@ -123,6 +123,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
           });
 
           this.OldCenterDetails = centerDetails.data[0];
+          console.log(this.OldCenterDetails);
           await this.AssignOldCenterDetails();
           await this.AssignOldCenterHeadDetails();
           this.hideMatProgressBar();
@@ -170,12 +171,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     this.center_head_gender = this.OldCenterDetails.center_head_gender;
     this.center_head_contact_number = this.OldCenterDetails.center_head_contact_number;
     this.center_head_email_id = this.OldCenterDetails.center_head_email_id;
-    this.center_head_state = this.OldCenterDetails.center_state;
-    this.center_head_district = this.OldCenterDetails.center_district;
-    this.center_head_post_office = this.OldCenterDetails.center_post_office;
-    this.center_head_police_station = this.OldCenterDetails.center_police_station;
-    this.center_head_village_city = this.OldCenterDetails.center_village_city;
-    this.center_head_pin_code = this.OldCenterDetails.center_pin_code;
+    this.center_head_state = this.OldCenterDetails.center_head_state;
+    this.center_head_district = this.OldCenterDetails.center_head_district;
+    this.center_head_post_office = this.OldCenterDetails.center_head_post_office;
+    this.center_head_police_station = this.OldCenterDetails.center_head_police_station;
+    this.center_head_village_city = this.OldCenterDetails.center_head_village_city;
+    this.center_head_pin_code = this.OldCenterDetails.center_head_pin_code;
 
     this.genderDropdownOption.forEach(item => {
       if (this.OldCenterDetails.center_head_gender === item.text) {
@@ -227,12 +228,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       this.center_village_city = this.center_head_village_city;
       this.center_pin_code = this.center_head_pin_code;
     } else {
-      this.center_state = "";
-      this.center_district = "";
-      this.center_post_office = "";
-      this.center_police_station = "";
-      this.center_village_city = "";
-      this.center_pin_code = "";
+      this.center_state = this.OldCenterDetails.center_state;
+      this.center_district = this.OldCenterDetails.center_district;
+      this.center_post_office = this.OldCenterDetails.center_post_office;
+      this.center_police_station = this.OldCenterDetails.center_police_station;
+      this.center_village_city = this.OldCenterDetails.center_village_city;
+      this.center_pin_code = this.OldCenterDetails.center_pin_code;
     }
   }
 
