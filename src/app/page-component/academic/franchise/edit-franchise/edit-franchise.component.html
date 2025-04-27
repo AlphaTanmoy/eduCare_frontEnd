@@ -231,13 +231,19 @@
                             <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
+
                                 <input type="file" #CenterHeadPhotoInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadPhotoSelected($event)">
-                                <span
+
+                                <span *ngIf="has_center_head_photo"
                                     (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)"
                                     class="download_btn text-primary mt-2 mb-4">Download
                                     & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+
+                                <span *ngIf="!has_center_head_photo" class="download_btn text-primary mt-2 mb-4">
+                                    No center head photo available
+                                </span>
 
                                 <br>
 
@@ -250,14 +256,19 @@
                             <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
+
                                 <input type="file" #CenterHeadSignatureInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadSignatureSelected($event)">
-                                <span
+
+                                <span *ngIf="has_center_head_signature"
                                     (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)"
                                     class="download_btn text-primary mt-2 mb-4">Download
                                     & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
 
+                                <span *ngIf="!has_center_head_signature" class="download_btn text-primary mt-2 mb-4">
+                                    No center head signatur available
+                                </span>
                                 <br>
 
                                 <div class="w-100 d-flex justify-content-between">
@@ -269,12 +280,18 @@
                             <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Supportable Document (PDF) <span
                                         class="text-danger">*</span></label>
+
                                 <input type="file" #SupportableDocumentInput class="form-control"
                                     accept="application/pdf" (change)="handleSupportableDocumentSelected($event)">
-                                <span
+
+                                <span *ngIf="has_supportable_document"
                                     (click)="download_and_view_existing_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)"
                                     class="download_btn text-primary mt-2 mb-4">Download
                                     & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+
+                                <span *ngIf="!has_supportable_document" class="download_btn text-primary mt-2 mb-4">
+                                    No supportable document available
+                                </span>
 
                                 <br>
 

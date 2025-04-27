@@ -41,6 +41,10 @@ export class FranchiseService {
     return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_details + "/" + center_id);
   }
 
+  GetCenterDocumeentsInfo(center_id: string): Observable<any>{
+    return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_documents_info + "/" + center_id);
+  }
+
   UpdateCenterHead(center_head_details: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_center_head_details, { data: center_head_details });
   }

@@ -108,6 +108,10 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     [FranchiseDocumentName.SUPPORTABLE_DOCUMENT]: ""
   };
 
+  has_center_head_photo: boolean = false;
+  has_center_head_signature: boolean = false;
+  has_supportable_document: boolean = false;
+
   center_head_old_photo: string = "";
   center_head_old_signature: string = "";
   supportable_document_old: string = "";
@@ -129,11 +133,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         courseCategories: this.commonService.getAllAvailableCourseCategories(),
         centerTypes: this.commonService.getAllAvailableCenterTypes(),
         centerDetails: this.franchiseService.GetCenterDetails(this.center_id),
+        centerDocumentsInfo: this.franchiseService.GetCenterDocumeentsInfo(this.center_id),
         centerHeadPhoto: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_PHOTO),
         centerHeadSignature: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_SIGNATURE),
         supportableDocument: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.SUPPORTABLE_DOCUMENT),
       }).subscribe({
-        next: async ({ courseCategories, centerTypes, centerDetails, centerHeadPhoto, centerHeadSignature, supportableDocument }) => {
+        next: async ({ courseCategories, centerTypes, centerDetails, centerDocumentsInfo, centerHeadPhoto, centerHeadSignature, supportableDocument }) => {
           courseCategories.data.forEach((element: any) => {
             this.AvilableCourseCategories.push(new Dropdown(element.course_code, element.course_name));
           });
@@ -145,6 +150,11 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
           this.OldCenterDetails = centerDetails.data[0];
           await this.AssignOldCenterDetails();
           await this.AssignOldCenterHeadDetails();
+
+          let documentInfo = centerDocumentsInfo.data[0];
+          this.has_center_head_photo = documentInfo.center_head_photo === 1 ? true : false;
+          this.has_center_head_signature = documentInfo.center_head_signature === 1 ? true : false;
+          this.has_supportable_document = documentInfo.supportable_document === 1 ? true : false;
 
           let base64String = await convertBlobToBase64(centerHeadPhoto);
           this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO] = `data:image/jpg;base64,${base64String}`;
