@@ -330,8 +330,8 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     link.href = download_file;
 
     let extension_name = "jpg";
-    if(filename == FranchiseDocumentName.SUPPORTABLE_DOCUMENT) extension_name = "pdf";
-      
+    if (filename == FranchiseDocumentName.SUPPORTABLE_DOCUMENT) extension_name = "pdf";
+
     link.download = `${this.center_id}_${download_filename}.${extension_name}`;
     link.click();
   }
