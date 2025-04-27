@@ -112,10 +112,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   has_center_head_signature: boolean = false;
   has_supportable_document: boolean = false;
 
-  center_head_old_photo: string = "";
-  center_head_old_signature: string = "";
-  supportable_document_old: string = "";
-
   center_head_photo_new: File | null = null;
   center_head_signature_new: File | null = null;
   supportable_document_new: File | null = null;
@@ -151,19 +147,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
           await this.AssignOldCenterDetails();
           await this.AssignOldCenterHeadDetails();
 
-          let documentInfo = centerDocumentsInfo.data[0];
-          this.has_center_head_photo = documentInfo.center_head_photo === 1 ? true : false;
-          this.has_center_head_signature = documentInfo.center_head_signature === 1 ? true : false;
-          this.has_supportable_document = documentInfo.supportable_document === 1 ? true : false;
-
-          let base64String = await convertBlobToBase64(centerHeadPhoto);
-          this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO] = `data:image/jpg;base64,${base64String}`;
-          base64String = await convertBlobToBase64(centerHeadSignature);
-          this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE] = `data:image/jpg;base64,${base64String}`;
-          base64String = await convertBlobToBase64(supportableDocument);
-          this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT] = `data:image/jpg;base64,${base64String}`;
-
-          await this.AssignOldCenterDocuments();
+          await this.AssignOldCenterDocuments(centerDocumentsInfo, centerHeadPhoto, centerHeadSignature, supportableDocument);
 
           this.hideMatProgressBar();
         },
@@ -248,10 +232,18 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     });
   }
 
-  async AssignOldCenterDocuments() {
-    this.center_head_old_photo = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO];
-    this.center_head_old_signature = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE];
-    this.supportable_document_old = this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT];
+  async AssignOldCenterDocuments(centerDocumentsInfo: any, centerHeadPhoto: Blob, centerHeadSignature: Blob, supportableDocument: Blob) {
+    let documentInfo = centerDocumentsInfo.data[0];
+    this.has_center_head_photo = documentInfo.center_head_photo === 1 ? true : false;
+    this.has_center_head_signature = documentInfo.center_head_signature === 1 ? true : false;
+    this.has_supportable_document = documentInfo.supportable_document === 1 ? true : false;
+
+    let base64String = await convertBlobToBase64(centerHeadPhoto);
+    this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO] = `data:image/jpg;base64,${base64String}`;
+    base64String = await convertBlobToBase64(centerHeadSignature);
+    this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE] = `data:image/jpg;base64,${base64String}`;
+    base64String = await convertBlobToBase64(supportableDocument);
+    this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT] = `data:image/jpg;base64,${base64String}`;
   }
 
   onStepChange(event: StepperSelectionEvent): void {
