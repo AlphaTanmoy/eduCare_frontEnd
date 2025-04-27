@@ -214,8 +214,7 @@
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
                                     (click)="reset_center_form()">Reset</button>
-                                <button class="btn btn-primary btn-sm"
-                                    (click)="submit_center_details()">Submit</button>
+                                <button class="btn btn-primary btn-sm" (click)="submit_center_details()">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -235,6 +234,9 @@
                                 <input type="file" #CenterHeadPhotoInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadPhotoSelected($event)">
+                                <span
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)">Download
+                                    & View</span>
                             </div>
                             <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
@@ -242,12 +244,18 @@
                                 <input type="file" #CenterHeadSignatureInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadSignatureSelected($event)">
+                                <span
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">Download
+                                    & View</span>
                             </div>
                             <div class="col-12 col-md-4 mb-2">
                                 <label class="form-label mb-1">Supportable Document (PDF) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #SupportableDocumentInput class="form-control"
                                     accept="application/pdf" (change)="handleSupportableDocumentSelected($event)">
+                                <span
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)">Download
+                                    & View</span>
                             </div>
                         </div>
 

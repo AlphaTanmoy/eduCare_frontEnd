@@ -19,6 +19,7 @@ import { CustomMultiSelectDropdownComponent } from '../../../../common-component
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { convertBlobToBase64 } from '../../../../utility/common-util';
 
 
 @Component({
@@ -42,13 +43,14 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
   center_id: string = '';
+  FranchiseDocumentName = FranchiseDocumentName;
 
   constructor(
     private commonService: CommonService,
     private franchiseService: FranchiseService,
     private cdr: ChangeDetectorRef,
     private indexedDbService: IndexedDbService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { }
 
   matProgressBarVisible = false;
@@ -95,9 +97,19 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   center_village_city: string = "";
   center_pin_code: string = "";
 
-  center_head_photo: File | null = null;
-  center_head_signature: File | null = null;
-  supportable_document: File | null = null;
+  OldCenterDocuments = {
+    [FranchiseDocumentName.CENTER_HEAD_PHOTO]: "",
+    [FranchiseDocumentName.CENTER_HEAD_SIGNATURE]: "",
+    [FranchiseDocumentName.SUPPORTABLE_DOCUMENT]: ""
+  };
+
+  center_head_old_photo: string = "";
+  center_head_old_signature: string = "";
+  supportable_document_old: string = "";
+
+  center_head_photo_new: File | null = null;
+  center_head_signature_new: File | null = null;
+  supportable_document_new: File | null = null;
   //#endregion 
 
   async ngOnInit() {
@@ -112,8 +124,11 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         courseCategories: this.commonService.getAllAvailableCourseCategories(),
         centerTypes: this.commonService.getAllAvailableCenterTypes(),
         centerDetails: this.franchiseService.GetCenterDetails(this.center_id),
+        centerHeadPhoto: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_PHOTO),
+        centerHeadSignature: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_SIGNATURE),
+        supportableDocument: this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.SUPPORTABLE_DOCUMENT),
       }).subscribe({
-        next: async ({ courseCategories, centerTypes, centerDetails }) => {
+        next: async ({ courseCategories, centerTypes, centerDetails, centerHeadPhoto, centerHeadSignature, supportableDocument }) => {
           courseCategories.data.forEach((element: any) => {
             this.AvilableCourseCategories.push(new Dropdown(element.course_code, element.course_name));
           });
@@ -125,6 +140,16 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
           this.OldCenterDetails = centerDetails.data[0];
           await this.AssignOldCenterDetails();
           await this.AssignOldCenterHeadDetails();
+
+          let base64String = await convertBlobToBase64(centerHeadPhoto);
+          this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO] = `data:image/jpg;base64,${base64String}`;
+          base64String = await convertBlobToBase64(centerHeadSignature);
+          this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE] = `data:image/jpg;base64,${base64String}`;
+          base64String = await convertBlobToBase64(supportableDocument);
+          this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT] = `data:image/jpg;base64,${base64String}`;
+
+          await this.AssignOldCenterDocuments();
+
           this.hideMatProgressBar();
         },
         error: () => {
@@ -208,6 +233,12 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     });
   }
 
+  async AssignOldCenterDocuments() {
+    this.center_head_old_photo = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO];
+    this.center_head_old_signature = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE];
+    this.supportable_document_old = this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT];
+  }
+
   onStepChange(event: StepperSelectionEvent): void {
     this.selectedStepIndex = event.selectedIndex;
   }
@@ -247,22 +278,47 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   handleCenterHeadPhotoSelected(event: any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.center_head_photo = input.files[0];
+      this.center_head_photo_new = input.files[0];
     }
   }
 
   handleCenterHeadSignatureSelected(event: any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.center_head_signature = input.files[0];
+      this.center_head_signature_new = input.files[0];
     }
   }
 
   handleSupportableDocumentSelected(event: any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.supportable_document = input.files[0];
+      this.supportable_document_new = input.files[0];
     }
+  }
+
+  download_and_view_existing_document(filename: string) {
+    let download_file: string | null = "";
+    let download_filename: string | null = "";
+
+    if (filename === FranchiseDocumentName.CENTER_HEAD_PHOTO) {
+      download_file = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO];
+      download_filename = FranchiseDocumentName.CENTER_HEAD_PHOTO;
+    } else if (filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE) {
+      download_file = this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE];
+      download_filename = FranchiseDocumentName.CENTER_HEAD_SIGNATURE;
+    } else if (filename === FranchiseDocumentName.SUPPORTABLE_DOCUMENT) {
+      download_file = this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT]
+      download_filename = FranchiseDocumentName.SUPPORTABLE_DOCUMENT;
+    }
+
+    const link = document.createElement('a');
+    link.href = download_file;
+
+    let extension_name = "jpg";
+    if(filename == FranchiseDocumentName.SUPPORTABLE_DOCUMENT) extension_name = "pdf";
+      
+    link.download = `${this.center_id}_${download_filename}.${extension_name}`;
+    link.click();
   }
 
   reset_center_head_form() {
@@ -279,9 +335,9 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   }
 
   reset_document_form(CenterHeadPhotoInput: HTMLInputElement, CenterHeadSignatureInput: HTMLInputElement, SupportableDocumentInput: HTMLInputElement) {
-    this.center_head_photo = null;
-    this.center_head_signature = null;
-    this.supportable_document = null;
+    this.center_head_photo_new = null;
+    this.center_head_signature_new = null;
+    this.supportable_document_new = null;
 
     CenterHeadPhotoInput.value = '';
     CenterHeadSignatureInput.value = '';
@@ -512,17 +568,17 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   async validateSupportableDocumentsForm() {
     // Supportable Document Validation
-    if (!this.center_head_photo || this.center_head_photo === null) {
+    if (!this.center_head_photo_new || this.center_head_photo_new === null) {
       this.openDialog("Franchise", "Center Head Photo is required", ResponseTypeColor.INFO, false);
       return false;
     }
 
-    if (!this.center_head_signature || this.center_head_signature === null) {
+    if (!this.center_head_signature_new || this.center_head_signature_new === null) {
       this.openDialog("Franchise", "Center Head Signature is required", ResponseTypeColor.INFO, false);
       return false;
     }
 
-    if (!this.supportable_document || this.supportable_document === null) {
+    if (!this.supportable_document_new || this.supportable_document_new === null) {
       this.openDialog("Franchise", "Supportable Document is required", ResponseTypeColor.INFO, false);
       return false;
     }
