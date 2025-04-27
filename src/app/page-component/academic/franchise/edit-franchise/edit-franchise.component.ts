@@ -439,7 +439,35 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     }
   }
 
-  async submit_document() {
+  async update_center_head_photo() {
+    try {
+      const isValid = await this.validateSupportableDocumentsForm();
+      if (!isValid) return;
+
+
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      const message = error?.error?.message || "Internal server error";
+      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
+      return;
+    }
+  }
+
+  async update_center_head_signature_photo() {
+    try {
+      const isValid = await this.validateSupportableDocumentsForm();
+      if (!isValid) return;
+
+
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      const message = error?.error?.message || "Internal server error";
+      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
+      return;
+    }
+  }
+
+  async update_supportable_document_photo() {
     try {
       const isValid = await this.validateSupportableDocumentsForm();
       if (!isValid) return;
