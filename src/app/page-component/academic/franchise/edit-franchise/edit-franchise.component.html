@@ -227,8 +227,8 @@
                             <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Documents</span>
                         </ng-template>
 
-                        <div class="row mb-3 mt-3">
-                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
+                        <div class="document-container d-flex flex-column flex-md-row gap-3 mb-3 mt-3">
+                            <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #CenterHeadPhotoInput class="form-control"
@@ -239,7 +239,7 @@
                                     class="download_btn text-primary mt-2">Download
                                     & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
                             </div>
-                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
+                            <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #CenterHeadSignatureInput class="form-control"
@@ -250,7 +250,7 @@
                                     class="download_btn text-primary mt-2">Download
                                     & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
                             </div>
-                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
+                            <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Supportable Document (PDF) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #SupportableDocumentInput class="form-control"
