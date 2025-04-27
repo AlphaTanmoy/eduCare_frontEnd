@@ -228,34 +228,37 @@
                         </ng-template>
 
                         <div class="row mb-3 mt-3">
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Photo (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #CenterHeadPhotoInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadPhotoSelected($event)">
                                 <span
-                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)">Download
-                                    & View</span>
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)"
+                                    class="download_btn text-primary mt-2">Download
+                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
                             </div>
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Center Head Signature (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #CenterHeadSignatureInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleCenterHeadSignatureSelected($event)">
                                 <span
-                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">Download
-                                    & View</span>
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)"
+                                    class="download_btn text-primary mt-2">Download
+                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
                             </div>
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-4 mb-2 border p-2 rounded-2">
                                 <label class="form-label mb-1">Supportable Document (PDF) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #SupportableDocumentInput class="form-control"
                                     accept="application/pdf" (change)="handleSupportableDocumentSelected($event)">
                                 <span
-                                    (click)="download_and_view_existing_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)">Download
-                                    & View</span>
+                                    (click)="download_and_view_existing_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)"
+                                    class="download_btn text-primary mt-2">Download
+                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
                             </div>
                         </div>
 

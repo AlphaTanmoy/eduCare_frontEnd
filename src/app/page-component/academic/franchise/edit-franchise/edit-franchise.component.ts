@@ -20,7 +20,8 @@ import { FranchiseService } from '../../../../service/franchise/franchise.servic
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { convertBlobToBase64 } from '../../../../utility/common-util';
-
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-edit-franchise',
@@ -35,15 +36,19 @@ import { convertBlobToBase64 } from '../../../../utility/common-util';
     CustomSingleSelectSearchableDropdownComponent,
     CustomMultiSelectDropdownComponent,
     MatProgressBarModule,
+    FontAwesomeModule
   ],
   templateUrl: './edit-franchise.component.html',
   styleUrl: './edit-franchise.component.css'
 })
+
 export class EditFranchiseComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
   center_id: string = '';
   FranchiseDocumentName = FranchiseDocumentName;
+
+  faDownload = faDownload;
 
   constructor(
     private commonService: CommonService,
