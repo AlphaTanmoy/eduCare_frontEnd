@@ -349,13 +349,21 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     setTimeout(() => this.form2_visible = true);
   }
 
-  reset_document_form(CenterHeadPhotoInput: HTMLInputElement, CenterHeadSignatureInput: HTMLInputElement, SupportableDocumentInput: HTMLInputElement) {
+  reset_center_head_photo_form(CenterHeadPhotoInput: HTMLInputElement) {
     this.center_head_photo_new = null;
-    this.center_head_signature_new = null;
-    this.supportable_document_new = null;
 
     CenterHeadPhotoInput.value = '';
+  }
+
+  reset_center_head_signature_form(CenterHeadSignatureInput: HTMLInputElement) {
+    this.center_head_signature_new = null;
+
     CenterHeadSignatureInput.value = '';
+  }
+
+  reset_supportable_document_form(SupportableDocumentInput: HTMLInputElement) {
+    this.supportable_document_new = null;
+
     SupportableDocumentInput.value = '';
   }
 
