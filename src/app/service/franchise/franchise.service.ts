@@ -41,7 +41,7 @@ export class FranchiseService {
     return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_details + "/" + center_id);
   }
 
-  GetCenterDocumeentsInfo(center_id: string): Observable<any>{
+  GetCenterDocumeentsInfo(center_id: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.franchise.get_center_documents_info + "/" + center_id);
   }
 
