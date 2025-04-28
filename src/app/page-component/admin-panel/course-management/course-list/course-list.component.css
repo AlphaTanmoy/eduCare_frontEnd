@@ -1,5 +1,5 @@
 .course-list-container {
-  padding: 2rem;
+  padding-top: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -171,4 +171,8 @@
 
 .loading {
   color: #666;
+}
+
+.curser_pointer{
+  cursor: pointer;
 }
