@@ -439,45 +439,42 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     }
   }
 
-  async update_center_head_photo() {
+  async update_center_document(filename: string) {
     try {
-      const isValid = await this.validateSupportableDocumentsForm();
+      const isValid = await this.validateSupportableDocumentsForm(filename);
       if (!isValid) return;
 
+      this.activeMatProgressBar();
 
+      let formData = new FormData();
+      formData.append("center_id", this.center_id);
+      formData.append("filename", filename);
+
+      if (filename === FranchiseDocumentName.CENTER_HEAD_PHOTO && this.center_head_photo_new) {
+        formData.append("file", this.center_head_photo_new);
+      } else if (filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE && this.center_head_signature_new) {
+        formData.append("file", this.center_head_signature_new);
+      } else if (filename === FranchiseDocumentName.SUPPORTABLE_DOCUMENT && this.supportable_document_new) {
+        formData.append("file", this.supportable_document_new);
+      }
+
+      this.franchiseService.UpdateFranchiseDocument(formData).subscribe({
+        next: (response) => {
+          if(response.status === 200){
+            this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
+          }else{
+            this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+          }
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Franchise", "Internal Server Error", ResponseTypeColor.ERROR, false);
+        }
+      });
     } catch (error: any) {
       this.hideMatProgressBar();
-      const message = error?.error?.message || "Internal server error";
-      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
-      return;
-    }
-  }
-
-  async update_center_head_signature_photo() {
-    try {
-      const isValid = await this.validateSupportableDocumentsForm();
-      if (!isValid) return;
-
-
-    } catch (error: any) {
-      this.hideMatProgressBar();
-      const message = error?.error?.message || "Internal server error";
-      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
-      return;
-    }
-  }
-
-  async update_supportable_document_photo() {
-    try {
-      const isValid = await this.validateSupportableDocumentsForm();
-      if (!isValid) return;
-
-
-    } catch (error: any) {
-      this.hideMatProgressBar();
-      const message = error?.error?.message || "Internal server error";
-      this.openDialog("Franchise", message, ResponseTypeColor.ERROR, false);
-      return;
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
 
@@ -609,19 +606,19 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  async validateSupportableDocumentsForm() {
+  async validateSupportableDocumentsForm(filename: string) {
     // Supportable Document Validation
-    if (!this.center_head_photo_new || this.center_head_photo_new === null) {
+    if (filename === FranchiseDocumentName.CENTER_HEAD_PHOTO && (!this.center_head_photo_new || this.center_head_photo_new === null)) {
       this.openDialog("Franchise", "Center Head Photo is required", ResponseTypeColor.INFO, false);
       return false;
     }
 
-    if (!this.center_head_signature_new || this.center_head_signature_new === null) {
+    if (filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE && (!this.center_head_signature_new || this.center_head_signature_new === null)) {
       this.openDialog("Franchise", "Center Head Signature is required", ResponseTypeColor.INFO, false);
       return false;
     }
 
-    if (!this.supportable_document_new || this.supportable_document_new === null) {
+    if (filename === FranchiseDocumentName.SUPPORTABLE_DOCUMENT && (!this.supportable_document_new || this.supportable_document_new === null)) {
       this.openDialog("Franchise", "Supportable Document is required", ResponseTypeColor.INFO, false);
       return false;
     }

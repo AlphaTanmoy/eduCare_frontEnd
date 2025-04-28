@@ -54,6 +54,7 @@ export const Endpoints = {
         get_center_documents_info: "franchise/get_center_documents_info",
         update_center_head_details: "franchise/update_center_head_details",
         update_center_details: "franchise/update_center_details",
+        update_franchise_documents: "franchise/update_franchise_documents",
     },
     course: {
         get_all_parent_categories: 'parent-category/getAll',

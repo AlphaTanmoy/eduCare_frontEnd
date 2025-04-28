@@ -52,4 +52,8 @@ export class FranchiseService {
   UpdateCenter(center_details: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_center_details, { data: center_details });
   }
+
+  UpdateFranchiseDocument(formData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_franchise_documents, formData);
+  }
 }
