@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +18,7 @@ import { Dropdown } from '../../../../constants/commonConstants';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
 import { convertBlobToBase64 } from '../../../../utility/common-util';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -47,6 +47,10 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   private _formBuilder = inject(FormBuilder);
   center_id: string = '';
   FranchiseDocumentName = FranchiseDocumentName;
+
+  @ViewChild('CenterHeadPhotoInput') CenterHeadPhotoInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('CenterHeadSignatureInput') CenterHeadSignatureInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('SupportableDocumentInput') SupportableDocumentInput!: ElementRef<HTMLInputElement>;
 
   faDownload = faDownload;
 
@@ -458,13 +462,39 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         formData.append("file", this.supportable_document_new);
       }
 
-      this.franchiseService.UpdateFranchiseDocument(formData).subscribe({
-        next: (response) => {
-          if(response.status === 200){
+      await this.franchiseService.UpdateFranchiseDocument(formData).subscribe({
+        next: async (response) => {
+          if (response.status === 200) {
             this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
-          }else{
+
+            let centerDocumentsInfo = await firstValueFrom(this.franchiseService.GetCenterDocumeentsInfo(this.center_id));
+            let documentInfo = centerDocumentsInfo.data[0];
+
+            if (filename === FranchiseDocumentName.CENTER_HEAD_PHOTO) {
+              let centerHeadPhoto = await firstValueFrom(this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_PHOTO));
+              this.has_center_head_photo = documentInfo.center_head_photo === 1 ? true : false;
+              let base64String = await convertBlobToBase64(centerHeadPhoto);
+              this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_PHOTO] = `data:image/jpg;base64,${base64String}`;
+              this.reset_center_head_photo_form(this.CenterHeadPhotoInput.nativeElement);
+            }
+            else if (filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE) {
+              let centerHeadSignature = await firstValueFrom(this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.CENTER_HEAD_SIGNATURE));
+              this.has_center_head_signature = documentInfo.center_head_signature === 1 ? true : false;
+              let base64String = await convertBlobToBase64(centerHeadSignature);
+              this.OldCenterDocuments[FranchiseDocumentName.CENTER_HEAD_SIGNATURE] = `data:image/jpg;base64,${base64String}`;
+              this.reset_center_head_signature_form(this.CenterHeadSignatureInput.nativeElement);
+            }
+            else if (filename === FranchiseDocumentName.SUPPORTABLE_DOCUMENT) {
+              let supportableDocument = await firstValueFrom(this.franchiseService.GetFileStreamByFolderAndFilename(this.center_id, FranchiseDocumentName.SUPPORTABLE_DOCUMENT));
+              this.has_supportable_document = documentInfo.supportable_document === 1 ? true : false;
+              let base64String = await convertBlobToBase64(supportableDocument);
+              this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT] = `data:image/jpg;base64,${base64String}`;
+              this.reset_supportable_document_form(this.SupportableDocumentInput.nativeElement);
+            }
+          } else {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
           }
+          
           this.hideMatProgressBar();
         },
         error: (err) => {
