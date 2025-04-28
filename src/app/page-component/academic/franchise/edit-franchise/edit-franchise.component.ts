@@ -465,8 +465,6 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       await this.franchiseService.UpdateFranchiseDocument(formData).subscribe({
         next: async (response) => {
           if (response.status === 200) {
-            this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
-
             let centerDocumentsInfo = await firstValueFrom(this.franchiseService.GetCenterDocumeentsInfo(this.center_id));
             let documentInfo = centerDocumentsInfo.data[0];
 
@@ -491,11 +489,13 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
               this.OldCenterDocuments[FranchiseDocumentName.SUPPORTABLE_DOCUMENT] = `data:image/jpg;base64,${base64String}`;
               this.reset_supportable_document_form(this.SupportableDocumentInput.nativeElement);
             }
+
+            this.openDialog("Franchise", response.message, ResponseTypeColor.SUCCESS, false);
           } else {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
           }
-          
-          this.hideMatProgressBar();
+
+          this.hideMatProgressBar();     
         },
         error: (err) => {
           this.hideMatProgressBar();
