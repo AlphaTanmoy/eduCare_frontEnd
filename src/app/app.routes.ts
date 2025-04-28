@@ -45,6 +45,7 @@ import { ViewCourseComponent } from './page-component/admin-panel/course-managem
 import { EditSubCourseCategoryComponent } from './page-component/admin-panel/course-management/edit-sub-course-category/edit-sub-course-category.component';
 import { ManageCenterComponent } from './page-component/admin-panel/manage-franchise/manage-center/manage-center.component';
 import { EditFranchiseComponent } from './page-component/academic/franchise/edit-franchise/edit-franchise.component';
+import { ProfileComponent } from './page-component/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -89,6 +90,7 @@ export const routes: Routes = [
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'registration/register-student', component: StudentRegistrationComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'profile', component: ProfileComponent },
     { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: 'logout', component: LogoutComponent },
     { path: '**', component: ErrorComponent },
