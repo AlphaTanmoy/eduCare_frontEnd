@@ -100,10 +100,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
         ? Endpoints.course.delete_parent_category
         : Endpoints.course.delete_sub_category;
 
-      this.http.delete(
-        `${GetBaseURL()}${endpoint}/${id}`,
-        { headers: this.getHeaders() }
-      ).subscribe({
+      this.courseService.deleteCourse(endpoint, id).subscribe({
         next: () => {
           this.fetchCourses();
         },
