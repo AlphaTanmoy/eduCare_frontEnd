@@ -22,26 +22,12 @@ interface SubCategory {
   module: string;
 }
 
-
 interface ParentCategory {
   id: string;
   courseCode: string;
   courseName: string;
   dataStatus: string;
   subCategories: SubCategory[];
-}
-
-interface ApiResponse {
-  status: number;
-  responseType: string;
-  apiPath: string;
-  message: string;
-  data: ParentCategory[];
-  pagination: {
-    limit: string;
-    totalRecords: number;
-    offsetToken: string;
-  };
 }
 
 @Component({
@@ -52,7 +38,7 @@ interface ApiResponse {
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses: ParentCategory[] = [];
+  courses: any[] = [];
   loading: boolean = true;
   error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -64,7 +50,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.fetchCourses();
@@ -80,7 +66,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   fetchCourses() {
     this.loading = true;
-    this.http.get<ApiResponse>(
+    this.http.get<any>(
       GetBaseURL() + Endpoints.course.get_all_parent_categories,
       { headers: this.getHeaders() }
     ).subscribe({
