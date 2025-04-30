@@ -6,33 +6,13 @@ import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faEye,
-  faEdit,
-  faTrash,
-  faPlus
-} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseService } from '../../../../service/course/course.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SubCategory, ParentCategory } from '../../../../model/course/course.model';
 
-interface SubCategory {
-  id: string;
-  courseCode: string;
-  courseName: string;
-  dataStatus: string;
-  duration: string;
-  module: string;
-}
-
-interface ParentCategory {
-  id: string;
-  courseCode: string;
-  courseName: string;
-  dataStatus: string;
-  subCategories: SubCategory[];
-}
 
 @Component({
   selector: 'app-course-list',
@@ -98,10 +78,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin-panel/add/primary-course']);
   }
 
-  ngOnDestroy(): void {
-    removeBootstrap(this.bootstrapElements);
-  }
-
   addSubCategory(parentCourse: ParentCategory) {
     this.router.navigate(['/admin-panel/add/sub-course'], {
       queryParams: { parentCourseId: parentCourse.id }
@@ -141,6 +117,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   viewCourse(courseCode: string) {
     this.router.navigate(['/admin-panel/view-course', courseCode]);
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 
   activeMatProgressBar() {
