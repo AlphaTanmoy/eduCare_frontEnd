@@ -21,6 +21,10 @@ interface EnumValue {
 export class CourseService {
   constructor(private http: HttpClient) { }
 
+  fetchAllCourses(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.course.get_all_parent_categories);
+  }
+
   getModuleTypes(): Observable<EnumValue[]> {
     return this.http.get<EnumValue[]>(`${GetBaseURL()}${Endpoints.enums.get_enums_by_name}/module_type`);
   }

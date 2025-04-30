@@ -12,6 +12,7 @@ import {
   faTrash,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
+import { CourseService } from '../../../../service/course/course.service';
 
 interface SubCategory {
   id: string;
@@ -38,7 +39,7 @@ interface ParentCategory {
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses: any[] = [];
+  courses: any;
   loading: boolean = true;
   error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -49,7 +50,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private courseService: CourseService
   ) { }
 
   ngOnInit() {
@@ -66,14 +68,11 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   fetchCourses() {
     this.loading = true;
-    this.http.get<any>(
-      GetBaseURL() + Endpoints.course.get_all_parent_categories,
-      { headers: this.getHeaders() }
-    ).subscribe({
+    this.courseService.fetchAllCourses().subscribe({
       next: (response) => {
         this.courses = response.data;
         this.loading = false;
-        console.log('Fetched course data:', response.data);
+        console.log('Fetched course data:', response);
       },
       error: (error) => {
         this.error = 'Failed to fetch courses';
