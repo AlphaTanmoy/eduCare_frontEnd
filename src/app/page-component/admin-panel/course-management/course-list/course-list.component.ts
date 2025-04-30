@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,6 +13,9 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { CourseService } from '../../../../service/course/course.service';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 interface SubCategory {
   id: string;
@@ -34,10 +37,11 @@ interface ParentCategory {
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
+
 export class CourseListComponent implements OnInit, OnDestroy {
   courses: any;
   loading: boolean = true;
@@ -47,11 +51,16 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faEdit = faEdit;
   faTrash = faTrash;
   faPlus = faPlus;
+
+  readonly dialog = inject(MatDialog);
+  matProgressBarVisible = false;
+
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -68,18 +77,20 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   fetchCourses() {
     this.loading = true;
+    this.activeMatProgressBar();
     this.courseService.fetchAllCourses().subscribe({
       next: (response) => {
         this.courses = response.data;
         this.loading = false;
         console.log('Fetched course data:', response);
+        this.hideMatProgressBar();
       },
       error: (error) => {
         this.error = 'Failed to fetch courses';
         this.loading = false;
         console.error('Error fetching courses:', error);
+        this.hideMatProgressBar();
       }
-
     });
   }
 
@@ -128,9 +139,27 @@ export class CourseListComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   viewCourse(courseCode: string) {
     this.router.navigate(['/admin-panel/view-course', courseCode]);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
   }
 }
