@@ -19,6 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
@@ -26,7 +27,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   standalone: true,
   imports: [CommonModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
   templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.css']
+  styleUrls: ['./course-list.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 
 export class CourseListComponent implements OnInit, OnDestroy {
