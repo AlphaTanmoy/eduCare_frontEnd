@@ -38,9 +38,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses: any;
-  loading: boolean = true;
-  error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   faEye = faEye;
@@ -82,20 +79,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   fetchCourses() {
-    this.loading = true;
     this.activeMatProgressBar();
     this.courseService.fetchAllCourses().subscribe({
       next: (response) => {
-        this.courses = response.data;
         this.courseCount = response.data.length;
         this.dataSource.data = response.data;
         this.dataSource.paginator = this.paginator;
-        this.loading = false;
         this.hideMatProgressBar();
       },
       error: (error) => {
-        this.error = 'Failed to fetch courses';
-        this.loading = false;
         console.error('Error fetching courses:', error);
         this.hideMatProgressBar();
       }
@@ -150,6 +142,12 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   toggleRow(element: any) {
+    for (let i = 0; i < this.dataSource.data.length; i++) {
+      if (this.dataSource.data[i].courseCode !== element.courseCode) {
+        this.dataSource.data[i].expanded = false;
+      }
+    }
+
     element.expanded = !element.expanded;
     element.viewSubCourse = element.expanded ? '-' : '+';
     this.expandedElement = element.expanded ? element : null;
