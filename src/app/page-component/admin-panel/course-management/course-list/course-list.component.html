@@ -66,24 +66,28 @@
           <div class="example-element-detail" *ngIf="course.subCategories.length !== 0"
             [@detailExpand]="course == expandedElement ? 'expanded' : 'collapsed'">
             <div class="p-3">
-              <h6 class="text-secondary mb-3">Sub-Courses for {{ course.courseName }}</h6>
-              <table class="table table-bordered table-hover text-center w-100">
+              <table class="table table-bordered text-center w-100 rounded-3 overflow-hidden m-0">
                 <thead>
                   <tr>
-                    <th class="text-center fw-bold" style="background-color: #f8f9fa;">Sub-Course Code</th>
-                    <th class="text-center fw-bold" style="background-color: #f8f9fa;">Sub-Course Name</th>
-                    <th class="text-center fw-bold" style="background-color: #f8f9fa;">Duration</th>
-                    <th class="text-center fw-bold" style="background-color: #f8f9fa;">Module</th>
-                    <th class="text-center fw-bold" style="background-color: #f8f9fa;">Action</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Sub-Course Code</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Sub-Course Name</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Duration</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Module</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let subCourse of course.subCategories">
-                    <td>{{ subCourse.courseCode }}</td>
-                    <td>{{ subCourse.courseName }}</td>
-                    <td>{{ subCourse.duration }}</td>
-                    <td>{{ subCourse.module }}</td>
-                    <td>
+                    <td class="text-center custom_padding align-middle">{{ subCourse.courseCode }}</td>
+                    <td class="text-center custom_padding align-middle">{{ subCourse.courseName }}</td>
+                    <td class="text-center custom_padding align-middle">{{ subCourse.duration }}</td>
+                    <td class="text-center custom_padding align-middle">{{ subCourse.module }}</td>
+                    <td class="text-center custom_padding align-middle">
                       <div class="btn-group">
                         <button class="btn btn-sm btn-outline-warning" (click)="editCategory(subCourse.id, false)">
                           <fa-icon [icon]="faEdit"></fa-icon>

@@ -39,5 +39,9 @@ tr.example-detail-row {
 }
 
 td {
-  padding: 0 !important;
+  padding: 0;
+}
+
+.custom_padding {
+  padding: 10px !important;
 }
