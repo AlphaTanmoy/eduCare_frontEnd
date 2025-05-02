@@ -6,7 +6,7 @@ import { Endpoints } from '../../../../endpoints/endpoints';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEdit, faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { CourseService } from '../../../../service/course/course.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,12 +34,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   error: string | null = null;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
   faEye = faEye;
   faEdit = faEdit;
   faTrash = faTrash;
   faPlus = faPlus;
+  faMinus = faMinus;
 
-  displayedColumns: string[] = ['view', 'courseName', 'subCourseCount', 'action'];
+  displayedColumns: string[] = ['expand', 'courseName', 'subCourseCount', 'action'];
+  subCoursesDisplayedColumns: string[] = ['courseCode', 'courseName', 'duration', 'module', 'action'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
@@ -138,7 +141,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  ExpandSubCourse(course: any) {
+  toggleRow(element: any) {
+    element.expanded = !element.expanded;
+    element.viewSubCourse = element.expanded ? '-' : '+';
+    this.expandedElement = element.expanded ? element : null;
   }
 
   ngOnDestroy(): void {
