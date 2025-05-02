@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,12 +12,19 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SubCategory, ParentCategory } from '../../../../model/course/course.model';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatPaginator } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, MatProgressBarModule],
+  imports: [CommonModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
@@ -31,6 +38,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faEdit = faEdit;
   faTrash = faTrash;
   faPlus = faPlus;
+
+  displayedColumns: string[] = ['view', 'courseName', 'subCourseCount', 'action'];
+  dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  courseCount: number = 0;
+  page_size: number = 5;
+
+  expandedElement: any | null;
 
   readonly dialog = inject(MatDialog);
   matProgressBarVisible = false;
@@ -61,8 +76,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.courseService.fetchAllCourses().subscribe({
       next: (response) => {
         this.courses = response.data;
+        this.courseCount = response.data.length;
+        this.dataSource.data = response.data;
+        this.dataSource.paginator = this.paginator;
         this.loading = false;
-        console.log('Fetched course data:', response);
         this.hideMatProgressBar();
       },
       error: (error) => {
@@ -114,6 +131,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   viewCourse(courseCode: string) {
     this.router.navigate(['/admin-panel/view-course', courseCode]);
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  ExpandSubCourse(course: any) {
   }
 
   ngOnDestroy(): void {
