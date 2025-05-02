@@ -46,8 +46,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   faMinus = faMinus;
 
-  displayedColumns: string[] = ['expand', 'courseName', 'subCourseCount', 'action'];
-  subCoursesDisplayedColumns: string[] = ['courseCode', 'courseName', 'duration', 'module', 'action'];
+  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'action'];
+  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'subCourseAction'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
