@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 
 @Component({
@@ -46,8 +47,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   faMinus = faMinus;
 
-  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'action'];
-  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'subCourseAction'];
+  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'createdAt', 'action'];
+  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
@@ -151,6 +152,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     element.expanded = !element.expanded;
     element.viewSubCourse = element.expanded ? '-' : '+';
     this.expandedElement = element.expanded ? element : null;
+  }
+
+  FormatDateTime(datetimeValue: any) {
+    return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
   ngOnDestroy(): void {

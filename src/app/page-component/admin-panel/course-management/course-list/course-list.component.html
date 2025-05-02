@@ -45,6 +45,12 @@
         <td mat-cell *matCellDef="let course" class="text-center"> {{ course.subCategories.length }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
+          style="background-color: var(--light); color: var(--default-theme);"> Created On </th>
+        <td mat-cell *matCellDef="let course" class="text-center"> {{ FormatDateTime(course.createdAt) }} </td>
+      </ng-container>
+
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
           style="background-color: var(--light); color: var(--default-theme);"> Action </th>
@@ -80,6 +86,8 @@
                     <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Module</th>
                     <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Created On</th>
+                    <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Action</th>
                   </tr>
                 </thead>
@@ -89,6 +97,7 @@
                     <td class="text-center custom_padding align-middle">{{ subCourse.courseName }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.duration }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.module }}</td>
+                    <td class="text-center custom_padding align-middle"> {{ FormatDateTime(subCourse.createdAt) }} </td>
                     <td class="text-center custom_padding align-middle">
                       <div class="btn-group">
                         <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1"
