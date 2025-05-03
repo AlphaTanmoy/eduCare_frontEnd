@@ -99,8 +99,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-
       if (result) {
         this.activeMatProgressBar();
 
