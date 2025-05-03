@@ -70,14 +70,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to delete?" } });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
-        console.log(result, "User confirmed deletion");
-      } else {
-        console.log(result, "User cancelled deletion");
-      }
-    });
     this.fetchCourses();
     this.bootstrapElements = loadBootstrap();
   }
@@ -117,29 +109,39 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(id: string, isParent: boolean) {
-    if (confirm('Are you sure you want to delete this category?')) {
-      const endpoint = isParent
-        ? Endpoints.course.delete_parent_category
-        : Endpoints.course.delete_sub_category;
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, {
+      data: {
+        text: isParent ?
+          "Do you want to delete this course category?" :
+          "Do you want to delete this sub-course category?"
+      }
+    });
 
-      this.courseService.deleteCourse(endpoint, id).subscribe({
-        next: () => {
-          this.openDialog("Course",
-            isParent ?
-              "Course category has been deleted succesfully" :
-              "Sub-Course category has been deleted succesfully",
-            ResponseTypeColor.SUCCESS, false);
-          this.fetchCourses();
-        },
-        error: (error) => {
-          this.openDialog("Course",
-            isParent ?
-              "Failed to delete course category" :
-              "Failed to delete sub-Course category",
-            ResponseTypeColor.ERROR, false);
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        const endpoint = isParent
+          ? Endpoints.course.delete_parent_category
+          : Endpoints.course.delete_sub_category;
+
+        this.courseService.deleteCourse(endpoint, id).subscribe({
+          next: () => {
+            this.openDialog("Course",
+              isParent ?
+                "Course category has been deleted succesfully" :
+                "Sub-Course category has been deleted succesfully",
+              ResponseTypeColor.SUCCESS, false);
+            this.fetchCourses();
+          },
+          error: (error) => {
+            this.openDialog("Course",
+              isParent ?
+                "Failed to delete course category" :
+                "Failed to delete sub-Course category",
+              ResponseTypeColor.ERROR, false);
+          }
+        });
+      }
+    });
   }
 
   viewCourse(courseCode: string) {
