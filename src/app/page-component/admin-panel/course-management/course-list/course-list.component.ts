@@ -78,9 +78,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.activeMatProgressBar();
     this.courseService.fetchAllCourses().subscribe({
       next: (response) => {
-        this.courseCount = response.data.length;
-        this.dataSource.data = response.data;
-        this.dataSource.paginator = this.paginator;
+        if (response.status === 200) {
+          this.courseCount = response.data.length;
+          this.dataSource.data = response.data;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
+        }
+
         this.hideMatProgressBar();
       },
       error: (error) => {
@@ -98,13 +103,16 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
       if (result) {
         this.activeMatProgressBar();
-        this.http.post(
-          GetBaseURL() + Endpoints.course.add_parent_category,
-          { course_name: result },
-        ).subscribe({
-          next: () => {
-            this.fetchCourses();
-            this.openDialog("Course", "New course category has been added successfully", ResponseTypeColor.SUCCESS, false);
+
+        this.courseService.addCourseCategory(result).subscribe({
+          next: (response) => {
+            if (response.status === 200) {
+              this.fetchCourses();
+              this.openDialog("Course", "New course category has been added successfully", ResponseTypeColor.SUCCESS, false);
+            } else {
+              this.hideMatProgressBar();
+              this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
+            }
           },
           error: (error) => {
             this.hideMatProgressBar();

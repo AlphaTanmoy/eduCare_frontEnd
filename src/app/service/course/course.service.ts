@@ -25,6 +25,10 @@ export class CourseService {
     return this.http.get<any>(GetBaseURL() + Endpoints.course.get_all_parent_categories);
   }
 
+  addCourseCategory(courseName: string): Observable<any> {
+    return this.http.post(GetBaseURL() + Endpoints.course.add_parent_category, { course_name: courseName });
+  }
+
   deleteCourse(endpoint: string, id: string): Observable<any> {
     return this.http.delete(`${GetBaseURL()}${endpoint}/${id}`);
   }
