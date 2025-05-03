@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 
 @Component({
@@ -72,13 +73,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.bootstrapElements = loadBootstrap();
   }
 
-  private getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   fetchCourses() {
     this.activeMatProgressBar();
     this.courseService.fetchAllCourses().subscribe({
@@ -89,7 +83,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
       },
       error: (error) => {
-        console.error('Error fetching courses:', error);
+        this.openDialog("Course", "Failed to fetch courses", ResponseTypeColor.ERROR, false);
         this.hideMatProgressBar();
       }
     });
@@ -114,8 +108,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(id: string, isParent: boolean) {
-    console.log('Delete called with id:', id, 'isParent:', isParent);
-
     if (confirm('Are you sure you want to delete this category?')) {
       const endpoint = isParent
         ? Endpoints.course.delete_parent_category
@@ -123,11 +115,19 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
       this.courseService.deleteCourse(endpoint, id).subscribe({
         next: () => {
+          this.openDialog("Course",
+            isParent ?
+              "Course category has been deleted succesfully" :
+              "Sub-Course category has been deleted succesfully",
+            ResponseTypeColor.SUCCESS, false);
           this.fetchCourses();
         },
         error: (error) => {
-          console.error('Error deleting category:', error);
-          alert('Failed to delete category');
+          this.openDialog("Course",
+            isParent ?
+              "Failed to delete course category" :
+              "Failed to delete sub-Course category",
+            ResponseTypeColor.ERROR, false);
         }
       });
     }
