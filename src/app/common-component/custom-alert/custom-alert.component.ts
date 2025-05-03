@@ -37,19 +37,19 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (this.data.type) {
       case ResponseTypeColor.WARNING:
         this.textColorClass = 'text-warning';
-        this.buttonClass = 'alert-button warning';
+        this.buttonClass = 'alert-button warning m-3';
         break;
       case ResponseTypeColor.INFO:
         this.textColorClass = 'text-primary';
-        this.buttonClass = 'alert-button info';
+        this.buttonClass = 'alert-button primary m-3';
         break;
       case ResponseTypeColor.ERROR:
-        this.textColorClass = 'text-error';
-        this.buttonClass = 'alert-button error';
+        this.textColorClass = 'text-danger';
+        this.buttonClass = 'alert-button error m-3';
         break;
       default:
         this.textColorClass = 'text-success';
-        this.buttonClass = 'alert-button success';
+        this.buttonClass = 'alert-button success m-3';
     }
 
     // Apply color classes
