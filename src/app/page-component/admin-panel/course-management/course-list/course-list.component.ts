@@ -128,7 +128,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
             this.openDialog("Course",
               isParent ?
                 "Course category has been deleted succesfully" :
-                "Sub-Course category has been deleted succesfully",
+                "Sub-course category has been deleted succesfully",
               ResponseTypeColor.SUCCESS, false);
             this.fetchCourses();
           },
@@ -136,7 +136,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
             this.openDialog("Course",
               isParent ?
                 "Failed to delete course category" :
-                "Failed to delete sub-Course category",
+                "Failed to delete sub-course category",
               ResponseTypeColor.ERROR, false);
           }
         });
