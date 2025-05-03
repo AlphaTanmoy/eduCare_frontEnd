@@ -114,7 +114,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             this.hideMatProgressBar();
-            this.openDialog("Course", "Internal server error", ResponseTypeColor.ERROR, false);
+            this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
           }
         });
       }
