@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, Vie
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Endpoints } from '../../../../endpoints/endpoints';
+import { Endpoints, GetBaseURL } from '../../../../endpoints/endpoints';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,11 +23,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
+import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-category/add-primary-course-category.component';
 
 
 @Component({
   selector: 'app-course-list',
-  standalone: true,
   imports: [CommonModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css'],
@@ -91,7 +91,28 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   addParentCategory() {
-    this.router.navigate(['/admin-panel/add/primary-course']);
+    const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+
+      if (result) {
+        this.activeMatProgressBar();
+        this.http.post(
+          GetBaseURL() + Endpoints.course.add_parent_category,
+          { course_name: result },
+        ).subscribe({
+          next: () => {
+            this.fetchCourses();
+            this.openDialog("Course", "New course category has been added successfully", ResponseTypeColor.SUCCESS, false);
+          },
+          error: (error) => {
+            this.hideMatProgressBar();
+            this.openDialog("Course", "Failed to add course category", ResponseTypeColor.ERROR, false);
+          }
+        });
+      }
+    });
   }
 
   addSubCategory(parentCourse: ParentCategory) {
