@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 
 
 @Component({
@@ -69,6 +70,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to delete?" } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        console.log(result, "User confirmed deletion");
+      } else {
+        console.log(result, "User cancelled deletion");
+      }
+    });
     this.fetchCourses();
     this.bootstrapElements = loadBootstrap();
   }
