@@ -114,7 +114,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             this.hideMatProgressBar();
-            this.openDialog("Course", "Failed to add course category", ResponseTypeColor.ERROR, false);
+            this.openDialog("Course", "Internal server error", ResponseTypeColor.ERROR, false);
           }
         });
       }
