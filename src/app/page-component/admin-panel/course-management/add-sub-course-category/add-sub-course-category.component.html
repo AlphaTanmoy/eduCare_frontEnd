@@ -5,7 +5,7 @@
     <h2>Add Sub-Course Category</h2>
   </div>
 
-  <form (ngSubmit)="onSubmit()" #subCourseForm="ngForm" *ngIf="!success">
+  <form (ngSubmit)="onSubmit()" #subCourseForm="ngForm">
     <div class="form-group">
       <label for="courseName">Course Name<span class="text-danger">*</span></label>
       <input type="text" id="courseName" name="courseName" class="form-control mb-1" [(ngModel)]="courseName"
@@ -53,10 +53,4 @@
       </button>
     </div>
   </form>
-
-  <div class="form-actions" *ngIf="success">
-    <button type="button" class="btn btn-primary" (click)="onDone()">
-      Done
-    </button>
-  </div>
 </div>

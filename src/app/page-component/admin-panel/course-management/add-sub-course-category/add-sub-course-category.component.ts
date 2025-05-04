@@ -39,7 +39,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
   moduleDetails: ModuleDetail[] = [];
 
   error: any;
-  success: string = '';
 
   parentCourseId: string = '';
   durationOptions: EnumOption[] = [];
