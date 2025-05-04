@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -8,6 +8,9 @@ import { AuthService } from '../../../../service/auth/Auth.Service';
 import { EnumsService } from '../../../../service/enums/enums.service';
 import { CourseService } from '../../../../service/course/course.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 interface EnumOption {
   value: string;
@@ -21,11 +24,12 @@ interface ModuleDetail {
 @Component({
   selector: 'app-add-sub-course-category',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatProgressBarModule],
   templateUrl: './add-sub-course-category.component.html',
   styleUrl: './add-sub-course-category.component.css'
 })
 export class AddSubCourseCategoryComponent implements OnInit {
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   currentSubCourses: any;
 
   courseName: string = '';
@@ -36,9 +40,11 @@ export class AddSubCourseCategoryComponent implements OnInit {
   error: any;
   success: string = '';
   parentCourseId: string = '';
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   durationOptions: EnumOption[] = [];
   moduleOptions: EnumOption[] = [];
+
+  readonly dialog = inject(MatDialog);
+  matProgressBarVisible = false;
 
   constructor(
     private http: HttpClient,
@@ -46,11 +52,13 @@ export class AddSubCourseCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private enumsService: EnumsService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    
     this.route.queryParams.subscribe(params => {
       this.parentCourseId = params['parentCourseId'];
       if (!this.parentCourseId) {
@@ -61,18 +69,19 @@ export class AddSubCourseCategoryComponent implements OnInit {
       }
     });
 
+    this.activeMatProgressBar();
+    
     this.courseService.getAllSubCourses().subscribe({
       next: (response) => {
         this.currentSubCourses = response.data;
         this.currentSubCourses = this.currentSubCourses
           .filter((course: any) => course.course_name)
           .map((course: any) => course.course_name);
-
-        console.log(this.currentSubCourses)
       },
       error: (error) => {
         console.error('Error fetching duration types:', error);
         this.error = 'Failed to load duration types';
+        this.hideMatProgressBar();
       }
     });
 
@@ -94,6 +103,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching duration types:', error);
         this.error = 'Failed to load duration types';
+        this.hideMatProgressBar();
       }
     });
 
@@ -103,10 +113,13 @@ export class AddSubCourseCategoryComponent implements OnInit {
           value: item.enum_value,
           label: this.formatEnumLabel(item.enum_value)
         }));
+
+        this.hideMatProgressBar();
       },
       error: (error) => {
         console.error('Error fetching module types:', error);
         this.error = 'Failed to load module types';
+        this.hideMatProgressBar();
       }
     });
   }
@@ -206,6 +219,26 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
   cancel() {
     this.router.navigate(['/admin-panel/course-list']);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
   }
 }
 
