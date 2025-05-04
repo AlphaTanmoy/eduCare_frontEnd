@@ -59,7 +59,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
-    
+
     this.route.queryParams.subscribe(params => {
       this.parentCourseId = params['parentCourseId'];
 
@@ -86,7 +86,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.fetchEnums();
   }
-  
+
   fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
