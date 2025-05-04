@@ -14,7 +14,7 @@
     </div>
 
     <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
-      [ariaLabel]="'Select Course Duration'" [selectedOptions]="null" (selectionChange)="handleDurationSelection($event)">
+      [ariaLabel]="'Select Course Duration (In Months)'" [selectedOptions]="null" (selectionChange)="handleDurationSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
     <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
