@@ -95,7 +95,7 @@
                   <tr *ngFor="let subCourse of course.subCategories">
                     <td class="text-center custom_padding align-middle">{{ subCourse.courseCode }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.courseName }}</td>
-                    <td class="text-center custom_padding align-middle">{{ subCourse.duration }}</td>
+                    <td class="text-center custom_padding align-middle">{{ FormatEnumLabel(subCourse.duration) }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.module }}</td>
                     <td class="text-center custom_padding align-middle"> {{ FormatDateTime(subCourse.createdAt) }} </td>
                     <td class="text-center custom_padding align-middle">

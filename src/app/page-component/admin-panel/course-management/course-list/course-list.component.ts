@@ -198,6 +198,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
+  FormatEnumLabel(value: string): string {
+    return value
+      .toLowerCase()
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }

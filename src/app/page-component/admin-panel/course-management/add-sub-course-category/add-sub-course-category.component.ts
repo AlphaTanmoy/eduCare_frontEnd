@@ -11,7 +11,8 @@ import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 
 interface EnumOption {
   value: string;
@@ -25,7 +26,7 @@ interface ModuleDetail {
 @Component({
   selector: 'app-add-sub-course-category',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatProgressBarModule],
+  imports: [CommonModule, FormsModule, MatProgressBarModule, CustomSingleSelectSearchableDropdownComponent],
   templateUrl: './add-sub-course-category.component.html',
   styleUrl: './add-sub-course-category.component.css'
 })
@@ -41,7 +42,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
   error: any;
 
   parentCourseId: string = '';
-  durationOptions: EnumOption[] = [];
+  durationOptions: Dropdown[] = [];
   moduleOptions: EnumOption[] = [];
 
   readonly dialog = inject(MatDialog);
@@ -90,10 +91,12 @@ export class AddSubCourseCategoryComponent implements OnInit {
   fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
-        this.durationOptions = response.data.map((item: any) => ({
-          value: item.enum_value,
-          label: this.formatEnumLabel(item.enum_value)
-        }));
+        this.durationOptions = response.data.map((item: any) => new Dropdown(
+          item._id,
+          this.formatEnumLabel(item.enum_value)
+        ));
+
+        console.log(this.durationOptions)
       },
       error: (error) => {
         this.hideMatProgressBar();
@@ -103,6 +106,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.enumsService.getEnumsByName('module_type').subscribe({
       next: (response) => {
+        console.log("module_type", response.data)
         this.moduleOptions = response.data.map((item: any) => ({
           value: item.enum_value,
           label: this.formatEnumLabel(item.enum_value)
@@ -160,6 +164,19 @@ export class AddSubCourseCategoryComponent implements OnInit {
     }
   }
 
+  handleDurationSelection(event: any): void {
+    console.log(event.text)
+    this.duration = event.text;
+  }
+
+  reFormatEnumLabel(value: string): string {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('_');
+  }
+
   onSubmit() {
     if (!this.parentCourseId) {
       this.error = 'Parent course ID is required';
@@ -183,10 +200,11 @@ export class AddSubCourseCategoryComponent implements OnInit {
     var obj = {
       parentCourseId: this.parentCourseId,
       course_name: this.courseName,
-      duration: this.duration,
+      duration: this.reFormatEnumLabel(this.duration),
       module: this.module,
       module_details: formattedModuleDetails
     }
+    console.log(obj)
     this.courseService.addSubCategory(obj).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
