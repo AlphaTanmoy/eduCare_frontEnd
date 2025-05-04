@@ -43,7 +43,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
   parentCourseId: string = '';
   durationOptions: Dropdown[] = [];
-  moduleOptions: EnumOption[] = [];
+  moduleOptions: Dropdown[] = [];
 
   readonly dialog = inject(MatDialog);
   matProgressBarVisible = false;
@@ -95,8 +95,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
           item._id,
           this.formatEnumLabel(item.enum_value)
         ));
-
-        console.log(this.durationOptions)
       },
       error: (error) => {
         this.hideMatProgressBar();
@@ -106,11 +104,16 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.enumsService.getEnumsByName('module_type').subscribe({
       next: (response) => {
-        console.log("module_type", response.data)
-        this.moduleOptions = response.data.map((item: any) => ({
-          value: item.enum_value,
-          label: this.formatEnumLabel(item.enum_value)
-        }));
+        // console.log("module_type", response.data)
+        // this.moduleOptions = response.data.map((item: any) => ({
+        //   value: item.enum_value,
+        //   label: this.formatEnumLabel(item.enum_value)
+        // }));
+
+        this.moduleOptions = response.data.map((item: any) => new Dropdown(
+          item._id,
+          item.enum_value
+        ));
 
         this.hideMatProgressBar();
       },
@@ -135,7 +138,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       this.moduleDetails = [];
 
       // Get the number from the module type (e.g., "MODULE_TYPE_2" -> 2)
-      const moduleNumber = parseInt(this.module.split('_').pop() || '1');
+      const moduleNumber = parseInt(this.module);
 
       // Generate the required number of module details
       for (let i = 0; i < moduleNumber; i++) {
@@ -165,8 +168,14 @@ export class AddSubCourseCategoryComponent implements OnInit {
   }
 
   handleDurationSelection(event: any): void {
-    console.log(event.text)
     this.duration = event.text;
+  }
+
+  handleModuleSelection(event: any): void {
+    this.module = event.text;
+    console.log(this.module)
+
+    this.onModuleChange();
   }
 
   reFormatEnumLabel(value: string): string {
@@ -201,7 +210,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       parentCourseId: this.parentCourseId,
       course_name: this.courseName,
       duration: this.reFormatEnumLabel(this.duration),
-      module: this.module,
+      module: parseInt(this.module),
       module_details: formattedModuleDetails
     }
     console.log(obj)
