@@ -26,12 +26,14 @@ interface ModuleDetail {
   styleUrl: './add-sub-course-category.component.css'
 })
 export class AddSubCourseCategoryComponent implements OnInit {
+  currentSubCourses: any;
+
   courseName: string = '';
   duration: string = '';
   module: string = '';
   moduleDetails: ModuleDetail[] = [];
   loading: boolean = false;
-  error: string = '';
+  error: any;
   success: string = '';
   parentCourseId: string = '';
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -56,6 +58,21 @@ export class AddSubCourseCategoryComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/admin-panel/course-list']);
         }, 2000);
+      }
+    });
+
+    this.courseService.getAllSubCourses().subscribe({
+      next: (response) => {
+        this.currentSubCourses = response.data;
+        this.currentSubCourses = this.currentSubCourses
+          .filter((course: any) => course.course_name)
+          .map((course: any) => course.course_name);
+
+        console.log(this.currentSubCourses)
+      },
+      error: (error) => {
+        console.error('Error fetching duration types:', error);
+        this.error = 'Failed to load duration types';
       }
     });
 
@@ -123,6 +140,18 @@ export class AddSubCourseCategoryComponent implements OnInit {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
+  }
+
+  onCourseNameInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.courseName = input.value;
+    this.courseName = this.courseName.trim();
+
+    if (this.currentSubCourses.includes(this.courseName)) {
+      this.error = "A sub-course with this name already exists";
+    } else {
+      this.error = null;
+    }
   }
 
   onSubmit() {

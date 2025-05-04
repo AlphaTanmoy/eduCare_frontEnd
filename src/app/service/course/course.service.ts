@@ -57,6 +57,10 @@ export class CourseService {
     return this.http.post(`${GetBaseURL()}${Endpoints.course.add_parent_category}`, { course_name: courseName });
   }
 
+  getAllSubCourses(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.course.get_all_sub_categories);
+  }
+
   addSubCategory(parentCourseId: string, courseName: string, duration: string, module: string, moduleDetails: string[][]): Observable<any> {
     var obj = {
       parentCourseId,
