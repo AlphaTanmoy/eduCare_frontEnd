@@ -180,6 +180,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       return detail.content.split(',').map(item => item.trim());
     });
 
+    this.activeMatProgressBar();
     this.http.post(
       GetBaseURL() + Endpoints.course.add_sub_category,
       {
@@ -192,16 +193,12 @@ export class AddSubCourseCategoryComponent implements OnInit {
       { headers: this.getHeaders() }
     ).subscribe({
       next: () => {
-        this.loading = false;
-        this.success = 'Sub-course category added successfully';
-        setTimeout(() => {
-          this.router.navigate(['/admin-panel/course-list']);
-        }, 2000);
+        this.hideMatProgressBar();
+        this.openDialog("Course", 'Sub-course category has been added successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
       },
       error: (error) => {
-        this.loading = false;
-        this.error = error.error?.message || 'Failed to add sub-course category';
-        console.error('Error adding sub-course category:', error);
+        this.hideMatProgressBar();
+        this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, '/admin-panel/course-list');
       }
     });
   }
