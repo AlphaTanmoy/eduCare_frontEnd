@@ -171,7 +171,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       return;
     }
 
-    this.error = '';
+    this.error = null;
 
     // Format module details as array of arrays
     const formattedModuleDetails = this.moduleDetails.map(detail => {
@@ -201,10 +201,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
         this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
-  }
-
-  onDone() {
-    this.router.navigate(['/admin-panel/course-list']);
   }
 
   cancel() {
