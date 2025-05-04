@@ -45,7 +45,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     private authService: AuthService,
     private enumsService: EnumsService,
     private courseService: CourseService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -62,9 +62,9 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.fetchEnums();
   }
 
-   ngOnDestroy(): void {
-      removeBootstrap(this.bootstrapElements);
-    }
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
+  }
 
   private fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
