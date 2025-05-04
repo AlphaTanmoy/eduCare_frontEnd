@@ -14,21 +14,11 @@
     </div>
 
     <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
-      [ariaLabel]="'Select Duration'" [selectedOptions]="null" (selectionChange)="handleDurationSelection($event)">
+      [ariaLabel]="'Select Course Duration'" [selectedOptions]="null" (selectionChange)="handleDurationSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
-    <!-- <div class="form-group">
-      <label for="module">Module Type<span class="text-danger">*</span></label>
-      <select id="module" name="module" class="form-control" [(ngModel)]="module" (ngModelChange)="onModuleChange()"
-        required>
-        <option value="">Select Module Type</option>
-        <option *ngFor="let option of moduleOptions" [value]="option.value">
-          {{ option.label }}
-        </option>
-      </select>
-    </div> -->
     <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
-      [ariaLabel]="'Select Module Type'" [selectedOptions]="null" (selectionChange)="handleModuleSelection($event)">
+      [ariaLabel]="'Select Number Of Modules'" [selectedOptions]="null" (selectionChange)="handleModuleSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
     <div *ngIf="moduleDetails.length > 0" class="module-details">
