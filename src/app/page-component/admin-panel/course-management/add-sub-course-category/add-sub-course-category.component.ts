@@ -83,7 +83,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     removeBootstrap(this.bootstrapElements);
   }
 
-  private fetchEnums() {
+  fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
         this.durationOptions = response.data.map((item: any) => ({
@@ -111,7 +111,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     });
   }
 
-  private formatEnumLabel(value: string): string {
+  formatEnumLabel(value: string): string {
     return value
       .toLowerCase()
       .split('_')
@@ -134,7 +134,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     }
   }
 
-  private getHeaders(): HttpHeaders {
+  getHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
