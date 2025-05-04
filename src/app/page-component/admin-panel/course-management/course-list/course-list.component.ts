@@ -52,6 +52,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'createdAt', 'action'];
   subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
   dataSource = new MatTableDataSource<any>();
+  currentCourses: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
   page_size: number = 5;
@@ -81,6 +82,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
         if (response.status === 200) {
           this.courseCount = response.data.length;
           this.dataSource.data = response.data;
+          this.currentCourses = response.data;
           this.dataSource.paginator = this.paginator;
         } else {
           this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
@@ -96,7 +98,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   addParentCategory() {
-    const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent);
+    const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

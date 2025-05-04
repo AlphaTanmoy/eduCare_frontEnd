@@ -17,7 +17,7 @@ export class CustomConfirmDialogComponent {
   formattedText: string = '';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { text: string; type: ResponseType },
+    @Inject(MAT_DIALOG_DATA) public data: { text: string },
     public dialogRef: MatDialogRef<CustomConfirmDialogComponent>,
   ) { }
 

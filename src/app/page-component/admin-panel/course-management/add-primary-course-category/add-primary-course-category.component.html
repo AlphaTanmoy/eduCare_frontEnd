@@ -6,13 +6,15 @@
       <label for="courseName">Course Name<span class="text-danger">*</span></label>
       <input type="text" class="form-control" placeholder="Enter course name" required
         (input)="onCourseNameInput($event)">
+      <span *ngIf="error" class="text-danger">{{ error }}</span>
     </div>
+
 
     <div class="button-group">
       <button type="button" mat-button mat-dialog-close class="btn btn-secondary" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="btn btn-primary" [disabled]="courseName.length === 0">
+      <button type="submit" class="btn btn-primary" [disabled]="courseName.length === 0 || error">
         Add Course
       </button>
     </div>
