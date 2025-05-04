@@ -79,19 +79,14 @@ export class AddSubCourseCategoryComponent implements OnInit {
           .map((course: any) => course.course_name);
       },
       error: (error) => {
-        console.error('Error fetching duration types:', error);
-        this.error = 'Failed to load duration types';
         this.hideMatProgressBar();
+        this.openDialog("Course", 'Error fetching other sub courses details', ResponseTypeColor.ERROR, null);
       }
     });
 
     this.fetchEnums();
   }
-
-  ngOnDestroy(): void {
-    removeBootstrap(this.bootstrapElements);
-  }
-
+  
   fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
@@ -101,9 +96,8 @@ export class AddSubCourseCategoryComponent implements OnInit {
         }));
       },
       error: (error) => {
-        console.error('Error fetching duration types:', error);
-        this.error = 'Failed to load duration types';
         this.hideMatProgressBar();
+        this.openDialog("Course", 'Error fetching duration types', ResponseTypeColor.ERROR, null);
       }
     });
 
@@ -117,9 +111,8 @@ export class AddSubCourseCategoryComponent implements OnInit {
         this.hideMatProgressBar();
       },
       error: (error) => {
-        console.error('Error fetching module types:', error);
-        this.error = 'Failed to load module types';
         this.hideMatProgressBar();
+        this.openDialog("Course", 'Error fetching module types', ResponseTypeColor.ERROR, null);
       }
     });
   }
@@ -221,6 +214,10 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.router.navigate(['/admin-panel/course-list']);
   }
 
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
+  }
+
   activeMatProgressBar() {
     this.matProgressBarVisible = true;
     this.cdr.detectChanges();
@@ -231,7 +228,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, {
       data: { title: dialogTitle, text: dialogText, type: dialogType }
     });
