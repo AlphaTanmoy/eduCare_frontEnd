@@ -33,7 +33,7 @@
               <li><strong>Course Code:</strong> {{ subCourse.courseCode }}</li>
               <li><strong>Duration:</strong> {{ formatEnumValue(subCourse.duration) }}</li>
               <li><strong>Status:</strong> {{ formatEnumValue(subCourse.dataStatus) }}</li>
-              <li><strong>Module Type:</strong> {{ formatEnumValue(subCourse.module) }}</li>
+              <li><strong>Module Type:</strong> {{ subCourse.module }}</li>
               <li *ngIf="subCourse.moduleDetails?.length">
                 <strong>Module Details:</strong>
                 <ol class="module-details">
