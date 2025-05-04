@@ -31,7 +31,7 @@
             <h4>{{ subCourse.courseName }}</h4>
             <ul class="info-list">
               <li><strong>Course Code:</strong> {{ subCourse.courseCode }}</li>
-              <li><strong>Duration In Month(s):</strong> {{ subCourse.duration }}</li>
+              <li><strong>Duration (In Months):</strong> {{ subCourse.duration }}</li>
               <li><strong>Status:</strong> {{ formatEnumValue(subCourse.dataStatus) }}</li>
               <li><strong>Number Of Module(s):</strong> {{ subCourse.module }}</li>
               <li *ngIf="subCourse.moduleDetails?.length">
