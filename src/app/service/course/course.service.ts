@@ -61,17 +61,6 @@ export class CourseService {
     return this.http.get<any>(GetBaseURL() + Endpoints.course.get_all_sub_categories);
   }
 
-  addSubCategory(parentCourseId: string, courseName: string, duration: string, module: string, moduleDetails: string[][]): Observable<any> {
-    var obj = {
-      parentCourseId,
-      course_name: courseName,
-      duration,
-      module,
-      module_details: moduleDetails
-    }
-    return this.http.post(`${GetBaseURL()}${Endpoints.course.add_sub_category}`, obj);
-  }
-
   editParentCategory(courseCode: string, courseName: string): Observable<any> {
     var obj = {
       courseCode,
@@ -86,6 +75,10 @@ export class CourseService {
 
   deleteParentCategory(courseCode: string): Observable<any> {
     return this.http.delete(`${GetBaseURL()}${Endpoints.course.delete_parent_category}/${courseCode}`);
+  }
+
+  addSubCategory(obj: any): Observable<any> {
+    return this.http.post(GetBaseURL() + Endpoints.course.add_sub_category, obj);
   }
 
   deleteSubCategory(courseCode: string): Observable<any> {

@@ -5,19 +5,12 @@
     <h2>Add Sub-Course Category</h2>
   </div>
 
-  <div *ngIf="error" class="alert alert-danger">
-    {{ error }}
-  </div>
-
-  <div *ngIf="success" class="alert alert-success">
-    {{ success }}
-  </div>
-
   <form (ngSubmit)="onSubmit()" #subCourseForm="ngForm" *ngIf="!success">
     <div class="form-group">
       <label for="courseName">Course Name</label>
-      <input type="text" id="courseName" name="courseName" class="form-control" [(ngModel)]="courseName"
+      <input type="text" id="courseName" name="courseName" class="form-control mb-1" [(ngModel)]="courseName"
         (input)="onCourseNameInput($event)" required />
+      <span *ngIf="error" class="text-danger">{{ error }}</span>
     </div>
 
     <div class="form-group">
@@ -52,7 +45,7 @@
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="loading || error || !subCourseForm.form.valid">
+      <button type="submit" class="btn btn-primary" [disabled]="error || !subCourseForm.form.valid">
         Add Sub-Course
       </button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">

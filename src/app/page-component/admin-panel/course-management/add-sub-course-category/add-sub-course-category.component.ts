@@ -37,9 +37,10 @@ export class AddSubCourseCategoryComponent implements OnInit {
   duration: string = '';
   module: string = '';
   moduleDetails: ModuleDetail[] = [];
-  loading: boolean = false;
+
   error: any;
   success: string = '';
+
   parentCourseId: string = '';
   durationOptions: EnumOption[] = [];
   moduleOptions: EnumOption[] = [];
@@ -171,7 +172,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
     this.error = '';
 
     // Format module details as array of arrays
@@ -181,24 +181,25 @@ export class AddSubCourseCategoryComponent implements OnInit {
     });
 
     this.activeMatProgressBar();
-    this.http.post(
-      GetBaseURL() + Endpoints.course.add_sub_category,
-      {
-        parentCourseId: this.parentCourseId,
-        course_name: this.courseName,
-        duration: this.duration,
-        module: this.module,
-        module_details: formattedModuleDetails
-      },
-      { headers: this.getHeaders() }
-    ).subscribe({
-      next: () => {
+    var obj = {
+      parentCourseId: this.parentCourseId,
+      course_name: this.courseName,
+      duration: this.duration,
+      module: this.module,
+      module_details: formattedModuleDetails
+    }
+    this.courseService.addSubCategory(obj).subscribe({
+      next: (response) => {
         this.hideMatProgressBar();
-        this.openDialog("Course", 'Sub-course category has been added successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
+        if (response.status === 200) {
+          this.openDialog("Course", 'Sub-course category has been added successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
+        } else {
+          this.openDialog("Course", response.message, ResponseTypeColor.ERROR, null);
+        }
       },
       error: (error) => {
         this.hideMatProgressBar();
-        this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, '/admin-panel/course-list');
+        this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
   }
@@ -231,7 +232,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      window.location.href = navigateRoute;
+      if (navigateRoute) window.location.href = navigateRoute;
     });
   }
 }
