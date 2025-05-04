@@ -11,6 +11,7 @@ import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 interface EnumOption {
   value: string;
@@ -61,16 +62,15 @@ export class AddSubCourseCategoryComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       this.parentCourseId = params['parentCourseId'];
+
       if (!this.parentCourseId) {
-        this.error = 'Parent course ID is required';
-        setTimeout(() => {
-          this.router.navigate(['/admin-panel/course-list']);
-        }, 2000);
+        this.openDialog("Course", 'Parent course ID is required', ResponseTypeColor.ERROR, '/admin-panel/course-list');
+        return;
       }
     });
 
     this.activeMatProgressBar();
-    
+
     this.courseService.getAllSubCourses().subscribe({
       next: (response) => {
         this.currentSubCourses = response.data;
@@ -231,13 +231,13 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
-    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: { title: dialogTitle, text: dialogText, type: dialogType }
+    });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (pageReloadNeeded) {
-        location.reload();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      window.location.href = navigateRoute;
     });
   }
 }
