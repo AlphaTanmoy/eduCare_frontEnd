@@ -5,13 +5,12 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 @Component({
-  selector: 'app-add-primary-course-category',
+  selector: 'app-edit-primary-course-category',
   imports: [CommonModule, FormsModule, MatDialogModule],
-  templateUrl: './add-primary-course-category.component.html',
-  styleUrl: './add-primary-course-category.component.css'
+  templateUrl: './edit-primary-course-category.component.html',
+  styleUrl: './edit-primary-course-category.component.css'
 })
-
-export class AddPrimaryCourseCategoryComponent {
+export class EditPrimaryCourseCategoryComponent {
   courseName: string = '';
   error: string | null = null;
   currentCourses: any;
@@ -22,7 +21,7 @@ export class AddPrimaryCourseCategoryComponent {
   matProgressBarVisible = false;
 
   constructor(
-    public dialogRef: MatDialogRef<AddPrimaryCourseCategoryComponent>,
+    public dialogRef: MatDialogRef<EditPrimaryCourseCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { currentCourses: any }
   ) { }
 
