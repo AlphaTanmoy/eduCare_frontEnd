@@ -11,7 +11,9 @@ import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
   styleUrl: './edit-primary-course-category.component.css'
 })
 export class EditPrimaryCourseCategoryComponent {
+  oldCourseName: string = '';
   courseName: string = '';
+  sameCourseNameEntered: boolean = true;
   error: string | null = null;
   currentCourses: any;
 
@@ -25,14 +27,15 @@ export class EditPrimaryCourseCategoryComponent {
     @Inject(MAT_DIALOG_DATA) public data: { course_id: string; currentCourses: any }
   ) { }
 
-  onCourseNameInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.courseName = input.value;
+  onCourseNameInput() {
     this.courseName = this.courseName.trim();
+    this.sameCourseNameEntered = false;
 
-    if(this.currentCourses.includes(this.courseName)) {
+    if (this.currentCourses.includes(this.courseName)) {
       this.error = "A Course with this name already exists";
-    }else{
+    } else if (this.courseName === this.oldCourseName) {
+      this.sameCourseNameEntered = true;
+    } else {
       this.error = null;
     }
   }
@@ -46,11 +49,16 @@ export class EditPrimaryCourseCategoryComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.data.course_id, this.data.currentCourses)
     this.bootstrapElements = loadBootstrap();
     this.currentCourses = this.data.currentCourses
-                          .filter((course: any) => course.courseName)
-                          .map((course: any) => course.courseName);
+                        .filter((course: any) => course.courseName)
+                        .map((course: any) => course.courseName);
+
+    this.oldCourseName = this.data.currentCourses.filter((course: any) => course.id === this.data.course_id)[0].courseName;
+    this.currentCourses = this.currentCourses.filter((course: string) => course !== this.oldCourseName);
+    this.courseName = this.oldCourseName;
+
+    console.log(this.oldCourseName, this.courseName, this.currentCourses)
   }
 
   ngOnDestroy(): void {

@@ -5,7 +5,7 @@
       <div class="form-group">
         <label for="courseName">Course Name<span class="text-danger">*</span></label>
         <input type="text" class="form-control" placeholder="Enter course name" required
-          (input)="onCourseNameInput($event)">
+          (input)="onCourseNameInput()" [ngModelOptions]="{standalone: true}" [(ngModel)]="courseName">
         <span *ngIf="error" class="text-danger">{{ error }}</span>
       </div>
   
@@ -14,7 +14,7 @@
         <button type="button" mat-button mat-dialog-close class="btn btn-secondary btn-sm" (click)="cancel()">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary btn-sm" [disabled]="courseName.length === 0 || error">
+        <button type="submit" class="btn btn-primary btn-sm" [disabled]="courseName.length === 0 || error || sameCourseNameEntered">
           Save
         </button>
       </div>
