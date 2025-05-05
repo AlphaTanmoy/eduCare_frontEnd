@@ -24,6 +24,7 @@ import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-category/add-primary-course-category.component';
+import { EditPrimaryCourseCategoryComponent } from '../edit-primary-course-category/edit-primary-course-category.component';
 
 
 @Component({
@@ -119,6 +120,33 @@ export class CourseListComponent implements OnInit, OnDestroy {
             this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
           }
         });
+      }
+    });
+  }
+
+  editParentCategory(id: string) {
+    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result)
+        // this.activeMatProgressBar();
+
+        // this.courseService.addCourseCategory(result).subscribe({
+        //   next: (response) => {
+        //     if (response.status === 200) {
+        //       this.fetchCourses();
+        //       this.openDialog("Course", "New course category has been added successfully", ResponseTypeColor.SUCCESS, false);
+        //     } else {
+        //       this.hideMatProgressBar();
+        //       this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
+        //     }
+        //   },
+        //   error: (error) => {
+        //     this.hideMatProgressBar();
+        //     this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+        //   }
+        // });
       }
     });
   }

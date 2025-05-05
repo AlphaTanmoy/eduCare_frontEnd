@@ -1,5 +1,5 @@
 <div class="add-course-container" style="width: 600px; max-width: 100%;">
-    <h4 class="mt-2 mb-4 text-center">Add Primary Course Category</h4>
+    <h4 class="mt-2 mb-4 text-center">Edit Primary Course Category</h4>
   
     <form (ngSubmit)="onSubmit()" class="course-form">
       <div class="form-group">
@@ -15,7 +15,7 @@
           Cancel
         </button>
         <button type="submit" class="btn btn-primary btn-sm" [disabled]="courseName.length === 0 || error">
-          Add Course
+          Save
         </button>
       </div>
     </form>

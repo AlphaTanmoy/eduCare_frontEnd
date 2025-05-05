@@ -59,6 +59,9 @@
             <fa-icon [icon]="faPlus" class="icon btn_cursor_pointer text-primary me-1" title="Add Sub-Course"
               (click)="addSubCategory(course)"></fa-icon>
 
+            <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1" title="Edit Course"
+              (click)="editParentCategory(course.id)"></fa-icon>
+
             <fa-icon [icon]="faEye" class="icon btn_cursor_pointer text-success me-1" title="View Sub-Course Details"
               (click)="viewCourse(course.courseCode)"></fa-icon>
 
