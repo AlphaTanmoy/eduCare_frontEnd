@@ -16,7 +16,7 @@
           [checked]="dataStatus === ActiveInactiveStatus.ACTIVE" [ngModelOptions]="{standalone: true}"
           [ngModel]="dataStatus === ActiveInactiveStatus.ACTIVE" (ngModelChange)="onStatusChange($event)">
         <label class="form-check-label" for="flexSwitchCheckChecked">{{dataStatus === ActiveInactiveStatus.ACTIVE ?
-          'Active' : 'In-Active'}}</label>
+          'Active' : 'Inactive'}}</label>
       </div>
     </div>
 
