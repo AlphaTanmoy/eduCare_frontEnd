@@ -125,7 +125,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   editParentCategory(id: string) {
-    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
+    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { course_id: id, currentCourses: this.currentCourses } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

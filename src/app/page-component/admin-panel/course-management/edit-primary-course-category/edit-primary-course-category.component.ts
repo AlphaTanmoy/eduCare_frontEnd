@@ -22,7 +22,7 @@ export class EditPrimaryCourseCategoryComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditPrimaryCourseCategoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { currentCourses: any }
+    @Inject(MAT_DIALOG_DATA) public data: { course_id: string; currentCourses: any }
   ) { }
 
   onCourseNameInput(event: Event) {
@@ -46,6 +46,7 @@ export class EditPrimaryCourseCategoryComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.data.course_id, this.data.currentCourses)
     this.bootstrapElements = loadBootstrap();
     this.currentCourses = this.data.currentCourses
                           .filter((course: any) => course.courseName)
