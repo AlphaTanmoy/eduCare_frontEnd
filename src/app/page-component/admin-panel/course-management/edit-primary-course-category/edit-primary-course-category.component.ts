@@ -8,7 +8,7 @@ import { ActiveInactiveStatus, Dropdown } from '../../../../constants/commonCons
 
 @Component({
   selector: 'app-edit-primary-course-category',
-  imports: [CommonModule, FormsModule, MatDialogModule, CustomSingleSelectSearchableDropdownComponent],
+  imports: [CommonModule, FormsModule, MatDialogModule],
   templateUrl: './edit-primary-course-category.component.html',
   styleUrl: './edit-primary-course-category.component.css'
 })
