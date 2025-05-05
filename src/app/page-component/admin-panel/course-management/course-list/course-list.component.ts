@@ -21,7 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-category/add-primary-course-category.component';
 import { EditPrimaryCourseCategoryComponent } from '../edit-primary-course-category/edit-primary-course-category.component';
@@ -50,7 +50,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   faMinus = faMinus;
 
-  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'createdAt', 'action'];
+  ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
+  ActiveInactiveStatus = ActiveInactiveStatus;
+
+  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'createdAt', 'action'];
   subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
   dataSource = new MatTableDataSource<any>();
   currentCourses: any;
@@ -220,6 +223,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
     element.expanded = !element.expanded;
     element.viewSubCourse = element.expanded ? '-' : '+';
     this.expandedElement = element.expanded ? element : null;
+  }
+
+  GetDataStatusLabel(value: string): string {
+    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
 
   FormatDateTime(datetimeValue: any) {

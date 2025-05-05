@@ -45,6 +45,18 @@
         <td mat-cell *matCellDef="let course" class="text-center"> {{ course.subCategories.length }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
+          style="background-color: var(--light); color: var(--default-theme);"> Data Status </th>
+        <td mat-cell *matCellDef="let course" class="text-center">
+          <span [ngClass]="
+              course.dataStatus === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
+              course.dataStatus === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' : 'text_card_idle'
+            ">{{ GetDataStatusLabel(course.dataStatus) }}
+          </span>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef class="text-center fw-bold fs-6"
           style="background-color: var(--light); color: var(--default-theme);"> Created On </th>
