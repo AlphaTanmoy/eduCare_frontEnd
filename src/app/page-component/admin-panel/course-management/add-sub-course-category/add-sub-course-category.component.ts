@@ -2,9 +2,6 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GetBaseURL, Endpoints } from '../../../../endpoints/endpoints';
-import { AuthService } from '../../../../service/auth/Auth.Service';
 import { EnumsService } from '../../../../service/enums/enums.service';
 import { CourseService } from '../../../../service/course/course.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
@@ -13,11 +10,6 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-
-interface EnumOption {
-  value: string;
-  label: string;
-}
 
 interface ModuleDetail {
   content: string;
@@ -30,6 +22,7 @@ interface ModuleDetail {
   templateUrl: './add-sub-course-category.component.html',
   styleUrl: './add-sub-course-category.component.css'
 })
+
 export class AddSubCourseCategoryComponent implements OnInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   currentSubCourses: any;
@@ -49,10 +42,8 @@ export class AddSubCourseCategoryComponent implements OnInit {
   matProgressBarVisible = false;
 
   constructor(
-    private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
     private enumsService: EnumsService,
     private courseService: CourseService,
     private cdr: ChangeDetectorRef,
@@ -128,14 +119,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
         this.moduleDetails.push({ content: '' });
       }
     }
-  }
-
-  getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
   }
 
   onCourseNameInput(event: Event) {
