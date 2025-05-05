@@ -72,7 +72,7 @@
               (click)="addSubCategory(course)"></fa-icon>
 
             <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1" title="Edit Course"
-              (click)="editParentCategory(course.id)"></fa-icon>
+              (click)="editParentCategory(course.id, course.dataStatus)"></fa-icon>
 
             <fa-icon [icon]="faEye" class="icon btn_cursor_pointer text-secondary me-1" title="View Sub-Course Details"
               (click)="viewCourse(course.courseCode)"></fa-icon>

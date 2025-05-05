@@ -1,22 +1,33 @@
 <div class="add-course-container" style="width: 600px; max-width: 100%;">
-    <h4 class="mt-2 mb-4 text-center">Edit Primary Course Category</h4>
-  
-    <form (ngSubmit)="onSubmit()" class="course-form">
-      <div class="form-group">
-        <label for="courseName">Course Name<span class="text-danger">*</span></label>
-        <input type="text" class="form-control" placeholder="Enter course name" required
-          (input)="onCourseNameInput()" [ngModelOptions]="{standalone: true}" [(ngModel)]="courseName">
-        <span *ngIf="error" class="text-danger">{{ error }}</span>
+  <h4 class="mt-2 mb-4 text-center">Edit Primary Course Category</h4>
+
+  <form (ngSubmit)="onSubmit()" class="course-form">
+    <div class="form-group">
+      <label for="courseName">Course Name<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" placeholder="Enter course name" required (input)="onCourseNameInput()"
+        [ngModelOptions]="{standalone: true}" [(ngModel)]="courseName">
+      <span *ngIf="error" class="text-danger">{{ error }}</span>
+    </div>
+
+    <div class="d-flex">
+      <span class="me-2">Data Status : </span>
+      <div class="form-check form-switch">
+        <input class="form-check-input me-2" type="checkbox" id="flexSwitchCheckChecked"
+          [checked]="dataStatus === ActiveInactiveStatus.ACTIVE" [ngModelOptions]="{standalone: true}"
+          [ngModel]="dataStatus === ActiveInactiveStatus.ACTIVE" (ngModelChange)="onStatusChange($event)">
+        <label class="form-check-label" for="flexSwitchCheckChecked">{{dataStatus === ActiveInactiveStatus.ACTIVE ?
+          'Active' : 'In-Active'}}</label>
       </div>
-  
-  
-      <div class="button-group">
-        <button type="button" mat-button mat-dialog-close class="btn btn-secondary btn-sm" (click)="cancel()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary btn-sm" [disabled]="courseName.length === 0 || error || sameCourseNameEntered">
-          Save
-        </button>
-      </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="button-group">
+      <button type="button" mat-button mat-dialog-close class="btn btn-secondary btn-sm" (click)="cancel()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary btn-sm"
+        [disabled]="courseName.length === 0 || error || sameCourseNameEntered">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

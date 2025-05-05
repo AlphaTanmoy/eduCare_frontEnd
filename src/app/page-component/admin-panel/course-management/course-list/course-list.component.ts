@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Endpoints, GetBaseURL } from '../../../../endpoints/endpoints';
-import { AuthService } from '../../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEdit, faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -14,17 +12,17 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SubCategory, ParentCategory } from '../../../../model/course/course.model';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-category/add-primary-course-category.component';
 import { EditPrimaryCourseCategoryComponent } from '../edit-primary-course-category/edit-primary-course-category.component';
+import { EnumsService } from '../../../../service/enums/enums.service';
 
 
 @Component({
@@ -55,11 +53,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'createdAt', 'action'];
   subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
+  
   dataSource = new MatTableDataSource<any>();
   currentCourses: any;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
   page_size: number = 5;
+
+  dataStatusOptions: Dropdown[] = [];
 
   expandedElement: any | null;
 
@@ -67,32 +69,31 @@ export class CourseListComponent implements OnInit, OnDestroy {
   matProgressBarVisible = false;
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-    private authService: AuthService,
     private courseService: CourseService,
+    private enumsService: EnumsService,
     private cdr: ChangeDetectorRef,
   ) { }
 
-  ngOnInit() {
-    this.fetchCourses();
+  async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    await this.fetchCourses();
+    await this.fetchEnums();
   }
 
-  fetchCourses() {
+  async fetchCourses() {
     this.activeMatProgressBar();
     this.courseService.fetchAllCourses().subscribe({
-      next: (response) => {
+      next: async (response) => {
         if (response.status === 200) {
           this.courseCount = response.data.length;
           this.dataSource.data = response.data;
           this.currentCourses = response.data;
           this.dataSource.paginator = this.paginator;
         } else {
+          this.hideMatProgressBar();
           this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
         }
-
-        this.hideMatProgressBar();
       },
       error: (error) => {
         this.openDialog("Course", "Failed to fetch courses", ResponseTypeColor.ERROR, false);
@@ -100,6 +101,24 @@ export class CourseListComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  async fetchEnums() {
+      this.enumsService.getEnumsByName('data_status').subscribe({
+        next: async (response) => {
+          this.dataStatusOptions = response.data.map((item: any) => new Dropdown(
+            item._id,
+            item.enum_value
+          ));
+
+          console.log(this.dataStatusOptions)
+          this.hideMatProgressBar();
+        },
+        error: (error) => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", 'Error fetching data status types', ResponseTypeColor.ERROR, false);
+        }
+      });
+    }
 
   addParentCategory() {
     const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
@@ -127,8 +146,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
     });
   }
 
-  editParentCategory(id: string) {
-    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { course_id: id, currentCourses: this.currentCourses } });
+  editParentCategory(id: string, dataStatus: string) {
+    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { course_id: id, data_status: dataStatus, currentCourses: this.currentCourses, data_status_options: this.dataStatusOptions } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

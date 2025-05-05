@@ -52,3 +52,8 @@ input:focus {
     gap: 1rem;
     margin-top: 1rem;
 }
+
+.form-check-input{
+    width: 2.5rem;
+    padding: 0 !important;
+}
