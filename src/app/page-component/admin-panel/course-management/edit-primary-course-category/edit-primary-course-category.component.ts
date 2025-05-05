@@ -42,8 +42,8 @@ export class EditPrimaryCourseCategoryComponent {
 
   onSubmit() {
     var obj = {
-      courseName: this.courseName,
-      dataStatus: this.dataStatus
+      course_name: this.courseName,
+      data_status: this.dataStatus
     }
     this.dialogRef.close(obj);
   }

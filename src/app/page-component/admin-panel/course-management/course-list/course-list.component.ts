@@ -152,23 +152,24 @@ export class CourseListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result)
-        // this.activeMatProgressBar();
+        this.activeMatProgressBar();
 
-        // this.courseService.addCourseCategory(result).subscribe({
-        //   next: (response) => {
-        //     if (response.status === 200) {
-        //       this.fetchCourses();
-        //       this.openDialog("Course", "New course category has been added successfully", ResponseTypeColor.SUCCESS, false);
-        //     } else {
-        //       this.hideMatProgressBar();
-        //       this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
-        //     }
-        //   },
-        //   error: (error) => {
-        //     this.hideMatProgressBar();
-        //     this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
-        //   }
-        // });
+        this.courseService.editCourseCategory(id, result).subscribe({
+          next: (response) => {
+            if (response.status === 200) {
+              this.fetchCourses();
+              this.openDialog("Course", response.message, ResponseTypeColor.SUCCESS, false);
+            } else {
+              this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
+            }
+
+            this.hideMatProgressBar();
+          },
+          error: (error) => {
+            this.hideMatProgressBar();
+            this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+          }
+        });
       }
     });
   }
