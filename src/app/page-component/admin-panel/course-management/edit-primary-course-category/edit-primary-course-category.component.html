@@ -25,7 +25,7 @@
         Cancel
       </button>
       <button type="submit" class="btn btn-primary btn-sm"
-        [disabled]="courseName.length === 0 || error || sameCourseNameEntered">
+        [disabled]="courseName.length === 0 || error || (sameCourseNameEntered && sameDataStatusChecked)">
         Save
       </button>
     </div>

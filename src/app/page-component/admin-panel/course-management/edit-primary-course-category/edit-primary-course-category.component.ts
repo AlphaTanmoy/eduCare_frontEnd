@@ -15,9 +15,13 @@ import { ActiveInactiveStatus, Dropdown } from '../../../../constants/commonCons
 export class EditPrimaryCourseCategoryComponent {
   oldCourseName: string = '';
   courseName: string = '';
+  oldDataStatus: string = '';
   dataStatus: string = '';
   dataStatusOptions: Dropdown[] = [];
+
   sameCourseNameEntered: boolean = true;
+  sameDataStatusChecked: boolean = true;
+
   error: string | null = null;
   currentCourses: any;
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -33,16 +37,7 @@ export class EditPrimaryCourseCategoryComponent {
   ) { }
 
   onCourseNameInput() {
-    this.courseName = this.courseName.trim();
-    this.sameCourseNameEntered = false;
-
-    if (this.currentCourses.includes(this.courseName)) {
-      this.error = "A Course with this name already exists";
-    } else if (this.courseName === this.oldCourseName) {
-      this.sameCourseNameEntered = true;
-    } else {
-      this.error = null;
-    }
+    this.validation();
   }
 
   onSubmit() {
@@ -60,6 +55,7 @@ export class EditPrimaryCourseCategoryComponent {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
 
+    this.oldDataStatus = this.data.data_status;
     this.dataStatus = this.data.data_status;
     this.dataStatusOptions = this.data.data_status_options;
 
@@ -74,6 +70,26 @@ export class EditPrimaryCourseCategoryComponent {
 
   onStatusChange(isChecked: boolean) {
     this.dataStatus = isChecked ? ActiveInactiveStatus.ACTIVE : ActiveInactiveStatus.INACTIVE;
+    this.validation();
+  }
+
+  validation() {
+    this.courseName = this.courseName.trim();
+    this.sameCourseNameEntered = false;
+    this.sameDataStatusChecked = false;
+
+    if (this.currentCourses.includes(this.courseName)) {
+      this.error = "A Course with this name already exists";
+    } else {
+      this.error = null;
+    }
+
+    if (this.courseName === this.oldCourseName) {
+      this.sameCourseNameEntered = true;
+    }
+    if (this.oldDataStatus === this.dataStatus) {
+      this.sameDataStatusChecked = true;
+    }
   }
 
   ngOnDestroy(): void {
