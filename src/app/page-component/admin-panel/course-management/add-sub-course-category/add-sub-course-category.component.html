@@ -35,7 +35,7 @@
       <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="btn btn-primary btn-sm" [disabled]="error || !subCourseForm.form.valid">
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="error || courseName.length===0 || duration.length === 0 || module.length === 0 || !subCourseForm.form.valid">
         Add Sub-Course
       </button>
     </div>
