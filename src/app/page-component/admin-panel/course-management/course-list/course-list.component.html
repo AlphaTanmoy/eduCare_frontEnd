@@ -101,6 +101,8 @@
                     <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Count Of Modules</th>
                     <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Data Status</th>
+                    <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Created On</th>
                     <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Action</th>
@@ -112,6 +114,13 @@
                     <td class="text-center custom_padding align-middle">{{ subCourse.courseName }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.duration }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.module }}</td>
+                    <td class="text-center custom_padding align-middle">
+                      <span [ngClass]="
+                        subCourse.dataStatus === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
+                        subCourse.dataStatus === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' : 'text_card_idle'
+                        ">{{ GetDataStatusLabel(subCourse.dataStatus) }}
+                      </span>
+                    </td>
                     <td class="text-center custom_padding align-middle"> {{ FormatDateTime(subCourse.createdAt) }} </td>
                     <td class="text-center custom_padding align-middle">
                       <div class="btn-group">

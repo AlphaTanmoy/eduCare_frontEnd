@@ -52,7 +52,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ActiveInactiveStatus = ActiveInactiveStatus;
 
   displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'createdAt', 'action'];
-  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
+  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'status', 'createdAt', 'subCourseAction'];
 
   dataSource = new MatTableDataSource<any>();
   currentCourses: any;
