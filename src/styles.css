@@ -84,28 +84,35 @@ body {
     }
 }
 
-.mat-mdc-row, .mat-mdc-header-row, .mdc-data-table__content{
+.mat-mdc-row,
+.mat-mdc-header-row,
+.mdc-data-table__content {
     font-family: "Montserrat", sans-serif !important;
     font-weight: 500 !important;
 }
 
-.text_card_success{
+.text_card_success {
     background-color: #c6ffc4 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
 }
 
-.text_card_danger{
+.text_card_danger {
     background-color: #ffd1d3 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
 }
 
-.text_card_idle{
+.text_card_idle {
     background-color: #d1d1d1 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
+}
+
+.form-check-input {
+    width: 2.5rem;
+    padding: 0 !important;
 }
