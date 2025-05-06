@@ -62,7 +62,7 @@ export class EditPrimaryCourseCategoryComponent {
       .map((course: any) => course.courseName.toLowerCase());
 
     this.oldCourseName = this.data.currentCourses.filter((course: any) => course.id === this.data.course_id)[0].courseName;
-    this.currentCourses = this.currentCourses.filter((course: string) => course !== this.oldCourseName);
+    this.currentCourses = this.currentCourses.filter((course: string) => course !== this.oldCourseName.toLowerCase());
     this.courseName = this.oldCourseName;
   }
 
