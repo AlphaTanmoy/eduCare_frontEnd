@@ -73,8 +73,8 @@ export class CourseService {
     return this.http.put(`${GetBaseURL()}${Endpoints.course.edit_parent_category}`, obj);
   }
 
-  editSubCategory(requestBody: { id: string; course_code: string; duration: string; module: string; module_details: string[][]; }): Observable<any> {
-    return this.http.put(`${GetBaseURL()}${Endpoints.course.edit_sub_category}`, requestBody);
+  editSubCategory(obj: any): Observable<any> {
+    return this.http.put(`${GetBaseURL()}${Endpoints.course.edit_sub_category}`, obj);
   }
 
   deleteParentCategory(courseCode: string): Observable<any> {

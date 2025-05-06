@@ -1,56 +1,41 @@
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
 <div class="edit-sub-category-container">
   <h2 class="header">Edit Sub-Course Category</h2>
 
-  <div class="loading" *ngIf="loading">Loading...</div>
-  <div class="error" *ngIf="error">{{ error }}</div>
-
-  <form *ngIf="!loading && !error" (ngSubmit)="onSubmit()" #editForm="ngForm" class="edit-form">
+  <form (ngSubmit)="onSubmit()" #editForm="ngForm" class="edit-form">
     <div class="form-group">
-      <label>Course Name</label>
-      <input type="text" class="form-control" [(ngModel)]="subCategory.courseName" name="courseName" required />
+      <label>Course Name<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" [(ngModel)]="subCategory.courseName" name="courseName"
+        (input)="onCourseNameInput($event)" required />
+      <span *ngIf="error" class="text-danger">{{ error }}</span>
     </div>
 
-    <div class="form-group">
-      <label>Duration</label>
-      <select class="form-control" [(ngModel)]="subCategory.duration" name="duration" required>
-        <option value="">Select Duration</option>
-        <option *ngFor="let duration of durationOptions" [value]="duration.value">
-          {{ duration.label }}
-        </option>
-      </select>
-    </div>
+    <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
+      [ariaLabel]="'Select Course Duration (In Months)'" [selectedOptions]="subCategory.duration"
+      (selectionChange)="handleDurationSelection($event)">
+    </app-custom-single-select-searchable-dropdown>
 
-    <div class="form-group">
-      <label>Module Type</label>
-      <select class="form-control" [(ngModel)]="subCategory.module" name="module" (change)="onModuleChange()" required>
-        <option value="">Select Module Type</option>
-        <option *ngFor="let module of moduleOptions" [value]="module.value">
-          {{ module.label }}
-        </option>
-      </select>
-    </div>
+    <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
+      [ariaLabel]="'Select Number Of Modules'" [selectedOptions]="subCategory.module"
+      (selectionChange)="handleModuleSelection($event)">
+    </app-custom-single-select-searchable-dropdown>
 
     <div *ngIf="subCategory.moduleDetails.length > 0" class="module-details">
-      <h4>Module Details ({{subCategory.moduleDetails.length}} modules)</h4>
-      <small class="text-muted">Enter topics for each module, separated by commas</small>
+      <h4>Module Details</h4>
+      <p class="help-text">Enter module topics separated by commas (e.g., "Intro, Variables, Loops")</p>
       <div *ngFor="let module of subCategory.moduleDetails; let i = index" class="module-detail-item">
         <div class="form-group">
-          <label>Module {{ i + 1 }} Topics</label>
-          <textarea
-            class="form-control"
-            [(ngModel)]="module.content"
-            [name]="'moduleDetail' + i"
-            rows="4"
-            required
-            placeholder="Enter topics, separated by commas"
-          ></textarea>
+          <label>Module {{ i + 1 }} Topics<span class="text-danger">*</span></label>
+          <input class="form-control" [(ngModel)]="module.content" [name]="'moduleDetail' + i" rows="4" required
+            placeholder="Enter topics, separated by commas(,)"/>
         </div>
       </div>
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn btn-secondary" (click)="navigateToCourseList()">Cancel</button>
-      <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save Changes</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToCourseList()">Cancel</button>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="!editForm.form.valid || error">Save Changes</button>
     </div>
   </form>
 </div>

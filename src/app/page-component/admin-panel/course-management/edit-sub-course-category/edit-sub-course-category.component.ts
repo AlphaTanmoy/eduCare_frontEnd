@@ -1,10 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../../../service/course/course.service';
 import { EnumsService } from '../../../../service/enums/enums.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface EnumOption {
   value: string;
@@ -18,119 +23,168 @@ interface ModuleDetail {
 @Component({
   selector: 'app-edit-sub-course-category',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CustomSingleSelectSearchableDropdownComponent, MatProgressBarModule],
   templateUrl: './edit-sub-course-category.component.html',
   styleUrls: ['./edit-sub-course-category.component.css']
 })
 export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
+  matProgressBarVisible = false;
+  readonly dialog = inject(MatDialog);
+
+  currentSubCourses: any;
+
+  oldCourseName: string = '';
   subCategory = {
     _id: '',
     courseName: '',
     courseCode: '',
-    duration: '',
-    module: '',
+    duration: new Dropdown(undefined, undefined),
+    module: new Dropdown(undefined, undefined),
     moduleDetails: [] as ModuleDetail[]
   };
-  loading = false;
+
   error: string | null = null;
-  moduleOptions: EnumOption[] = [];
-  durationOptions: EnumOption[] = [];
+  moduleOptions: Dropdown[] = [];
+  durationOptions: Dropdown[] = [];
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
-    private enumsService: EnumsService
+    private enumsService: EnumsService,
+    private cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
-    this.route.queryParams.subscribe(params => {
+
+    this.route.queryParams.subscribe(async (params) => {
       const id = params['id'];
       if (!id) {
-        this.error = 'No sub-category ID provided';
+        this.openDialog("Course", 'No sub-category ID provided', ResponseTypeColor.ERROR, '/admin-panel/course-list');
         return;
       }
-      this.loading = true;
-      this.fetchEnums();
-      this.loadSubCategory(id);
+
+      this.activeMatProgressBar();
+      await this.fetchAllSubCourses();
+      await this.fetchEnums();
+      await this.loadSubCategory(id);
     });
   }
 
-  private fetchEnums() {
-    this.enumsService.getEnumsByName('duration_type').subscribe({
-      next: (response) => {
-        this.durationOptions = response.data.map((item: any) => ({
-          value: item.enum_value,
-          label: this.formatEnumLabel(item.enum_value)
-        }));
-      },
-      error: (error) => {
-        console.error('Error fetching duration types:', error);
-        this.error = 'Failed to load duration types';
-      }
+  async fetchAllSubCourses(): Promise<void> {
+    const fetchAllSubCoursesPromise = new Promise<void>((resolve, reject) => {
+      this.courseService.getAllSubCourses().subscribe({
+        next: (response) => {
+          this.currentSubCourses = response.data;
+          this.currentSubCourses = this.currentSubCourses
+            .filter((course: any) => course.course_name)
+            .map((course: any) => course.course_name);
+          resolve();
+        },
+        error: (error) => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", 'Error fetching other sub courses details', ResponseTypeColor.ERROR, null);
+          reject(error);
+        }
+      });
     });
 
-    this.enumsService.getEnumsByName('module_type').subscribe({
-      next: (response) => {
-        this.moduleOptions = response.data.map((item: any) => ({
-          value: item.enum_value,
-          label: this.formatEnumLabel(item.enum_value)
-        }));
-      },
-      error: (error) => {
-        console.error('Error fetching module types:', error);
-        this.error = 'Failed to load module types';
-      }
+    await fetchAllSubCoursesPromise;
+  }
+
+  async fetchEnums(): Promise<void> {
+    const durationPromise = new Promise<void>((resolve, reject) => {
+      this.enumsService.getEnumsByName('duration_type').subscribe({
+        next: (response) => {
+          this.durationOptions = response.data
+            .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
+            .map((item: any) => new Dropdown(item._id, item.enum_value));
+          resolve();
+        },
+        error: (error) => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", "Failed to fetch duration types", ResponseTypeColor.ERROR, null);
+          reject(error);
+        }
+      });
     });
+
+    const modulePromise = new Promise<void>((resolve, reject) => {
+      this.enumsService.getEnumsByName('module_type').subscribe({
+        next: (response) => {
+          this.moduleOptions = response.data
+            .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
+            .map((item: any) => new Dropdown(item._id, item.enum_value));
+          resolve();
+        },
+        error: (error) => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", "Failed to fetch module types", ResponseTypeColor.ERROR, null);
+          reject(error);
+        }
+      });
+    });
+
+    await Promise.all([durationPromise, modulePromise]);
   }
 
-  private formatEnumLabel(value: string): string {
-    return value
-      .toLowerCase()
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
-
-  private loadSubCategory(id: string) {
+  async loadSubCategory(id: string) {
     this.courseService.getSubCourseById(id).subscribe({
-      next: response => {
+      next: async (response) => {
         const data = response.data;
 
         this.subCategory = {
           _id: data._id,
           courseName: data.course_name,
           courseCode: data.course_code,
-          duration: data.duration,
-          module: data.module,
+          duration: this.durationOptions.find((item: Dropdown) => item.text === data.duration.toString()) || new Dropdown(undefined, undefined),
+          module: this.moduleOptions.find((item: Dropdown) => item.text === data.module.toString()) || new Dropdown(undefined, undefined),
           moduleDetails: (data.module_details || []).map((arr: string[]) => ({
             content: arr.join(', ')
           }))
         };
 
-        // If module exists but no details, generate empty ones
-        if (data.module && (!data.module_details || data.module_details.length === 0)) {
-          this.onModuleChange();
-        }
-
-        this.loading = false;
+        this.oldCourseName = this.subCategory.courseName;
+        this.hideMatProgressBar();
       },
-      error: () => {
-        this.error = 'Failed to load sub-category';
-        this.loading = false;
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Course", "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
   }
 
-  onModuleChange() {
+  onCourseNameInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    console.log(input.value)
+    this.subCategory.courseName = input.value;
+    this.subCategory.courseName = this.subCategory.courseName.trim();
+
+    if (this.subCategory.courseName === this.oldCourseName) {
+      return;
+    }
+
+    if (this.currentSubCourses.includes(this.subCategory.courseName)) {
+      this.error = "A sub-course with this name already exists";
+    } else {
+      this.error = null;
+    }
+  }
+
+  onModuleChange(id: string) {
+    this.subCategory.module = this.moduleOptions.find((item: Dropdown) => item.id === id) || new Dropdown(undefined, undefined);
+
     if (!this.subCategory.module) {
       this.subCategory.moduleDetails = [];
       return;
     }
 
-    const moduleNumber = parseInt(this.subCategory.module);
+    let moduleNumber = 0;
+    if (this.subCategory.module.text) {
+      moduleNumber = parseInt(this.subCategory.module.text);
+    }
 
     const newModuleDetails = [];
     for (let i = 0; i < moduleNumber; i++) {
@@ -142,31 +196,39 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     this.subCategory.moduleDetails = newModuleDetails;
   }
 
+  handleDurationSelection(event: any): void {
+    this.subCategory.duration = this.durationOptions.find((item: Dropdown) => item.id === event.id) || new Dropdown(undefined, undefined);
+  }
+
+  handleModuleSelection(event: any): void {
+    this.onModuleChange(event.id);
+  }
+
   onSubmit() {
-    if (!this.subCategory._id) {
-      this.error = 'No sub-category ID found';
-      return;
+    this.activeMatProgressBar();
+
+    if (this.subCategory.duration.text && this.subCategory.module.text) {
+      const payload = {
+        id: this.subCategory._id,
+        course_name: this.subCategory.courseName,
+        duration: parseInt(this.subCategory.duration.text),
+        module: parseInt(this.subCategory.module.text),
+        module_details: this.subCategory.moduleDetails.map((detail: any) =>
+          detail.content.split(',').map((item: any) => item.trim()).filter(Boolean)
+        )
+      };
+
+      this.courseService.editSubCategory(payload).subscribe({
+        next: () => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", 'Sub-course category has been updated successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Course", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+        }
+      });
     }
-
-    const payload = {
-      id: this.subCategory._id,
-      course_name: this.subCategory.courseName,
-      course_code: this.subCategory.courseCode,
-      duration: this.subCategory.duration,
-      module: this.subCategory.module,
-      module_details: this.subCategory.moduleDetails.map(detail =>
-        detail.content.split(',').map(item => item.trim()).filter(Boolean)
-      )
-    };
-
-    this.loading = true;
-    this.courseService.editSubCategory(payload).subscribe({
-      next: () => this.router.navigate(['/admin-panel/course-list']),
-      error: () => {
-        this.error = 'Failed to update sub-category';
-        this.loading = false;
-      }
-    });
   }
 
   navigateToCourseList() {
@@ -175,5 +237,25 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: { title: dialogTitle, text: dialogText, type: dialogType }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (navigateRoute) window.location.href = navigateRoute;
+    });
   }
 }

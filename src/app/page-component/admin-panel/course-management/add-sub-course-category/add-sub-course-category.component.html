@@ -27,7 +27,7 @@
       <div *ngFor="let module of moduleDetails; let i = index" class="form-group">
         <label [for]="'module-' + i">Module {{ i + 1 }} Topics<span class="text-danger">*</span></label>
         <input [id]="'module-' + i" type="text" class="form-control" [(ngModel)]="module.content" [name]="'module-' + i"
-          placeholder="Enter topics separated by commas" required />
+          placeholder="Enter topics separated by commas(,)" required />
       </div>
     </div>
 
