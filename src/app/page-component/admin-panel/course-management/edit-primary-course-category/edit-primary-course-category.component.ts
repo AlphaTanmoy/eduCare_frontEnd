@@ -32,7 +32,7 @@ export class EditPrimaryCourseCategoryComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditPrimaryCourseCategoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { course_id: string; data_status: string; currentCourses: any; data_status_options: Dropdown[] }
+    @Inject(MAT_DIALOG_DATA) public data: { course_id: string; data_status: string; currentCourses: any }
   ) { }
 
   onCourseNameInput() {

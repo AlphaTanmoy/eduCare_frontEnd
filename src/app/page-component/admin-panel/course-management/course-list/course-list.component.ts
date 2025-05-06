@@ -53,15 +53,13 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'createdAt', 'action'];
   subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'createdAt', 'subCourseAction'];
-  
+
   dataSource = new MatTableDataSource<any>();
   currentCourses: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   courseCount: number = 0;
   page_size: number = 5;
-
-  dataStatusOptions: Dropdown[] = [];
 
   expandedElement: any | null;
 
@@ -78,7 +76,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     await this.fetchCourses();
-    await this.fetchEnums();
   }
 
   async fetchCourses() {
@@ -91,9 +88,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
           this.currentCourses = response.data;
           this.dataSource.paginator = this.paginator;
         } else {
-          this.hideMatProgressBar();
           this.openDialog("Course", response.message, ResponseTypeColor.ERROR, false);
         }
+
+        this.hideMatProgressBar();
       },
       error: (error) => {
         this.openDialog("Course", "Failed to fetch courses", ResponseTypeColor.ERROR, false);
@@ -101,24 +99,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  async fetchEnums() {
-      this.enumsService.getEnumsByName('data_status').subscribe({
-        next: async (response) => {
-          this.dataStatusOptions = response.data.map((item: any) => new Dropdown(
-            item._id,
-            item.enum_value
-          ));
-
-          console.log(this.dataStatusOptions)
-          this.hideMatProgressBar();
-        },
-        error: (error) => {
-          this.hideMatProgressBar();
-          this.openDialog("Course", 'Error fetching data status types', ResponseTypeColor.ERROR, false);
-        }
-      });
-    }
 
   addParentCategory() {
     const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
@@ -147,7 +127,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   editParentCategory(id: string, dataStatus: string) {
-    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { course_id: id, data_status: dataStatus, currentCourses: this.currentCourses, data_status_options: this.dataStatusOptions } });
+    const dialogRef = this.dialog.open(EditPrimaryCourseCategoryComponent, { data: { course_id: id, data_status: dataStatus, currentCourses: this.currentCourses } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
