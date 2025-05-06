@@ -82,10 +82,9 @@ export class AddSubCourseCategoryComponent implements OnInit {
   fetchEnums() {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
-        this.durationOptions = response.data.map((item: any) => new Dropdown(
-          item._id,
-          item.enum_value
-        ));
+        this.durationOptions = response.data
+          .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
+          .map((item: any) => new Dropdown(item._id, item.enum_value));
       },
       error: (error) => {
         this.hideMatProgressBar();
@@ -95,10 +94,9 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.enumsService.getEnumsByName('module_type').subscribe({
       next: (response) => {
-        this.moduleOptions = response.data.map((item: any) => new Dropdown(
-          item._id,
-          item.enum_value
-        ));
+        this.moduleOptions = response.data
+          .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
+          .map((item: any) => new Dropdown(item._id, item.enum_value));
 
         this.hideMatProgressBar();
       },
