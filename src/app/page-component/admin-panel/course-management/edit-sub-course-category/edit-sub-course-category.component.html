@@ -11,6 +11,17 @@
       <span *ngIf="error" class="text-danger">{{ error }}</span>
     </div>
 
+    <div class="d-flex mt-4 mb-3">
+      <span class="me-2">Data Status : </span>
+      <div class="form-check form-switch">
+        <input class="form-check-input me-2" type="checkbox" id="flexSwitchCheckChecked"
+          [checked]="subCategory.data_status === ActiveInactiveStatus.ACTIVE" [ngModelOptions]="{standalone: true}"
+          [ngModel]="subCategory.data_status === ActiveInactiveStatus.ACTIVE" (ngModelChange)="onStatusChange($event)">
+        <label class="form-check-label" for="flexSwitchCheckChecked">{{subCategory.data_status === ActiveInactiveStatus.ACTIVE ?
+          'Active' : 'Inactive'}}</label>
+      </div>
+    </div>
+
     <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
       [ariaLabel]="'Select Course Duration (In Months)'" [selectedOptions]="subCategory.duration"
       (selectionChange)="handleDurationSelection($event)">

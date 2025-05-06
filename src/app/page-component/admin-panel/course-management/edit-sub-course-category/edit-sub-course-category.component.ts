@@ -6,7 +6,7 @@ import { CourseService } from '../../../../service/course/course.service';
 import { EnumsService } from '../../../../service/enums/enums.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,16 +30,20 @@ interface ModuleDetail {
 export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+  ActiveInactiveStatus = ActiveInactiveStatus;
 
   currentSubCourses: any;
 
   oldCourseName: string = '';
+  oldDataStatus: string = '';
+
   subCategory = {
     _id: '',
     courseName: '',
     courseCode: '',
     duration: new Dropdown(undefined, undefined),
     module: new Dropdown(undefined, undefined),
+    data_status: '',
     moduleDetails: [] as ModuleDetail[]
   };
 
@@ -134,6 +138,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     this.courseService.getSubCourseById(id).subscribe({
       next: async (response) => {
         const data = response.data;
+        console.log(data)
 
         this.subCategory = {
           _id: data._id,
@@ -141,12 +146,14 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
           courseCode: data.course_code,
           duration: this.durationOptions.find((item: Dropdown) => item.text === data.duration.toString()) || new Dropdown(undefined, undefined),
           module: this.moduleOptions.find((item: Dropdown) => item.text === data.module.toString()) || new Dropdown(undefined, undefined),
+          data_status: data.data_status,
           moduleDetails: (data.module_details || []).map((arr: string[]) => ({
             content: arr.join(', ')
           }))
         };
 
         this.oldCourseName = this.subCategory.courseName;
+        this.oldDataStatus = this.subCategory.data_status
         this.hideMatProgressBar();
       },
       error: (err) => {
@@ -171,6 +178,10 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     } else {
       this.error = null;
     }
+  }
+
+  onStatusChange(isChecked: boolean) {
+    this.subCategory.data_status = isChecked ? ActiveInactiveStatus.ACTIVE : ActiveInactiveStatus.INACTIVE;
   }
 
   onModuleChange(id: string) {
@@ -213,6 +224,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
         course_name: this.subCategory.courseName,
         duration: parseInt(this.subCategory.duration.text),
         module: parseInt(this.subCategory.module.text),
+        data_status: this.subCategory.data_status,
         module_details: this.subCategory.moduleDetails.map((detail: any) =>
           detail.content.split(',').map((item: any) => item.trim()).filter(Boolean)
         )
