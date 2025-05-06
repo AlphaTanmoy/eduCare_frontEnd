@@ -42,7 +42,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     private enumsService: EnumsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -98,6 +98,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     this.courseService.getSubCourseById(id).subscribe({
       next: response => {
         const data = response.data;
+
         this.subCategory = {
           _id: data._id,
           courseName: data.course_name,
@@ -129,10 +130,8 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Get the number from the module type (e.g., "MODULE_TYPE_2" -> 2)
-    const moduleNumber = parseInt(this.subCategory.module.split('_').pop() || '1');
+    const moduleNumber = parseInt(this.subCategory.module);
 
-    // Create new array with existing data or empty content
     const newModuleDetails = [];
     for (let i = 0; i < moduleNumber; i++) {
       newModuleDetails.push({
