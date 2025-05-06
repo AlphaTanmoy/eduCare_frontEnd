@@ -17,7 +17,6 @@ export class EditPrimaryCourseCategoryComponent {
   courseName: string = '';
   oldDataStatus: string = '';
   dataStatus: string = '';
-  dataStatusOptions: Dropdown[] = [];
 
   sameCourseNameEntered: boolean = true;
   sameDataStatusChecked: boolean = true;
@@ -57,7 +56,6 @@ export class EditPrimaryCourseCategoryComponent {
 
     this.oldDataStatus = this.data.data_status;
     this.dataStatus = this.data.data_status;
-    this.dataStatusOptions = this.data.data_status_options;
 
     this.currentCourses = this.data.currentCourses
       .filter((course: any) => course.courseName)
