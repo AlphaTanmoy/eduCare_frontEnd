@@ -84,7 +84,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
           this.currentSubCourses = response.data;
           this.currentSubCourses = this.currentSubCourses
             .filter((course: any) => course.course_name)
-            .map((course: any) => course.course_name);
+            .map((course: any) => course.course_name.toLowerCase());
           resolve();
         },
         error: (error) => {
@@ -173,7 +173,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.currentSubCourses.includes(this.subCategory.courseName)) {
+    if (this.currentSubCourses.includes(this.subCategory.courseName.toLowerCase())) {
       this.error = "A sub-course with this name already exists";
     } else {
       this.error = null;

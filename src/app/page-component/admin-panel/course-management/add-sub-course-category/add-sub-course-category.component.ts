@@ -68,7 +68,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
         this.currentSubCourses = response.data;
         this.currentSubCourses = this.currentSubCourses
           .filter((course: any) => course.course_name)
-          .map((course: any) => course.course_name);
+          .map((course: any) => course.course_name.toLowerCase());
       },
       error: (error) => {
         this.hideMatProgressBar();
@@ -124,7 +124,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.courseName = input.value;
     this.courseName = this.courseName.trim();
 
-    if (this.currentSubCourses.includes(this.courseName)) {
+    if (this.currentSubCourses.includes(this.courseName.toLowerCase())) {
       this.error = "A sub-course with this name already exists";
     } else {
       this.error = null;

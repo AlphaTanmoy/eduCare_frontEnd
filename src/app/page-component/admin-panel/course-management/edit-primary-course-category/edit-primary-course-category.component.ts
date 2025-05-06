@@ -59,7 +59,7 @@ export class EditPrimaryCourseCategoryComponent {
 
     this.currentCourses = this.data.currentCourses
       .filter((course: any) => course.courseName)
-      .map((course: any) => course.courseName);
+      .map((course: any) => course.courseName.toLowerCase());
 
     this.oldCourseName = this.data.currentCourses.filter((course: any) => course.id === this.data.course_id)[0].courseName;
     this.currentCourses = this.currentCourses.filter((course: string) => course !== this.oldCourseName);
@@ -76,7 +76,7 @@ export class EditPrimaryCourseCategoryComponent {
     this.sameCourseNameEntered = false;
     this.sameDataStatusChecked = false;
 
-    if (this.currentCourses.includes(this.courseName)) {
+    if (this.currentCourses.includes(this.courseName.toLowerCase())) {
       this.error = "A Course with this name already exists";
     } else {
       this.error = null;
