@@ -165,11 +165,10 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
 
   onCourseNameInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    console.log(input.value)
     this.subCategory.courseName = input.value;
     this.subCategory.courseName = this.subCategory.courseName.trim();
 
-    if (this.subCategory.courseName === this.oldCourseName) {
+    if (this.subCategory.courseName.toLowerCase() === this.oldCourseName.toLowerCase()) {
       return;
     }
 
