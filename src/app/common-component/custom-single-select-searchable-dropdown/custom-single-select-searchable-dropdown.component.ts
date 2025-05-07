@@ -31,7 +31,7 @@ export class CustomSingleSelectSearchableDropdownComponent {
   @Input() options: Dropdown[] = [];
   @Output() selectionChange = new EventEmitter<Dropdown | null>();
 
-  compareDropdowns(a: Dropdown, b: Dropdown){
+  compareDropdowns(a: Dropdown, b: Dropdown) {
     return a && b && a.id === b.id;
   };
 

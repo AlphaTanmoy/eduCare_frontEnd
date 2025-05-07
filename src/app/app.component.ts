@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     //this.setLayout();
   }
 
-  isAuthenticatedAndLoggedIn() : boolean {
+  isAuthenticatedAndLoggedIn(): boolean {
     return this.authService.isUserLoggedIn() && this.authService.isAuthenticated();
   }
 }
