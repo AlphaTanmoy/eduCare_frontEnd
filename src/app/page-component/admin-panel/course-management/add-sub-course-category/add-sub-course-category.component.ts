@@ -27,11 +27,15 @@ export class AddSubCourseCategoryComponent implements OnInit {
   currentSubCourses: string[] = [];
   moduleOptionsAll: Dropdown[] = [];
   courseName: string = '';
+  theoryMarks: number | null = null;
+  practicalMarks: number | null = null;
   duration: string = '';
   module: string = '';
   moduleDetails: ModuleDetail[] = [];
 
   error: string | null = null;
+  theoryMarksError: string | null = null;
+  practicalMarksError: string | null = null;
 
   parentCourseId: string = '';
   durationOptions: Dropdown[] = [];
@@ -81,7 +85,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
         this.durationOptions = response.data
-          .filter((item: any) => item._id && item.enum_value) // Ensure valid data
+          .filter((item: any) => item._id && item.enum_value)
           .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
           .map((item: any) => new Dropdown(item._id, this.formatEnumValue(item.enum_value)));
       },
@@ -94,7 +98,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.enumsService.getEnumsByName('module_type').subscribe({
       next: (response) => {
         this.moduleOptionsAll = response.data
-          .filter((item: any) => item._id && item.enum_value) // Ensure valid data
+          .filter((item: any) => item._id && item.enum_value)
           .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
           .map((item: any) => new Dropdown(item._id, item.enum_value));
 
@@ -131,6 +135,42 @@ export class AddSubCourseCategoryComponent implements OnInit {
     }
   }
 
+  onTheoryMarksInput() {
+    if (this.theoryMarks !== null) {
+      if (this.theoryMarks < 0 || this.theoryMarks > 100) {
+        this.theoryMarksError = 'Theory marks must be between 0 and 100';
+        this.practicalMarks = null;
+      } else {
+        this.theoryMarksError = null;
+        this.practicalMarks = 100 - this.theoryMarks;
+        this.practicalMarksError = null;
+      }
+    } else {
+      this.theoryMarksError = 'Theory marks are required';
+      this.practicalMarks = null;
+      this.practicalMarksError = null;
+    }
+    this.cdr.detectChanges();
+  }
+
+  onPracticalMarksInput() {
+    if (this.practicalMarks !== null) {
+      if (this.practicalMarks < 0 || this.practicalMarks > 100) {
+        this.practicalMarksError = 'Practical marks must be between 0 and 100';
+        this.theoryMarks = null;
+      } else {
+        this.practicalMarksError = null;
+        this.theoryMarks = 100 - this.practicalMarks;
+        this.theoryMarksError = null;
+      }
+    } else {
+      this.practicalMarksError = 'Practical marks are required';
+      this.theoryMarks = null;
+      this.theoryMarksError = null;
+    }
+    this.cdr.detectChanges();
+  }
+
   handleDurationSelection(event: Dropdown | null): void {
     if (event && event.text) {
       this.duration = event.text;
@@ -147,7 +187,6 @@ export class AddSubCourseCategoryComponent implements OnInit {
         allowedEnumValues = ['1', '2', '3', '4'];
       }
 
-      // Fix: Filter out options with undefined text and ensure text is string
       this.moduleOptions = this.moduleOptionsAll.filter(
         option => option.text !== undefined && allowedEnumValues.includes(option.text)
       );
@@ -178,6 +217,11 @@ export class AddSubCourseCategoryComponent implements OnInit {
       return;
     }
 
+    if (this.theoryMarks === null || this.practicalMarks === null || this.theoryMarks + this.practicalMarks !== 100) {
+      this.error = 'Theory and Practical marks must sum to 100';
+      return;
+    }
+
     this.error = null;
 
     const formattedModuleDetails = this.moduleDetails.map(detail =>
@@ -188,7 +232,9 @@ export class AddSubCourseCategoryComponent implements OnInit {
     const obj = {
       parentCourseId: this.parentCourseId,
       course_name: this.courseName,
-      duration: this.duration,
+      theory_marks: this.theoryMarks,
+      practical_marks: this.practicalMarks,
+      duration: this.parseDurationToDays(this.duration), // Convert duration to number (total days)
       module: parseInt(this.module),
       module_details: formattedModuleDetails
     };
@@ -268,10 +314,15 @@ export class AddSubCourseCategoryComponent implements OnInit {
   }
 
   isFormInvalid(): boolean {
-    return !!this.error ||
+    return (
+      !!this.error ||
       this.courseName.trim().length === 0 ||
+      this.theoryMarks === null ||
+      this.practicalMarks === null ||
+      this.theoryMarks + this.practicalMarks !== 100 ||
       this.duration.length === 0 ||
       this.module.length === 0 ||
-      this.moduleDetails.some(m => m.content.trim().length === 0);
+      this.moduleDetails.some(m => m.content.trim().length === 0)
+    );
   }
 }
