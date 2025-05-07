@@ -7,7 +7,7 @@ import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
   providedIn: 'root'
 })
 export class EnumsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Fetch all enums with pagination support

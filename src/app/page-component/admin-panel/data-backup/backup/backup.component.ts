@@ -124,14 +124,14 @@ export class BackupComponent implements OnInit, OnDestroy {
   async StartBackup(): Promise<void> {
     this.isBackupStarted = true;
     await this.connectSocket();
-  
+
     for (const item of this.schemaDetails) {
       try {
         this.backupSchemaName = " : " + item.schemaName;
         await lastValueFrom(
           this.serverService.BackupAccessControlCategoryData(this.socketId, item.schemaId)
         );
-        
+
         await new Promise(resolve => setTimeout(resolve, 1000));
         this.messages = [];
         this.backupSchemaName = '';

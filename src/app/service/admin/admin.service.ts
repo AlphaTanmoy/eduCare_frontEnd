@@ -14,22 +14,22 @@ export class AdminService {
   }
 
   UploadDashboardPhone1(Phone1: string): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone1,  { phone1: Phone1 });
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone1, { phone1: Phone1 });
   }
 
   UploadDashboardPhone2(Phone2: string): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone2,  { phone2: Phone2 });
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_phone2, { phone2: Phone2 });
   }
 
   UploadDashboardFacebook(Facebook: string): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_facebook,  { facebook: Facebook });
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_facebook, { facebook: Facebook });
   }
 
   UploadDashboardYoutube(Youtube: string): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_youtube,  { youtube: Youtube });
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_youtube, { youtube: Youtube });
   }
 
   UploadDashboardWhatsapp(Whatsapp: string): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_whatsapp,  { whatsapp: Whatsapp });
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_whatsapp, { whatsapp: Whatsapp });
   }
 }

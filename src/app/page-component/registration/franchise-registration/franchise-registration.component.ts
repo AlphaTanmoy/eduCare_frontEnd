@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
-import { faUserPlus, faUserTag, faPhone, faHouseUser, faMailForward,faHotel, faSitemap, faGlobe, faHome, faSearchLocation, faLocationPinLock } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faUserTag, faPhone, faHouseUser, faMailForward, faHotel, faSitemap, faGlobe, faHome, faSearchLocation, faLocationPinLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-franchise-registration',
@@ -14,7 +14,7 @@ export class FranchiseRegistrationComponent {
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   faUserPlus = faUserPlus;
-  faUserTag= faUserTag;
+  faUserTag = faUserTag;
   faPhone = faPhone;
   faSitemap = faSitemap;
   faMailForward = faMailForward;
