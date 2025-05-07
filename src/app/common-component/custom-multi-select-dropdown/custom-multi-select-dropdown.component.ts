@@ -26,10 +26,10 @@ export class CustomMultiSelectDropdownComponent implements OnInit {
 
   ngOnInit() {
     this.itemList = this.dropdownList || [];
-    this.selectedItems.setValue(this.itemList.filter((item : Dropdown) => this.dropdownListSelected.includes(item)));
+    this.selectedItems.setValue(this.itemList.filter((item: Dropdown) => this.dropdownListSelected.includes(item)));
   }
 
-  compareDropdowns(a: Dropdown, b: Dropdown){
+  compareDropdowns(a: Dropdown, b: Dropdown) {
     return a && b && a.id === b.id;
   }
 

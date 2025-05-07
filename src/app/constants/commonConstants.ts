@@ -1,98 +1,98 @@
 export const NavbarInfo = {
-    description: "Working Since 2017",
-    email: "educate@mail.com",
-    phone1: "000-000-000",
-    phone2: "000-000-001",
-    youtube_url: "https://youtube.com/@educarecomputercenterthakd963?si=4qKfLPjDIqxFj7OJ",
-    facebook_url: "https://www.facebook.com/2233473143577609/",
-    whatsapp_url: "https://api.whatsapp.com/send/?phone=919831744911&text&type=phone_number&app_absent=0"
+  description: "Working Since 2017",
+  email: "educate@mail.com",
+  phone1: "000-000-000",
+  phone2: "000-000-001",
+  youtube_url: "https://youtube.com/@educarecomputercenterthakd963?si=4qKfLPjDIqxFj7OJ",
+  facebook_url: "https://www.facebook.com/2233473143577609/",
+  whatsapp_url: "https://api.whatsapp.com/send/?phone=919831744911&text&type=phone_number&app_absent=0"
 }
 
 export const DashboardInfo = {
-    maximum_slideshow_image_count: 8,
+  maximum_slideshow_image_count: 8,
 }
 
 export const ResponseTypeColor = {
-    SUCCESS: 1,
-    WARNING: 2,
-    INFO: 3,
-    ERROR: 4
+  SUCCESS: 1,
+  WARNING: 2,
+  INFO: 3,
+  ERROR: 4
 }
 
 export const UserRole = {
-    ADMIN: 'ADMIN',
-    MASTET: 'MASTER',
-    STUDENT: 'STUDENT',
-    FRANCHISE: 'FRANCHISE',
-    GUEST: 'GUEST'
+  ADMIN: 'ADMIN',
+  MASTET: 'MASTER',
+  STUDENT: 'STUDENT',
+  FRANCHISE: 'FRANCHISE',
+  GUEST: 'GUEST'
 }
 
 export class IndexedDB {
-    id: string | undefined;
-    value: any | undefined;
-    expirationTime: number | undefined;
+  id: string | undefined;
+  value: any | undefined;
+  expirationTime: number | undefined;
 }
 
 export const IndexedDBItemKey = {
-    dashboard_slideshow_images: "dashboard_slideshow_images",
+  dashboard_slideshow_images: "dashboard_slideshow_images",
 }
 
 export const MasterDataType = {
-    EMAIL: 'EMAIL',
-    PRIMARY_PHONE: 'PRIMARY_PHONE',
-    SECONDARY_PHONE: 'SECONDARY_PHONE',
-    FACEBOOK: 'FACEBOOK',
-    YOUTUBE: 'YOUTUBE',
-    WHATSAPP: 'WHATSAPP',
+  EMAIL: 'EMAIL',
+  PRIMARY_PHONE: 'PRIMARY_PHONE',
+  SECONDARY_PHONE: 'SECONDARY_PHONE',
+  FACEBOOK: 'FACEBOOK',
+  YOUTUBE: 'YOUTUBE',
+  WHATSAPP: 'WHATSAPP',
 }
 
 export enum ServerStatusType {
-    HEALTHY = 'Healthy',
-    HIGH_LOAD = 'High Load',
+  HEALTHY = 'Healthy',
+  HIGH_LOAD = 'High Load',
 }
 
 export class Dropdown {
-    id: string | undefined;
-    text: string | undefined;
+  id: string | undefined;
+  text: string | undefined;
 
-    constructor(id: string | undefined, text: string | undefined) {
-        this.id = id;
-        this.text = text;
-    }
+  constructor(id: string | undefined, text: string | undefined) {
+    this.id = id;
+    this.text = text;
+  }
 }
 
 export const Gender = [
-    new Dropdown("1", 'Male'),
-    new Dropdown("2", 'Female'),
-    new Dropdown("3", 'Other'),
+  new Dropdown("1", 'Male'),
+  new Dropdown("2", 'Female'),
+  new Dropdown("3", 'Other'),
 ]
 
 export enum ActiveInactiveStatus {
-    ACTIVE = "ACTIVE",
-    INACTIVE = "INACTIVE",
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
 }
 
 export const ActiveInactiveStatusDescriptions: Record<ActiveInactiveStatus, string> = {
-    [ActiveInactiveStatus.ACTIVE]: 'Active',
-    [ActiveInactiveStatus.INACTIVE]: 'Inactive',
+  [ActiveInactiveStatus.ACTIVE]: 'Active',
+  [ActiveInactiveStatus.INACTIVE]: 'Inactive',
 };
 
 export enum ApproveRejectionStatus {
-    PENDING = 0,
-    APPROVED = 1,
-    REJECTED = 2,
+  PENDING = 0,
+  APPROVED = 1,
+  REJECTED = 2,
 }
 
 export const ApproveRejectionStatusDescriptions: Record<ApproveRejectionStatus, string> = {
-    [ApproveRejectionStatus.PENDING]: 'Pending',
-    [ApproveRejectionStatus.APPROVED]: 'Approved',
-    [ApproveRejectionStatus.REJECTED]: 'Rejected',
+  [ApproveRejectionStatus.PENDING]: 'Pending',
+  [ApproveRejectionStatus.APPROVED]: 'Approved',
+  [ApproveRejectionStatus.REJECTED]: 'Rejected',
 };
 
 export enum FranchiseDocumentName {
-    CENTER_HEAD_PHOTO = "center_head_photo",
-    CENTER_HEAD_SIGNATURE = "center_head_signature",
-    SUPPORTABLE_DOCUMENT = "supportable_document",
+  CENTER_HEAD_PHOTO = "center_head_photo",
+  CENTER_HEAD_SIGNATURE = "center_head_signature",
+  SUPPORTABLE_DOCUMENT = "supportable_document",
 }
 
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
