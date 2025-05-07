@@ -11,11 +11,11 @@ import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 export class EBookComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
-ngOnInit(): void {
+  ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
   }
 
-ngOnDestroy(): void {
+  ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
 }

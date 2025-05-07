@@ -6,7 +6,7 @@ import { MenuItems } from '../../constants/menuConstants'; // Import menu from t
   providedIn: 'root'
 })
 export class MenuService {
-  constructor() {}
+  constructor() { }
 
   getMenuItems(): Observable<any[]> {
     return of(MenuItems); // Return the menu as an observable
