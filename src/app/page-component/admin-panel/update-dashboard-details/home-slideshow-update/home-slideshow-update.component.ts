@@ -95,7 +95,7 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
               this.openDialog("Dashboard", resposne.message, ResponseTypeColor.ERROR, false);
               return;
             }
-            
+
             this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
             this.openDialog("Dashboard", resposne.message, ResponseTypeColor.SUCCESS, true);
           },
@@ -123,7 +123,7 @@ export class HomeSlideshowUpdateComponent implements OnInit, OnDestroy {
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
-  
+
     dialogRef.afterClosed().subscribe((result: any) => {
       if (pageReloadNeeded) {
         location.reload();

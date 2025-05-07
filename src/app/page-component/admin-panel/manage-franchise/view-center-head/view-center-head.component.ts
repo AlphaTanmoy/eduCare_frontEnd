@@ -83,13 +83,13 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
   }
 
   ViewFranchisePhoto(filename: string) {
-    if(filename === FranchiseDocumentName.CENTER_HEAD_PHOTO){
+    if (filename === FranchiseDocumentName.CENTER_HEAD_PHOTO) {
       this.center_head_documnt_display_header = "Center Head Photo";
-    } else if(filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE){
+    } else if (filename === FranchiseDocumentName.CENTER_HEAD_SIGNATURE) {
       this.center_head_documnt_display_header = "Center Head Signature";
     }
-    
-    if(this.center_head_documnt_name === filename){
+
+    if (this.center_head_documnt_name === filename) {
       this.is_photo_loaded = true;
       return;
     }
@@ -117,14 +117,14 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
       this.openDialog("Franchise", "No photo available to download.", ResponseTypeColor.WARNING);
       return;
     }
-  
+
     const link = document.createElement('a');
     link.href = this.center_head_documnt_photo;
     link.download = `${this.center_head_documnt_name}.jpg`;
     link.click();
   }
 
-  CloseFranchisePhoto(){
+  CloseFranchisePhoto() {
     this.is_photo_loaded = false;
   }
 

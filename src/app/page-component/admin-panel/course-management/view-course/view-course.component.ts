@@ -40,7 +40,7 @@ export class ViewCourseComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private courseService: CourseService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();

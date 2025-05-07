@@ -31,9 +31,9 @@ export class AddPrimaryCourseCategoryComponent {
     this.courseName = input.value;
     this.courseName = this.courseName.trim();
 
-    if(this.currentCourses.includes(this.courseName.toLowerCase())) {
+    if (this.currentCourses.includes(this.courseName.toLowerCase())) {
       this.error = "A Course with this name already exists";
-    }else{
+    } else {
       this.error = null;
     }
   }
@@ -49,8 +49,8 @@ export class AddPrimaryCourseCategoryComponent {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.currentCourses = this.data.currentCourses
-                          .filter((course: any) => course.courseName)
-                          .map((course: any) => course.courseName.toLowerCase());
+      .filter((course: any) => course.courseName)
+      .map((course: any) => course.courseName.toLowerCase());
   }
 
   ngOnDestroy(): void {

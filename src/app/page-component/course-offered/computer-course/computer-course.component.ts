@@ -13,10 +13,10 @@ export class ComputerCourseComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   ngOnInit(): void {
-      this.bootstrapElements = loadBootstrap();
-    }
-  
+    this.bootstrapElements = loadBootstrap();
+  }
+
   ngOnDestroy(): void {
-      removeBootstrap(this.bootstrapElements);
-    }
+    removeBootstrap(this.bootstrapElements);
+  }
 }
