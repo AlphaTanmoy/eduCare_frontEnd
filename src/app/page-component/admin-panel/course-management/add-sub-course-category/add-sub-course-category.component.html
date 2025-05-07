@@ -6,36 +6,70 @@
   </div>
 
   <form (ngSubmit)="onSubmit()" #subCourseForm="ngForm">
+    <!-- Course Name -->
     <div class="form-group">
       <label for="courseName">Course Name<span class="text-danger">*</span></label>
-      <input type="text" id="courseName" name="courseName" class="form-control mb-1" [(ngModel)]="courseName"
-        (input)="onCourseNameInput($event)" required />
-      <span *ngIf="error" class="text-danger">{{ error }}</span>
+      <input
+        type="text"
+        id="courseName"
+        name="courseName"
+        class="form-control mb-1"
+        [(ngModel)]="courseName"
+        (input)="onCourseNameInput($event)"
+        required
+      />
+      <span *ngIf="error && courseName.length > 0" class="text-danger">{{ error }}</span>
     </div>
 
-    <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
-      [ariaLabel]="'Select Course Duration (In Months)'" [selectedOptions]="null" (selectionChange)="handleDurationSelection($event)">
+    <!-- Duration Dropdown -->
+    <app-custom-single-select-searchable-dropdown
+      *ngIf="durationOptions.length > 0"
+      [options]="durationOptions"
+      [ariaLabel]="'Select Course Duration (In Months Or Days)'"
+      [selectedOptions]="null"
+      (selectionChange)="handleDurationSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
-    <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
-      [ariaLabel]="'Select Number Of Modules'" [selectedOptions]="null" (selectionChange)="handleModuleSelection($event)">
+    <!-- Module Dropdown -->
+    <app-custom-single-select-searchable-dropdown
+      *ngIf="moduleOptions.length > 0"
+      [options]="moduleOptions"
+      [ariaLabel]="'Select Number Of Modules'"
+      [selectedOptions]="null"
+      (selectionChange)="handleModuleSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
+    <!-- Module Details -->
     <div *ngIf="moduleDetails.length > 0" class="module-details">
       <h3>Module Details</h3>
       <p class="help-text">Enter module topics separated by commas (e.g., "Intro, Variables, Loops")</p>
+
       <div *ngFor="let module of moduleDetails; let i = index" class="form-group">
-        <label [for]="'module-' + i">Module {{ i + 1 }} Topics<span class="text-danger">*</span></label>
-        <input [id]="'module-' + i" type="text" class="form-control" [(ngModel)]="module.content" [name]="'module-' + i"
-          placeholder="Enter topics separated by commas(,)" required />
+        <label [for]="'module-' + i">
+          Module {{ i + 1 }} Topics<span class="text-danger">*</span>
+        </label>
+        <input
+          [id]="'module-' + i"
+          type="text"
+          class="form-control"
+          [(ngModel)]="module.content"
+          [name]="'module-' + i"
+          placeholder="Enter topics separated by commas(,)"
+          required
+        />
       </div>
     </div>
 
-    <div class="form-actions">
+    <!-- Form Actions -->
+    <div class="form-actions mt-3">
       <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="btn btn-primary btn-sm" [disabled]="error || courseName.length===0 || duration.length === 0 || module.length === 0 || !subCourseForm.form.valid">
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        [disabled]="isFormInvalid() || !subCourseForm.form.valid"
+      >
         Add Sub-Course
       </button>
     </div>

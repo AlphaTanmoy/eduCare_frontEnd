@@ -22,17 +22,16 @@ interface ModuleDetail {
   templateUrl: './add-sub-course-category.component.html',
   styleUrl: './add-sub-course-category.component.css'
 })
-
 export class AddSubCourseCategoryComponent implements OnInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-  currentSubCourses: any;
-
+  currentSubCourses: string[] = [];
+  moduleOptionsAll: Dropdown[] = [];
   courseName: string = '';
   duration: string = '';
   module: string = '';
   moduleDetails: ModuleDetail[] = [];
 
-  error: any;
+  error: string | null = null;
 
   parentCourseId: string = '';
   durationOptions: Dropdown[] = [];
@@ -53,7 +52,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.bootstrapElements = loadBootstrap();
 
     this.route.queryParams.subscribe(params => {
-      this.parentCourseId = params['parentCourseId'];
+      this.parentCourseId = params['parentCourseId'] || '';
 
       if (!this.parentCourseId) {
         this.openDialog("Course", 'Parent course ID is required', ResponseTypeColor.ERROR, '/admin-panel/course-list');
@@ -65,12 +64,11 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.courseService.getAllSubCourses().subscribe({
       next: (response) => {
-        this.currentSubCourses = response.data;
-        this.currentSubCourses = this.currentSubCourses
+        this.currentSubCourses = response.data
           .filter((course: any) => course.course_name)
           .map((course: any) => course.course_name.toLowerCase());
       },
-      error: (error) => {
+      error: () => {
         this.hideMatProgressBar();
         this.openDialog("Course", 'Error fetching other sub courses details', ResponseTypeColor.ERROR, null);
       }
@@ -83,10 +81,11 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.enumsService.getEnumsByName('duration_type').subscribe({
       next: (response) => {
         this.durationOptions = response.data
+          .filter((item: any) => item._id && item.enum_value) // Ensure valid data
           .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
-          .map((item: any) => new Dropdown(item._id, item.enum_value));
+          .map((item: any) => new Dropdown(item._id, this.formatEnumValue(item.enum_value)));
       },
-      error: (error) => {
+      error: () => {
         this.hideMatProgressBar();
         this.openDialog("Course", 'Error fetching duration types', ResponseTypeColor.ERROR, null);
       }
@@ -94,13 +93,15 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.enumsService.getEnumsByName('module_type').subscribe({
       next: (response) => {
-        this.moduleOptions = response.data
+        this.moduleOptionsAll = response.data
+          .filter((item: any) => item._id && item.enum_value) // Ensure valid data
           .sort((a: any, b: any) => Number(a.enum_value) - Number(b.enum_value))
           .map((item: any) => new Dropdown(item._id, item.enum_value));
 
+        this.moduleOptions = [...this.moduleOptionsAll];
         this.hideMatProgressBar();
       },
-      error: (error) => {
+      error: () => {
         this.hideMatProgressBar();
         this.openDialog("Course", 'Error fetching module types', ResponseTypeColor.ERROR, null);
       }
@@ -108,21 +109,20 @@ export class AddSubCourseCategoryComponent implements OnInit {
   }
 
   onModuleChange() {
-    if (this.module) {
+    if (this.module && !isNaN(parseInt(this.module))) {
       this.moduleDetails = [];
-
       const moduleNumber = parseInt(this.module);
-
       for (let i = 0; i < moduleNumber; i++) {
         this.moduleDetails.push({ content: '' });
       }
+    } else {
+      this.moduleDetails = [];
     }
   }
 
   onCourseNameInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.courseName = input.value;
-    this.courseName = this.courseName.trim();
+    this.courseName = input.value.trim();
 
     if (this.currentSubCourses.includes(this.courseName.toLowerCase())) {
       this.error = "A sub-course with this name already exists";
@@ -131,15 +131,40 @@ export class AddSubCourseCategoryComponent implements OnInit {
     }
   }
 
-  handleDurationSelection(event: any): void {
-    this.duration = event.text;
+  handleDurationSelection(event: Dropdown | null): void {
+    if (event && event.text) {
+      this.duration = event.text;
+      const totalDays = this.parseDurationToDays(this.duration);
+
+      let allowedEnumValues: string[] = [];
+      if (totalDays >= 1 && totalDays < 120) {
+        allowedEnumValues = ['1'];
+      } else if (totalDays >= 120 && totalDays < 300) {
+        allowedEnumValues = ['1', '2'];
+      } else if (totalDays >= 300 && totalDays < 730) {
+        allowedEnumValues = ['1', '2', '3'];
+      } else if (totalDays >= 730) {
+        allowedEnumValues = ['1', '2', '3', '4'];
+      }
+
+      // Fix: Filter out options with undefined text and ensure text is string
+      this.moduleOptions = this.moduleOptionsAll.filter(
+        option => option.text !== undefined && allowedEnumValues.includes(option.text)
+      );
+    } else {
+      this.duration = '';
+      this.moduleOptions = [...this.moduleOptionsAll];
+    }
   }
 
-  handleModuleSelection(event: any): void {
-    this.module = event.text;
-    console.log(this.module)
-
-    this.onModuleChange();
+  handleModuleSelection(event: Dropdown | null): void {
+    if (event && event.text) {
+      this.module = event.text;
+      this.onModuleChange();
+    } else {
+      this.module = '';
+      this.moduleDetails = [];
+    }
   }
 
   onSubmit() {
@@ -155,21 +180,18 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
     this.error = null;
 
-    // Format module details as array of arrays
-    const formattedModuleDetails = this.moduleDetails.map(detail => {
-      // Split the content by comma and trim each item
-      return detail.content.split(',').map(item => item.trim());
-    });
+    const formattedModuleDetails = this.moduleDetails.map(detail =>
+      detail.content.split(',').map(item => item.trim())
+    );
 
     this.activeMatProgressBar();
-    var obj = {
+    const obj = {
       parentCourseId: this.parentCourseId,
       course_name: this.courseName,
       duration: this.duration,
       module: parseInt(this.module),
       module_details: formattedModuleDetails
-    }
-    console.log(obj)
+    };
     this.courseService.addSubCategory(obj).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
@@ -181,7 +203,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       },
       error: (error) => {
         this.hideMatProgressBar();
-        this.openDialog("Course", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+        this.openDialog("Course", error.error?.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
   }
@@ -204,16 +226,52 @@ export class AddSubCourseCategoryComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string | null): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, {
       data: { title: dialogTitle, text: dialogText, type: dialogType }
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      if (navigateRoute) window.location.href = navigateRoute;
+      if (navigateRoute) {
+        window.location.href = navigateRoute;
+      }
     });
   }
+
+  private formatEnumValue(enumValue: string): string {
+    const days = Number(enumValue);
+    if (isNaN(days) || days <= 0) return enumValue;
+
+    const months = Math.floor(days / 30);
+    const remainingDays = days % 30;
+
+    let result = '';
+    if (months > 0) {
+      result += `${months} Month${months > 1 ? 's' : ''}`;
+    }
+    if (remainingDays > 0) {
+      if (result) result += ' ';
+      result += `${remainingDays} Day${remainingDays > 1 ? 's' : ''}`;
+    }
+
+    return result || enumValue;
+  }
+
+  private parseDurationToDays(duration: string): number {
+    const monthMatch = duration.match(/(\d+)\s*Month/);
+    const dayMatch = duration.match(/(\d+)\s*Day/);
+
+    const months = monthMatch ? parseInt(monthMatch[1], 10) : 0;
+    const days = dayMatch ? parseInt(dayMatch[1], 10) : 0;
+
+    return (months * 30) + days;
+  }
+
+  isFormInvalid(): boolean {
+    return !!this.error ||
+      this.courseName.trim().length === 0 ||
+      this.duration.length === 0 ||
+      this.module.length === 0 ||
+      this.moduleDetails.some(m => m.content.trim().length === 0);
+  }
 }
-
-
-
