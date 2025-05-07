@@ -119,7 +119,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   center_head_photo_new: File | null = null;
   center_head_signature_new: File | null = null;
   supportable_document_new: File | null = null;
-  //#endregion 
+  //#endregion
 
   async ngOnInit() {
     this.activeMatProgressBar();
@@ -495,7 +495,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
             this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
           }
 
-          this.hideMatProgressBar();     
+          this.hideMatProgressBar();
         },
         error: (err) => {
           this.hideMatProgressBar();
