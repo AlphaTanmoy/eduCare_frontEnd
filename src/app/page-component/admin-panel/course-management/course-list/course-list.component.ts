@@ -24,7 +24,6 @@ import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-categor
 import { EditPrimaryCourseCategoryComponent } from '../edit-primary-course-category/edit-primary-course-category.component';
 import { EnumsService } from '../../../../service/enums/enums.service';
 
-
 @Component({
   selector: 'app-course-list',
   imports: [CommonModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
@@ -38,7 +37,6 @@ import { EnumsService } from '../../../../service/enums/enums.service';
     ]),
   ],
 })
-
 export class CourseListComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
@@ -100,6 +98,25 @@ export class CourseListComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Method to format duration (in days) into Months and Days
+  formatDuration(days: number): string {
+    if (days <= 0) return '0 Days';
+
+    const months = Math.floor(days / 30); // Calculate whole months
+    const remainingDays = days % 30; // Calculate remaining days
+
+    let result = '';
+    if (months > 0) {
+      result += `${months} Month${months > 1 ? 's' : ''}`;
+    }
+    if (remainingDays > 0) {
+      if (months > 0) result += ' '; // Add space between months and days
+      result += `${remainingDays} Day${remainingDays > 1 ? 's' : ''}`;
+    }
+
+    return result || '0 Days'; // Fallback in case result is empty
+  }
+
   addParentCategory() {
     const dialogRef = this.dialog.open(AddPrimaryCourseCategoryComponent, { data: { currentCourses: this.currentCourses } });
 
@@ -131,7 +148,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
+        console.log(result);
         this.activeMatProgressBar();
 
         this.courseService.editCourseCategory(id, result).subscribe({
@@ -187,8 +204,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
           next: () => {
             this.openDialog("Course",
               isParent ?
-                "Course category has been deleted succesfully" :
-                "Sub-course category has been deleted succesfully",
+                "Course category has been deleted successfully" :
+                "Sub-course category has been deleted successfully",
               ResponseTypeColor.SUCCESS, false);
             this.fetchCourses();
           },

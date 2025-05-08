@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../../../service/course/course.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft, faBook, faClock, faListOl, faCheckCircle, faTimesCircle, faTasks, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
 interface SubCategory {
   courseCode: string;
   courseName: string;
   dataStatus: string;
-  duration: string;
-  module: string;
-  moduleDetails: string[][]; // New field added
+  duration: number;
+  module: number;
+  module_details: string[][];
+  practical_marks?: number;
+  theory_marks?: number;
 }
-
 
 interface Course {
   _id: string;
@@ -25,22 +28,33 @@ interface Course {
 @Component({
   selector: 'app-view-course',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.css'
 })
-export class ViewCourseComponent implements OnInit {
+export class ViewCourseComponent implements OnInit, OnDestroy {
   courseCode: string = '';
   course: Course | null = null;
   loading: boolean = true;
   error: string = '';
 
+  // Font Awesome icons
+  faArrowLeft = faArrowLeft;
+  faBook = faBook;
+  faClock = faClock;
+  faListOl = faListOl;
+  faCheckCircle = faCheckCircle;
+  faTimesCircle = faTimesCircle;
+  faTasks = faTasks;
+  faGraduationCap = faGraduationCap;
+
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private courseService: CourseService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -73,7 +87,27 @@ export class ViewCourseComponent implements OnInit {
     });
   }
 
+  // Method to format duration (in days) into Months and Days
+  formatDuration(days: number): string {
+    if (days <= 0) return '0 Days';
+
+    const months = Math.floor(days / 30); // Calculate whole months
+    const remainingDays = days % 30; // Calculate remaining days
+
+    let result = '';
+    if (months > 0) {
+      result += `${months} Month${months > 1 ? 's' : ''}`;
+    }
+    if (remainingDays > 0) {
+      if (months > 0) result += ' '; // Add space between months and days
+      result += `${remainingDays} Day${remainingDays > 1 ? 's' : ''}`;
+    }
+
+    return result || '0 Days'; // Fallback in case result is empty
+  }
+
   formatEnumValue(value: string): string {
+    if (!value) return 'Unknown';
     return value
       .toLowerCase()
       .split('_')
@@ -92,5 +126,4 @@ export class ViewCourseComponent implements OnInit {
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
-
 }
