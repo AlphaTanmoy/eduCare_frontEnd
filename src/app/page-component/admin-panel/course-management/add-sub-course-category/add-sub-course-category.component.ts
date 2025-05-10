@@ -208,21 +208,19 @@ export class AddSubCourseCategoryComponent implements OnInit {
 
   onSubmit() {
     if (!this.parentCourseId) {
-      this.error = 'Parent course ID is required';
+      this.openDialog("Course", 'Parent course ID is required', ResponseTypeColor.ERROR, null);
       return;
     }
 
     if (!this.courseName || !this.duration || !this.module || this.moduleDetails.length === 0) {
-      this.error = 'Please fill in all required fields';
+      this.openDialog("Course", 'Please fill in all required fields', ResponseTypeColor.INFO, null);
       return;
     }
 
     if (this.theoryMarks === null || this.practicalMarks === null || this.theoryMarks + this.practicalMarks !== 100) {
-      this.error = 'Theory and Practical marks must sum to 100';
+      this.openDialog("Course", 'Theory and Practical marks must sum to 100', ResponseTypeColor.INFO, null);
       return;
     }
-
-    this.error = null;
 
     const formattedModuleDetails = this.moduleDetails.map(detail =>
       detail.content.split(',').map(item => item.trim())

@@ -241,7 +241,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     const payload = {
       id: this.subCategory._id,
       course_name: this.subCategory.courseName,
-      duration: this.subCategory.duration.text, // Send formatted duration
+      duration: this.parseDurationToDays(this.subCategory.duration.text), // Send formatted duration
       module: parseInt(this.subCategory.module.text),
       data_status: this.subCategory.data_status,
       module_details: this.subCategory.moduleDetails.map(detail =>
