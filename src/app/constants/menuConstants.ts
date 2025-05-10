@@ -5,13 +5,11 @@ export const MenuItems: any[] = [
     id: 1,
     name: 'Home',
     route: '/home',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
   },
   {
     id: 2,
     name: 'Verification',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -50,7 +48,6 @@ export const MenuItems: any[] = [
   {
     id: 3,
     name: 'Academic',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -88,7 +85,6 @@ export const MenuItems: any[] = [
   {
     id: 4,
     name: 'Course Offered',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -126,7 +122,6 @@ export const MenuItems: any[] = [
   {
     id: 5,
     name: 'Student',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -177,7 +172,6 @@ export const MenuItems: any[] = [
   {
     id: 6,
     name: 'Gallery',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -209,7 +203,6 @@ export const MenuItems: any[] = [
   {
     id: 7,
     name: 'About',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -229,7 +222,6 @@ export const MenuItems: any[] = [
   {
     id: 8,
     name: 'Contact Us',
-    visible: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
@@ -255,7 +247,6 @@ export const MenuItems: any[] = [
   {
     id: 9,
     name: 'Admin Panel',
-    showWhenAdminLoggedIn: true,
     role: [UserRole.MASTER, UserRole.ADMIN],
     subMenu: [
       {
@@ -313,13 +304,11 @@ export const MenuItems: any[] = [
     id: 10,
     name: 'Login',
     route: '/login',
-    showWhenLoggedOut: true,
     role: [UserRole.COMMON],
   },
   {
     id: 11,
     name: 'User',
-    showWhenLoggedIn: true,
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
     subMenu: [
       {
@@ -337,3 +326,25 @@ export const MenuItems: any[] = [
     ],
   },
 ];
+
+export function GetMenuItemsAssignedByRole(userRole: string): any[] {
+  function filterMenu(items: any[]): any[] {
+    return items
+      .filter(item => item.role?.includes(userRole))
+      .map(item => {
+        const newItem = { ...item };
+
+        if (newItem.subMenu) {
+          newItem.subMenu = filterMenu(newItem.subMenu);
+
+          if (newItem.subMenu.length === 0) {
+            delete newItem.subMenu;
+          }
+        }
+
+        return newItem;
+      });
+  }
+
+  return filterMenu(MenuItems);
+}

@@ -15,7 +15,7 @@ import {
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
 import { MasterDataType, NavbarInfo, ResponseTypeColor, UserRole } from '../../constants/commonConstants';
-import { MenuItems } from '../../constants/menuConstants';
+import { GetMenuItemsAssignedByRole, MenuItems } from '../../constants/menuConstants';
 import {
   trigger,
   state,
@@ -126,29 +126,7 @@ export class HorizontalLayoutComponent implements AfterViewInit {
       }
     });
 
-
-    let isLoggedIn = this.authService.isUserLoggedIn();
-
-    if (!isLoggedIn) {
-      this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedOut && item.showWhenLoggedOut === true));
-      return;
-    }
-
-    let user_name = this.authService.getUsername();
-
-    this.menuItems.forEach(item => {
-      if (item.name === 'User') {
-        item.name = user_name;
-      }
-    });
-
-    let isLoggedInUserNotAnAdmin = (this.authService.getUserRole() !== UserRole.ADMIN);
-
-    if (isLoggedInUserNotAnAdmin) {
-      this.menuItems = this.menuItems.filter(item => !item.showWhenAdminLoggedIn);
-    }
-
-    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenAdminLoggedIn && item.showWhenAdminLoggedIn === true) || (item.showWhenLoggedIn && item.showWhenLoggedIn === true));
+    this.menuItems = GetMenuItemsAssignedByRole(this.authService.getUserRole());
   }
 
   ngAfterViewInit() {

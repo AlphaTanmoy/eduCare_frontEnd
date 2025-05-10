@@ -4,7 +4,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faYoutube, faFacebook, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { MasterDataType, NavbarInfo, ResponseTypeColor, UserRole } from '../../constants/commonConstants';
-import { MenuItems } from '../../constants/menuConstants';
+import { GetMenuItemsAssignedByRole, MenuItems } from '../../constants/menuConstants';
 import { RouterModule, Routes } from '@angular/router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth/Auth.Service';
@@ -106,28 +106,8 @@ export class VerticalLayoutComponent {
       }
     });
 
-    let isLoggedIn = this.authService.isUserLoggedIn();
+    this.menuItems = GetMenuItemsAssignedByRole(this.authService.getUserRole());
 
-    if (!isLoggedIn) {
-      this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenLoggedOut && item.showWhenLoggedOut === true));
-      return;
-    }
-
-    let user_name = this.authService.getUsername();
-
-    this.menuItems.forEach(item => {
-      if (item.name === 'User') {
-        item.name = user_name;
-      }
-    });
-
-    let isLoggedInUserNotAnAdmin = (this.authService.getUserRole() !== UserRole.ADMIN);
-
-    if (isLoggedInUserNotAnAdmin) {
-      this.menuItems = this.menuItems.filter(item => !item.showWhenAdminLoggedIn);
-    }
-
-    this.menuItems = this.menuItems.filter(item => (item.visible && item.visible === true) || (item.showWhenAdminLoggedIn && item.showWhenAdminLoggedIn === true) || (item.showWhenLoggedIn && item.showWhenLoggedIn === true));
     this.adjustNavbar();
   }
 
