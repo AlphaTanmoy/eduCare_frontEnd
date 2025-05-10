@@ -41,14 +41,14 @@ export class AuthService implements OnDestroy {
 
   getUserRole(): string {
     const token = this.getToken();
-    if (!token) return UserRole.GUEST;
+    if (!token) return UserRole.COMMON;
 
     try {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken?.user_role || UserRole.GUEST;
+      return decodedToken?.user_role || UserRole.COMMON;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return UserRole.GUEST;
+      return UserRole.COMMON;
     }
   }
 

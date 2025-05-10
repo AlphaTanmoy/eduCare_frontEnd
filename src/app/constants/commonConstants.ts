@@ -20,11 +20,11 @@ export const ResponseTypeColor = {
 }
 
 export const UserRole = {
-  ADMIN: 'ADMIN',
-  MASTET: 'MASTER',
-  STUDENT: 'STUDENT',
-  FRANCHISE: 'FRANCHISE',
-  GUEST: 'GUEST'
+  MASTER: "MASTER",
+  ADMIN: "ADMIN",
+  STUDENT: "STUDENT",
+  FRANCHISE: "FRANCHISE",
+  COMMON: "COMMON"
 }
 
 export class IndexedDB {
