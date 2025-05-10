@@ -9,70 +9,37 @@
     <!-- Course Name -->
     <div class="form-group">
       <label for="courseName">Sub-Course Name<span class="text-danger">*</span></label>
-      <input
-        type="text"
-        id="courseName"
-        name="courseName"
-        class="form-control mb-1"
-        [(ngModel)]="courseName"
-        (input)="onCourseNameInput($event)"
-        required
-      />
+      <input type="text" id="courseName" name="courseName" class="form-control mb-1" [(ngModel)]="courseName"
+        (input)="onCourseNameInput($event)" required />
       <span *ngIf="error && courseName.length > 0" class="text-danger">{{ error }}</span>
     </div>
 
     <!-- Theory Marks -->
     <div class="form-group">
       <label for="theoryMarks">Theory Marks<span class="text-danger">*</span></label>
-      <input
-        type="number"
-        id="theoryMarks"
-        name="theoryMarks"
-        class="form-control mb-1"
-        [(ngModel)]="theoryMarks"
-        (input)="onTheoryMarksInput()"
-        min="0"
-        max="100"
-        required
-      />
+      <input type="number" id="theoryMarks" name="theoryMarks" class="form-control mb-1" [(ngModel)]="theoryMarks"
+        (input)="onTheoryMarksInput()" min="0" max="100" required />
       <span *ngIf="theoryMarksError" class="text-danger">{{ theoryMarksError }}</span>
     </div>
 
     <!-- Practical Marks -->
     <div class="form-group">
       <label for="practicalMarks">Practical Marks<span class="text-danger">*</span></label>
-      <input
-        type="number"
-        id="practicalMarks"
-        name="practicalMarks"
-        class="form-control mb-1"
-        [(ngModel)]="practicalMarks"
-        (input)="onPracticalMarksInput()"
-        min="0"
-        max="100"
-        required
-      />
+      <input type="number" id="practicalMarks" name="practicalMarks" class="form-control mb-1"
+        [(ngModel)]="practicalMarks" (input)="onPracticalMarksInput()" min="0" max="100" required />
       <span *ngIf="practicalMarksError" class="text-danger">{{ practicalMarksError }}</span>
     </div>
 
     <!-- Duration Dropdown -->
-    <app-custom-single-select-searchable-dropdown
-      *ngIf="durationOptions.length > 0"
-      [options]="durationOptions"
-      [ariaLabel]="'Select Course Duration (In Months Or Days)'"
-      [selectedOptions]="null"
-      (selectionChange)="handleDurationSelection($event)"
-    >
+    <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
+      [ariaLabel]="'Select Course Duration (In Months Or Days)'" [selectedOptions]="null"
+      (selectionChange)="handleDurationSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
     <!-- Module Dropdown -->
-    <app-custom-single-select-searchable-dropdown
-      *ngIf="moduleOptions.length > 0"
-      [options]="moduleOptions"
-      [ariaLabel]="'Select Number Of Modules'"
-      [selectedOptions]="null"
-      (selectionChange)="handleModuleSelection($event)"
-    >
+    <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
+      [ariaLabel]="'Select Number Of Modules'" [selectedOptions]="null"
+      (selectionChange)="handleModuleSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
     <!-- Module Details -->
@@ -84,28 +51,18 @@
         <label [for]="'module-' + i">
           Module {{ i + 1 }} Topics<span class="text-danger">*</span>
         </label>
-        <input
-          [id]="'module-' + i"
-          type="text"
-          class="form-control"
-          [(ngModel)]="module.content"
-          [name]="'module-' + i"
-          placeholder="Enter topics separated by commas(,)"
-          required
-        />
+        <input [id]="'module-' + i" type="text" class="form-control" [(ngModel)]="module.content" [name]="'module-' + i"
+          placeholder="Enter topics separated by commas(,)" required />
       </div>
     </div>
 
     <!-- Form Actions -->
     <div class="form-actions mt-3">
-      <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
+      <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()" [disabled]="matProgressBarVisible">
         Cancel
       </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        [disabled]="isFormInvalid() || !subCourseForm.form.valid"
-      >
+      <button type="submit" class="btn btn-primary btn-sm"
+        [disabled]="isFormInvalid() || !subCourseForm.form.valid || matProgressBarVisible">
         Add Sub-Course
       </button>
     </div>
