@@ -6,52 +6,32 @@
   <form (ngSubmit)="onSubmit()" #editForm="ngForm" class="edit-form">
     <div class="form-group">
       <label for="courseName">Sub-Course Name<span class="text-danger">*</span></label>
-      <input
-        type="text"
-        id="courseName"
-        class="form-control"
-        [(ngModel)]="subCategory.courseName"
-        name="courseName"
-        (input)="onCourseNameInput($event)"
-        required
-      />
+      <input type="text" id="courseName" class="form-control" [(ngModel)]="subCategory.courseName" name="courseName"
+        (input)="onCourseNameInput($event)" required />
       <span *ngIf="error" class="text-danger">{{ error }}</span>
     </div>
 
     <div class="d-flex mt-4 mb-3">
       <span class="me-2">Data Status: </span>
       <div class="form-check form-switch">
-        <input
-          class="form-check-input me-2"
-          type="checkbox"
-          id="flexSwitchCheckChecked"
-          [checked]="subCategory.data_status === ActiveInactiveStatus.ACTIVE"
-          [ngModelOptions]="{ standalone: true }"
+        <input class="form-check-input me-2" type="checkbox" id="flexSwitchCheckChecked"
+          [checked]="subCategory.data_status === ActiveInactiveStatus.ACTIVE" [ngModelOptions]="{ standalone: true }"
           [ngModel]="subCategory.data_status === ActiveInactiveStatus.ACTIVE"
-          (ngModelChange)="onStatusChange($event)"
-        />
+          (ngModelChange)="onStatusChange($event)" />
         <label class="form-check-label" for="flexSwitchCheckChecked">
           {{ subCategory.data_status === ActiveInactiveStatus.ACTIVE ? 'Active' : 'Inactive' }}
         </label>
       </div>
     </div>
 
-    <app-custom-single-select-searchable-dropdown
-      *ngIf="durationOptions.length > 0"
-      [options]="durationOptions"
-      [ariaLabel]="'Select Course Duration (In Months Or Days)'"
-      [selectedOptions]="subCategory.duration"
-      (selectionChange)="handleDurationSelection($event)"
-    >
+    <app-custom-single-select-searchable-dropdown *ngIf="durationOptions.length > 0" [options]="durationOptions"
+      [ariaLabel]="'Select Course Duration (In Months Or Days)'" [selectedOptions]="subCategory.duration"
+      (selectionChange)="handleDurationSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
-    <app-custom-single-select-searchable-dropdown
-      *ngIf="moduleOptions.length > 0"
-      [options]="moduleOptions"
-      [ariaLabel]="'Select Number Of Modules'"
-      [selectedOptions]="subCategory.module"
-      (selectionChange)="handleModuleSelection($event)"
-    >
+    <app-custom-single-select-searchable-dropdown *ngIf="moduleOptions.length > 0" [options]="moduleOptions"
+      [ariaLabel]="'Select Number Of Modules'" [selectedOptions]="subCategory.module"
+      (selectionChange)="handleModuleSelection($event)">
     </app-custom-single-select-searchable-dropdown>
 
     <div *ngIf="subCategory.moduleDetails.length > 0" class="module-details">
@@ -60,25 +40,17 @@
       <div *ngFor="let module of subCategory.moduleDetails; let i = index" class="module-detail-item">
         <div class="form-group">
           <label [for]="'module-' + i">Module {{ i + 1 }} Topics<span class="text-danger">*</span></label>
-          <input
-            [id]="'module-' + i"
-            class="form-control"
-            [(ngModel)]="module.content"
-            [name]="'moduleDetail' + i"
-            placeholder="Enter topics, separated by commas(,)"
-            required
-          />
+          <input [id]="'module-' + i" class="form-control" [(ngModel)]="module.content" [name]="'moduleDetail' + i"
+            placeholder="Enter topics, separated by commas(,)" required />
         </div>
       </div>
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToCourseList()">Cancel</button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        [disabled]="isFormInvalid() || !editForm.form.valid"
-      >
+      <button type="button" class="btn btn-secondary btn-sm" (click)="navigateToCourseList()"
+        [disabled]="matProgressBarVisible">Cancel</button>
+      <button type="submit" class="btn btn-primary btn-sm"
+        [disabled]="isFormInvalid() || !editForm.form.valid || matProgressBarVisible">
         Save Changes
       </button>
     </div>
