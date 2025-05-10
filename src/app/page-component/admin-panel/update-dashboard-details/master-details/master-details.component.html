@@ -11,7 +11,7 @@
                         <label class="form-label mb-1">Email ID<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="email" placeholder="Type Email id">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="saveEmail()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="saveEmail()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -19,7 +19,7 @@
                         <label class="form-label mb-1">Primary Phone Number<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="phone1" placeholder="Type Primary Phone Number">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="savePhone1()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="savePhone1()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -27,7 +27,7 @@
                         <label class="form-label mb-1">Secondary Phone Number<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="phone2" placeholder="Type Secondary Phone Number">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="savePhone2()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="savePhone2()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -35,7 +35,7 @@
                         <label class="form-label mb-1">Facebook URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="facebook" placeholder="Type Facebook URL">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="saveFacebook()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="saveFacebook()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -43,7 +43,7 @@
                         <label class="form-label mb-1">YouTube URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="youtube" placeholder="Type YouTube URL">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="saveYoutube()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="saveYoutube()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -51,7 +51,7 @@
                         <label class="form-label mb-1">WhatsApp URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="whatsapp" placeholder="Type WhatsApp URL">
                     </div>
-                    <button class="btn custom-btn1" type="button" (click)="saveWhatsapp()">Save</button>
+                    <button class="btn btn-primary" type="button" (click)="saveWhatsapp()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
             </div>
         </div>
