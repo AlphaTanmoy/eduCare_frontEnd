@@ -100,9 +100,9 @@
                     <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Count Of Modules</th>
                     <th class="text-center fw-bold"
-                      style="background-color: var(--light); color: var(--default-theme);">Practical Marks</th>
-                    <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Theoretical Marks</th>
+                    <th class="text-center fw-bold"
+                      style="background-color: var(--light); color: var(--default-theme);">Practical Marks</th>
                     <th class="text-center fw-bold"
                       style="background-color: var(--light); color: var(--default-theme);">Data Status</th>
                     <th class="text-center fw-bold"
@@ -117,8 +117,8 @@
                     <td class="text-center custom_padding align-middle">{{ subCourse.courseName }}</td>
                     <td class="text-center custom_padding align-middle">{{ formatDuration(subCourse.duration) }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.module }}</td>
-                    <td class="text-center custom_padding align-middle">{{ subCourse.practical_marks }}</td>
                     <td class="text-center custom_padding align-middle">{{ subCourse.theory_marks }}</td>
+                    <td class="text-center custom_padding align-middle">{{ subCourse.practical_marks }}</td>
                     <td class="text-center custom_padding align-middle">
                       <span [ngClass]="
                         subCourse.dataStatus === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
