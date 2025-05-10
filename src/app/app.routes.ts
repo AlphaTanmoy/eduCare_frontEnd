@@ -27,7 +27,6 @@ import { ErrorComponent } from './error/error.component';
 import { ContactComponent } from './page-component/contact-us/contact/contact.component';
 import { FeedbackComponent } from './page-component/contact-us/feedback/feedback.component';
 import { RulesComponent } from './page-component/contact-us/rules/rules.component';
-import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 import { EnumsComponent } from './page-component/admin-panel/enums/enums.component';
 import { LoginComponent } from './page-component/login/login.component';
@@ -45,6 +44,7 @@ import { EditFranchiseComponent } from './page-component/academic/franchise/edit
 import { ProfileComponent } from './page-component/profile/profile.component';
 import { RegisterStudentComponent } from './page-component/academic/student/register-student/register-student.component';
 import { EditStudentDetailsComponent } from './page-component/academic/student/edit-student-details/edit-student-details.component';
+import { ManageAdminComponent } from './page-component/admin-panel/manage-admin/manage-admin/manage-admin.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -87,8 +87,8 @@ export const routes: Routes = [
 
     { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/manage-admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    // { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },

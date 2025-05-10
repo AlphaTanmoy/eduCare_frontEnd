@@ -270,19 +270,19 @@ export const MenuItems: any[] = [
       },
       {
         id: 92,
-        name: 'Create User',
-        route: '/admin-panel/create-user',
+        name: 'Manage Admin',
+        route: '/admin-panel/manage-admin',
         role: [UserRole.MASTER, UserRole.ADMIN],
       },
-      {
-        id: 93,
-        name: 'Enums',
-        route: '/admin-panel/enum',
-        role: [UserRole.MASTER, UserRole.ADMIN],
-      },
+      // {
+      //   id: 93,
+      //   name: 'Enums',
+      //   route: '/admin-panel/enum',
+      //   role: [UserRole.MASTER, UserRole.ADMIN],
+      // },
       {
         id: 94,
-        name: 'Courses',
+        name: 'Manage Courses',
         route: '/admin-panel/course-list',
         role: [UserRole.MASTER, UserRole.ADMIN],
       },
