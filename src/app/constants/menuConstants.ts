@@ -63,6 +63,11 @@ export const MenuItems: any[] = [
         name: 'Apply Franchies',
         route: '/academic/apply-franchise',
       },
+      {
+        id: 35,
+        name: 'Register Student',
+        route: '/academic/register-student',
+      }
     ],
   },
   {

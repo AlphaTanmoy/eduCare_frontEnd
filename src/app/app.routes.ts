@@ -43,6 +43,8 @@ import { EditSubCourseCategoryComponent } from './page-component/admin-panel/cou
 import { ManageCenterComponent } from './page-component/admin-panel/manage-franchise/manage-center/manage-center.component';
 import { EditFranchiseComponent } from './page-component/academic/franchise/edit-franchise/edit-franchise.component';
 import { ProfileComponent } from './page-component/profile/profile.component';
+import { RegisterStudentComponent } from './page-component/academic/student/register-student/register-student.component';
+import { EditStudentDetailsComponent } from './page-component/academic/student/edit-student-details/edit-student-details.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -58,6 +60,8 @@ export const routes: Routes = [
     { path: 'academic/pay-fees', component: PayFeesComponent },
     { path: 'academic/apply-franchise', component: ApplyFranchiesComponent },
     { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent },
+    { path: 'academic/register-student', component: RegisterStudentComponent },
+    { path: 'academic/edit-student-details/:student_id', component: EditStudentDetailsComponent },
     
     { path: 'course-offered/computer', component: ComputerCourseComponent },
     { path: 'course-offered/dance', component: DanceCourseComponent },
