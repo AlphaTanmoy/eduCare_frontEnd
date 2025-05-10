@@ -30,16 +30,13 @@ import { RulesComponent } from './page-component/contact-us/rules/rules.componen
 import { CreateUserComponent } from './page-component/admin-panel/create-user/create-user.component';
 import { HomeSlideshowComponent } from './page-component/admin-panel/update-dashboard-details/home-slideshow/home-slideshow.component';
 import { EnumsComponent } from './page-component/admin-panel/enums/enums.component';
-import { StudentRegistrationComponent } from './page-component/student/student-registration/student-registration.component';
 import { LoginComponent } from './page-component/login/login.component';
 import { AuthGuard } from './service/auth/Auth.guard';
 import { UnAuthorizeComponent } from './un-authorize/un-authorize.component';
 import { LogoutComponent } from './logout/logout.component';
-import { AppComponent } from './app.component';
 import { MasterDetailsComponent } from './page-component/admin-panel/update-dashboard-details/master-details/master-details.component';
 import { BackupComponent } from './page-component/admin-panel/data-backup/backup/backup.component';
 import { ApplyFranchiesComponent } from './page-component/academic/franchise/apply-franchies/apply-franchies.component';
-import { AddPrimaryCourseCategoryComponent } from './page-component/admin-panel/course-management/add-primary-course-category/add-primary-course-category.component';
 import { AddSubCourseCategoryComponent } from './page-component/admin-panel/course-management/add-sub-course-category/add-sub-course-category.component';
 import { ViewCourseComponent } from './page-component/admin-panel/course-management/view-course/view-course.component';
 import { EditSubCourseCategoryComponent } from './page-component/admin-panel/course-management/edit-sub-course-category/edit-sub-course-category.component';
@@ -49,45 +46,52 @@ import { ProfileComponent } from './page-component/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    // { path: 'app', component: AppComponent }, 
     { path: 'home', component: HomeComponent },
-    { path: 'verification/center', component: CenterVerifyComponent },
+  
     { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
     { path: 'verification/certificate/other', component: OtherCertificateVerifyComponent },
     { path: 'verification/student', component: StudentVerifyComponent },
+    { path: 'verification/center', component: CenterVerifyComponent },
+
     { path: 'academic/download-certificate', component: DownloadCertificateComponent },
     { path: 'academic/download-form', component: DownloadFormComponent },
     { path: 'academic/pay-fees', component: PayFeesComponent },
     { path: 'academic/apply-franchise', component: ApplyFranchiesComponent },
     { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent },
+    
     { path: 'course-offered/computer', component: ComputerCourseComponent },
     { path: 'course-offered/dance', component: DanceCourseComponent },
     { path: 'course-offered/drawing', component: DrawingCourseComponent },
     { path: 'course-offered/others', component: OtherCourseComponent },
     { path: 'course-offered/spoken-english', component: SpokenEnglishComponent },
-    { path: 'student/e-book', component: EBookComponent },
-    { path: 'student/marks-division', component: MarksDivisionComponent },
-    { path: 'student/notes', component: NotesComponent },
-    { path: 'student/notice/holiday', component: NoticeHolidayComponent },
+
     { path: 'student/notice/registration', component: NoticeRegistrationComponent },
+    { path: 'student/notice/holiday', component: NoticeHolidayComponent },
+    { path: 'student/e-book', component: EBookComponent },
+    { path: 'student/notes', component: NotesComponent },
+    { path: 'student/marks-division', component: MarksDivisionComponent },
     { path: 'student/software-download', component: SoftwareDownloadComponent },
+
     { path: 'gallary/:type', component: GallaryComponent },
+
     { path: 'about/institution', component: AboutInstitutionComponent },
     { path: 'about/registration', component: AboutRegistrationComponent },
+
     { path: 'contact-us/contact', component: ContactComponent },
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
+
+    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
+    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/create-user', component: CreateUserComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'admin-panel/enum', component: EnumsComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
     { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: UserRole.ADMIN } },
-    { path: 'registration/register-student', component: StudentRegistrationComponent },
+    
     { path: 'login', component: LoginComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'un-authorized', component: UnAuthorizeComponent },

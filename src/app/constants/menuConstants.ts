@@ -116,11 +116,6 @@ export const MenuItems: any[] = [
             name: 'Holiday Notice',
             route: '/student/notice/holiday',
           },
-          {
-            id: 513,
-            name: 'Student Login',
-            route: '/login',
-          },
         ],
       },
       {
@@ -143,11 +138,6 @@ export const MenuItems: any[] = [
         name: 'Software Download',
         route: '/student/software-download',
       },
-      {
-        id: 56,
-        name: 'Student Registration',
-        route: '/registration/register-student',
-      }
     ],
   },
   {
