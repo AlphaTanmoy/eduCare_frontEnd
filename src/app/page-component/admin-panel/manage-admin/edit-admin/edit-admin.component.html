@@ -1,1 +1,27 @@
-<p>edit-admin works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mt-4 custom_size">
+    <div class="header text-center">
+        <h2>Edit Admin</h2>
+    </div>
+
+    <div class="form-group mt-2">
+        <label for="courseName">Admin Name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="adminName"
+            (input)="onAdminNameInput($event)" required />
+    </div>
+
+    <div class="form-group mt-2">
+        <label>Admin Email<span class="text-danger">*</span></label>
+        <input type="text" class="form-control mb-1" [(ngModel)]="adminEmail" (input)="onAdminEmailInput($event)"
+            required />
+    </div>
+
+    <div class="form-group mt-2">
+        <label>Admin Phone Number<span class="text-danger">*</span></label>
+        <input type="number" class="form-control mb-1" [(ngModel)]="adminPhone" (input)="onAdminPhoneInput($event)"
+            required />
+    </div>
+
+    <button [disabled]="matProgressBarVisible" class="btn btn-primary btn-sm float-end mt-3" (click)="submit()">Submit</button>
+</div>
