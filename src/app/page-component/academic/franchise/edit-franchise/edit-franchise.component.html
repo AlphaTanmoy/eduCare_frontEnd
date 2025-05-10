@@ -93,8 +93,8 @@
 
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                    (click)="reset_center_head_form()">Reset</button>
-                                <button class="btn btn-primary btn-sm"
+                                    (click)="reset_center_head_form()" [disabled]="matProgressBarVisible">Reset</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
                                     (click)="submit_center_head_details()">Submit</button>
                             </div>
                         </div>
@@ -213,8 +213,9 @@
 
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                    (click)="reset_center_form()">Reset</button>
-                                <button class="btn btn-primary btn-sm" (click)="submit_center_details()">Submit</button>
+                                    (click)="reset_center_form()" [disabled]="matProgressBarVisible">Reset</button>
+                                <button class="btn btn-primary btn-sm" (click)="submit_center_details()"
+                                    [disabled]="matProgressBarVisible">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -249,9 +250,11 @@
 
                                 <div class="w-100 d-flex justify-content-between">
                                     <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                        (click)="reset_center_head_photo_form(CenterHeadPhotoInput)">Reset</button>
-                                    <button class="btn btn-primary btn-sm" (click)="update_center_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)"
-                                    [disabled]="center_head_photo_new === null">Submit</button>
+                                        (click)="reset_center_head_photo_form(CenterHeadPhotoInput)"
+                                        [disabled]="center_head_photo_new === null || matProgressBarVisible">Reset</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        (click)="update_center_document(FranchiseDocumentName.CENTER_HEAD_PHOTO)"
+                                        [disabled]="center_head_photo_new === null || matProgressBarVisible">Submit</button>
                                 </div>
                             </div>
                             <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
@@ -274,9 +277,11 @@
 
                                 <div class="w-100 d-flex justify-content-between">
                                     <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                        (click)="reset_center_head_signature_form(CenterHeadSignatureInput)">Reset</button>
-                                    <button class="btn btn-primary btn-sm" (click)="update_center_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)"
-                                    [disabled]="center_head_signature_new === null">Submit</button>
+                                        (click)="reset_center_head_signature_form(CenterHeadSignatureInput)"
+                                        [disabled]="center_head_signature_new === null || matProgressBarVisible">Reset</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        (click)="update_center_document(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)"
+                                        [disabled]="center_head_signature_new === null || matProgressBarVisible">Submit</button>
                                 </div>
                             </div>
                             <div class="document-item flex-grow-1 mb-2 border p-2 rounded-2">
@@ -299,9 +304,11 @@
 
                                 <div class="w-100 d-flex justify-content-between">
                                     <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                        (click)="reset_supportable_document_form(SupportableDocumentInput)">Reset</button>
-                                    <button class="btn btn-primary btn-sm" (click)="update_center_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)"
-                                    [disabled]="supportable_document_new === null">Submit</button>
+                                        (click)="reset_supportable_document_form(SupportableDocumentInput)"
+                                        [disabled]="supportable_document_new === null || matProgressBarVisible">Reset</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        (click)="update_center_document(FranchiseDocumentName.SUPPORTABLE_DOCUMENT)"
+                                        [disabled]="supportable_document_new === null || matProgressBarVisible">Submit</button>
                                 </div>
                             </div>
                         </div>
