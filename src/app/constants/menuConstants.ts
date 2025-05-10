@@ -272,7 +272,7 @@ export const MenuItems: any[] = [
         id: 92,
         name: 'Manage Admin',
         route: '/admin-panel/manage-admin',
-        role: [UserRole.MASTER, UserRole.ADMIN],
+        role: [UserRole.MASTER],
       },
       // {
       //   id: 93,
