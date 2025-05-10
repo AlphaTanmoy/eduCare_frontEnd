@@ -19,8 +19,8 @@
             </div>
 
             <div class="imageDisplayDivFinalDataButtons">
-                <button class="imageDisplayDivFinalDataResetButton custom-button1" (click)="resetCroppedImage()">Reset</button>
-                <button class="imageDisplayDivFinalDataSaveButton custom-button1" (click)="uploadDashboardSlideshowImage()">Save</button>
+                <button class="imageDisplayDivFinalDataResetButton btn btn-secondary btn-sm" (click)="resetCroppedImage()" [disabled]="matProgressBarVisible">Reset</button>
+                <button class="imageDisplayDivFinalDataSaveButton btn btn-primary btn-sm" (click)="uploadDashboardSlideshowImage()" [disabled]="matProgressBarVisible">Save</button>
             </div>
         </div>
     </div>
