@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
 
     if (!token || this.jwtHelper.isTokenExpired(token)) {
       this.authService.logout();
-      this.openDialog("Login", "Session expired or not found. Redirecting to login.", ResponseTypeColor.ERROR, '/login');
+      this.openDialog("Login", "Session expired or authentication token not found. Redirecting to login.", ResponseTypeColor.ERROR, '/login');
       return false;
     }
 
@@ -29,14 +29,14 @@ export class AuthGuard implements CanActivate {
       const decodedToken = this.jwtHelper.decodeToken(token);
       const requiredRole = route.data['role'];
 
-      if (requiredRole && decodedToken?.user_role?.toUpperCase() !== requiredRole.toUpperCase()) {
+      if (requiredRole && !requiredRole.includes(decodedToken?.user_role?.toUpperCase())) {
         this.openDialog("Access Denied", "Role mismatch. Unauthorized access.", ResponseTypeColor.ERROR, "/un-authorized");
         return false;
       }
 
       return true;
     } catch (error) {
-      this.openDialog("Login", "Error decoding token.", ResponseTypeColor.ERROR, "/login");
+      this.openDialog("Login", "Error decoding session info.", ResponseTypeColor.ERROR, "/login");
       return false;
     }
   }
