@@ -267,7 +267,7 @@
                             <button class="btn btn-primary btn-sm" matStepperPrevious>Back</button>
 
                             <div class="d-flex justify-content-around">
-                                <button [disabled]="!terms_and_conditions_status" class="btn btn-primary btn-sm" matStepperNext
+                                <button [disabled]="!terms_and_conditions_status || matProgressBarVisible" class="btn btn-primary btn-sm" matStepperNext
                                     (click)="submit()">Submit</button>
                             </div>
                         </div>

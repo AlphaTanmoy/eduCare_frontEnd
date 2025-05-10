@@ -313,7 +313,7 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
         "Franchise",
         "Thank You for successfully registering yourself as our franchise.<br>Please wait for the admin approval.",
         ResponseTypeColor.SUCCESS,
-        false
+        true
       );
     } catch (error: any) {
       this.hideMatProgressBar();
