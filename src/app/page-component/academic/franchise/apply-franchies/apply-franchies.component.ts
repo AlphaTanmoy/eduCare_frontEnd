@@ -323,7 +323,6 @@ export class ApplyFranchiesComponent implements OnInit, OnDestroy {
     }
   }
 
-
   async validateForm() {
     // Center Head Validation
     this.center_head_name = this.center_head_name.trim();
