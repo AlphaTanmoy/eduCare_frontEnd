@@ -15,15 +15,6 @@ td {
     overflow: auto;
 }
 
-/* Horizontal scrollbar styles */
-.overflow-auto::-webkit-scrollbar {
-    height: 10px;
-}
-
-.overflow-auto::-webkit-scrollbar-thumb {
-    border-radius: 1rem;
-}
-
 ::ng-deep .cdk-overlay-pane,
 ::ng-deep .mat-mdc-select-panel-above{
    background-color: var(--light);

@@ -28,19 +28,23 @@ body {
 }
 
 ::-webkit-scrollbar {
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar {
     width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: var(--white);
 }
 
 ::-webkit-scrollbar-thumb {
     background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
 }
 
 :root {
@@ -96,6 +100,7 @@ body {
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
+    font-size: 0.8rem;
 }
 
 .text_card_danger {
@@ -103,6 +108,7 @@ body {
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
+    font-size: 0.8rem;
 }
 
 .text_card_idle {
@@ -110,9 +116,14 @@ body {
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
+    font-size: 0.8rem;
 }
 
 .form-check-input {
     width: 2.5rem;
     padding: 0 !important;
+}
+
+.mat_table_header_font_size{
+    font-size: 1rem;
 }
