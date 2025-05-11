@@ -2,7 +2,7 @@
   <div class="alert-content">
     <h2 id="alert_header" class="p-3" id="alert_header" style="background-color: var(--light);">{{
       data.title }}</h2>
-    <mat-dialog-content id="alert_body" style="margin-bottom: 4rem;" [innerHTML]="formattedText"></mat-dialog-content>
+    <mat-dialog-content id="alert_body" style="margin-bottom: 4rem;" class="text_style" [innerHTML]="formattedText"></mat-dialog-content>
 
     <svg *ngIf="data.type === ResponseTypeColor.SUCCESS" class="alert-svg success-svg" viewBox="0 0 24 24">
       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />

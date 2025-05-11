@@ -98,3 +98,9 @@
   background-color: var(--light-blue);
   color: white;
 }
+
+.text_style{
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
