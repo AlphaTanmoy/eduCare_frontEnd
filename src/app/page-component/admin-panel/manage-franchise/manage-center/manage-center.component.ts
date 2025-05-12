@@ -10,7 +10,7 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
-import { faEdit, faEye, faDownload, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   faEye = faEye;
   faDownload = faDownload;
   faCircleInfo = faCircleInfo;
+  faCircleXmark = faCircleXmark;
 
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);

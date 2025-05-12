@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Endpoints, GetBaseURL } from '../../../../endpoints/endpoints';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEdit, faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEdit, faTrash, faPlus, faMinus, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { CourseService } from '../../../../service/course/course.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +45,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
   faPlus = faPlus;
   faMinus = faMinus;
+  faCircleXmark = faCircleXmark;
 
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;

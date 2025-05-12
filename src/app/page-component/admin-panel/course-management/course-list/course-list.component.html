@@ -163,9 +163,13 @@
             <td class="mat-cell custom_padding" colspan="100%" *ngIf="courseCount !== 0">No data matching the filter "{{
               input.value }}"
             </td>
-            <td class="mat-cell custom_padding" colspan="100%" *ngIf="courseCount === 0">No courses available</td>
           </tr>
         </table>
+
+        <div class="text-center mt-3">
+          <span *ngIf="courseCount === 0" class="text-secondary align-center"><fa-icon [icon]="faCircleXmark"></fa-icon>
+            No Course Category Found</span>
+        </div>
       </div>
     </div>
 
