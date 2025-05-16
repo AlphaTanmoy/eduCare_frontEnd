@@ -246,7 +246,7 @@ export const MenuItems: any[] = [
   },
   {
     id: 9,
-    name: 'Admin Panel',
+    name: 'Control Panel',
     role: [UserRole.MASTER, UserRole.ADMIN],
     subMenu: [
       {
