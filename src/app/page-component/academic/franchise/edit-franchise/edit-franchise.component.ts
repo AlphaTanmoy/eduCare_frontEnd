@@ -95,6 +95,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   form2_visible: boolean = true;
   center_head_id: string = "";
   center_name: string = "";
+  center_user_id: string = "";
   center_contact_number: string = "";
   center_email_id: string = "";
   center_category: string[] = [];
@@ -214,6 +215,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   async AssignOldCenterDetails() {
     this.center_name = this.OldCenterDetails.center_name;
+    this.center_user_id = this.OldCenterDetails.center_user_id;
     this.center_contact_number = this.OldCenterDetails.center_contact_number;
     this.center_email_id = this.OldCenterDetails.center_email_id;
 
@@ -411,6 +413,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       const center_details = {
         center_id: this.center_id,
         center_name: this.center_name,
+        center_user_id: this.center_user_id,
         center_contact_number: this.center_contact_number,
         center_email_id: this.center_email_id,
         center_category: this.center_category,
