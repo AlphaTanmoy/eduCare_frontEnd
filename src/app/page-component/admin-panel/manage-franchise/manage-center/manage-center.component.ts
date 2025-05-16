@@ -185,6 +185,10 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     removeBootstrap(this.bootstrapElements);
   }
 
+  redirectToAddFranchise(){
+    window.location.href = "academic/apply-franchise";
+  }
+
   activeMatProgressBar() {
     this.matProgressBarVisible = true;
     this.cdr.detectChanges();

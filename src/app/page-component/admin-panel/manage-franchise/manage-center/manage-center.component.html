@@ -13,8 +13,10 @@
         <div class="d-flex">
           <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
             (click)="ApproveOrReject(ApproveRejectionStatus.APPROVED)">Approve</button>
-          <button class="btn btn-danger btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
+          <button class="btn btn-danger me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
             (click)="ApproveOrReject(ApproveRejectionStatus.REJECTED)">Reject</button>
+            <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+            (click)="redirectToAddFranchise()">Add</button>
         </div>
       </div>
 
