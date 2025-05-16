@@ -6,8 +6,9 @@ import { AuthService } from '../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor } from '../../constants/commonConstants';
+import { IndexedDBItemKey, ResponseTypeColor } from '../../constants/commonConstants';
 import { Router } from '@angular/router';
+import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
 
 @Component({
   selector: 'app-login',
@@ -29,13 +30,15 @@ export class LoginComponent {
     removeBootstrap(this.bootstrapElements);
   }
 
-  constructor(private authService: AuthService, private dialog: MatDialog, private router: Router) { }
+  constructor(private authService: AuthService, private indexedDbService: IndexedDbService, private dialog: MatDialog, private router: Router) { }
 
   login(userType: string) {
     this.authService.login(this.email, this.password, userType).subscribe({
       next: (response) => {
         if (response.status === 200 && response.responseType === 'SUCCESS') {
           const token = response.token.token;
+          sessionStorage.clear();
+          this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
           sessionStorage.setItem('authToken', token);
           this.authService.saveToken(token);
 
