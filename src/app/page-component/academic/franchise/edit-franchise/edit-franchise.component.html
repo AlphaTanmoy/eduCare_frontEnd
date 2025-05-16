@@ -109,11 +109,25 @@
                             <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 1 }">Center Details</span>
                         </ng-template>
 
-                        <div class="row mb-2">
-                            <div class="col-12 col-md-6 mb-2 w-100">
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Center Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" placeholder="Type Center Name"
                                     [ngModelOptions]="{standalone: true}" [(ngModel)]="center_name">
+                            </div>
+                            <div class="col-12 col-md-6 d-flex align-items-center mt-3" *ngIf="user_role === UserRole.MASTER || user_role === UserRole.ADMIN">
+                                <span class="me-2">Data Status : </span>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input me-2" type="checkbox" id="flexSwitchCheckChecked"
+                                        [checked]="center_data_status === ActiveInactiveStatus.ACTIVE"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngModel]="center_data_status === ActiveInactiveStatus.ACTIVE"
+                                        (ngModelChange)="onStatusChange($event)">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">{{center_data_status
+                                        ===
+                                        ActiveInactiveStatus.ACTIVE ?
+                                        'Active' : 'Inactive'}}</label>
+                                </div>
                             </div>
                         </div>
 

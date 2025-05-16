@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { FranchiseDocumentName, Gender, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, FranchiseDocumentName, Gender, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { CommonService } from '../../../../service/common/common.service';
@@ -22,6 +22,7 @@ import { firstValueFrom, forkJoin } from 'rxjs';
 import { convertBlobToBase64 } from '../../../../utility/common-util';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthService } from '../../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-edit-franchise',
@@ -59,6 +60,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     private franchiseService: FranchiseService,
     private cdr: ChangeDetectorRef,
     private indexedDbService: IndexedDbService,
+    private authService: AuthService,
     private route: ActivatedRoute,
   ) { }
 
@@ -71,6 +73,8 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   selectedStepIndex: number = 0;
   isLinear = false;
   stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  ActiveInactiveStatus = ActiveInactiveStatus;
 
   CenterAddressStatus: boolean = false;
   AvilableCourseCategories: Dropdown[] = [];
@@ -106,6 +110,10 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
   center_police_station: string = "";
   center_village_city: string = "";
   center_pin_code: string = "";
+  center_data_status: string = "";
+
+  user_role: string = "COMMON";
+  UserRole = UserRole;
 
   OldCenterDocuments = {
     [FranchiseDocumentName.CENTER_HEAD_PHOTO]: "",
@@ -124,6 +132,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.activeMatProgressBar();
+    this.user_role = this.authService.getUserRole();
     this.center_id = this.route.snapshot.paramMap.get('center_id')!;
 
     this.setStepperOrientation();
@@ -226,6 +235,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     this.center_police_station = this.OldCenterDetails.center_police_station;
     this.center_village_city = this.OldCenterDetails.center_village_city;
     this.center_pin_code = this.OldCenterDetails.center_pin_code;
+    this.center_data_status = this.OldCenterDetails.data_status;
 
     this.SelectedCourseCategories = this.AvilableCourseCategories.filter(item =>
       this.OldCenterDetails.center_categories.includes(item.id)
@@ -278,6 +288,10 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
       this.center_village_city = this.OldCenterDetails.center_village_city;
       this.center_pin_code = this.OldCenterDetails.center_pin_code;
     }
+  }
+
+  onStatusChange(isChecked: boolean) {
+    this.center_data_status = isChecked ? ActiveInactiveStatus.ACTIVE : ActiveInactiveStatus.INACTIVE;
   }
 
   handleSelectedCourses(selectedItems: Dropdown[]) {
@@ -423,7 +437,8 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
         center_post_office: this.center_post_office,
         center_police_station: this.center_police_station,
         center_village_city: this.center_village_city,
-        center_pin_code: this.center_pin_code
+        center_pin_code: this.center_pin_code,
+        center_data_status: this.center_data_status
       };
 
       await this.franchiseService.UpdateCenter(center_details).subscribe({
