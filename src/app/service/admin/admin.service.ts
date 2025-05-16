@@ -32,4 +32,8 @@ export class AdminService {
   UploadDashboardWhatsapp(Whatsapp: string): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_whatsapp, { whatsapp: Whatsapp });
   }
+
+  CreateAdmin(Admin: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.create_admin, { data: Admin });
+  }
 }

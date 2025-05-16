@@ -43,18 +43,18 @@ export class CreateAdminComponent {
       next: (response) => {
         try {
           if (response.status !== 200) {
-            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, null);
             return;
           }
 
           this.registeredAdminEmail = response.data.map((item: any) => item.email?.toLowerCase());
           this.registeredAdminPhone = response.data.map((item: any) => item.phone?.toString());
         } catch (error) {
-          this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+          this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, null);
         }
       },
       error: (err) => {
-        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
   }
@@ -86,6 +86,25 @@ export class CreateAdminComponent {
 
   submit() {
     console.log(this.adminName, this.adminEmail, this.adminPhone);
+    const obj = {
+      admin_name: this.adminName,
+      admin_email: this.adminEmail,
+      admin_phone: this.adminPhone
+    }
+
+    this.adminService.CreateAdmin(obj).subscribe({
+      next: (response) => {
+        if (response.status === 200) {
+          this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, "/admin-panel/manage-admin");
+          return;
+        }
+
+        this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, null);
+      },
+      error: (err) => {
+        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -107,12 +126,14 @@ export class CreateAdminComponent {
     this.cdr.detectChanges();
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
-    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string | null): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: { title: dialogTitle, text: dialogText, type: dialogType }
+    });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (pageReloadNeeded) {
-        location.reload();
+    dialogRef.afterClosed().subscribe(() => {
+      if (navigateRoute) {
+        window.location.href = navigateRoute;
       }
     });
   }
