@@ -85,23 +85,27 @@ export class CreateAdminComponent {
   }
 
   submit() {
-    console.log(this.adminName, this.adminEmail, this.adminPhone);
     const obj = {
       admin_name: this.adminName,
       admin_email: this.adminEmail,
       admin_phone: this.adminPhone
     }
 
+    this.activeMatProgressBar();
+
     this.adminService.CreateAdmin(obj).subscribe({
       next: (response) => {
         if (response.status === 200) {
+          this.hideMatProgressBar();
           this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, "/admin-panel/manage-admin");
           return;
         }
 
+        this.hideMatProgressBar();
         this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, null);
       },
       error: (err) => {
+        this.hideMatProgressBar();
         this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
