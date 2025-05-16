@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonService } from '../../../../service/common/common.service';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 @Component({
   selector: 'app-create-admin',
@@ -16,6 +18,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 export class CreateAdminComponent {
   constructor(
     private adminService: AdminService,
+    private commonService: CommonService,
     private cdr: ChangeDetectorRef,
   ) { }
 
@@ -23,12 +26,37 @@ export class CreateAdminComponent {
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
 
+  errorName: string | null = null;
+  errorEmail: string | null = null;
+  errorPhone: string | null = null;
+
+  registeredAdminEmail: string[] = [];
+  registeredAdminPhone: string[] = [];
   adminName: string = '';
   adminEmail: string = '';
   adminPhone: string = '';
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+
+    this.commonService.getAllAvailableUsers().subscribe({
+      next: (response) => {
+        try {
+          if (response.status !== 200) {
+            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          this.registeredAdminEmail = response.data.map((item: any) => item.email?.toLowerCase());
+          this.registeredAdminPhone = response.data.map((item: any) => item.phone?.toString());
+        } catch (error) {
+          this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   onAdminNameInput(event: Event) {
@@ -39,19 +67,34 @@ export class CreateAdminComponent {
   onAdminEmailInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.adminEmail = input.value.trim();
+    this.errorEmail = null;
+
+    if (this.registeredAdminEmail.includes(this.adminEmail.toLowerCase())) {
+      this.errorEmail = "Admin with this email already exists";
+    }
   }
 
   onAdminPhoneInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.adminPhone = input.value.trim();
+    this.errorPhone = null;
+
+    if (this.registeredAdminPhone.includes(this.adminPhone.toLowerCase())) {
+      this.errorPhone = "Admin with this phone number already exists";
+    }
   }
 
-  submit(){
-    
+  submit() {
+    console.log(this.adminName, this.adminEmail, this.adminPhone);
   }
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  isValid(): boolean {
+    return this.adminName.trim().length > 0 && this.adminEmail.trim().length > 0 && this.adminPhone.trim().length > 0 &&
+      this.errorEmail === null && this.errorPhone === null && this.errorName === null;
   }
 
   activeMatProgressBar() {

@@ -16,4 +16,8 @@ export class CommonService {
   getAllAvailableCenterTypes(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_center_types);
   }
+
+  getAllAvailableUsers(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_available_user);
+  }
 }
