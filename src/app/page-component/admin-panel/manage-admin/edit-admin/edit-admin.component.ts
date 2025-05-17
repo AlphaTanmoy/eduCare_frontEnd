@@ -143,8 +143,10 @@ export class EditAdminComponent {
   }
 
   isValid(): boolean {
-    return this.adminName.trim().length > 0 && this.adminEmail.trim().length > 0 && this.adminPhone.length > 0 &&
-      this.errorEmail === null && this.errorPhone === null && this.errorName === null;
+    return this.adminName.trim().length > 0 && this.adminEmail.trim().length > 0 && parseInt(this.adminPhone) > 0 &&
+      this.errorEmail === null && this.errorPhone === null && this.errorName === null && (this.adminName !== this.adminInfoOld.user_name ||
+        this.adminEmail !== this.adminInfoOld.email || this.adminPhone !== this.adminInfoOld.phone ||
+        this.admin_data_status !== this.adminInfoOld.data_status);
   }
 
   activeMatProgressBar() {
