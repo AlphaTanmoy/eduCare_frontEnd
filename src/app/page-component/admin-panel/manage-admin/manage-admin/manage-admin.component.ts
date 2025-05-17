@@ -8,7 +8,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
-import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -33,9 +33,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
   YesNoStatus = YesNoStatus;
 
   faEdit = faEdit;
-  faEye = faEye;
-  faDownload = faDownload;
-  faCircleInfo = faCircleInfo;
+  faTrash = faTrash;
   faCircleXmark = faCircleXmark;
 
   matProgressBarVisible = false;
@@ -69,8 +67,6 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
             this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
             return;
           }
-
-          console.log(response.data);
 
           this.dataSource.data = response.data;
           this.totalCount = response.data.length;

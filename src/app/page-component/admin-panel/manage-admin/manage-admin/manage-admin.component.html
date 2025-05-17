@@ -86,7 +86,7 @@
                                     [icon]="faEdit" (click)="EditAdmin(admin._id)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-danger" title="Delete Admin"
-                                    [icon]="faDownload" (click)="DeleteAdmin(admin._id)"></fa-icon>
+                                    [icon]="faTrash" (click)="DeleteAdmin(admin._id)"></fa-icon>
                             </div>
                         </td>
                     </ng-container>
@@ -104,7 +104,7 @@
 
             <div class="text-center mt-3">
                 <span *ngIf="totalCount === 0" class="text-secondary align-center"><fa-icon
-                        [icon]="faCircleXmark"></fa-icon> No Franchise Centers Found</span>
+                        [icon]="faCircleXmark"></fa-icon> No Admins Found</span>
             </div>
 
         </div>
