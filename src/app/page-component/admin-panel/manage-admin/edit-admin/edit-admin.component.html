@@ -9,19 +9,36 @@
         <label for="courseName">Admin Name<span class="text-danger">*</span></label>
         <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="adminName"
             (input)="onAdminNameInput($event)" required />
+        <span *ngIf="errorName" class="text-danger">{{ errorName }}</span>
     </div>
 
     <div class="form-group mt-2">
         <label>Admin Email<span class="text-danger">*</span></label>
         <input type="text" class="form-control mb-1" [(ngModel)]="adminEmail" (input)="onAdminEmailInput($event)"
             required />
+        <span *ngIf="errorEmail" class="text-danger">{{ errorEmail }}</span>
     </div>
 
     <div class="form-group mt-2">
         <label>Admin Phone Number<span class="text-danger">*</span></label>
         <input type="number" class="form-control mb-1" [(ngModel)]="adminPhone" (input)="onAdminPhoneInput($event)"
             required />
+        <span *ngIf="errorPhone" class="text-danger">{{ errorPhone }}</span>
     </div>
 
-    <button [disabled]="matProgressBarVisible" class="btn btn-primary btn-sm float-end mt-3" (click)="submit()">Submit</button>
+    <div class="d-flex mt-2">
+        <span class="me-2">Data Status : </span>
+        <div class="form-check form-switch">
+            <input class="form-check-input me-2" type="checkbox" id="flexSwitchCheckChecked"
+                [checked]="admin_data_status === ActiveInactiveStatus.ACTIVE" [ngModelOptions]="{standalone: true}"
+                [ngModel]="admin_data_status === ActiveInactiveStatus.ACTIVE" (ngModelChange)="onStatusChange($event)">
+            <label class="form-check-label" for="flexSwitchCheckChecked">{{admin_data_status
+                ===
+                ActiveInactiveStatus.ACTIVE ?
+                'Active' : 'Inactive'}}</label>
+        </div>
+    </div>
+
+    <button [disabled]="matProgressBarVisible || !isValid()" class="btn btn-primary btn-sm float-end mt-3"
+        (click)="submit()">Submit</button>
 </div>
