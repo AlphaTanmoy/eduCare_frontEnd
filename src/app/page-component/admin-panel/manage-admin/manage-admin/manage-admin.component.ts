@@ -134,7 +134,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
     removeBootstrap(this.bootstrapElements);
   }
 
-  AddAdmin(){
+  AddAdmin() {
     window.location.href = "admin-panel/create-admin";
   }
 
