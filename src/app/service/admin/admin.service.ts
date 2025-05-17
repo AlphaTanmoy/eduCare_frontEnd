@@ -40,4 +40,8 @@ export class AdminService {
   CreateAdmin(Admin: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.admin.create_admin, { data: Admin });
   }
+
+  DeleteAdmin(id: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.admin.delete_admin, { id: id });
+  }
 }

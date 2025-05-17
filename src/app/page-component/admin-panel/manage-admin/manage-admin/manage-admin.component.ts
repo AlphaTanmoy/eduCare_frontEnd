@@ -60,9 +60,12 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
   }
 
   async getAdmins() {
+    this.activeMatProgressBar();
+
     this.adminService.GetAllAdmins().subscribe({
       next: (response) => {
         try {
+          this.hideMatProgressBar();
           if (response.status !== 200) {
             this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
             return;
@@ -71,10 +74,12 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
           this.dataSource.data = response.data;
           this.totalCount = response.data.length;
         } catch (error) {
+          this.hideMatProgressBar();
           this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
         }
       },
       error: (err) => {
+        this.hideMatProgressBar();
         this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
@@ -108,24 +113,28 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
   }
 
   DeleteAdmin(admin_id: string) {
-    console.log(admin_id)
-    // this.activeMatProgressBar();
+    this.activeMatProgressBar();
 
-    // this.franchiseService.GetFileStreamByFolderAndFilename(center_id, FranchiseDocumentName.SUPPORTABLE_DOCUMENT).subscribe({
-    //   next: async (blob: Blob) => {
-    //     let center_document = URL.createObjectURL(blob);
-    //     this.hideMatProgressBar();
+    this.adminService.DeleteAdmin(admin_id).subscribe({
+      next: (response) => {
+        try {
+          if (response.status !== 200) {         
+            this.hideMatProgressBar();
+            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
 
-    //     const link = document.createElement('a');
-    //     link.href = center_document;
-    //     link.download = `${FranchiseDocumentName.SUPPORTABLE_DOCUMENT}.pdf`;
-    //     link.click();
-    //   },
-    //   error: (err) => {
-    //     this.hideMatProgressBar();
-    //     this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-    //   }
-    // });
+          this.getAdmins();
+        } catch (error : any) {
+          this.hideMatProgressBar();
+          this.openDialog("Admin", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   ngOnDestroy(): void {
