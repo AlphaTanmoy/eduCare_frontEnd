@@ -39,6 +39,11 @@
         </div>
     </div>
 
-    <button [disabled]="matProgressBarVisible || !isValid()" class="btn btn-primary btn-sm float-end mt-3"
-        (click)="submit()">Submit</button>
+    <div class="float-end mt-3">
+        <button [disabled]="matProgressBarVisible" class="btn btn-primary btn-sm me-2"
+            (click)="updateDefaultAdminInfo()">Reset</button>
+        <button [disabled]="matProgressBarVisible || !isValid()" class="btn btn-primary btn-sm"
+            (click)="submit()">Submit</button>
+    </div>
+
 </div>
