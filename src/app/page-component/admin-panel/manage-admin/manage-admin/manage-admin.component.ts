@@ -118,13 +118,13 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
     this.adminService.DeleteAdmin(admin_id).subscribe({
       next: (response) => {
         try {
-          if (response.status !== 200) {         
-            this.hideMatProgressBar();
-            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
-            return;
-          }
+          this.hideMatProgressBar();
 
-          this.getAdmins();
+          if (response.status === 200) {         
+            this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, true);
+          }else{       
+            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+          }
         } catch (error : any) {
           this.hideMatProgressBar();
           this.openDialog("Admin", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
@@ -160,7 +160,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (pageReloadNeeded) {
-        location.reload();
+        this.getAdmins();
       }
     });
   }
