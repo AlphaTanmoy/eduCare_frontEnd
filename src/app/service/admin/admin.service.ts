@@ -33,6 +33,10 @@ export class AdminService {
     return this.http.post<any>(GetBaseURL() + Endpoints.admin.update_whatsapp, { whatsapp: Whatsapp });
   }
 
+  GetAllAdmins(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.admin.get_all_admin);
+  }
+
   CreateAdmin(Admin: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.admin.create_admin, { data: Admin });
   }

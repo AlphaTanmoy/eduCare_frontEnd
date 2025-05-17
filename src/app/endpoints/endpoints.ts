@@ -22,6 +22,7 @@ export const Endpoints = {
     update_facebook: "admin/update_facebook",
     update_youtube: "admin/update_youtube",
     update_whatsapp: "admin/update_whatsapp",
+    get_all_admin: "admin/get_all_admin",
     create_admin: "admin/create_admin"
   },
   enums: {
