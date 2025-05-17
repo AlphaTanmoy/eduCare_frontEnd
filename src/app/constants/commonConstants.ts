@@ -77,6 +77,16 @@ export const ActiveInactiveStatusDescriptions: Record<ActiveInactiveStatus, stri
   [ActiveInactiveStatus.INACTIVE]: 'Inactive',
 };
 
+export enum YesNoStatus {
+  YES = 1,
+  NO = 0,
+}
+
+export const YesNoStatusDescriptions: Record<YesNoStatus, string> = {
+  [YesNoStatus.YES]: 'Yes',
+  [YesNoStatus.NO]: 'No',
+};
+
 export enum ApproveRejectionStatus {
   PENDING = 0,
   APPROVED = 1,

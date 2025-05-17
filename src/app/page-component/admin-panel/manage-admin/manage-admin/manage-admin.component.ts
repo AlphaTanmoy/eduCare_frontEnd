@@ -12,7 +12,7 @@ import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawe
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, FranchiseDocumentName, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, YesNoStatus, YesNoStatusDescriptions, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { firstValueFrom } from 'rxjs';
@@ -25,10 +25,12 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ManageAdminComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
-  ApproveRejectionStatusDescriptions = ApproveRejectionStatusDescriptions;
-  ApproveRejectionStatus = ApproveRejectionStatus;
+
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
+
+  YesNoStatusDescriptions = YesNoStatusDescriptions;
+  YesNoStatus = YesNoStatus;
 
   faEdit = faEdit;
   faEye = faEye;
@@ -91,12 +93,12 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
-  GetDataStatusLabel(value: string): string {
-    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
+  GetVerificationStatusLabel(value: number): string {
+    return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
   }
 
-  GetApprovalStatusLabel(value: number): string {
-    return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
+  GetDataStatusLabel(value: string): string {
+    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
 
   GetFormattedAddress(value: string): string {
