@@ -70,7 +70,7 @@ export class CreateAdminComponent {
     this.errorEmail = null;
 
     if (this.registeredAdminEmail.includes(this.adminEmail.toLowerCase())) {
-      this.errorEmail = "Admin with this email already exists";
+      this.errorEmail = "An user with this email already exists";
     }
   }
 
@@ -80,7 +80,7 @@ export class CreateAdminComponent {
     this.errorPhone = null;
 
     if (this.registeredAdminPhone.includes(this.adminPhone.toLowerCase())) {
-      this.errorPhone = "Admin with this phone number already exists";
+      this.errorPhone = "An user with this phone number already exists";
     }
   }
 
