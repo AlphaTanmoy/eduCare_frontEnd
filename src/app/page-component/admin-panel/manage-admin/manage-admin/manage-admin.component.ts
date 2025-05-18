@@ -16,6 +16,7 @@ import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, YesNoStatus, Ye
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { firstValueFrom } from 'rxjs';
+import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 
 @Component({
   selector: 'app-manage-admin',
@@ -113,26 +114,34 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
   }
 
   DeleteAdmin(admin_id: string) {
-    this.activeMatProgressBar();
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, {
+      data: { text: "Do you want to delete this admin?" }
+    });
 
-    this.adminService.DeleteAdmin(admin_id).subscribe({
-      next: (response) => {
-        try {
-          this.hideMatProgressBar();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.activeMatProgressBar();
 
-          if (response.status === 200) {         
-            this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, true);
-          }else{       
-            this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+        this.adminService.DeleteAdmin(admin_id).subscribe({
+          next: (response) => {
+            try {
+              this.hideMatProgressBar();
+
+              if (response.status === 200) {
+                this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, true);
+              } else {
+                this.openDialog("Admin", response.message, ResponseTypeColor.ERROR, false);
+              }
+            } catch (error: any) {
+              this.hideMatProgressBar();
+              this.openDialog("Admin", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+            }
+          },
+          error: (err) => {
+            this.hideMatProgressBar();
+            this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
           }
-        } catch (error : any) {
-          this.hideMatProgressBar();
-          this.openDialog("Admin", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
-        }
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
+        });
       }
     });
   }
