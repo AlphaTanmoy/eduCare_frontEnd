@@ -381,9 +381,9 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
 
   async submit_center_head_details() {
     try {
-      this.activeMatProgressBar();
       const isValid = await this.validateCenterHeadForm();
       if (!isValid) return;
+      this.activeMatProgressBar();
 
       const center_head_details = {
         center_head_id: this.center_head_id,
@@ -423,6 +423,7 @@ export class EditFranchiseComponent implements OnInit, OnDestroy {
     try {
       const isValid = await this.validateCenterDetailsForm();
       if (!isValid) return;
+      this.activeMatProgressBar();
 
       const center_details = {
         center_id: this.center_id,
