@@ -200,6 +200,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
           ? Endpoints.course.delete_parent_category
           : Endpoints.course.delete_sub_category;
 
+        this.activeMatProgressBar();
+
         this.courseService.deleteCourse(endpoint, id).subscribe({
           next: () => {
             this.openDialog("Course",
@@ -210,6 +212,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
             this.fetchCourses();
           },
           error: (error) => {
+            this.hideMatProgressBar();
             this.openDialog("Course",
               isParent ?
                 "Failed to delete course category" :
