@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectionStatus, ApproveRejectionStatusDescriptions, FranchiseDocumentName, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
 
 @Component({
@@ -30,6 +31,8 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   ApproveRejectionStatus = ApproveRejectionStatus;
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
+  YesNoStatus = YesNoStatus;
+  YesNoStatusDescriptions = YesNoStatusDescriptions;
 
   faEdit = faEdit;
   faEye = faEye;
@@ -46,7 +49,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'approve_or_reject', 'created_at', 'action'];
+  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'is_email_verified', 'approve_or_reject', 'created_at', 'action'];
 
   canApproveReject: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -83,6 +86,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
         return;
       }
+
       this.dataSource.data = res.data[0].franchises;
       this.totalCount = res.data[0].total_documents;
     } catch (error) {
@@ -107,6 +111,10 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   GetApprovalStatusLabel(value: number): string {
     return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
+  }
+
+  GetIsEmailVerifiedLabel(value: number): string {
+    return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
   }
 
   GetFormattedAddress(value: string): string {
@@ -185,7 +193,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     removeBootstrap(this.bootstrapElements);
   }
 
-  redirectToAddFranchise(){
+  redirectToAddFranchise() {
     window.location.href = "academic/apply-franchise";
   }
 
