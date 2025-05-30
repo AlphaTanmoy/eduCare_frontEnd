@@ -50,15 +50,13 @@ export class LoginComponent {
             console.log('Selected User Type -> ', userType);
 
             if (jwtUserRole !== userType) {
-              this.authService.logout();
-              this.openDialog("Login", `Your credential has ${jwtUserRole} role assigned.`, ResponseTypeColor.INFO, null);
+              this.openDialog("Login", `Your credential has ${jwtUserRole} role assigned.`, ResponseTypeColor.INFO, 'logout');
               return;
             }
 
             this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "/home");
           } catch (error) {
-            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, null);
-            this.authService.logout();
+            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, 'logout');
           }
         } else {
           this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, null);
@@ -75,7 +73,11 @@ export class LoginComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (navigateRoute) {
-        window.location.href = navigateRoute;
+        if (navigateRoute === 'logout') {
+          this.authService.logout();
+        } else {
+          window.location.href = navigateRoute;
+        }
       }
     });
   }
