@@ -45,12 +45,18 @@ export class LoginComponent {
           try {
             const decodedToken: any = jwtDecode(token);
             const jwtUserRole = decodedToken?.user_role;
+            const verified = (decodedToken?.is_verified && decodedToken?.email_verified & decodedToken?.data_status);
 
             console.log('JWT User Role -> ', jwtUserRole);
             console.log('Selected User Type -> ', userType);
 
             if (jwtUserRole !== userType) {
               this.openDialog("Login", `Your credential has ${jwtUserRole} role assigned.`, ResponseTypeColor.INFO, 'logout');
+              return;
+            }
+
+            if (verified === false) {
+              this.openDialog("Login", `Your account is not verified. Please verify your account.`, ResponseTypeColor.INFO, 'logout');
               return;
             }
 
