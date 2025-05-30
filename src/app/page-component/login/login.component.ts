@@ -6,7 +6,7 @@ import { AuthService } from '../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
-import { IndexedDBItemKey, ResponseTypeColor } from '../../constants/commonConstants';
+import { ActiveInactiveStatus, IndexedDBItemKey, ResponseTypeColor } from '../../constants/commonConstants';
 import { Router } from '@angular/router';
 import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
 
@@ -45,7 +45,7 @@ export class LoginComponent {
           try {
             const decodedToken: any = jwtDecode(token);
             const jwtUserRole = decodedToken?.user_role;
-            const verified = (decodedToken?.is_verified && decodedToken?.email_verified & decodedToken?.data_status);
+            const verified = (decodedToken?.is_verified || decodedToken?.email_verified || decodedToken?.data_status === ActiveInactiveStatus.INACTIVE);
 
             console.log('JWT User Role -> ', jwtUserRole);
             console.log('Selected User Type -> ', userType);
