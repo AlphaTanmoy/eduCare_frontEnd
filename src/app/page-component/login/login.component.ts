@@ -45,7 +45,8 @@ export class LoginComponent {
           try {
             const decodedToken: any = jwtDecode(token);
             const jwtUserRole = decodedToken?.user_role;
-            const verified = (decodedToken?.is_verified || decodedToken?.email_verified || decodedToken?.data_status === ActiveInactiveStatus.INACTIVE);
+            console.log(decodedToken)
+            const not_verified = ((decodedToken?.is_verified && decodedToken?.is_verified === false) || (decodedToken?.email_verified && decodedToken?.email_verified === false) || (decodedToken?.data_status && decodedToken?.data_status === ActiveInactiveStatus.INACTIVE));
 
             console.log('JWT User Role -> ', jwtUserRole);
             console.log('Selected User Type -> ', userType);
@@ -55,7 +56,7 @@ export class LoginComponent {
               return;
             }
 
-            if (verified === false) {
+            if (not_verified) {
               this.openDialog("Login", `Your account is not verified. Please verify your account.`, ResponseTypeColor.INFO, 'logout');
               return;
             }
