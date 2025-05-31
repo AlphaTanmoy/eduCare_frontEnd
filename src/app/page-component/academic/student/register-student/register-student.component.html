@@ -1,1 +1,19 @@
-<p>register-student works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mt-4">
+    <div class="header text-center">
+        <h2>Create Admin</h2>
+    </div>
+
+    <div class="form-group mt-2">
+        <label for="courseName">Student Name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control mb-1" [(ngModel)]="student_name" required />
+    </div>
+
+    <div class="form-group mt-2">
+        <app-custom-date-picker [placeholder]="'Student Date of Birth'" [defaultDate]="someDate" (dateChanged)="onDateSelected($event)"></app-custom-date-picker>
+    </div>
+
+    <button [disabled]="matProgressBarVisible || !isValid()" class="btn btn-primary btn-sm float-end mt-3"
+        (click)="submit()">Submit</button>
+</div>
