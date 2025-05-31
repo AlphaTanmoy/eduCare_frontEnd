@@ -92,6 +92,7 @@ export class RegisterStudentComponent {
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
+    this.setStepperOrientation();
   }
 
   @HostListener('window:resize', ['$event'])
