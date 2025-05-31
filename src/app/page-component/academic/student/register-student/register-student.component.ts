@@ -65,13 +65,13 @@ export class RegisterStudentComponent {
   gender_option: Dropdown[] = Gender;
 
   student_name: string = '';
-  student_Adhar_number: string = '';
+  student_Adhar_number: number | null = null;
   student_DOB: Date | null = null;
   student_maratial_status: string = '';
   student_gender: string = '';
   student_email: string = '';
-  student_phone_no: string = '';
-  student_whats_app: string = '';
+  student_phone_no: number | null = null;
+  student_whats_app: number | null = null
 
   student_fathers_name: string = '';
   student_mothers_name: string = '';
@@ -121,8 +121,11 @@ export class RegisterStudentComponent {
 
   }
 
-  isValid() {
-    return true;
+  isNotValid() {
+    return (this.terms_and_conditions_status === false || this.student_name === '' || this.student_Adhar_number === null || this.student_DOB === null || 
+      this.student_maratial_status === '' || this.student_gender === '' || this.student_email === '' || this.student_phone_no === null ||
+      this.student_guardians_number === null || this.student_state === '' || this.student_district === '' || this.student_post_office === '' || 
+      this.student_village_city === '' || this.student_pincode === '');
   }
 
   setStepperOrientation() {

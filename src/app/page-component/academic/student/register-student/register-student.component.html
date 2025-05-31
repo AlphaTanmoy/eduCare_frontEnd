@@ -210,7 +210,7 @@
                                 (termsAndConditionStatus)="TermsAndConditionStatus($event)"></app-terms-and-conditions>
                         </div>
 
-                        <button [disabled]="matProgressBarVisible || !isValid()"
+                        <button [disabled]="matProgressBarVisible || isNotValid()"
                             class="btn btn-primary btn-sm float-end mt-3" (click)="submit()">Submit</button>
                     </form>
                 </mat-step>
