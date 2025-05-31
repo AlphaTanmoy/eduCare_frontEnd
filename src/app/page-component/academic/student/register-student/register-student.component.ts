@@ -6,11 +6,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { CustomDatePickerComponent } from '../../../../common-component/custom-date-picker/custom-date-picker.component';
-import { Dropdown, Gender, MaritalStatus } from '../../../../constants/commonConstants';
+import { Dropdown, Gender, MaritalStatus, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
+import { StudentService } from '../../../../service/student/student.service';
 
 @Component({
   selector: 'app-register-student',
@@ -33,6 +34,7 @@ import { TermsAndConditionsComponent } from '../../../../common-component/terms-
 export class RegisterStudentComponent {
   constructor(
     private cdr: ChangeDetectorRef,
+    private studentService: StudentService,
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -149,7 +151,46 @@ export class RegisterStudentComponent {
   }
 
   submit() {
+    const obj = {
+      student_name: this.student_name,
+      student_Adhar_number: this.student_Adhar_number,
+      student_DOB: this.student_DOB,
+      student_maratial_status: this.student_maratial_status,
+      student_gender: this.student_gender,
+      student_email: this.student_email,
+      student_phone_no: this.student_phone_no,
+      student_whats_app: this.student_whats_app,
+      student_fathers_name: this.student_fathers_name,
+      student_mothers_name: this.student_mothers_name,
+      student_husbands_name: this.student_husbands_name,
+      student_wifes_name: this.student_wifes_name,
+      student_guardians_number: this.student_guardians_number,
+      student_state: this.student_state,
+      student_district: this.student_district,
+      student_post_office: this.student_post_office,
+      student_village_city: this.student_village_city,
+      student_pincode: this.student_pincode,
+    }
 
+    this.activeMatProgressBar();
+
+    this.studentService.CreateStudent(obj).subscribe({
+      next: (response) => {
+        if (response.status === 200) {
+          this.hideMatProgressBar();
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+          // will redirect to student manage panel
+          return;
+        }
+
+        this.hideMatProgressBar();
+        this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   isNotValid() {

@@ -72,5 +72,8 @@ export const Endpoints = {
     delete_sub_category: 'sub-category/delete',
     get_course: 'parent-category/byCode',
     edit_sub_course: 'parent-category/edit-sub-course'
+  },
+  student: {
+    create_student: "student/create_student",
   }
 }
