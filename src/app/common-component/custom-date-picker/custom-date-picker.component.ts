@@ -32,7 +32,7 @@ export class CustomDatePickerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['defaultDate']) {
       this.initializeDate();
-      this.cdr.markForCheck(); // Trigger change detection
+      this.cdr.markForCheck();
     }
     if (changes['placeholder']) {
       this.defaultPlaceholder = this.placeholder;
@@ -42,7 +42,6 @@ export class CustomDatePickerComponent implements OnInit, OnChanges {
 
   private initializeDate() {
     this.selectedDate = this.defaultDate ? new Date(this.defaultDate) : null;
-    console.log('Selected date initialized:', this.selectedDate);
   }
 
   onDateChange(event: any) {
