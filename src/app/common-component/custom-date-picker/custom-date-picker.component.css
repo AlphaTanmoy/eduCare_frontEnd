@@ -1,9 +1,9 @@
-::ng-deep .mat-calendar-body-selected{
+::ng-deep .mat-calendar-body-selected {
     background-color: var(--light-blue) !important;
     color: white !important;
 }
 
-.mat-calendar-body-selected{
+.mat-calendar-body-selected {
     background-color: var(--light-blue) !important;
     color: white !important;
 }
