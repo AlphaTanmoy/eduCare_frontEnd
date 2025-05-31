@@ -117,6 +117,18 @@ export class RegisterStudentComponent {
     this.terms_and_conditions_status = status;
   }
 
+  reset_basic_details_form(){
+
+  }
+
+  reset_family_details_form(){
+    
+  }
+
+  reset_address_form(){
+    
+  }
+
   submit() {
 
   }
