@@ -168,7 +168,7 @@
                         </ng-template>
 
                         <div class="row mb-3 mt-2">
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Village/City<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
@@ -176,19 +176,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Post Office<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_post_office" required />
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-4 mb-2">
-                                <div class="form-group mt-2">
-                                    <label for="courseName">District<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_district" required />
                                 </div>
                             </div>
                         </div>
@@ -196,12 +188,22 @@
                         <div class="row mb-3 mt-2">
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
+                                    <label for="courseName">District<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_district" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
                                     <label for="courseName">State<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_state" required />
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row mb-3 mt-2">
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Pincode<span class="text-danger">*</span></label>
