@@ -96,7 +96,7 @@
                         </ng-template>
 
                         <div class="row mb-3 mt-2">
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Father's Name</label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
@@ -104,20 +104,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Mother's Name</label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_mothers_name" required />
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-4 mb-2">
-                                <div class="form-group mt-2">
-                                    <label for="courseName">Gurardian's Phone Number<span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_guardians_number" required />
                                 </div>
                             </div>
                         </div>
@@ -136,6 +127,17 @@
                                     <label for="courseName">Wife's Name</label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_wifes_name" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Gurardian's Phone Number<span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_guardians_number" required />
                                 </div>
                             </div>
                         </div>
