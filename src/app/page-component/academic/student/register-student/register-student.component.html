@@ -239,10 +239,13 @@
                         </div>
 
 
-                        <div>
+                        <div class="d-flex justify-content-between">
                             <button class="btn btn-primary btn-sm" matStepperPrevious>Back</button>
-                            <button [disabled]="matProgressBarVisible || isNotValid()"
-                                class="btn btn-primary btn-sm float-end mt-3" (click)="submit()">Submit</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button [disabled]="matProgressBarVisible || isNotValid()" class="btn btn-primary btn-sm"
+                                    (click)="submit()">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </mat-step>
