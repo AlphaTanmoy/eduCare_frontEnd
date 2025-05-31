@@ -27,14 +27,6 @@ export class RegisterStudentComponent {
   student_name: string = '';
   student_DOB: Date = new Date();
 
-  someDate: Date = this.getTwoDaysBefore();
-
-  getTwoDaysBefore(): Date {
-    const d = new Date();
-    d.setDate(d.getDate() - 3);
-    return d;
-  }
-
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
   }
