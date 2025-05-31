@@ -35,7 +35,7 @@
                         <div class="row mb-3 mt-2">
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
-                                    <app-custom-date-picker [placeholder]="'Date of Birth'"
+                                    <app-custom-date-picker [placeholder]="'Date of Birth'" *ngIf="form1_visible"
                                         (dateChanged)="onDobSelected($event)">
                                     </app-custom-date-picker>
                                 </div>
@@ -44,7 +44,8 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
-                                        [ariaLabel]="'Select Marital Status'" [selectedOptions]="null"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Marital Status'"
+                                        [selectedOptions]="null"
                                         (selectionChange)="handleMaritalStatusSelection($event)">
                                     </app-custom-single-select-searchable-dropdown>
                                 </div>
@@ -53,7 +54,7 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-single-select-searchable-dropdown [options]="gender_option"
-                                        [ariaLabel]="'Select Gender'" [selectedOptions]="null"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'" [selectedOptions]="null"
                                         (selectionChange)="handleGenderSelection($event)">
                                     </app-custom-single-select-searchable-dropdown>
                                 </div>
@@ -186,7 +187,7 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">District<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_district" required />
                                 </div>
                             </div>
@@ -204,7 +205,7 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Pincode<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="student_pincode" required />
                                 </div>
                             </div>

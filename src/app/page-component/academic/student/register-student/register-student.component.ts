@@ -64,6 +64,7 @@ export class RegisterStudentComponent {
   marital_status_option: Dropdown[] = MaritalStatus;
   gender_option: Dropdown[] = Gender;
 
+  form1_visible: boolean = true;
   student_name: string = '';
   student_Adhar_number: number | null = null;
   student_DOB: Date | null = null;
@@ -83,7 +84,7 @@ export class RegisterStudentComponent {
   student_district: string = '';
   student_post_office: string = '';
   student_village_city: string = '';
-  student_pincode: string = '';
+  student_pincode: number | null = null;
 
   terms_and_conditions_status: boolean = false;
 
@@ -117,16 +118,34 @@ export class RegisterStudentComponent {
     this.terms_and_conditions_status = status;
   }
 
-  reset_basic_details_form(){
+  reset_basic_details_form() {
+    this.student_name = '';
+    this.student_Adhar_number = null;
+    this.student_DOB = null;
+    this.student_maratial_status = '';
+    this.student_gender = '';
+    this.student_email = '';
+    this.student_phone_no = null;
+    this.student_whats_app = null;
 
+    this.form1_visible = false;
+    setTimeout(() => this.form1_visible = true);
   }
 
-  reset_family_details_form(){
-    
+  reset_family_details_form() {
+    this.student_fathers_name = '';
+    this.student_mothers_name = '';
+    this.student_husbands_name = '';
+    this.student_wifes_name = '';
+    this.student_guardians_number = null;
   }
 
-  reset_address_form(){
-    
+  reset_address_form() {
+    this.student_state = '';
+    this.student_district = '';
+    this.student_post_office = '';
+    this.student_village_city = '';
+    this.student_pincode = null;
   }
 
   submit() {
@@ -134,10 +153,10 @@ export class RegisterStudentComponent {
   }
 
   isNotValid() {
-    return (this.terms_and_conditions_status === false || this.student_name === '' || this.student_Adhar_number === null || this.student_DOB === null || 
+    return (this.terms_and_conditions_status === false || this.student_name === '' || this.student_Adhar_number === null || this.student_DOB === null ||
       this.student_maratial_status === '' || this.student_gender === '' || this.student_email === '' || this.student_phone_no === null ||
-      this.student_guardians_number === null || this.student_state === '' || this.student_district === '' || this.student_post_office === '' || 
-      this.student_village_city === '' || this.student_pincode === '');
+      this.student_guardians_number === null || this.student_state === '' || this.student_district === '' || this.student_post_office === '' ||
+      this.student_village_city === '' || this.student_pincode === null);
   }
 
   setStepperOrientation() {
