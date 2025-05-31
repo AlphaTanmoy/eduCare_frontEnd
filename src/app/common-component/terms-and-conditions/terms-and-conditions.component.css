@@ -20,8 +20,11 @@
 
 .tanc_checkbox_div{
     margin-top: 1rem;
+    display: flex;
+    align-items: center;
 }
 
 .checkbox_tandc{
     margin-right: 0.5rem;
+    margin-top: -2px;
 }
