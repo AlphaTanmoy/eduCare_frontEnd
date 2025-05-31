@@ -67,6 +67,12 @@ export const Gender = [
   new Dropdown("3", 'Other'),
 ]
 
+export const MaritalStatus = [
+  new Dropdown("1", 'Unmarried'),
+  new Dropdown("2", 'Married'),
+  new Dropdown("3", 'Other'),
+]
+
 export enum ActiveInactiveStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",

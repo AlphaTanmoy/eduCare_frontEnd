@@ -14,9 +14,37 @@
         </div>
 
         <div class="col-12 col-md-6 mb-2">
+            <div class="col-12 col-md-6 mb-2" style="margin-top: -0.5rem;">
+                <div class="form-group mt-2">
+                    <label for="courseName">Aadhar Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control mb-1" [(ngModel)]="student_Adhar_number" required />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 mt-2">
+        <div class="col-12 col-md-4 mb-2">
             <div class="form-group mt-2">
-                <app-custom-date-picker [placeholder]="'Student Date of Birth'"
-                    (dateChanged)="onDateSelected($event)"></app-custom-date-picker>
+                <app-custom-date-picker [placeholder]="'Date of Birth'" (dateChanged)="onDobSelected($event)">
+                </app-custom-date-picker>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-2">
+            <div class="form-group mt-2">
+                <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
+                    [ariaLabel]="'Select Marital Status'" [selectedOptions]="null"
+                    (selectionChange)="handleMaritalStatusSelection($event)">
+                </app-custom-single-select-searchable-dropdown>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-2">
+            <div class="form-group mt-2">
+                <app-custom-single-select-searchable-dropdown [options]="gender_option" [ariaLabel]="'Select Gender'"
+                    [selectedOptions]="null" (selectionChange)="handleGenderSelection($event)">
+                </app-custom-single-select-searchable-dropdown>
             </div>
         </div>
     </div>
