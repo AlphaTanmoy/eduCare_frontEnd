@@ -1,55 +1,218 @@
 <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
 
 <div class="container mt-4">
-    <div class="header text-center">
-        <h2>Register Student</h2>
+    <h2 class="m-4 text-center">Register Student</h2>
+    
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <mat-stepper [orientation]="stepperOrientation" [linear]="isLinear" #stepper
+                (selectionChange)="onStepChange($event)">
+                <!-- Step 1 -->
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Basic Details</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Student Name<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Aadhar Number<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_Adhar_number" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-date-picker [placeholder]="'Date of Birth'"
+                                        (dateChanged)="onDobSelected($event)">
+                                    </app-custom-date-picker>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
+                                        [ariaLabel]="'Select Marital Status'" [selectedOptions]="null"
+                                        (selectionChange)="handleMaritalStatusSelection($event)">
+                                    </app-custom-single-select-searchable-dropdown>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-single-select-searchable-dropdown [options]="gender_option"
+                                        [ariaLabel]="'Select Gender'" [selectedOptions]="null"
+                                        (selectionChange)="handleGenderSelection($event)">
+                                    </app-custom-single-select-searchable-dropdown>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Email<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_email" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Phone<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_phone_no" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Whatsapp</label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_whats_app" required />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 2 -->
+                <mat-step [stepControl]="secondFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 1 }">Family Details</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Father's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_fathers_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Mother's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_mothers_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Gurardian's Phone Number<span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_guardians_number" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Husband's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_husbands_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Wife's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_wifes_name" required />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 3 -->
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="thirdFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Address</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Village/City<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_village_city" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Post Office<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_post_office" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">District<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_district" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">State<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_state" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Pincode<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_pincode" required />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 4 -->
+                <mat-step [stepControl]="forthFormGroup">
+                    <form [formGroup]="forthFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 3 }">Terms &
+                                Conditions</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-3">
+                            <app-terms-and-conditions
+                                (termsAndConditionStatus)="TermsAndConditionStatus($event)"></app-terms-and-conditions>
+                        </div>
+
+                        <button [disabled]="matProgressBarVisible || !isValid()"
+                            class="btn btn-primary btn-sm float-end mt-3" (click)="submit()">Submit</button>
+                    </form>
+                </mat-step>
+            </mat-stepper>
+        </div>
     </div>
-
-    <div class="row mb-3 mt-2">
-        <div class="col-12 col-md-6 mb-2" style="margin-top: -0.5rem;">
-            <div class="form-group mt-2">
-                <label for="courseName">Student Name<span class="text-danger">*</span></label>
-                <input type="text" class="form-control mb-1" [(ngModel)]="student_name" required />
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 mb-2">
-            <div class="col-12 col-md-6 mb-2" style="margin-top: -0.5rem;">
-                <div class="form-group mt-2">
-                    <label for="courseName">Aadhar Number<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control mb-1" [(ngModel)]="student_Adhar_number" required />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-3 mt-2">
-        <div class="col-12 col-md-4 mb-2">
-            <div class="form-group mt-2">
-                <app-custom-date-picker [placeholder]="'Date of Birth'" (dateChanged)="onDobSelected($event)">
-                </app-custom-date-picker>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 mb-2">
-            <div class="form-group mt-2">
-                <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
-                    [ariaLabel]="'Select Marital Status'" [selectedOptions]="null"
-                    (selectionChange)="handleMaritalStatusSelection($event)">
-                </app-custom-single-select-searchable-dropdown>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 mb-2">
-            <div class="form-group mt-2">
-                <app-custom-single-select-searchable-dropdown [options]="gender_option" [ariaLabel]="'Select Gender'"
-                    [selectedOptions]="null" (selectionChange)="handleGenderSelection($event)">
-                </app-custom-single-select-searchable-dropdown>
-            </div>
-        </div>
-    </div>
-
-
-    <button [disabled]="matProgressBarVisible || !isValid()" class="btn btn-primary btn-sm float-end mt-3"
-        (click)="submit()">Submit</button>
 </div>
