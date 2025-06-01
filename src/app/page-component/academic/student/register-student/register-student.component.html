@@ -26,8 +26,10 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Aadhar Number<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_Adhar_number" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_Adhar_number" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="12" required />
                                 </div>
                             </div>
                         </div>
@@ -73,16 +75,20 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Phone<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_phone_no" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_phone_no" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" required />
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Whatsapp</label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_whats_app" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_whats_app" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" />
                                 </div>
                             </div>
                         </div>
@@ -142,8 +148,10 @@
                                 <div class="form-group mt-2">
                                     <label for="courseName">Gurardian's Phone Number<span
                                             class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_guardians_number" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_guardians_number" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" required />
                                 </div>
                             </div>
                         </div>
@@ -207,8 +215,10 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Pincode<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="student_pincode" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_pincode" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="6" required />
                                 </div>
                             </div>
                         </div>

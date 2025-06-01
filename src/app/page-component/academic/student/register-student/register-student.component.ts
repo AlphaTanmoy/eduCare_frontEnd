@@ -1,37 +1,39 @@
 import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { Router } from '@angular/router';
+
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { FormGroup, FormBuilder, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CustomDatePickerComponent } from '../../../../common-component/custom-date-picker/custom-date-picker.component';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
+
+import { Dropdown, Gender, MaritalStatus, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { StudentService } from '../../../../service/student/student.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
-import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { CustomDatePickerComponent } from '../../../../common-component/custom-date-picker/custom-date-picker.component';
-import { Dropdown, Gender, MaritalStatus, ResponseTypeColor } from '../../../../constants/commonConstants';
-import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { MatStepperModule } from '@angular/material/stepper';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
-import { StudentService } from '../../../../service/student/student.service';
 import { CommonService } from '../../../../service/common/common.service';
 
 @Component({
   selector: 'app-register-student',
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatProgressBarModule,
-    CustomDatePickerComponent,
-    CustomSingleSelectSearchableDropdownComponent,
-    CommonModule,
-    MatStepperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TermsAndConditionsComponent
-  ],
   standalone: true,
   templateUrl: './register-student.component.html',
   styleUrl: './register-student.component.css',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
+    MatStepperModule,
+    CustomDatePickerComponent,
+    CustomSingleSelectSearchableDropdownComponent,
+    TermsAndConditionsComponent
+  ],
 })
+
 export class RegisterStudentComponent {
   constructor(
     private cdr: ChangeDetectorRef,
@@ -41,12 +43,21 @@ export class RegisterStudentComponent {
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
-  matProgressBarVisible = false;
-  readonly dialog = inject(MatDialog);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private studentService = inject(StudentService);
+  private dialog = inject(MatDialog);
 
-  selectedStepIndex: number = 0;
+  matProgressBarVisible = false;
+
+  selectedStepIndex = 0;
   isLinear = false;
   stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  firstFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
+  secondFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
+  thirdFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
+  forthFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -68,29 +79,30 @@ export class RegisterStudentComponent {
   marital_status_option: Dropdown[] = MaritalStatus;
   gender_option: Dropdown[] = Gender;
 
-  form1_visible: boolean = true;
-  student_name: string = '';
+  form1_visible = true;
+
+  student_name = '';
   student_Adhar_number: number | null = null;
   student_DOB: Date | null = null;
-  student_maratial_status: string = '';
-  student_gender: string = '';
-  student_email: string = '';
+  student_marital_status = '';
+  student_gender = '';
+  student_email = '';
   student_phone_no: number | null = null;
-  student_whats_app: number | null = null
+  student_whats_app: number | null = null;
 
-  student_fathers_name: string = '';
-  student_mothers_name: string = '';
-  student_husbands_name: string = '';
-  student_wifes_name: string = '';
+  student_fathers_name = '';
+  student_mothers_name = '';
+  student_husbands_name = '';
+  student_wifes_name = '';
   student_guardians_number: number | null = null;
 
-  student_state: string = '';
-  student_district: string = '';
-  student_post_office: string = '';
-  student_village_city: string = '';
+  student_state = '';
+  student_district = '';
+  student_post_office = '';
+  student_village_city = '';
   student_pincode: number | null = null;
 
-  terms_and_conditions_status: boolean = false;
+  terms_and_conditions_status = false;
 
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
@@ -112,7 +124,7 @@ export class RegisterStudentComponent {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.setStepperOrientation();
   }
@@ -122,16 +134,15 @@ export class RegisterStudentComponent {
   }
 
   onDobSelected(date: Date) {
-    console.log('Selected date:', date);
     this.student_DOB = date;
   }
 
   handleMaritalStatusSelection(event: any): void {
-    this.student_maratial_status = event.text;
+    this.student_marital_status = event.text.toUpperCase();
   }
 
   handleGenderSelection(event: any): void {
-    this.student_gender = event.text;
+    this.student_gender = event.text.toUpperCase();
   }
 
   TermsAndConditionStatus(status: boolean) {
@@ -142,14 +153,14 @@ export class RegisterStudentComponent {
     this.student_name = '';
     this.student_Adhar_number = null;
     this.student_DOB = null;
-    this.student_maratial_status = '';
+    this.student_marital_status = '';
     this.student_gender = '';
     this.student_email = '';
     this.student_phone_no = null;
     this.student_whats_app = null;
 
     this.form1_visible = false;
-    setTimeout(() => this.form1_visible = true);
+    setTimeout(() => (this.form1_visible = true));
   }
 
   reset_family_details_form() {
@@ -169,53 +180,61 @@ export class RegisterStudentComponent {
   }
 
   submit() {
-    const obj = {
+    const payload = {
       student_name: this.student_name,
-      student_Adhar_number: this.student_Adhar_number,
+      // Convert number fields to strings
+      student_Adhar_number: this.student_Adhar_number?.toString() || '',
       student_DOB: this.student_DOB,
-      student_maratial_status: this.student_maratial_status,
+      student_marital_status: this.student_marital_status,
       student_gender: this.student_gender,
       student_email: this.student_email,
-      student_phone_no: this.student_phone_no,
-      student_whats_app: this.student_whats_app,
+      student_phone_no: this.student_phone_no?.toString() || '',
+      student_whats_app: this.student_whats_app?.toString() || null,
       student_fathers_name: this.student_fathers_name,
       student_mothers_name: this.student_mothers_name,
       student_husbands_name: this.student_husbands_name,
       student_wifes_name: this.student_wifes_name,
-      student_guardians_number: this.student_guardians_number,
+      student_guardians_number: this.student_guardians_number?.toString() || '',
       student_state: this.student_state,
       student_district: this.student_district,
       student_post_office: this.student_post_office,
       student_village_city: this.student_village_city,
-      student_pincode: this.student_pincode,
-    }
-
+      student_pincode: this.student_pincode?.toString() || '',
+    };
+  
     this.activeMatProgressBar();
-
-    this.studentService.CreateStudent(obj).subscribe({
+  
+    this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
-        if (response.status === 200) {
-          this.hideMatProgressBar();
-          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
-          // will redirect to student manage panel
-          return;
-        }
-
         this.hideMatProgressBar();
-        this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        const dialogType = response.status === 200 ? ResponseTypeColor.SUCCESS : ResponseTypeColor.ERROR;
+        this.openDialog('Student', response.message, dialogType, response.status === 200 ? '/students' : null);
       },
-      error: (err) => {
+      error: () => {
         this.hideMatProgressBar();
-        this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
+        this.openDialog('Student', 'Internal server error', ResponseTypeColor.ERROR, null);
       }
     });
   }
+  
 
-  isNotValid() {
-    return (this.terms_and_conditions_status === false || this.student_name === '' || this.student_Adhar_number === null || this.student_DOB === null ||
-      this.student_maratial_status === '' || this.student_gender === '' || this.student_email === '' || this.student_phone_no === null ||
-      this.student_guardians_number === null || this.student_state === '' || this.student_district === '' || this.student_post_office === '' ||
-      this.student_village_city === '' || this.student_pincode === null);
+  isNotValid(): boolean {
+    return (
+      !this.terms_and_conditions_status ||
+      !this.student_name ||
+      !this.student_Adhar_number ||
+      !this.student_DOB ||
+      !this.student_marital_status ||
+      !this.student_gender ||
+      !this.student_email ||
+      !this.student_phone_no ||
+      !this.student_guardians_number ||
+      !this.student_state ||
+      !this.student_district ||
+      !this.student_post_office ||
+      !this.student_village_city ||
+      !this.student_pincode
+    );
   }
 
   setStepperOrientation() {
@@ -243,7 +262,7 @@ export class RegisterStudentComponent {
 
     dialogRef.afterClosed().subscribe(() => {
       if (navigateRoute) {
-        window.location.href = navigateRoute;
+        this.router.navigate([navigateRoute]);
       }
     });
   }
