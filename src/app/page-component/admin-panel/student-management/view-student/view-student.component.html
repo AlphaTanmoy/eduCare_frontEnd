@@ -19,6 +19,7 @@
         <p class="card-text"><span class="fw-bold">Guardian's Number :</span> {{data.student_guardians_number}}</p>
         <p class="card-text"><span class="fw-bold">Associated Center :</span> {{data.associated_franchise}}</p>
         <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{data.enrolled_courses}}</p>
+        <p class="card-text"><span class="fw-bold">Email Verified :</span> {{GetIsEmailVerifiedLabel(data.is_email_verified)}}</p>
         <p class="card-text"><span class="fw-bold">Created At :</span> {{FormatDateTime(data.created_at)}}</p>
     </div>
     <div class="card-footer text-end">
