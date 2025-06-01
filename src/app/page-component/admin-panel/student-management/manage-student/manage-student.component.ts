@@ -13,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEdit, faCircleXmark, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
@@ -32,6 +32,7 @@ export class ManageStudentComponent {
 
   faEdit = faEdit;
   faTrash = faTrash;
+  faEye = faEye;
   faCircleXmark = faCircleXmark;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -68,6 +69,10 @@ export class ManageStudentComponent {
 
   AddStudent() {
     window.location.href = "academic/register-student";
+  }
+
+  ViewStudent(student: any){
+
   }
 
   EditStudent(id: any) {
