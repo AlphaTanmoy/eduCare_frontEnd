@@ -39,13 +39,11 @@ export class RegisterStudentComponent {
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
     private commonService: CommonService,
+    private router: Router,
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   private _formBuilder = inject(FormBuilder);
-  private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private studentService = inject(StudentService);
   private dialog = inject(MatDialog);
 
   matProgressBarVisible = false;
@@ -53,11 +51,6 @@ export class RegisterStudentComponent {
   selectedStepIndex = 0;
   isLinear = false;
   stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
-
-  firstFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
-  secondFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
-  thirdFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
-  forthFormGroup = this._formBuilder.group({ firstCtrl: ['', Validators.required] });
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
