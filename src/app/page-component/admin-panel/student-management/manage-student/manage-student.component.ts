@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { faEdit, faCircleXmark, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { ViewStudentComponent } from '../view-student/view-student.component';
 
 @Component({
   selector: 'app-manage-student',
@@ -72,7 +73,7 @@ export class ManageStudentComponent {
   }
 
   ViewStudent(student: any){
-
+    const dialogRef = this.dialog.open(ViewStudentComponent, { data: student });
   }
 
   EditStudent(id: any) {
