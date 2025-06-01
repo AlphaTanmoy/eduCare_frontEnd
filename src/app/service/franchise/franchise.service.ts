@@ -22,7 +22,7 @@ export class FranchiseService {
   }
 
   GetAllAvailableFranchises(page_number: number, page_size: number): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises, { page_number, page_size });
+    return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises_by_offset, { page_number, page_size });
   }
 
   DoApproveOrReject(operation: number, center_ids: string[]): Observable<any> {

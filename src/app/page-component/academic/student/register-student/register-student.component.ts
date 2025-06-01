@@ -10,7 +10,7 @@ import { CustomDatePickerComponent } from '../../../../common-component/custom-d
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 
-import { Dropdown, Gender, MaritalStatus, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { Dropdown, Gender, MaritalStatus, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
@@ -55,6 +55,8 @@ export class RegisterStudentComponent {
   selectedStepIndex = 0;
   isLinear = false;
   stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  userRole: string | null = null;
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -105,24 +107,31 @@ export class RegisterStudentComponent {
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.setStepperOrientation();
-
-    let userId = this.authService.getUserId();
-    console.log(userId)
     this.activeMatProgressBar();
 
-    this.commonService.getAllAvailableSubCourseByFranchise(userId).subscribe({
-      next: async (response) => {
-        response.data.forEach((element: any) => {
+    this.userRole = this.authService.getUserRole();
+
+    if (this.userRole === UserRole.FRANCHISE) {
+      let userId = this.authService.getUserId();
+
+      this.commonService.getAllAvailableSubCourseByFranchise(userId).subscribe({
+        next: async (response) => {
+          response.data.forEach((element: any) => {
+            this.hideMatProgressBar();
+            this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
+          });
+          console.log(this.available_sub_course_categories)
+        },
+        error: (err) => {
           this.hideMatProgressBar();
-          this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
-        });
-        console.log(this.available_sub_course_categories)
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
-      }
-    });
+          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
+        }
+      });
+    } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
+      
+    } else {
+      this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
+    }
   }
 
   @HostListener('window:resize')
