@@ -168,7 +168,7 @@ export class RegisterStudentComponent {
     this.student_state = '';
     this.student_district = '';
     this.student_post_office = '';
-    this.student_village_city = '';
+    this.student_village_city = ''; 
     this.student_pincode = null;
   }
 
