@@ -109,7 +109,7 @@ export class RegisterStudentComponent {
       next: async (response) => {
         response.data.forEach((element: any) => {
           this.hideMatProgressBar();
-          this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));        
+          this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
         });
         console.log(this.available_sub_course_categories)
       },
@@ -176,7 +176,7 @@ export class RegisterStudentComponent {
     this.student_state = '';
     this.student_district = '';
     this.student_post_office = '';
-    this.student_village_city = ''; 
+    this.student_village_city = '';
     this.student_pincode = null;
   }
 
@@ -203,9 +203,9 @@ export class RegisterStudentComponent {
       student_village_city: this.student_village_city,
       student_pincode: this.student_pincode?.toString() || '',
     };
-  
+
     this.activeMatProgressBar();
-  
+
     this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
@@ -218,7 +218,7 @@ export class RegisterStudentComponent {
       }
     });
   }
-  
+
 
   isNotValid(): boolean {
     return (
