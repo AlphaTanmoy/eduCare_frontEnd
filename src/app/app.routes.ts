@@ -46,6 +46,7 @@ import { EditStudentDetailsComponent } from './page-component/academic/student/e
 import { ManageAdminComponent } from './page-component/admin-panel/manage-admin/manage-admin/manage-admin.component';
 import { CreateAdminComponent } from './page-component/admin-panel/manage-admin/create-admin/create-admin.component';
 import { EditAdminComponent } from './page-component/admin-panel/manage-admin/edit-admin/edit-admin.component';
+import { ManageStudentComponent } from './page-component/admin-panel/student-management/manage-student/manage-student.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -86,17 +87,18 @@ export const routes: Routes = [
     { path: 'contact-us/feedback', component: FeedbackComponent },
     { path: 'contact-us/rules', component: RulesComponent },
 
-    { path: 'admin-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    { path: 'admin-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    { path: 'admin-panel/manage-admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    { path: 'admin-panel/create-admin', component: CreateAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    { path: 'admin-panel/edit-admin/:adminId', component: EditAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    { path: 'admin-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
-    { path: 'admin-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
-    { path: 'admin-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
-    { path: 'admin-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
-    { path: 'admin-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
-    { path: 'admin-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/manage-admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/create-admin', component: CreateAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/edit-admin/:adminId', component: EditAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+    { path: 'control-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+    { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
     
     { path: 'login', component: LoginComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },

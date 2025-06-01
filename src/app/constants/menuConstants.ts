@@ -247,7 +247,7 @@ export const MenuItems: any[] = [
   {
     id: 9,
     name: 'Control Panel',
-    role: [UserRole.MASTER, UserRole.ADMIN],
+    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
     subMenu: [
       {
         id: 91,
@@ -257,13 +257,13 @@ export const MenuItems: any[] = [
           {
             id: 911,
             name: 'Home Slideshow',
-            route: '/admin-panel/update-dashboard-details/home-slideshow',
+            route: '/control-panel/update-dashboard-details/home-slideshow',
             role: [UserRole.MASTER],
           },
           {
             id: 912,
             name: 'Master Details',
-            route: '/admin-panel/update-dashboard-details/master-details',
+            route: '/control-panel/update-dashboard-details/master-details',
             role: [UserRole.MASTER],
           },
         ],
@@ -271,31 +271,31 @@ export const MenuItems: any[] = [
       {
         id: 92,
         name: 'Manage Admin',
-        route: '/admin-panel/manage-admin',
+        route: '/control-panel/manage-admin',
         role: [UserRole.MASTER],
       },
-      // {
-      //   id: 93,
-      //   name: 'Enums',
-      //   route: '/admin-panel/enum',
-      //   role: [UserRole.MASTER, UserRole.ADMIN],
-      // },
       {
         id: 94,
         name: 'Manage Courses',
-        route: '/admin-panel/course-list',
+        route: '/control-panel/course-list',
         role: [UserRole.MASTER, UserRole.ADMIN],
       },
       {
         id: 95,
         name: 'Manage Franchise',
-        route: '/admin-panel/manage-franchise',
+        route: '/control-panel/manage-franchise',
         role: [UserRole.MASTER, UserRole.ADMIN],
       },
       {
         id: 96,
+        name: 'Manage Student',
+        route: '/control-panel/manage-student',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+      },
+      {
+        id: 97,
         name: 'Data Backup',
-        route: '/admin-panel/data-backup',
+        route: '/control-panel/data-backup',
         role: [UserRole.MASTER],
       },
     ],
