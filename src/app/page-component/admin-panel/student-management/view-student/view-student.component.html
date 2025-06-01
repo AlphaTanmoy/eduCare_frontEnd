@@ -1,1 +1,27 @@
-<p>view-student works!</p>
+<div class="card">
+    <h5 class="card-header pt-3 pb-3 fw-bold">Student Details</h5>
+
+    <div class="card-body">
+        <p class="card-text"><span class="fw-bold">ID :</span> {{data.student_id}}</p>
+        <p class="card-text"><span class="fw-bold">Name :</span> {{data.student_name}}</p>
+        <p class="card-text"><span class="fw-bold">Gender :</span> {{data.student_gender}}</p>
+        <p class="card-text"><span class="fw-bold">Date of Birth :</span> {{FormatDateTime(data.student_DOB)}}</p>
+        <p class="card-text"><span class="fw-bold">Marital Status :</span> {{data.student_maratial_status}}</p>
+        <p class="card-text"><span class="fw-bold">Aadhar :</span> {{data.student_Adhar_number}}</p>
+        <p class="card-text"><span class="fw-bold">Email ID :</span> {{data.student_email}}</p>
+        <p class="card-text"><span class="fw-bold">Phone No. :</span> {{data.student_phone_no}}</p>
+        <p class="card-text"><span class="fw-bold">WhatsApp :</span> {{data.student_whats_app}}</p>
+        <p class="card-text"><span class="fw-bold">Address :</span> {{data.student_address}}</p>
+        <p class="card-text"><span class="fw-bold">Father's Name :</span> {{data.student_fathers_name}}</p>
+        <p class="card-text"><span class="fw-bold">Mother's Name :</span> {{data.student_mothers_name}}</p>
+        <p class="card-text"><span class="fw-bold">Husband's Name :</span> {{data.student_husbands_name}}</p>
+        <p class="card-text"><span class="fw-bold">Mother's Name :</span> {{data.student_wifes_name}}</p>
+        <p class="card-text"><span class="fw-bold">Guardian's Number :</span> {{data.student_guardians_number}}</p>
+        <p class="card-text"><span class="fw-bold">Associated Center :</span> {{data.associated_franchise}}</p>
+        <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{data.enrolled_courses}}</p>
+        <p class="card-text"><span class="fw-bold">Created At :</span> {{FormatDateTime(data.created_at)}}</p>
+    </div>
+    <div class="card-footer text-end">
+        <button id="alert_button_element" class="btn btn-primary" mat-button mat-dialog-close>Close</button>
+    </div>
+</div>
