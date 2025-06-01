@@ -40,7 +40,7 @@ export class ManageStudentComponent {
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'created_at', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -100,6 +100,10 @@ export class ManageStudentComponent {
   GetFormattedAddress(value: string): string {
     value = value.replace(/\n/g, '<br>');
     return value;
+  }
+
+  GetIsEmailVerifiedLabel(value: number): string {
+    return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
   }
 
   ngOnDestroy(): void {
