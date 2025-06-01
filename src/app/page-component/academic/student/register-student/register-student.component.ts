@@ -85,6 +85,7 @@ export class RegisterStudentComponent {
 
   form1_visible = true;
   sub_course_form_visible = true;
+  associated_franchise_id: string | null = null;
 
   student_name = '';
   student_Adhar_number: number | null = null;
@@ -118,9 +119,9 @@ export class RegisterStudentComponent {
     this.userRole = this.authService.getUserRole();
 
     if (this.userRole === UserRole.FRANCHISE) {
-      let userId = this.authService.getUserId();
+      this.associated_franchise_id = this.authService.getUserId();
 
-      this.franchiseService.getAllAvailableSubCourseByFranchise(userId).subscribe({
+      this.franchiseService.getAllAvailableSubCourseByFranchise(this.associated_franchise_id).subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
             this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
@@ -176,6 +177,7 @@ export class RegisterStudentComponent {
   handleFranchiseSelection(selectedItem: any) {
     let franchise = selectedItem.id ?? "";
     const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === franchise);
+    this.associated_franchise_id = selectedFranchise.id;
 
     this.available_sub_course_categories = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
     this.cdr.detectChanges();
@@ -230,6 +232,7 @@ export class RegisterStudentComponent {
     const payload = {
       student_name: this.student_name,
       // Convert number fields to strings
+      associated_franchise_id: this.associated_franchise_id,
       student_Adhar_number: this.student_Adhar_number?.toString() || '',
       student_DOB: this.student_DOB,
       student_marital_status: this.student_marital_status,
@@ -255,12 +258,15 @@ export class RegisterStudentComponent {
     this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
-        const dialogType = response.status === 200 ? ResponseTypeColor.SUCCESS : ResponseTypeColor.ERROR;
-        this.openDialog('Student', response.message, dialogType, response.status === 200 ? '/students' : null);
+        if(response.status === 200){
+          this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
+        }else{
+          this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
+        }
       },
-      error: () => {
+      error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog('Student', 'Internal server error', ResponseTypeColor.ERROR, null);
+        this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
   }
