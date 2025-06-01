@@ -21,7 +21,7 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.upload_franchise_documents, formData);
   }
 
-  GetAllAvailableFranchises(page_number: number, page_size: number): Observable<any> {
+  GetAllAvailableFranchisesByOffset(page_number: number, page_size: number): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises_by_offset, { page_number, page_size });
   }
 

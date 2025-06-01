@@ -81,7 +81,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   async getFranchises(page: number, size: number) {
     try {
       this.activeMatProgressBar();
-      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises(page, size));
+      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesByOffset(page, size));
       if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
         return;
