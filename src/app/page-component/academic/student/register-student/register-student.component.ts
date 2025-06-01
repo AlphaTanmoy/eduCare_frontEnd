@@ -78,6 +78,7 @@ export class RegisterStudentComponent {
     firstCtrl: ['', Validators.required],
   });
 
+  available_franchises_with_sub_course_info: any[] = [];
   available_franchises: Dropdown[] = [];
   available_sub_course_categories: Dropdown[] = [];
   marital_status_option: Dropdown[] = MaritalStatus;
@@ -133,16 +134,18 @@ export class RegisterStudentComponent {
       });
     } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
       const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises());
+      this.hideMatProgressBar();
 
       if (res.status !== 200) {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, null);
         return;
       }
 
+      this.available_franchises_with_sub_course_info = res.data;
+
       res.data.forEach((element: any) => {
         this.available_franchises.push(new Dropdown(element.id, element.center_name));
       });
-      this.hideMatProgressBar();
     } else {
       this.hideMatProgressBar();
       this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
@@ -172,7 +175,11 @@ export class RegisterStudentComponent {
 
   handleFranchiseSelection(selectedItem: any) {
     let franchise = selectedItem.id ?? "";
-    console.log(franchise)
+    const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === franchise);
+
+    this.available_sub_course_categories = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
+    this.cdr.detectChanges();
+    console.log(this.available_sub_course_categories)
   }
 
   handleSelectedSubCourses(selectedItems: Dropdown[]) {
