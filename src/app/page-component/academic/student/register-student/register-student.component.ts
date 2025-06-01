@@ -265,7 +265,6 @@ export class RegisterStudentComponent {
     });
   }
 
-
   isNotValid(): boolean {
     return (
       !this.terms_and_conditions_status ||
