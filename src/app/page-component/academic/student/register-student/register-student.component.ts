@@ -43,7 +43,6 @@ export class RegisterStudentComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
-    private commonService: CommonService,
     private authService: AuthService,
     private franchiseService: FranchiseService,
     private router: Router,
@@ -120,7 +119,7 @@ export class RegisterStudentComponent {
     if (this.userRole === UserRole.FRANCHISE) {
       let userId = this.authService.getUserId();
 
-      this.commonService.getAllAvailableSubCourseByFranchise(userId).subscribe({
+      this.franchiseService.getAllAvailableSubCourseByFranchise(userId).subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
             this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
@@ -133,7 +132,7 @@ export class RegisterStudentComponent {
         }
       });
     } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
-      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises());
+      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
       this.hideMatProgressBar();
 
       if (res.status !== 200) {

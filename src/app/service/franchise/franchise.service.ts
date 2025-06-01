@@ -21,8 +21,12 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.upload_franchise_documents, formData);
   }
 
-  GetAllAvailableFranchises(): Observable<any> {
-    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises);
+  getAllAvailableSubCourseByFranchise(franchiseId: string | null): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_all_subcourse_by_franchise + "/" + franchiseId);
+  }
+
+  GetAllAvailableFranchisesAndItsCourseDetails(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_available_franchises_and_its_course_details);
   }
 
   GetAllAvailableFranchisesByOffset(page_number: number, page_size: number): Observable<any> {
