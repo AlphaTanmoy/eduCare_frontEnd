@@ -1,11 +1,11 @@
 ::ng-deep .mat-calendar-body-selected {
     background-color: var(--light-blue) !important;
-    color: white !important;
+    color: var(--white) !important;
 }
 
 .mat-calendar-body-selected {
     background-color: var(--light-blue) !important;
-    color: white !important;
+    color: var(--white) !important;
 }
 
 
@@ -25,4 +25,14 @@ mat-form-field {
 
 .full-width .mat-mdc-text-field-wrapper {
     width: 100%;
+}
+
+::ng-deep .mat-calendar{
+    background-color: var(--white) !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.mat-calendar{
+    background-color: var(--white) !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
