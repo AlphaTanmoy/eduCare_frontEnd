@@ -235,7 +235,8 @@ export class RegisterStudentComponent {
       !this.student_district ||
       !this.student_post_office ||
       !this.student_village_city ||
-      !this.student_pincode
+      !this.student_pincode ||
+      this.enrolled_courses.length === 0
     );
   }
 
