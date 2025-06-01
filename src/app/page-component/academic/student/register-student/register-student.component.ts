@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CommonService } from '../../../../service/common/common.service';
+import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
   selector: 'app-register-student',
@@ -30,7 +31,8 @@ import { CommonService } from '../../../../service/common/common.service';
     MatStepperModule,
     CustomDatePickerComponent,
     CustomSingleSelectSearchableDropdownComponent,
-    TermsAndConditionsComponent
+    TermsAndConditionsComponent,
+    CustomMultiSelectDropdownComponent
   ],
 })
 
@@ -68,7 +70,7 @@ export class RegisterStudentComponent {
     firstCtrl: ['', Validators.required],
   });
 
-  AvailableSubCourseCategories: Dropdown[] = [];
+  available_sub_course_categories: Dropdown[] = [];
   marital_status_option: Dropdown[] = MaritalStatus;
   gender_option: Dropdown[] = Gender;
 
@@ -82,6 +84,7 @@ export class RegisterStudentComponent {
   student_email = '';
   student_phone_no: number | null = null;
   student_whats_app: number | null = null;
+  enrolled_courses: string[] = [];
 
   student_fathers_name = '';
   student_mothers_name = '';
@@ -106,9 +109,9 @@ export class RegisterStudentComponent {
       next: async (response) => {
         response.data.forEach((element: any) => {
           this.hideMatProgressBar();
-          console.log(response);
-          //this.AvailableSubCourseCategories.push(new Dropdown(element.course_code, element.course_name));
+          this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));        
         });
+        console.log(this.available_sub_course_categories)
       },
       error: (err) => {
         this.hideMatProgressBar();
@@ -138,6 +141,10 @@ export class RegisterStudentComponent {
     this.student_gender = event.text.toUpperCase();
   }
 
+  handleSelectedSubCourses(selectedItems: Dropdown[]) {
+    this.enrolled_courses = selectedItems.map((item: Dropdown) => item.id ?? "");
+  }
+
   TermsAndConditionStatus(status: boolean) {
     this.terms_and_conditions_status = status;
   }
@@ -151,6 +158,7 @@ export class RegisterStudentComponent {
     this.student_email = '';
     this.student_phone_no = null;
     this.student_whats_app = null;
+    this.enrolled_courses = [];
 
     this.form1_visible = false;
     setTimeout(() => (this.form1_visible = true));
@@ -183,6 +191,7 @@ export class RegisterStudentComponent {
       student_email: this.student_email,
       student_phone_no: this.student_phone_no?.toString() || '',
       student_whats_app: this.student_whats_app?.toString() || null,
+      enrolled_courses: this.enrolled_courses,
       student_fathers_name: this.student_fathers_name,
       student_mothers_name: this.student_mothers_name,
       student_husbands_name: this.student_husbands_name,

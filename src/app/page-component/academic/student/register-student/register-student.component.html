@@ -11,7 +11,7 @@
                 <mat-step [stepControl]="firstFormGroup">
                     <form [formGroup]="firstFormGroup">
                         <ng-template matStepLabel>
-                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Basic Details</span>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Necessery Details</span>
                         </ng-template>
 
                         <div class="row mb-3 mt-2">
@@ -91,6 +91,13 @@
                                         maxlength="10" />
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <app-custom-multi-select-dropdown *ngIf="form1_visible"
+                                    [dropdownLabel]="'Choose Courses'" [dropdownList]="available_sub_course_categories"
+                                    [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedSubCourses($event)">
+                                </app-custom-multi-select-dropdown>
                         </div>
 
                         <div class="d-flex justify-content-between">
