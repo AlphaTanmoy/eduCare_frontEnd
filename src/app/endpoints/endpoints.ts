@@ -76,8 +76,8 @@ export const Endpoints = {
     edit_sub_course: 'parent-category/edit-sub-course'
   },
   student: {
-    create_student: "student/addStudent",
-    get_all_student: "student/getAll",
+    create_student: "student/add_student",
+    get_all_students: "student/get_all_students",
     get_student_by_id: "student/getById",
     update_student: "student/update",
     delete_student: "student/delete",

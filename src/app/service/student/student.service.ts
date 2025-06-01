@@ -18,13 +18,17 @@ export class StudentService {
       const year = date.getFullYear();
       Student.student_DOB = `${day}-${month}-${year}`;
     }
-    
+
     // Fix the marital status field name to match the API
     if (Student.student_marital_status) {
       Student.student_maratial_status = Student.student_marital_status;
       delete Student.student_marital_status;
     }
-    
+
     return this.http.post<any>(GetBaseURL() + Endpoints.student.create_student, Student);
+  }
+
+  getAllAvailableStudents(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.student.get_all_students);
   }
 }
