@@ -12,6 +12,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 import { StudentService } from '../../../../service/student/student.service';
+import { CommonService } from '../../../../service/common/common.service';
 
 @Component({
   selector: 'app-register-student',
@@ -35,6 +36,7 @@ export class RegisterStudentComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
+    private commonService: CommonService,
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -62,7 +64,7 @@ export class RegisterStudentComponent {
     firstCtrl: ['', Validators.required],
   });
 
-
+  AvailableSubCourseCategories: Dropdown[] = [];
   marital_status_option: Dropdown[] = MaritalStatus;
   gender_option: Dropdown[] = Gender;
 
@@ -93,6 +95,21 @@ export class RegisterStudentComponent {
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.setStepperOrientation();
+    this.activeMatProgressBar();
+
+    this.commonService.getAllAvailableSubCourseByFranchise().subscribe({
+      next: async (response) => {
+        response.data.forEach((element: any) => {
+          this.hideMatProgressBar();
+          console.log(response);
+          //this.AvailableSubCourseCategories.push(new Dropdown(element.course_code, element.course_name));
+        });
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])
