@@ -36,6 +36,9 @@ export class ManageStudentComponent {
   faEye = faEye;
   faCircleXmark = faCircleXmark;
 
+  YesNoStatus = YesNoStatus;
+  YesNoStatusDescriptions = YesNoStatusDescriptions;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
