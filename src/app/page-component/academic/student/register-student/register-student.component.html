@@ -100,7 +100,7 @@
                                 [selectedOptions]="null" (selectionChange)="handleFranchiseSelection($event)">
                             </app-custom-single-select-searchable-dropdown>
 
-                            <app-custom-multi-select-dropdown *ngIf="form1_visible" [dropdownLabel]="'Choose Courses'"
+                            <app-custom-multi-select-dropdown *ngIf="form1_visible && sub_course_form_visible" [dropdownLabel]="'Choose Courses'"
                                 [dropdownList]="available_sub_course_categories" [dropdownListSelected]="[]"
                                 (selectedItemsChanged)="handleSelectedSubCourses($event)">
                             </app-custom-multi-select-dropdown>

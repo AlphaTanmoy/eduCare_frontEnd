@@ -84,6 +84,7 @@ export class RegisterStudentComponent {
   gender_option: Dropdown[] = Gender;
 
   form1_visible = true;
+  sub_course_form_visible = true;
 
   student_name = '';
   student_Adhar_number: number | null = null;
@@ -178,7 +179,9 @@ export class RegisterStudentComponent {
 
     this.available_sub_course_categories = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
     this.cdr.detectChanges();
-    console.log(this.available_sub_course_categories)
+
+    this.sub_course_form_visible = false;
+    setTimeout(() => (this.sub_course_form_visible = true));
   }
 
   handleSelectedSubCourses(selectedItems: Dropdown[]) {
@@ -202,6 +205,9 @@ export class RegisterStudentComponent {
 
     this.form1_visible = false;
     setTimeout(() => (this.form1_visible = true));
+    this.sub_course_form_visible = false;
+    setTimeout(() => (this.sub_course_form_visible = true));
+    this.available_sub_course_categories = [];
   }
 
   reset_family_details_form() {
