@@ -95,6 +95,11 @@
                         </div>
 
                         <div class="row mb-3 mt-2">
+                            <app-custom-single-select-searchable-dropdown *ngIf="form1_visible && userRole === UserRole.MASTER || userRole === UserRole.ADMIN"
+                                [options]="available_franchises" [ariaLabel]="'Select Franchise'"
+                                [selectedOptions]="null" (selectionChange)="handleFranchiseSelection($event)">
+                            </app-custom-single-select-searchable-dropdown>
+
                             <app-custom-multi-select-dropdown *ngIf="form1_visible" [dropdownLabel]="'Choose Courses'"
                                 [dropdownList]="available_sub_course_categories" [dropdownListSelected]="[]"
                                 (selectedItemsChanged)="handleSelectedSubCourses($event)">

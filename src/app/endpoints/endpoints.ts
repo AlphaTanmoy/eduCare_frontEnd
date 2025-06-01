@@ -52,6 +52,7 @@ export const Endpoints = {
     add_center_head_details: "franchise/add_center_head_details",
     add_center_details: "franchise/add_center_details",
     upload_franchise_documents: "franchise/upload_franchise_documents",
+    get_available_franchises: "franchise/get_available_franchises",
     get_available_franchises_by_offset: "franchise/get_available_franchises_by_offset",
     approve_reject_franchises: "franchise/approve_reject_franchises",
     get_center_head_details: "franchise/get_center_head_details",

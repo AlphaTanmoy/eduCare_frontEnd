@@ -18,6 +18,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { CommonService } from '../../../../service/common/common.service';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { AuthService } from '../../../../service/auth/Auth.Service';
+import { FranchiseService } from '../../../../service/franchise/franchise.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-register-student',
@@ -43,6 +45,7 @@ export class RegisterStudentComponent {
     private studentService: StudentService,
     private commonService: CommonService,
     private authService: AuthService,
+    private franchiseService: FranchiseService,
     private router: Router,
   ) { }
 
@@ -56,6 +59,7 @@ export class RegisterStudentComponent {
   isLinear = false;
   stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
+  UserRole = UserRole;
   userRole: string | null = null;
 
   firstFormGroup = this._formBuilder.group({
@@ -74,6 +78,7 @@ export class RegisterStudentComponent {
     firstCtrl: ['', Validators.required],
   });
 
+  available_franchises: Dropdown[] = [];
   available_sub_course_categories: Dropdown[] = [];
   marital_status_option: Dropdown[] = MaritalStatus;
   gender_option: Dropdown[] = Gender;
@@ -104,7 +109,7 @@ export class RegisterStudentComponent {
 
   terms_and_conditions_status = false;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.setStepperOrientation();
     this.activeMatProgressBar();
@@ -117,10 +122,9 @@ export class RegisterStudentComponent {
       this.commonService.getAllAvailableSubCourseByFranchise(userId).subscribe({
         next: async (response) => {
           response.data.forEach((element: any) => {
-            this.hideMatProgressBar();
             this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
           });
-          console.log(this.available_sub_course_categories)
+          this.hideMatProgressBar();
         },
         error: (err) => {
           this.hideMatProgressBar();
@@ -128,8 +132,19 @@ export class RegisterStudentComponent {
         }
       });
     } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
-      
+      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchises());
+
+      if (res.status !== 200) {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, null);
+        return;
+      }
+
+      res.data.forEach((element: any) => {
+        this.available_franchises.push(new Dropdown(element.id, element.center_name));
+      });
+      this.hideMatProgressBar();
     } else {
+      this.hideMatProgressBar();
       this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
     }
   }
@@ -153,6 +168,11 @@ export class RegisterStudentComponent {
 
   handleGenderSelection(event: any): void {
     this.student_gender = event.text.toUpperCase();
+  }
+
+  handleFranchiseSelection(selectedItem: any) {
+    let franchise = selectedItem.id ?? "";
+    console.log(franchise)
   }
 
   handleSelectedSubCourses(selectedItems: Dropdown[]) {
