@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CommonService } from '../../../../service/common/common.service';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
+import { AuthService } from '../../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-register-student',
@@ -41,6 +42,7 @@ export class RegisterStudentComponent {
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
     private commonService: CommonService,
+    private authService: AuthService,
     private router: Router,
   ) { }
 
@@ -103,9 +105,12 @@ export class RegisterStudentComponent {
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
     this.setStepperOrientation();
+
+    let userId = this.authService.getUserId();
+    console.log(userId)
     this.activeMatProgressBar();
 
-    this.commonService.getAllAvailableSubCourseByFranchise().subscribe({
+    this.commonService.getAllAvailableSubCourseByFranchise(userId).subscribe({
       next: async (response) => {
         response.data.forEach((element: any) => {
           this.hideMatProgressBar();

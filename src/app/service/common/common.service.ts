@@ -21,7 +21,7 @@ export class CommonService {
     return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_available_user);
   }
 
-  getAllAvailableSubCourseByFranchise(): Observable<any> {
-    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_subcourse_by_franchise);
+  getAllAvailableSubCourseByFranchise(userId: string | null): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.common.get_all_subcourse_by_franchise + "/" + userId);
   }
 }

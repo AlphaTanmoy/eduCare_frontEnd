@@ -52,6 +52,19 @@ export class AuthService implements OnDestroy {
     }
   }
 
+  getUserId(): string | null{
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken?.id || null;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return UserRole.COMMON;
+    }
+  }
+
   getUsername(): string {
     const token = this.getToken();
     if (!token) return "User";
