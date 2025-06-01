@@ -111,7 +111,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
 
   EditAdmin(admin_id: string) {
     console.log(admin_id);
-    window.location.href = "admin-panel/edit-admin/" + admin_id;
+    window.location.href = "control-panel/edit-admin/" + admin_id;
   }
 
   DeleteAdmin(admin_id: string) {
@@ -152,7 +152,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
   }
 
   AddAdmin() {
-    window.location.href = "admin-panel/create-admin";
+    window.location.href = "control-panel/create-admin";
   }
 
   activeMatProgressBar() {

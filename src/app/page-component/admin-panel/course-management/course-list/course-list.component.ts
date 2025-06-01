@@ -172,14 +172,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   addSubCategory(parentCourse: ParentCategory) {
-    this.router.navigate(['/admin-panel/add/sub-course'], {
+    this.router.navigate(['/control-panel/add/sub-course'], {
       queryParams: { parentCourseId: parentCourse.id }
     });
   }
 
   editCategory(id: string, isParent: boolean) {
     if (!isParent) {
-      this.router.navigate(['/admin-panel/edit-sub-course'], {
+      this.router.navigate(['/control-panel/edit-sub-course'], {
         queryParams: { id }
       });
     }
@@ -225,7 +225,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   viewCourse(courseCode: string) {
-    this.router.navigate(['/admin-panel/view-course', courseCode]);
+    this.router.navigate(['/control-panel/view-course', courseCode]);
   }
 
   applyFilter(event: Event) {

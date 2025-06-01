@@ -116,7 +116,7 @@ export class ViewCourseComponent implements OnInit, OnDestroy {
   }
 
   backToCourseList() {
-    this.router.navigate(['/admin-panel/course-list']);
+    this.router.navigate(['/control-panel/course-list']);
   }
 
   hasSubCategories(): boolean {

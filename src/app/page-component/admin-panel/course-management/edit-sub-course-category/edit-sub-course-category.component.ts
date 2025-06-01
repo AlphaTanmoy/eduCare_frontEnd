@@ -62,7 +62,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(async (params) => {
       const id = params['id'];
       if (!id) {
-        this.openDialog("Course", 'No sub-category ID provided', ResponseTypeColor.ERROR, '/admin-panel/course-list');
+        this.openDialog("Course", 'No sub-category ID provided', ResponseTypeColor.ERROR, '/control-panel/course-list');
         return;
       }
 
@@ -252,7 +252,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
     this.courseService.editSubCategory(payload).subscribe({
       next: () => {
         this.hideMatProgressBar();
-        this.openDialog("Course", 'Sub-course category has been updated successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
+        this.openDialog("Course", 'Sub-course category has been updated successfully', ResponseTypeColor.SUCCESS, '/control-panel/course-list');
       },
       error: (err) => {
         this.hideMatProgressBar();
@@ -262,7 +262,7 @@ export class EditSubCourseCategoryComponent implements OnInit, OnDestroy {
   }
 
   navigateToCourseList() {
-    this.router.navigate(['/admin-panel/course-list']);
+    this.router.navigate(['/control-panel/course-list']);
   }
 
   ngOnDestroy(): void {

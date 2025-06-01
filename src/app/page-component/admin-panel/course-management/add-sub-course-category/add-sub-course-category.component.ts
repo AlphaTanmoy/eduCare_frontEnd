@@ -59,7 +59,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       this.parentCourseId = params['parentCourseId'] || '';
 
       if (!this.parentCourseId) {
-        this.openDialog("Course", 'Parent course ID is required', ResponseTypeColor.ERROR, '/admin-panel/course-list');
+        this.openDialog("Course", 'Parent course ID is required', ResponseTypeColor.ERROR, '/control-panel/course-list');
         return;
       }
     });
@@ -240,7 +240,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
       next: (response) => {
         this.hideMatProgressBar();
         if (response.status === 200) {
-          this.openDialog("Course", 'Sub-course category has been added successfully', ResponseTypeColor.SUCCESS, '/admin-panel/course-list');
+          this.openDialog("Course", 'Sub-course category has been added successfully', ResponseTypeColor.SUCCESS, '/control-panel/course-list');
         } else {
           this.openDialog("Course", response.message, ResponseTypeColor.ERROR, null);
         }
@@ -253,7 +253,7 @@ export class AddSubCourseCategoryComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/admin-panel/course-list']);
+    this.router.navigate(['/control-panel/course-list']);
   }
 
   ngOnDestroy(): void {

@@ -124,7 +124,7 @@ export class EditAdminComponent {
       next: (response) => {
         if (response.status === 200) {
           this.hideMatProgressBar();
-          this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, "/admin-panel/manage-admin");
+          this.openDialog("Admin", response.message, ResponseTypeColor.SUCCESS, "/control-panel/manage-admin");
           return;
         }
 
