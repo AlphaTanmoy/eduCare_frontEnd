@@ -74,6 +74,7 @@ export class ManageAdminComponent implements OnInit, OnDestroy {
 
           this.dataSource.data = response.data;
           this.totalCount = response.data.length;
+          this.dataSource.paginator = this.paginator;
         } catch (error) {
           this.hideMatProgressBar();
           this.openDialog("Admin", "Internal server error", ResponseTypeColor.ERROR, false);
