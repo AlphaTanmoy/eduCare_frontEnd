@@ -291,6 +291,8 @@ export class RegisterStudentComponent {
       student_post_office: this.student_post_office,
       student_village_city: this.student_village_city,
       student_pincode: this.student_pincode?.toString() || '',
+      aadhar_card_photo: this.aadhar_card_photo,
+      student_photo: this.student_photo
     };
 
     this.activeMatProgressBar();
@@ -326,7 +328,9 @@ export class RegisterStudentComponent {
       !this.student_post_office ||
       !this.student_village_city ||
       !this.student_pincode ||
-      this.enrolled_courses.length === 0
+      this.enrolled_courses.length === 0 ||
+      !this.aadhar_card_photo ||
+      !this.student_photo
     );
   }
 
