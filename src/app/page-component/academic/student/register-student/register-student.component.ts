@@ -279,7 +279,6 @@ export class RegisterStudentComponent {
       !this.student_DOB ||
       !this.student_marital_status ||
       !this.student_gender ||
-      !this.student_email ||
       !this.student_phone_no ||
       !this.student_guardians_number ||
       !this.student_state ||
