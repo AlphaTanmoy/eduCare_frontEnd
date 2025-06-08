@@ -311,12 +311,14 @@ export class RegisterStudentComponent {
             student_post_office: this.student_post_office,
             student_village_city: this.student_village_city,
             student_pincode: this.student_pincode?.toString() || '',
+            aadhar_card_uploaded: response1.data[0].aadhar_card_uploaded,
+            student_photo_uploaded: response1.data[0].student_photo_uploaded,
           };
 
           this.studentService.CreateStudent(payload).subscribe({
             next: (response) => {
               this.hideMatProgressBar();
-              
+
               if (response.status === 200) {
                 this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
               } else {
