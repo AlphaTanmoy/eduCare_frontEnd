@@ -64,4 +64,8 @@ export class FranchiseService {
   UpdateFranchiseDocument(formData: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.update_franchise_documents, formData);
   }
+
+  GetFranchiseIdByUserId(userId: string | null): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_franchise_id_from_user_id + "/" + userId);
+  }
 }

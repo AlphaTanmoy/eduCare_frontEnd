@@ -117,16 +117,27 @@ export class RegisterStudentComponent {
     this.activeMatProgressBar();
 
     this.userRole = this.authService.getUserRole();
-
+    debugger
     if (this.userRole === UserRole.FRANCHISE) {
-      this.associated_franchise_id = this.authService.getUserId();
+      let userId = this.authService.getUserId();
 
-      this.franchiseService.getAllAvailableSubCourseByFranchise(this.associated_franchise_id).subscribe({
+      this.franchiseService.GetFranchiseIdByUserId(userId).subscribe({
         next: async (response) => {
-          response.data.forEach((element: any) => {
-            this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
+          console.log(response)
+          this.associated_franchise_id = response.data[0];
+
+          this.franchiseService.getAllAvailableSubCourseByFranchise(userId).subscribe({
+            next: async (response1) => {
+              response1.data.forEach((element: any) => {
+                this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
+              });
+              this.hideMatProgressBar();
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
+            }
           });
-          this.hideMatProgressBar();
         },
         error: (err) => {
           this.hideMatProgressBar();
@@ -258,9 +269,9 @@ export class RegisterStudentComponent {
     this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
-        if(response.status === 200){
+        if (response.status === 200) {
           this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
-        }else{
+        } else {
           this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
         }
       },
