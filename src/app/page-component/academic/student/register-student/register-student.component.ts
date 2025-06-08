@@ -10,7 +10,7 @@ import { CustomDatePickerComponent } from '../../../../common-component/custom-d
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { TermsAndConditionsComponent } from '../../../../common-component/terms-and-conditions/terms-and-conditions.component';
 
-import { Dropdown, Gender, MaritalStatus, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { Dropdown, Gender, MaritalStatus, ResponseTypeColor, StudentDocumentName, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
@@ -269,6 +269,20 @@ export class RegisterStudentComponent {
   }
 
   submit() {
+    const formData = new FormData();
+
+    formData.append("document_info", JSON.stringify([
+      { fileName: StudentDocumentName.AADHAR_CARD_PHOTO },
+      { fileName: StudentDocumentName.PASSPORT_SIZED_PHOTO },
+    ]));
+
+    if (this.aadhar_card_photo) {
+      formData.append("files", this.aadhar_card_photo);
+    }
+    if (this.student_photo) {
+      formData.append("files", this.student_photo);
+    }
+
     const payload = {
       student_name: this.student_name,
       // Convert number fields to strings
@@ -291,8 +305,7 @@ export class RegisterStudentComponent {
       student_post_office: this.student_post_office,
       student_village_city: this.student_village_city,
       student_pincode: this.student_pincode?.toString() || '',
-      aadhar_card_photo: this.aadhar_card_photo,
-      student_photo: this.student_photo
+      document: formData,
     };
 
     this.activeMatProgressBar();

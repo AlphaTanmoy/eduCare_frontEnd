@@ -111,4 +111,9 @@ export enum FranchiseDocumentName {
   SUPPORTABLE_DOCUMENT = "supportable_document",
 }
 
+export enum StudentDocumentName {
+  AADHAR_CARD_PHOTO = "aadhar_card_photo",
+  PASSPORT_SIZED_PHOTO = "passport_sized_photo",
+}
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
