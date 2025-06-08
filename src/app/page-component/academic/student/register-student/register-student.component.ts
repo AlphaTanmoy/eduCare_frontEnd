@@ -317,7 +317,7 @@ export class RegisterStudentComponent {
             next: (response) => {
               this.hideMatProgressBar();
               if (response.status === 200) {
-                this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
+                this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
               } else {
                 this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
               }
