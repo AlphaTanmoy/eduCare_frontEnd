@@ -245,7 +245,6 @@ export class RegisterStudentComponent {
       });
   }
 
-
   imageLoaded(image: LoadedImage) {
     // show cropper
   }
