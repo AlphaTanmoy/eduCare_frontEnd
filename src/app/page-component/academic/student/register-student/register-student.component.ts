@@ -305,17 +305,30 @@ export class RegisterStudentComponent {
       student_post_office: this.student_post_office,
       student_village_city: this.student_village_city,
       student_pincode: this.student_pincode?.toString() || '',
-      document: formData,
     };
 
     this.activeMatProgressBar();
 
     this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
-        this.hideMatProgressBar();
         if (response.status === 200) {
-          this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
+          this.studentService.UploadStudentDocument(formData).subscribe({
+            next: (response1) => {
+              this.hideMatProgressBar();
+              
+              if (response1.status === 200) {
+                this.openDialog('Student', response1.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
+              } else {
+                this.openDialog('Student', response1.message, ResponseTypeColor.ERROR, null);
+              }
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+            }
+          });
         } else {
+          this.hideMatProgressBar();
           this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
         }
       },

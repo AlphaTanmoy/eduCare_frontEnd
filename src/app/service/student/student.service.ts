@@ -28,6 +28,10 @@ export class StudentService {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.create_student, Student);
   }
 
+  UploadStudentDocument(formData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.add_student_document, formData);
+  }
+
   getAllAvailableStudents(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.student.get_all_students);
   }
