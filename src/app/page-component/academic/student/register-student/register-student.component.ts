@@ -77,6 +77,10 @@ export class RegisterStudentComponent {
     firstCtrl: ['', Validators.required],
   });
 
+  fifthFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+
   available_franchises_with_sub_course_info: any[] = [];
   available_franchises: Dropdown[] = [];
   available_sub_course_categories: Dropdown[] = [];
@@ -108,6 +112,9 @@ export class RegisterStudentComponent {
   student_post_office = '';
   student_village_city = '';
   student_pincode: number | null = null;
+
+  aadhar_card_photo: File | null = null;
+  student_photo: File | null = null;
 
   terms_and_conditions_status = false;
 
@@ -201,6 +208,20 @@ export class RegisterStudentComponent {
     this.enrolled_courses = selectedItems.map((item: Dropdown) => item.id ?? "");
   }
 
+  handleAadharSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.aadhar_card_photo = input.files[0];
+    }
+  }
+
+  handleStudentPhotoSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.student_photo = input.files[0];
+    }
+  }
+
   TermsAndConditionStatus(status: boolean) {
     this.terms_and_conditions_status = status;
   }
@@ -237,6 +258,14 @@ export class RegisterStudentComponent {
     this.student_post_office = '';
     this.student_village_city = '';
     this.student_pincode = null;
+  }
+
+  reset_document_form(AadharPhotoInput: HTMLInputElement, StudentSignatureInput: HTMLInputElement) {
+    this.aadhar_card_photo = null;
+    this.student_photo = null;;
+
+    AadharPhotoInput.value = '';
+    StudentSignatureInput.value = '';
   }
 
   submit() {
