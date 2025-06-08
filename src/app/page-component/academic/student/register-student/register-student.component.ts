@@ -316,6 +316,7 @@ export class RegisterStudentComponent {
           this.studentService.CreateStudent(payload).subscribe({
             next: (response) => {
               this.hideMatProgressBar();
+              
               if (response.status === 200) {
                 this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
               } else {
