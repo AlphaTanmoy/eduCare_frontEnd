@@ -269,20 +269,6 @@ export class RegisterStudentComponent {
   }
 
   submit() {
-    const formData = new FormData();
-
-    formData.append("document_info", JSON.stringify([
-      { fileName: StudentDocumentName.AADHAR_CARD_PHOTO },
-      { fileName: StudentDocumentName.PASSPORT_SIZED_PHOTO },
-    ]));
-
-    if (this.aadhar_card_photo) {
-      formData.append("files", this.aadhar_card_photo);
-    }
-    if (this.student_photo) {
-      formData.append("files", this.student_photo);
-    }
-
     const payload = {
       student_name: this.student_name,
       // Convert number fields to strings
@@ -312,10 +298,27 @@ export class RegisterStudentComponent {
     this.studentService.CreateStudent(payload).subscribe({
       next: (response) => {
         if (response.status === 200) {
+          let student_guid = response.data[0].student_guid;
+
+          const formData = new FormData();
+          formData.append("student_guid", student_guid);
+          
+          formData.append("document_info", JSON.stringify([
+            { fileName: StudentDocumentName.AADHAR_CARD_PHOTO },
+            { fileName: StudentDocumentName.PASSPORT_SIZED_PHOTO },
+          ]));
+
+          if (this.aadhar_card_photo) {
+            formData.append("files", this.aadhar_card_photo);
+          }
+          if (this.student_photo) {
+            formData.append("files", this.student_photo);
+          }
+
           this.studentService.UploadStudentDocument(formData).subscribe({
             next: (response1) => {
               this.hideMatProgressBar();
-              
+
               if (response1.status === 200) {
                 this.openDialog('Student', response1.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
               } else {
