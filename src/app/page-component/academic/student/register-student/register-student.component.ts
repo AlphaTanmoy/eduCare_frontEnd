@@ -117,7 +117,7 @@ export class RegisterStudentComponent {
     this.activeMatProgressBar();
 
     this.userRole = this.authService.getUserRole();
-    debugger
+
     if (this.userRole === UserRole.FRANCHISE) {
       let userId = this.authService.getUserId();
 
@@ -126,7 +126,7 @@ export class RegisterStudentComponent {
           console.log(response)
           this.associated_franchise_id = response.data[0];
 
-          this.franchiseService.getAllAvailableSubCourseByFranchise(userId).subscribe({
+          this.franchiseService.getAllAvailableSubCourseByFranchise(this.associated_franchise_id).subscribe({
             next: async (response1) => {
               response1.data.forEach((element: any) => {
                 this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
