@@ -27,3 +27,31 @@
     align-items: center;
     justify-content: center;
 }
+
+.imageCropperDivbackground{
+    background-color: var(--light);
+    border-radius: 0.5rem;
+    border: 2px solid var(--light1);
+    padding: 0.5rem;
+}
+
+.imageCropper {
+    width: auto;
+    max-width: max-content;
+    height: auto;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.imageCropper ::ng-deep canvas {
+    height: 100% !important;
+    width: auto !important;
+    object-fit: cover;
+}
+
+#croppedStudentPassportSizePhoto {
+    width: auto;
+    max-width: max-content;
+    height: auto;
+    max-height: 400px;
+}

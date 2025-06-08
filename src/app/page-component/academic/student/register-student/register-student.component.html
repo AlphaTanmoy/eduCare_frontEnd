@@ -95,9 +95,9 @@
                         </div>
 
                         <div class="row mb-3 mt-2">
-                            <div class="col-12 col-md-6 mb-2" *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
-                                <app-custom-single-select-searchable-dropdown
-                                    *ngIf="form1_visible"
+                            <div class="col-12 col-md-6 mb-2"
+                                *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
+                                <app-custom-single-select-searchable-dropdown *ngIf="form1_visible"
                                     [options]="available_franchises" [ariaLabel]="'Select Franchise'"
                                     [selectedOptions]="null" (selectionChange)="handleFranchiseSelection($event)">
                                 </app-custom-single-select-searchable-dropdown>
@@ -262,12 +262,11 @@
                         </ng-template>
 
                         <div class="row mb-3 mt-2">
-                           <div class="col-12 col-md-6 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Aadhar Card (jpg/jpeg/png) <span
                                         class="text-danger">*</span></label>
                                 <input type="file" #AadharPhotoInput class="form-control"
-                                    accept="image/jpeg,image/jpg,image/png"
-                                    (change)="handleAadharSelected($event)">
+                                    accept="image/jpeg,image/jpg,image/png" (change)="handleAadharSelected($event)">
                             </div>
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Passport Sized Photo (jpg/jpeg/png) <span
@@ -276,10 +275,24 @@
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleStudentPhotoSelected($event)">
                             </div>
-                        </div>                       
+                        </div>
+
+                        <div class="row mb-3 mt-2 d-flex justify-content-around imageCropperDivbackground" *ngIf="displayProperty">
+                            <div class="col-12 col-md-4 d-flex justify-content-center">
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                    [aspectRatio]="3/4" format="jpeg" (imageCropped)="imageCropped($event)"
+                                    class="imageCropper align-self-center" (imageLoaded)="imageLoaded($event)"
+                                    (cropperReady)="cropperReady()"
+                                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+                            </div>
+                            <div class="col-12 col-md-4 d-flex justify-content-center">
+                                <img [src]="croppedImage" id="croppedStudentPassportSizePhoto" />
+                            </div>
+                        </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-sm" (click)="reset_document_form(AadharPhotoInput, StudentSignatureInput)">Reset</button>
+                            <button class="btn btn-primary btn-sm"
+                                (click)="reset_document_form(AadharPhotoInput, StudentSignatureInput)">Reset</button>
 
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"

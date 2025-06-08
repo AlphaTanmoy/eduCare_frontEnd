@@ -20,6 +20,8 @@ import { CustomMultiSelectDropdownComponent } from '../../../../common-component
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
+import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register-student',
@@ -35,7 +37,8 @@ import { firstValueFrom } from 'rxjs';
     CustomDatePickerComponent,
     CustomSingleSelectSearchableDropdownComponent,
     TermsAndConditionsComponent,
-    CustomMultiSelectDropdownComponent
+    CustomMultiSelectDropdownComponent,
+    ImageCropperComponent
   ],
 })
 
@@ -46,6 +49,7 @@ export class RegisterStudentComponent {
     private authService: AuthService,
     private franchiseService: FranchiseService,
     private router: Router,
+    private sanitizer: DomSanitizer,
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -114,6 +118,10 @@ export class RegisterStudentComponent {
   student_pincode: number | null = null;
 
   aadhar_card_photo: File | null = null;
+
+  displayProperty: boolean = false;
+  imageChangedEvent: Event | null = null;
+  croppedImage: any | null = null;
   student_photo: File | null = null;
 
   terms_and_conditions_status = false;
@@ -215,11 +223,49 @@ export class RegisterStudentComponent {
     }
   }
 
-  handleStudentPhotoSelected(event: any) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.student_photo = input.files[0];
+  imageCropped(event: ImageCroppedEvent) {
+    if (event.objectUrl) {
+      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl);
+    } else {
+      this.croppedImage = null;
     }
+
+    const imgElement = document.getElementById("croppedStudentPassportSizePhoto") as HTMLImageElement;
+
+    if (!imgElement || !imgElement.src) {
+      this.openDialog("Student", "Please select an image", ResponseTypeColor.INFO, null);
+      return;
+    }
+
+    fetch(imgElement.src)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
+        this.student_photo = file;
+      });
+  }
+
+
+  imageLoaded(image: LoadedImage) {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {
+    // show message
+  }
+
+  resetCroppedImage() {
+    this.croppedImage = null;
+    this.displayProperty = false;
+  }
+
+  handleStudentPhotoSelected(event: any) {
+    this.imageChangedEvent = event;
+    this.displayProperty = true;
   }
 
   TermsAndConditionStatus(status: boolean) {
@@ -263,6 +309,8 @@ export class RegisterStudentComponent {
   reset_document_form(AadharPhotoInput: HTMLInputElement, StudentSignatureInput: HTMLInputElement) {
     this.aadhar_card_photo = null;
     this.student_photo = null;;
+
+    this.resetCroppedImage();
 
     AadharPhotoInput.value = '';
     StudentSignatureInput.value = '';
