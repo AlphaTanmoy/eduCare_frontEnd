@@ -287,8 +287,8 @@ export const MenuItems: any[] = [
         subMenu: [
           {
             id: 971,
-            name: 'Pay Wallet',
-            route: '/control-panel/wallet/pay',
+            name: 'Recharge Wallet',
+            route: '/control-panel/wallet/recharge',
             role: [UserRole.MASTER],
           },
           {
