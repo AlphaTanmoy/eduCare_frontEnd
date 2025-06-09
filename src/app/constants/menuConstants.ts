@@ -289,19 +289,19 @@ export const MenuItems: any[] = [
       {
         id: 97,
         name: 'Manage Wallet',
-        role: [UserRole.MASTER],
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
         subMenu: [
           {
             id: 971,
             name: 'Recharge Wallet',
             route: '/control-panel/wallet/recharge',
-            role: [UserRole.MASTER],
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
           },
           {
             id: 972,
             name: 'Manage Wallet',
             route: '/control-panel/wallet/manage',
-            role: [UserRole.MASTER],
+            role: [UserRole.MASTER, UserRole.ADMIN],
           },
         ],
       },
