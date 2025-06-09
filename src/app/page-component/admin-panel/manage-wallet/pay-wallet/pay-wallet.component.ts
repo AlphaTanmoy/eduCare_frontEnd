@@ -66,7 +66,7 @@ export class PayWalletComponent {
               this.hideMatProgressBar();
 
               if (response.status !== 200) {
-                this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+                this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
                 return;
               }
 
@@ -74,7 +74,7 @@ export class PayWalletComponent {
             },
             error: (err) => {
               this.hideMatProgressBar();
-              this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+              this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
             }
           });
         } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
@@ -82,7 +82,7 @@ export class PayWalletComponent {
           this.hideMatProgressBar();
 
           if (res.status !== 200) {
-            this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+            this.openDialog("Wallet", res.message, ResponseTypeColor.ERROR, false);
             return;
           }
 
@@ -91,12 +91,12 @@ export class PayWalletComponent {
           });
         } else {
           this.hideMatProgressBar();
-          this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, false);
+          this.openDialog("Wallet", "You are not authorized to access this page", ResponseTypeColor.ERROR, false);
         }
       },
       error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
   }
@@ -123,11 +123,37 @@ export class PayWalletComponent {
     }
   }
 
-  submit(){
-    
+  submit() {
+    const wallet = new FormData();
+
+    if (this.transaction_proof_photo instanceof File) {
+      wallet.append("file", this.transaction_proof_photo);
+    }
+
+    wallet.append("associated_franchise_id", String(this.associated_franchise_id || null));
+    wallet.append("recharged_wallet_balance", String(this.recharged_wallet_balance || null));
+    wallet.append("transaction_id", String(this.transaction_id || null));
+
+    this.activeMatProgressBar();
+
+    this.walletService.RechargeWallet(wallet).subscribe({
+      next: async (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Wallet", response.message, ResponseTypeColor.SUCCESS, false);
+        }else{
+          this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
-  isNotValid() : boolean {
+  isNotValid(): boolean {
     return !this.recharged_wallet_balance || !this.transaction_id || !this.transaction_proof_photo;
   }
 
