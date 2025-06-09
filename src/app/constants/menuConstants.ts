@@ -68,18 +68,6 @@ export const MenuItems: any[] = [
         route: '/academic/pay-fees',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
       },
-      {
-        id: 34,
-        name: 'Apply Franchies',
-        route: '/academic/apply-franchise',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
-      },
-      {
-        id: 35,
-        name: 'Register Student',
-        route: '/academic/register-student',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
-      }
     ],
   },
   {
