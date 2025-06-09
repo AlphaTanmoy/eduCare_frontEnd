@@ -7,4 +7,5 @@
 
 .payment_details{
     font-weight: 600;
+    color: var(--default-theme);
 }

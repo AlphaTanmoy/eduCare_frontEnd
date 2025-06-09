@@ -35,7 +35,9 @@ export class PayWalletComponent {
 
   existing_wallet_balance: Number | null = null;
   recharged_wallet_balance: Number | null = null;
-  total_wallet_balance: Number | null = null;
+  total_wallet_balance: Number | null = 0;
+  transaction_id: string | null = null;
+  transaction_proof_photo: File | null = null;
 
   constructor(
     private authService: AuthService,
@@ -53,7 +55,7 @@ export class PayWalletComponent {
         let base64String = await convertBlobToBase64(imageData);
         this.franchise_wallet_recharge_qr_code = `data:image/jpg;base64,${base64String}`;
         this.is_qr_loaded = true;
-        
+
         this.userRole = this.authService.getUserRole();
 
         if (this.userRole === UserRole.FRANCHISE) {
@@ -112,6 +114,21 @@ export class PayWalletComponent {
     } else {
       this.total_wallet_balance = null;
     }
+  }
+
+  handleTransactionProofSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.transaction_proof_photo = input.files[0];
+    }
+  }
+
+  submit(){
+    
+  }
+
+  isNotValid() : boolean {
+    return !this.recharged_wallet_balance || !this.transaction_id || !this.transaction_proof_photo;
   }
 
   ngOnDestroy(): void {
