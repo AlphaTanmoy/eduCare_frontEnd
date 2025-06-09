@@ -5,10 +5,11 @@ import { WalletService } from '../../../../service/wallet/wallet.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pay-wallet',
-  imports: [CommonModule, MatProgressBarModule],
+  imports: [CommonModule, FormsModule, MatProgressBarModule],
   templateUrl: './pay-wallet.component.html',
   styleUrl: './pay-wallet.component.css'
 })
@@ -16,6 +17,9 @@ export class PayWalletComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+
+  existing_wallet_balance: Number | null = 0;
+  recharged_wallet_balance: Number | null = null;
 
   constructor(
     private walletService: WalletService,
