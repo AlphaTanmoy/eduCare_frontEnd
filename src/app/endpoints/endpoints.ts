@@ -63,6 +63,7 @@ export const Endpoints = {
     update_center_details: "franchise/update_center_details",
     update_franchise_documents: "franchise/update_franchise_documents",
     get_franchise_id_from_user_id: "franchise/get_franchise_id_from_user_id",
+    get_franchise_wallet_recharge_qr_code: "franchise/get_franchise_wallet_recharge_qr_code",
   },
   course: {
     get_all_parent_categories: 'parent-category/getAll',

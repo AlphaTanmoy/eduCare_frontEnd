@@ -1,7 +1,7 @@
 <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
 
 <div class="container w-100 mb-3">
-    <h2 class="m-4 text-center">Pay Wallet</h2>
+    <h2 class="m-4 text-center">Recharge Wallet</h2>
 
     <div class="row mb-3 mt-2">
         <div class="col-12 col-md-6 mb-2" *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
@@ -12,21 +12,36 @@
         </div>
     </div>
 
-    <div class="row mb-3 mt-2 d-flex align-items-center">
+    <div class="row mb-3 mt-2 d-flex justify-content-between">
         <div class="col-12 col-md-6 mb-2">
             <div class="form-group mt-2">
                 <label for="courseName">Recharge Amount<span class="text-danger">*</span></label>
-                <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="recharged_wallet_balance" required />
+                <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="recharged_wallet_balance" required  (ngModelChange)="UpdateTotalWalletBalance()"/>
+            </div>
+            <div class="form-group mt-2">
+                <label for="courseName">Available Amount</label>
+                <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
+                    [(ngModel)]="total_wallet_balance" required />
+            </div>
+
+            <div class="form-group mt-2 d-flex flex-column align-items-center mt-4 mb-4 payment_details">
+                <span>Scan this QR code to recharge wallet</span>
+                <span>Or</span>
+                <span>Pay directly into bank account.</span>
+
+                <br>
+
+                <span>Bank : Rendi Bank Of India</span>
+                <span>Account No. : 1234567890</span>
+                <span>Account Holder's Name. : Top Rendi</span>
+                <span>Branch : Instagram Rendi</span>
+                <span>IFSC : RANDI00069</span>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 mb-2">
-            <div class="form-group mt-2">
-                <label for="courseName">Available Amount</label>
-                <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
-                    [(ngModel)]="existing_wallet_balance" required />
-            </div>
+        <div class="col-12 col-md-6 mb-2 d-flex justify-content-center align-items-center">
+            <img *ngIf="is_qr_loaded" src="{{franchise_wallet_recharge_qr_code}}" class="qr_code_style">
         </div>
     </div>
 </div>

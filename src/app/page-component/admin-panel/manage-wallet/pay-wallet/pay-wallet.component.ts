@@ -11,6 +11,7 @@ import { Dropdown, ResponseTypeColor, UserRole } from '../../../../constants/com
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
+import { convertBlobToBase64 } from '../../../../utility/common-util';
 
 @Component({
   selector: 'app-pay-wallet',
@@ -29,8 +30,12 @@ export class PayWalletComponent {
   available_franchises: Dropdown[] = [];
   associated_franchise_id: string | null = null;
 
-  existing_wallet_balance: Number | null = 0;
+  is_qr_loaded = false;
+  franchise_wallet_recharge_qr_code: string = '';
+
+  existing_wallet_balance: Number | null = null;
   recharged_wallet_balance: Number | null = null;
+  total_wallet_balance: Number | null = null;
 
   constructor(
     private authService: AuthService,
@@ -43,40 +48,70 @@ export class PayWalletComponent {
     this.bootstrapElements = loadBootstrap();
     this.activeMatProgressBar();
 
-    this.userRole = this.authService.getUserRole();
+    this.franchiseService.GetFranchiseWalletRechargeQrCode().subscribe({
+      next: async (imageData) => {
+        let base64String = await convertBlobToBase64(imageData);
+        this.franchise_wallet_recharge_qr_code = `data:image/jpg;base64,${base64String}`;
+        this.is_qr_loaded = true;
+        
+        this.userRole = this.authService.getUserRole();
 
-    if (this.userRole === UserRole.FRANCHISE) {
-      let userId = this.authService.getUserId();
+        if (this.userRole === UserRole.FRANCHISE) {
+          let userId = this.authService.getUserId();
 
-      this.franchiseService.GetFranchiseIdByUserId(userId).subscribe({
-        next: async (response) => {
-          this.associated_franchise_id = response.data[0];
-        },
-        error: (err) => {
+          this.franchiseService.GetFranchiseIdByUserId(userId).subscribe({
+            next: async (response) => {
+              this.hideMatProgressBar();
+
+              if (response.status !== 200) {
+                this.openDialog("Franchise", response.message, ResponseTypeColor.ERROR, false);
+                return;
+              }
+
+              this.associated_franchise_id = response.data[0];
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+            }
+          });
+        } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
+          const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
           this.hideMatProgressBar();
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+
+          if (res.status !== 200) {
+            this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+            return;
+          }
+
+          res.data.forEach((element: any) => {
+            this.available_franchises.push(new Dropdown(element.id, element.center_name));
+          });
+        } else {
+          this.hideMatProgressBar();
+          this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, false);
         }
-      });
-    } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
-      const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
-      this.hideMatProgressBar();
-
-      if (res.status !== 200) {
-        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
-        return;
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
       }
-
-      res.data.forEach((element: any) => {
-        this.available_franchises.push(new Dropdown(element.id, element.center_name));
-      });
-    } else {
-      this.hideMatProgressBar();
-      this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, false);
-    }
+    });
   }
 
   handleFranchiseSelection(selectedItem: any) {
     this.associated_franchise_id = selectedItem.id ?? "";
+  }
+
+  UpdateTotalWalletBalance() {
+    const existing = Number(this.existing_wallet_balance);
+    const recharged = Number(this.recharged_wallet_balance);
+
+    if (!isNaN(existing) && !isNaN(recharged)) {
+      this.total_wallet_balance = existing + recharged;
+    } else {
+      this.total_wallet_balance = null;
+    }
   }
 
   ngOnDestroy(): void {

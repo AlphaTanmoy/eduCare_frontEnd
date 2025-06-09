@@ -68,4 +68,8 @@ export class FranchiseService {
   GetFranchiseIdByUserId(userId: string | null): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_franchise_id_from_user_id + "/" + userId);
   }
+
+  GetFranchiseWalletRechargeQrCode(): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.franchise.get_franchise_wallet_recharge_qr_code, { responseType: 'blob' });
+  }
 }
