@@ -138,7 +138,6 @@ export class RegisterStudentComponent {
 
       this.franchiseService.GetFranchiseIdByUserId(userId).subscribe({
         next: async (response) => {
-          console.log(response)
           this.associated_franchise_id = response.data[0];
 
           this.franchiseService.getAllAvailableSubCourseByFranchise(this.associated_franchise_id).subscribe({
