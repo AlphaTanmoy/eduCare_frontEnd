@@ -239,7 +239,7 @@ export const MenuItems: any[] = [
     subMenu: [
       {
         id: 91,
-        name: 'Update Dashboard Details',
+        name: 'Manage Dashboard Details',
         role: [UserRole.MASTER],
         subMenu: [
           {
@@ -282,6 +282,25 @@ export const MenuItems: any[] = [
       },
       {
         id: 97,
+        name: 'Manage Wallet',
+        role: [UserRole.MASTER],
+        subMenu: [
+          {
+            id: 971,
+            name: 'Pay Wallet',
+            route: '/control-panel/wallet/pay',
+            role: [UserRole.MASTER],
+          },
+          {
+            id: 972,
+            name: 'Manage Wallet',
+            route: '/control-panel/wallet/manage',
+            role: [UserRole.MASTER],
+          },
+        ],
+      },
+      {
+        id: 98,
         name: 'Data Backup',
         route: '/control-panel/data-backup',
         role: [UserRole.MASTER],

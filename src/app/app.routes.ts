@@ -47,6 +47,8 @@ import { ManageAdminComponent } from './page-component/admin-panel/manage-admin/
 import { CreateAdminComponent } from './page-component/admin-panel/manage-admin/create-admin/create-admin.component';
 import { EditAdminComponent } from './page-component/admin-panel/manage-admin/edit-admin/edit-admin.component';
 import { ManageStudentComponent } from './page-component/admin-panel/student-management/manage-student/manage-student.component';
+import { ManageWalletComponent } from './page-component/admin-panel/manage-wallet/manage-wallet/manage-wallet.component';
+import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/pay-wallet/pay-wallet.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -98,6 +100,8 @@ export const routes: Routes = [
     { path: 'control-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
     { path: 'control-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
     { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+    { path: 'control-panel/wallet/manage', component: ManageWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+    { path: 'control-panel/wallet/pay', component: PayWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
     
     { path: 'login', component: LoginComponent },
