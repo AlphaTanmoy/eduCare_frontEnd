@@ -1,11 +1,15 @@
-.qr_code_style{
+.qr_code_style {
     width: 400px;
     max-width: 100%;
     border: 2px solid var(--default-theme);
     margin: 0 auto;
 }
 
-.payment_details{
+.payment_details {
     font-weight: 600;
     color: var(--default-theme);
+}
+
+.payment_details span {
+    text-align: center;
 }

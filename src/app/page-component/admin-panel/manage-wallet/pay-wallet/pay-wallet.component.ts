@@ -7,7 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
-import { Dropdown, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { Dropdown, EducareFranchiseWalletRechargeBankDetails, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
@@ -23,6 +23,8 @@ export class PayWalletComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+
+  EducareFranchiseWalletRechargeBankDetails = EducareFranchiseWalletRechargeBankDetails;
 
   UserRole = UserRole;
   userRole: string | null = null;
@@ -142,7 +144,7 @@ export class PayWalletComponent {
 
         if (response.status === 200) {
           this.openDialog("Wallet", response.message, ResponseTypeColor.SUCCESS, false);
-        }else{
+        } else {
           this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
         }
       },

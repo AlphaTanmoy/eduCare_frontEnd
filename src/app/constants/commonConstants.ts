@@ -116,4 +116,12 @@ export enum StudentDocumentName {
   PASSPORT_SIZED_PHOTO = "passport_sized_photo",
 }
 
+export enum EducareFranchiseWalletRechargeBankDetails {
+  ACCOUNT_NAME = "EDUCATION CAREFULLY INSTITUTE",
+  ACCOUNT_NUMBER = "43715511652",
+  IFSC_CODE = "SBIN0005112",
+  BRANCH_NAME = "New Town Rajarhat",
+  ACCOUNT_TYPE = "Current Account"
+}
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
