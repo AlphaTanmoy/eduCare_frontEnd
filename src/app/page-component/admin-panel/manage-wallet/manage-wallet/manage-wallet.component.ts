@@ -136,6 +136,22 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  ApprovalRejectCheckboxChange(event: any, elemnt: any) {
+    // let is_checked = (event.target as HTMLInputElement).checked;
+
+    // if (is_checked) {
+    //   this.approve_reject_items.push(elemnt.center_id);
+    // } else {
+    //   this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt.center_id);
+    // }
+
+    // if (this.approve_reject_items.length > 0) {
+    //   this.canApproveReject = true;
+    // } else {
+    //   this.canApproveReject = false;
+    // }
+  }
+
   redirectToRechargeWallet() {
 
   }
