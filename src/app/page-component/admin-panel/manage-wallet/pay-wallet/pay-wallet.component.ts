@@ -76,7 +76,7 @@ export class PayWalletComponent {
             },
             error: (err) => {
               this.hideMatProgressBar();
-              this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
+              this.openDialog("Wallet", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
             }
           });
         } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
@@ -98,7 +98,7 @@ export class PayWalletComponent {
       },
       error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Wallet", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
   }
@@ -150,7 +150,7 @@ export class PayWalletComponent {
       },
       error: (err) => {
         this.hideMatProgressBar();
-        this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Wallet", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
   }
