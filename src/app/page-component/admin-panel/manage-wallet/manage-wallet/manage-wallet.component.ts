@@ -9,7 +9,7 @@ import { CustomSingleSelectSearchableDropdownComponent } from '../../../../commo
 import { WalletService } from '../../../../service/wallet/wallet.service';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
-import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
 import { firstValueFrom } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -47,6 +47,9 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   faDownload = faDownload;
   faCircleInfo = faCircleInfo;
   faCircleXmark = faCircleXmark;
+
+  WalletAmountStatus = WalletAmountStatus;
+  WalletAmountStatusDescriptions = WalletAmountStatusDescriptions;
 
   available_franchises: Dropdown[] = [];
   associated_franchise_id: string | null = null;
@@ -135,6 +138,10 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   redirectToRechargeWallet() {
 
+  }
+
+  GetWalletAmountStatusLabel(value: string): string {
+    return WalletAmountStatusDescriptions[value as WalletAmountStatus] || 'Unknown';
   }
 
   FormatDateTime(datetimeValue: any) {

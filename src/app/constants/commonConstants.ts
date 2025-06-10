@@ -124,4 +124,16 @@ export enum EducareFranchiseWalletRechargeBankDetails {
   ACCOUNT_TYPE = "Current Account"
 }
 
+export enum WalletAmountStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export const WalletAmountStatusDescriptions: Record<WalletAmountStatus, string> = {
+  [WalletAmountStatus.PENDING]: 'Pending',
+  [WalletAmountStatus.APPROVED]: 'Approved',
+  [WalletAmountStatus.REJECTED]: 'Rejected',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
