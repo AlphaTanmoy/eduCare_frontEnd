@@ -31,7 +31,7 @@
 
 
 <div id="html_body">
-    <div id="navbar_menu" [ngStyle]="{'width': isNavbarOpen ? '20rem' : '0rem'}">
+    <div id="navbar_menu" [ngStyle]="{'width': isNavbarOpen ? '21rem' : '0rem'}">
         <div *ngFor="let item of menuItems" class="a_single_menu" [class.selected]="isSelected(item.id.toString())">
             <div class="a_single_menu_item" (click)="toggleMenu(item.id.toString(), '', item.route); selectMenu(item)">
                 <span><img src="./icon/menu.svg" class="single_menu_icon">{{ item.name }}</span>
@@ -54,8 +54,8 @@
     </div>
 
     <ng-template #recursiveListTmpl let-subMenuItems let-parentId="parentId" let-level="level">
-        <div *ngFor="let subItem of subMenuItems" 
-            [class.selected]="isSelected(subItem.id.toString())" class="a_single_submenu">
+        <div *ngFor="let subItem of subMenuItems" [class.selected]="isSelected(subItem.id.toString())"
+            class="a_single_submenu">
             <div class="submenu-item-container"
                 (click)="toggleMenu(parentId + '-' + subItem.id.toString(), parentId, subItem.route); selectMenu(subItem)">
                 <span>- {{ subItem.name }}</span>

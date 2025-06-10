@@ -19,7 +19,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
   selector: 'app-manage-wallet',
@@ -34,7 +33,6 @@ import { CustomMultiSelectDropdownComponent } from '../../../../common-component
     FontAwesomeModule,
     MatProgressBarModule,
     CustomSingleSelectSearchableDropdownComponent,
-    CustomMultiSelectDropdownComponent
   ],
   templateUrl: './manage-wallet.component.html',
   styleUrl: './manage-wallet.component.css'
