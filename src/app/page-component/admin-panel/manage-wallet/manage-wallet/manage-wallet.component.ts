@@ -19,10 +19,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
   selector: 'app-manage-wallet',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule, CustomSingleSelectSearchableDropdownComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatPaginator,
+    MatSortModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FontAwesomeModule,
+    MatProgressBarModule,
+    CustomSingleSelectSearchableDropdownComponent,
+    CustomMultiSelectDropdownComponent
+  ],
   templateUrl: './manage-wallet.component.html',
   styleUrl: './manage-wallet.component.css'
 })
@@ -39,6 +52,8 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   available_franchises: Dropdown[] = [];
   associated_franchise_id: string | null = null;
+  mat_table_header: string | null = null;
+  is_mat_tables_data_loaded = false;
 
   page_size: number = 5;
   page_index: number = 0;
@@ -88,6 +103,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dataSource.data = res.data[0].transactions;
       this.totalCount = res.data[0].total_transactions;
       this.wallet_balance = res.data[0].current_balance;
+      this.is_mat_tables_data_loaded = true;
     } catch (error) {
       this.hideMatProgressBar();
       this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
@@ -98,6 +114,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleFranchiseSelection(selectedItem: any) {
     this.associated_franchise_id = selectedItem.id ?? "";
+    this.mat_table_header = (selectedItem.text != null && selectedItem.text != "") ? "Transaction Details For [" + selectedItem.text + "]" : "";
     this.getFranchises(this.page_index, this.page_size);
   }
 
