@@ -72,7 +72,7 @@ export const MenuItems: any[] = [
         id: 33,
         name: 'Apply Franchise',
         route: '/academic/apply-franchise',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
+        role: [UserRole.COMMON],
       },
     ],
   },
