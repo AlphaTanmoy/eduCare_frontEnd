@@ -86,6 +86,7 @@ export const Endpoints = {
     delete_student: "student/delete",
   },
   wallet: {
-    recharge_wallet: "wallet/recharge_wallet"
+    recharge_wallet: "wallet/recharge_wallet",
+    get_available_transactions_per_franchise_by_offset: "wallet/get_available_transactions_per_franchise_by_offset",
   }
 }

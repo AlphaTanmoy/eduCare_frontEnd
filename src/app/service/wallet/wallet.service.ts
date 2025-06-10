@@ -12,4 +12,8 @@ export class WalletService {
   RechargeWallet(wallet: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.recharge_wallet, wallet);
   }
+
+  GetTransactionsWithPaginationByCenterId(associated_franchise_id: string | null, page_number: number, page_size: number): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.get_available_transactions_per_franchise_by_offset, { associated_franchise_id, page_number, page_size });
+  }
 }
