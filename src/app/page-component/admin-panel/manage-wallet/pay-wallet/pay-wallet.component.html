@@ -3,17 +3,13 @@
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Recharge Wallet</h2>
 
-    <div class="row mb-3 mt-2">
-        <div class="col-12 col-md-6" *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
+    <div class="row mb-3 mt-2 d-flex justify-content-between">
+        <div class="col-12 col-md-6 mb-2">
             <app-custom-single-select-searchable-dropdown [options]="available_franchises"
                 [ariaLabel]="'Select Franchise'" [selectedOptions]="null"
                 (selectionChange)="handleFranchiseSelection($event)">
             </app-custom-single-select-searchable-dropdown>
-        </div>
-    </div>
 
-    <div class="row mb-3 mt-2 d-flex justify-content-between">
-        <div class="col-12 col-md-6 mb-2">
             <div class="form-group mt-2">
                 <label for="courseName">Available Amount</label>
                 <input type="number" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
