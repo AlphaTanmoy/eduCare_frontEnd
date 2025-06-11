@@ -32,7 +32,7 @@ export class StudentService {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.add_student_document, formData);
   }
 
-  getAllAvailableStudents(): Observable<any> {
-    return this.http.get<any>(GetBaseURL() + Endpoints.student.get_all_students);
+  getAllAvailableStudents(page_number: number, page_size: number): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.get_all_students, { page_number, page_size });
   }
 }

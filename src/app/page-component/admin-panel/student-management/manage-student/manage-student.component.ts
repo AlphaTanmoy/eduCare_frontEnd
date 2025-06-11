@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
@@ -25,11 +25,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './manage-student.component.html',
   styleUrl: './manage-student.component.css'
 })
-export class ManageStudentComponent {
+export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
 
+  page_index: number = 0;
   page_size: number = 5;
 
   faEdit = faEdit;
@@ -55,17 +56,47 @@ export class ManageStudentComponent {
     this.bootstrapElements = loadBootstrap();
 
     try {
+      // this.activeMatProgressBar();
+      // const res = await firstValueFrom(this.studentService.getAllAvailableStudents());
+      // if (res.status !== 200) {
+      //   this.openDialog("Student", res.message, ResponseTypeColor.ERROR, false);
+      //   return;
+      // }
+
+      // this.dataSource.data = res.data;
+      // this.totalCount = res.data.length;
+      // this.dataSource.paginator = this.paginator;
+
+      await this.getStudents(this.page_index, this.page_size);
+    } catch (error) {
+      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
+    } finally {
+      this.hideMatProgressBar();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe(async (event) => {
+      this.page_index = event.pageIndex;
+      this.page_size = event.pageSize;
+      await this.getStudents(this.page_index, this.page_size);
+    });
+  }
+
+  async getStudents(page: number, size: number) {
+    try {
       this.activeMatProgressBar();
-      const res = await firstValueFrom(this.studentService.getAllAvailableStudents());
+
+      const res = await firstValueFrom(this.studentService.getAllAvailableStudents(page, size));
       if (res.status !== 200) {
         this.openDialog("Student", res.message, ResponseTypeColor.ERROR, false);
         return;
       }
 
-      this.dataSource.data = res.data;
-      this.totalCount = res.data.length;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = res.data[0].all_students;
+      this.totalCount = res.data[0].total_students;
     } catch (error) {
+      this.hideMatProgressBar();
       this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();

@@ -106,8 +106,6 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      console.log(res.data[0].transactions)
-
       this.dataSource.data = res.data[0].transactions;
       this.totalCount = res.data[0].total_transactions;
       this.wallet_balance = res.data[0].current_balance;
