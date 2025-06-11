@@ -18,10 +18,11 @@ import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ApproveRejectio
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-manage-center',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
+  imports: [CommonModule, MatTooltipModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './manage-center.component.html',
   styleUrl: './manage-center.component.css'
 })
