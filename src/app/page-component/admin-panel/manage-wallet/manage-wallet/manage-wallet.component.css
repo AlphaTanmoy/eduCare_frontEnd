@@ -28,3 +28,11 @@ td {
     padding: 0px 10px !important;
     /* margin-bottom: -6px; */
 }
+
+.wallet_balance {
+    background-color: var(--default-theme);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+    float: right;
+}
