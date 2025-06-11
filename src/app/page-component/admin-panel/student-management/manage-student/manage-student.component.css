@@ -16,11 +16,19 @@ td {
 }
 
 ::ng-deep .cdk-overlay-pane,
-::ng-deep .mat-mdc-select-panel-above{
-   background-color: var(--light);
+::ng-deep .mat-mdc-select-panel-above {
+    background-color: var(--light);
 }
 
 ::ng-deep .mat-mdc-form-field-infix {
-  padding: 5px 10px !important;
-  margin-bottom: -6px;
+    padding: 5px 10px !important;
+    margin-bottom: -6px;
+}
+
+.student_image_container {
+    background-color: black;
+}
+
+.student_image {
+    height: 100px;
 }
