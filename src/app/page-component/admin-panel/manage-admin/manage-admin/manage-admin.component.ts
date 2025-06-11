@@ -17,10 +17,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AdminService } from '../../../../service/admin/admin.service';
 import { firstValueFrom } from 'rxjs';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-manage-admin',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
+  imports: [CommonModule, MatTooltipModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './manage-admin.component.html',
   styleUrl: './manage-admin.component.css'
 })
