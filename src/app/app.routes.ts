@@ -49,11 +49,12 @@ import { EditAdminComponent } from './page-component/admin-panel/manage-admin/ed
 import { ManageStudentComponent } from './page-component/admin-panel/student-management/manage-student/manage-student.component';
 import { ManageWalletComponent } from './page-component/admin-panel/manage-wallet/manage-wallet/manage-wallet.component';
 import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/pay-wallet/pay-wallet.component';
+import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
-  
+
     { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
     { path: 'verification/certificate/other', component: OtherCertificateVerifyComponent },
     { path: 'verification/student', component: StudentVerifyComponent },
@@ -66,7 +67,7 @@ export const routes: Routes = [
     { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'academic/register-student', component: RegisterStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'academic/edit-student-details/:student_id', component: EditStudentDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
-    
+
     { path: 'course-offered/computer', component: ComputerCourseComponent },
     { path: 'course-offered/dance', component: DanceCourseComponent },
     { path: 'course-offered/drawing', component: DrawingCourseComponent },
@@ -102,8 +103,9 @@ export const routes: Routes = [
     { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/wallet/manage', component: ManageWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
     { path: 'control-panel/wallet/recharge', component: PayWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+    { path: 'control-panel/wallet/transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-    
+
     { path: 'login', component: LoginComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },
