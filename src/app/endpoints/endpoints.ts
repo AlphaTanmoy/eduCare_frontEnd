@@ -89,5 +89,6 @@ export const Endpoints = {
     recharge_wallet: "wallet/recharge_wallet",
     get_available_transactions_per_franchise_by_offset: "wallet/get_available_transactions_per_franchise_by_offset",
     approve_reject_wallet: "wallet/approve_reject_wallet",
+    get_wallet_recharge_transaction_proof: "wallet/get_wallet_recharge_transaction_proof",
   }
 }

@@ -20,4 +20,8 @@ export class WalletService {
   DoApproveOrReject(status: string, notes: string, transaction_ids: string[]): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.approve_reject_wallet, { status, notes, transaction_ids });
   }
+
+  GetWalletRechargeTransactionProofImage(transaction_id: string): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.wallet.get_wallet_recharge_transaction_proof + `/${transaction_id}`, { responseType: 'blob' });
+  }
 }

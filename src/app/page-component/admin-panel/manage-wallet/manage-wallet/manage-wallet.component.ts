@@ -16,7 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faEdit, faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -184,8 +184,25 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
-  DownloadWalletTransactionProof(wallet_id: string) {
-    console.log(wallet_id)
+  DownloadWalletTransactionProof(wallet_id: string, transaction_id: string) {
+    this.activeMatProgressBar();
+
+    this.walletService.GetWalletRechargeTransactionProofImage(wallet_id).subscribe({
+      next: async (blob: Blob) => {
+        let center_document = URL.createObjectURL(blob);
+        this.hideMatProgressBar();
+
+        const link = document.createElement('a');
+        link.href = center_document;
+        link.download = `${transaction_id}.jpg`;
+        link.click();
+        this.hideMatProgressBar();
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Wallet", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   ngOnDestroy(): void {
