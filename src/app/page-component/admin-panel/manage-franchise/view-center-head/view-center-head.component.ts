@@ -11,10 +11,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { faEye, faEyeSlash, faFileDownload, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64 } from '../../../../utility/common-util';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-view-center-head',
-  imports: [CommonModule, MatDialogModule, MatProgressBarModule, FontAwesomeModule],
+  imports: [CommonModule, MatTooltipModule, MatDialogModule, MatProgressBarModule, FontAwesomeModule],
   templateUrl: './view-center-head.component.html',
   styleUrl: './view-center-head.component.css'
 })

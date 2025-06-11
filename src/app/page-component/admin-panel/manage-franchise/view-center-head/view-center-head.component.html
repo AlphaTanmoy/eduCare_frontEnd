@@ -35,11 +35,13 @@
             <img *ngIf="is_photo_loaded" src="{{center_head_documnt_photo}}" class="center_head_image_width">
         </div>
 
-        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_btn center_head_image_download_btn" title="Download"
-            [icon]="faFileDownload" (click)="DownloadFranchisePhoto()"></fa-icon>
+        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_btn center_head_image_download_btn"
+            matTooltipPosition="above" matTooltip="Download" [icon]="faFileDownload"
+            (click)="DownloadFranchisePhoto()"></fa-icon>
 
-        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_btn center_head_image_close_btn" title="Close Photo"
-            [icon]="faClose" (click)="CloseFranchisePhoto()"></fa-icon>
+        <fa-icon *ngIf="is_photo_loaded" class="center_head_image_btn center_head_image_close_btn"
+            matTooltipPosition="above" matTooltip="Close Photo" [icon]="faClose"
+            (click)="CloseFranchisePhoto()"></fa-icon>
     </div>
     <div class="card-footer text-end">
         <button id="alert_button_element" class="btn btn-primary" mat-button mat-dialog-close>Close</button>
