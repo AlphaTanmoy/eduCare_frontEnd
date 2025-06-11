@@ -17,10 +17,11 @@ import { faEdit, faCircleXmark, faTrash, faEye } from '@fortawesome/free-solid-s
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-manage-student',
-  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
+  imports: [CommonModule, MatTooltipModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule, FontAwesomeModule, MatProgressBarModule],
   templateUrl: './manage-student.component.html',
   styleUrl: './manage-student.component.css'
 })
@@ -75,7 +76,7 @@ export class ManageStudentComponent {
     window.location.href = "academic/register-student";
   }
 
-  ViewStudent(student: any){
+  ViewStudent(student: any) {
     const dialogRef = this.dialog.open(ViewStudentComponent, { data: student });
   }
 
