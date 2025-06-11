@@ -13,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEdit, faCircleXmark, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
@@ -37,6 +37,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   faTrash = faTrash;
   faEye = faEye;
   faCircleXmark = faCircleXmark;
+  faDownload = faDownload;
 
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
@@ -45,7 +46,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_image', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'created_at', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -54,25 +55,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
-
-    try {
-      // this.activeMatProgressBar();
-      // const res = await firstValueFrom(this.studentService.getAllAvailableStudents());
-      // if (res.status !== 200) {
-      //   this.openDialog("Student", res.message, ResponseTypeColor.ERROR, false);
-      //   return;
-      // }
-
-      // this.dataSource.data = res.data;
-      // this.totalCount = res.data.length;
-      // this.dataSource.paginator = this.paginator;
-
-      await this.getStudents(this.page_index, this.page_size);
-    } catch (error) {
-      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
-    } finally {
-      this.hideMatProgressBar();
-    }
+    await this.getStudents(this.page_index, this.page_size);
   }
 
   ngAfterViewInit(): void {
@@ -109,6 +92,10 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ViewStudent(student: any) {
     const dialogRef = this.dialog.open(ViewStudentComponent, { data: student });
+  }
+
+  DownloadAadharCard(student: any) {
+
   }
 
   EditStudent(id: any) {
