@@ -148,24 +148,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
       dialogRef.afterClosed().subscribe(async (result: any) => {
         if (result) {
           if (result.status === true) {
-            remarks = result.remarks;
-
-            try {
-              this.activeMatProgressBar();
-              const res = await firstValueFrom(this.walletService.DoApproveOrReject(operation, remarks, this.approve_reject_items));
-
-              if (res.status !== 200) {
-                this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
-              } else {
-                this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
-                await this.getFranchises(this.page_index, this.page_size);
-                this.approve_reject_items = [];
-              }
-            } catch (error) {
-              this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-            } finally {
-              this.hideMatProgressBar();
-            }
+            this.CallApproveRejectApi(operation, result.remarks);
           } else {
             return;
           }
@@ -174,22 +157,26 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
     } else {
-      try {
-        this.activeMatProgressBar();
-        const res = await firstValueFrom(this.walletService.DoApproveOrReject(operation, remarks, this.approve_reject_items));
+      this.CallApproveRejectApi(operation, remarks);
+    }
+  }
 
-        if (res.status !== 200) {
-          this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
-        } else {
-          this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
-          await this.getFranchises(this.page_index, this.page_size);
-          this.approve_reject_items = [];
-        }
-      } catch (error) {
-        this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
-      } finally {
-        this.hideMatProgressBar();
+  async CallApproveRejectApi(operation: string, remarks: string) {
+    try {
+      this.activeMatProgressBar();
+      const res = await firstValueFrom(this.walletService.DoApproveOrReject(operation, remarks, this.approve_reject_items));
+
+      if (res.status !== 200) {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+      } else {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+        await this.getFranchises(this.page_index, this.page_size);
+        this.approve_reject_items = [];
       }
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+    } finally {
+      this.hideMatProgressBar();
     }
   }
 
