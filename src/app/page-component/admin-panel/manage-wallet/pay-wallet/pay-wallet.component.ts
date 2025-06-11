@@ -104,7 +104,7 @@ export class PayWalletComponent {
   }
 
   handleFranchiseSelection(selectedItem: any) {
-    this.associated_franchise_id = selectedItem.id ?? "";
+    this.associated_franchise_id = selectedItem.id ?? null;
   }
 
   UpdateTotalWalletBalance() {
@@ -156,7 +156,7 @@ export class PayWalletComponent {
   }
 
   isNotValid(): boolean {
-    return !this.recharged_wallet_balance || !this.transaction_id || !this.transaction_proof_photo;
+    return !this.associated_franchise_id || !this.recharged_wallet_balance || !this.transaction_id || !this.transaction_proof_photo;
   }
 
   ngOnDestroy(): void {

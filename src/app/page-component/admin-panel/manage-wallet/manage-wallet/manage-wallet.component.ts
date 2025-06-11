@@ -118,7 +118,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleFranchiseSelection(selectedItem: any) {
-    this.associated_franchise_id = selectedItem.id ?? "";
+    this.associated_franchise_id = selectedItem.id ?? null;
     this.mat_table_header = (selectedItem.text != null && selectedItem.text != "") ? "Transaction Details For [" + selectedItem.text + "]" : "";
     this.getFranchises(this.page_index, this.page_size);
   }
@@ -170,7 +170,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   redirectToRechargeWallet() {
-
+    window.location.href = "control-panel/wallet/recharge";
   }
 
   GetWalletAmountStatusLabel(value: string): string {
