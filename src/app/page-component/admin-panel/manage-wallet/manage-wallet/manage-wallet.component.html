@@ -22,10 +22,10 @@
                     placeholder="Search..." />
 
                 <div class="d-flex">
-                    <!-- <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
+                    <button class="btn btn-primary me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
                         (click)="ApproveOrReject(ApproveRejectionStatus.APPROVED)">Approve</button>
                     <button class="btn btn-danger me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
-                        (click)="ApproveOrReject(ApproveRejectionStatus.REJECTED)">Reject</button> -->
+                        (click)="ApproveOrReject(ApproveRejectionStatus.REJECTED)">Reject</button>
                     <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
                         (click)="redirectToRechargeWallet()">Add</button>
                 </div>
@@ -66,12 +66,11 @@
                         </th>
                         <td mat-cell *matCellDef="let wallet" class="text-center">
                             <input type="checkbox" *ngIf="wallet.status !== WalletAmountStatus.PENDING"
-                                [disabled]="wallet.status === WalletAmountStatus.PENDING"
-                                [checked]="wallet.status !== WalletAmountStatus.PENDING">
+                                [disabled]="wallet.status !== WalletAmountStatus.PENDING"
+                                [checked]="wallet.checked_status">
 
-                            <!-- [(ngModel)]="franchise.new_approval_reject_status" 
-                                 [ngModelOptions]="{ standalone: true }"-->
                             <input type="checkbox" *ngIf="wallet.status === WalletAmountStatus.PENDING"
+                                [(ngModel)]="wallet.checked_status" [ngModelOptions]="{ standalone: true }"
                                 (change)="ApprovalRejectCheckboxChange($event, wallet)">
                         </td>
                     </ng-container>

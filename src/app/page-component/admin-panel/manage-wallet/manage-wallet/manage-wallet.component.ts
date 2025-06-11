@@ -9,7 +9,7 @@ import { CustomSingleSelectSearchableDropdownComponent } from '../../../../commo
 import { WalletService } from '../../../../service/wallet/wallet.service';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
-import { Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
+import { ApproveRejectionStatus, Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
 import { firstValueFrom } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -50,6 +50,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   WalletAmountStatus = WalletAmountStatus;
   WalletAmountStatusDescriptions = WalletAmountStatusDescriptions;
+  ApproveRejectionStatus = ApproveRejectionStatus;
 
   available_franchises: Dropdown[] = [];
   associated_franchise_id: string | null = null;
@@ -65,8 +66,10 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   displayedColumns: string[] = ['transaction_id', 'amount', 'status', 'approve_or_reject', 'createdAt', 'action'];
 
-  canApproveReject: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  canApproveReject: boolean = false;
+  approve_reject_items: string[] = [];
 
   constructor(
     private authService: AuthService,
@@ -101,6 +104,8 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
+      console.log(res.data[0].transactions)
+
       this.dataSource.data = res.data[0].transactions;
       this.totalCount = res.data[0].total_transactions;
       this.wallet_balance = res.data[0].current_balance;
@@ -133,23 +138,23 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async ApproveOrReject(operation: number) {
-
+    console.log(this.approve_reject_items, operation)
   }
 
   ApprovalRejectCheckboxChange(event: any, elemnt: any) {
-    // let is_checked = (event.target as HTMLInputElement).checked;
+    let is_checked = (event.target as HTMLInputElement).checked;
 
-    // if (is_checked) {
-    //   this.approve_reject_items.push(elemnt.center_id);
-    // } else {
-    //   this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt.center_id);
-    // }
+    if (is_checked) {
+      this.approve_reject_items.push(elemnt.transaction_id);
+    } else {
+      this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt.transaction_id);
+    }
 
-    // if (this.approve_reject_items.length > 0) {
-    //   this.canApproveReject = true;
-    // } else {
-    //   this.canApproveReject = false;
-    // }
+    if (this.approve_reject_items.length > 0) {
+      this.canApproveReject = true;
+    } else {
+      this.canApproveReject = false;
+    }
   }
 
   redirectToRechargeWallet() {
