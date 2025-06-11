@@ -66,7 +66,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   totalCount: number = 0;
   wallet_balance: number = 0;
 
-  displayedColumns: string[] = ['transaction_id', 'amount', 'status', 'approve_or_reject', 'createdAt', 'action'];
+  displayedColumns: string[] = ['transaction_id', 'amount', 'status', 'approve_or_reject', 'remarks', 'createdAt', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
