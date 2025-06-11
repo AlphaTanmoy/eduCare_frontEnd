@@ -9,7 +9,7 @@ import { CustomSingleSelectSearchableDropdownComponent } from '../../../../commo
 import { WalletService } from '../../../../service/wallet/wallet.service';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
-import { ApproveRejectionStatus, Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
+import { Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
 import { firstValueFrom } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -50,7 +50,6 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
   WalletAmountStatus = WalletAmountStatus;
   WalletAmountStatusDescriptions = WalletAmountStatusDescriptions;
-  ApproveRejectionStatus = ApproveRejectionStatus;
 
   available_franchises: Dropdown[] = [];
   associated_franchise_id: string | null = null;
@@ -137,17 +136,30 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  async ApproveOrReject(operation: number) {
-    console.log(this.approve_reject_items, operation)
+  async ApproveOrReject(operation: string) {
+    try {
+      this.activeMatProgressBar();
+      const res = await firstValueFrom(this.walletService.DoApproveOrReject(operation, "ns", this.approve_reject_items));
+      if (res.status !== 200) {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+      } else {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+        this.approve_reject_items = [];
+      }
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+    } finally {
+      this.hideMatProgressBar();
+    }
   }
 
   ApprovalRejectCheckboxChange(event: any, elemnt: any) {
     let is_checked = (event.target as HTMLInputElement).checked;
 
     if (is_checked) {
-      this.approve_reject_items.push(elemnt.transaction_id);
+      this.approve_reject_items.push(elemnt._id);
     } else {
-      this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt.transaction_id);
+      this.approve_reject_items = this.approve_reject_items.filter(item => item !== elemnt._id);
     }
 
     if (this.approve_reject_items.length > 0) {
