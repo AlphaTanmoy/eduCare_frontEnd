@@ -144,6 +144,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
       } else {
         this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+        await this.getFranchises(this.page_index, this.page_size);
         this.approve_reject_items = [];
       }
     } catch (error) {
