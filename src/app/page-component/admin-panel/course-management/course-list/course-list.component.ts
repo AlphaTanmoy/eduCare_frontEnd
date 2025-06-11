@@ -23,10 +23,11 @@ import { CustomConfirmDialogComponent } from '../../../../common-component/custo
 import { AddPrimaryCourseCategoryComponent } from '../add-primary-course-category/add-primary-course-category.component';
 import { EditPrimaryCourseCategoryComponent } from '../edit-primary-course-category/edit-primary-course-category.component';
 import { EnumsService } from '../../../../service/enums/enums.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-course-list',
-  imports: [CommonModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
+  imports: [CommonModule, MatTooltipModule, FontAwesomeModule, MatProgressBarModule, FormsModule, MatTableModule, MatPaginator, MatSortModule, MatInputModule, MatFormFieldModule],
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css'],
   animations: [

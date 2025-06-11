@@ -70,17 +70,17 @@
               style="background-color: var(--light); color: var(--default-theme);"> Action </th>
             <td mat-cell *matCellDef="let course" class="text-center">
               <div class="btn-group">
-                <fa-icon [icon]="faPlus" class="icon btn_cursor_pointer text-primary me-1" title="Add Sub-Course"
-                  (click)="addSubCategory(course)"></fa-icon>
+                <fa-icon [icon]="faPlus" class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
+                  matTooltip="Add Sub-Course" (click)="addSubCategory(course)"></fa-icon>
 
-                <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1" title="Edit Course"
-                  (click)="editParentCategory(course.id, course.dataStatus)"></fa-icon>
+                <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1" matTooltipPosition="above"
+                  matTooltip="Edit Course" (click)="editParentCategory(course.id, course.dataStatus)"></fa-icon>
 
-                <fa-icon [icon]="faEye" class="icon btn_cursor_pointer text-secondary me-1"
-                  title="View Sub-Course Details" (click)="viewCourse(course.courseCode)"></fa-icon>
+                <fa-icon [icon]="faEye" class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
+                  matTooltip="View Sub-Course Details" (click)="viewCourse(course.courseCode)"></fa-icon>
 
-                <fa-icon [icon]="faTrash" class="icon btn_cursor_pointer text-danger"
-                  [title]="'Delete Course [' + course.courseName + ']'"
+                <fa-icon [icon]="faTrash" class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
+                  [matTooltip]="'Delete Course [' + course.courseName + ']'"
                   (click)="deleteCategory(course.id, true)"></fa-icon>
               </div>
             </td>
@@ -136,11 +136,12 @@
                         <td class="text-center custom_padding align-middle">
                           <div class="btn-group">
                             <fa-icon [icon]="faEdit" class="icon btn_cursor_pointer text-success me-1"
-                              [title]="'Edit Sub-Course [' + subCourse.courseName + ']'"
+                              matTooltipPosition="above" [matTooltip]="'Edit Sub-Course [' + subCourse.courseName + ']'"
                               (click)="editCategory(subCourse.id, false)"></fa-icon>
 
                             <fa-icon [icon]="faTrash" class="icon btn_cursor_pointer text-danger me-1"
-                              [title]="'Delete Sub-Course [' + subCourse.courseName + ']'"
+                              matTooltipPosition="above"
+                              [matTooltip]="'Delete Sub-Course [' + subCourse.courseName + ']'"
                               (click)="deleteCategory(subCourse.id, false)"></fa-icon>
                           </div>
                         </td>
