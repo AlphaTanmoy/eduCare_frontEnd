@@ -303,6 +303,12 @@ export const MenuItems: any[] = [
             route: '/control-panel/wallet/manage',
             role: [UserRole.MASTER, UserRole.ADMIN],
           },
+          {
+            id: 973,
+            name: 'Transaction History',
+            route: '/control-panel/wallet/transaction-history',
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+          },
         ],
       },
       {
