@@ -15,8 +15,6 @@ import { StudentService } from '../../../../service/student/student.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-import { CommonService } from '../../../../service/common/common.service';
-import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { firstValueFrom } from 'rxjs';
@@ -37,7 +35,6 @@ import { DomSanitizer } from '@angular/platform-browser';
     CustomDatePickerComponent,
     CustomSingleSelectSearchableDropdownComponent,
     TermsAndConditionsComponent,
-    CustomMultiSelectDropdownComponent,
     ImageCropperComponent
   ],
 })
@@ -199,7 +196,7 @@ export class RegisterStudentComponent {
     this.student_gender = event.text.toUpperCase();
   }
 
-  handleFranchiseSelection(selectedItem: any) {
+  handleFranchiseSelection(selectedItem: Dropdown | any) {
     let franchise = selectedItem.id ?? "";
     const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === franchise);
     this.associated_franchise_id = selectedFranchise.id;
@@ -211,8 +208,9 @@ export class RegisterStudentComponent {
     setTimeout(() => (this.sub_course_form_visible = true));
   }
 
-  handleSelectedSubCourses(selectedItems: Dropdown[]) {
-    this.enrolled_courses = selectedItems.map((item: Dropdown) => item.id ?? "");
+  handleSelectedSubCourses(item: Dropdown | any) {
+    this.enrolled_courses = [];
+    this.enrolled_courses.push(item.id ?? "");
   }
 
   handleAadharSelected(event: any) {
