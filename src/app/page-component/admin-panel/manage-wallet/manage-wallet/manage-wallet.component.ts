@@ -182,6 +182,10 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
+  DownloadWalletTransactionProof(wallet_id: string) {
+    console.log(wallet_id)
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
