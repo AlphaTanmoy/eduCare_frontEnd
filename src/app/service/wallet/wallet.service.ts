@@ -24,4 +24,25 @@ export class WalletService {
   GetWalletRechargeTransactionProofImage(transaction_id: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.wallet.get_wallet_recharge_transaction_proof + `/${transaction_id}`, { responseType: 'blob' });
   }
+
+  UnblockFranchiseTransactions(franchiseId: string, transactionIds: string[]): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.unblock_franchise_transactions, { franchiseId, transactionIds });
+  }
+
+  PayStudentFees(paymentData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.pay_student_fees, paymentData);
+  }
+
+  RefundStudentFees(refundData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.refund_student_fees, refundData);
+  }
+
+  GetFranchiseTransactionLogs(franchiseId: string, page: number, limit: number, filters?: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.franchise_transactions_logs, { 
+      franchiseId, 
+      page, 
+      limit, 
+      ...filters 
+    });
+  }
 }
