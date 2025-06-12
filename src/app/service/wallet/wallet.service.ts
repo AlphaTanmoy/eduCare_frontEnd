@@ -49,4 +49,11 @@ export class WalletService {
 
     return this.http.get<any>(GetBaseURL() + Endpoints.wallet.franchise_transactions_logs, { params });
   }
+
+  GetTransactionLogById(transactionId: string): Observable<any> {
+    if (!transactionId) {
+      throw new Error('Transaction ID is required');
+    }
+    return this.http.get<any>(`${GetBaseURL()}${Endpoints.wallet.transaction_log_by_id}/${transactionId}`);
+  }
 }
