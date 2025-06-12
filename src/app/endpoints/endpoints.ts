@@ -91,9 +91,9 @@ export const Endpoints = {
     get_available_transactions_per_franchise_by_offset: "wallet/get_available_transactions_per_franchise_by_offset",
     approve_reject_wallet: "wallet/approve_reject_wallet",
     get_wallet_recharge_transaction_proof: "wallet/get_wallet_recharge_transaction_proof",
-    unblock_franchise_transactions: "wallet/unblock-franchise-transactions",
-    pay_student_fees: "wallet/pay-student-fees",
-    refund_student_fees: "wallet/refund-student-fees",
-    franchise_transactions_logs: "wallet/franchise/transactionsLogs",
+    unblock_franchise_transactions: "wallet/unblock_franchise_transactions",
+    pay_student_fees: "wallet/pay_student_fees",
+    refund_student_fees: "wallet/refund_student_fees",
+    franchise_transactions_logs: "wallet/franchise/transactions_logs",
   }
 }
