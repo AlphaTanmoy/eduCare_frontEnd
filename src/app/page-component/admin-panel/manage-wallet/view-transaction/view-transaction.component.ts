@@ -28,9 +28,9 @@ export interface TransactionData {
   selector: 'app-view-transaction',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
-    MatProgressBarModule, 
+    CommonModule,
+    MatDialogModule,
+    MatProgressBarModule,
     FontAwesomeModule
   ],
   templateUrl: './view-transaction.component.html',
@@ -43,7 +43,7 @@ export class ViewTransactionComponent implements OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: TransactionData,
     public dialogRef: MatDialogRef<ViewTransactionComponent>,
-  ) { 
+  ) {
     // Ensure we have valid data
     if (!this.data) {
       console.error('No transaction data provided');
@@ -62,17 +62,17 @@ export class ViewTransactionComponent implements OnDestroy {
     if (!dateString) return 'N/A';
     try {
       const date = new Date(dateString);
-      return isNaN(date.getTime()) 
-        ? 'Invalid date' 
+      return isNaN(date.getTime())
+        ? 'Invalid date'
         : date.toLocaleString('en-IN', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-          });
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
     } catch (error) {
       console.error('Error formatting date:', error);
       return 'Invalid date';
@@ -101,7 +101,7 @@ export class ViewTransactionComponent implements OnDestroy {
    */
   getStatusClass(status?: string): string {
     if (!status) return 'badge bg-secondary';
-    
+
     const statusLower = status.toLowerCase();
     switch (statusLower) {
       case 'success':
@@ -130,14 +130,14 @@ export class ViewTransactionComponent implements OnDestroy {
    */
   getTransactionTypeClass(type?: string): string {
     if (!type) return 'text-muted';
-    
+
     const typeLower = type.toLowerCase();
     if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
       return 'text-danger';
     } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
       return 'text-success';
     } else {
-      return 'text-info';
+      return 'text-primary';
     }
   }
 
@@ -147,13 +147,13 @@ export class ViewTransactionComponent implements OnDestroy {
    */
   getMiscData(): any {
     if (!this.data?.miscData) return null;
-    
+
     try {
       // If it's already an object, return it directly
       if (typeof this.data.miscData === 'object') {
         return this.data.miscData;
       }
-      
+
       // Try to parse it as JSON
       return JSON.parse(this.data.miscData);
     } catch (error) {

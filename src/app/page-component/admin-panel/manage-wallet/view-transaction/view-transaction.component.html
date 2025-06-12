@@ -1,51 +1,48 @@
 <div class="card">
-  <!-- Card Header -->
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <h5 class="mb-0">Transaction Details</h5>
-  </div>
+  <h5 class="card-header pt-3 pb-3 fw-bold">Transaction Details</h5>
 
   <!-- Card Body -->
   <div class="card-body">
     <!-- Basic Transaction Info -->
-    <div class="row mb-4">
+    <div class="row mb-4 d-flex justify-content-between">
       <div class="col-md-6">
         <p class="mb-2"><strong>Reference ID:</strong> {{data.referenceId || 'N/A'}}</p>
         <p class="mb-2">
-          <strong>Status:</strong> 
+          <strong>Status:</strong>
           <span [class]="getStatusClass(data.status)">
             {{data.status || 'N/A'}}
           </span>
         </p>
         <p class="mb-2">
-          <strong>Type:</strong> 
+          <strong>Type:</strong>
           <span [class]="getTransactionTypeClass(data.transactionType)">
             {{data.transactionType || 'N/A'}}
           </span>
         </p>
       </div>
       <div class="col-md-6">
-        <p class="mb-2"><strong>Date & Time:</strong> {{formatDate(data.date)}}</p>
-        <p class="mb-2"><strong>Created At:</strong> {{formatDate(data.createdAt)}}</p>
-        <p class="mb-2"><strong>Updated At:</strong> {{formatDate(data.updatedAt)}}</p>
+        <p class="mb-2 text_align_right"><strong>Date & Time:</strong> {{formatDate(data.date)}}</p>
+        <p class="mb-2 text_align_right"><strong>Created At:</strong> {{formatDate(data.createdAt)}}</p>
+        <p class="mb-2 text_align_right"><strong>Updated At:</strong> {{formatDate(data.updatedAt)}}</p>
       </div>
     </div>
 
     <!-- Amount Details -->
     <div class="border-top pt-3 mb-4">
       <h6 class="mb-3">Amount Details</h6>
-      <div class="row">
+      <div class="row d-flex justify-content-between">
         <div class="col-md-4">
-          <p class="mb-2"><strong>Amount:</strong> 
+          <p class="mb-2"><strong>Amount:</strong>
             <span [class]="(data.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
               {{(data.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(data.changedAmount ?? 0)}}
             </span>
           </p>
         </div>
         <div class="col-md-4">
-          <p class="mb-2"><strong>Balance:</strong> {{formatCurrency(data.currentAmount ?? 0)}}</p>
+          <p class="mb-2 text_align_center"><strong>Balance:</strong> {{formatCurrency(data.currentAmount ?? 0)}}</p>
         </div>
         <div class="col-md-4">
-          <p class="mb-2"><strong>Effected Value:</strong> {{data.effectedValue || 'N/A'}}</p>
+          <p class="mb-2 text_align_right"><strong>Effected Value:</strong> {{data.effectedValue || 'N/A'}}</p>
         </div>
       </div>
     </div>

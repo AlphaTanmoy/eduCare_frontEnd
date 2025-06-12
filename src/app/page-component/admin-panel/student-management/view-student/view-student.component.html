@@ -2,6 +2,7 @@
     <h5 class="card-header pt-3 pb-3 fw-bold">Student Details</h5>
 
     <div class="card-body">
+        <img class="student_image" [src]="data.student_photo" (error)="onImageError($event)">
         <p class="card-text"><span class="fw-bold">ID :</span> {{data.student_id}}</p>
         <p class="card-text"><span class="fw-bold">Name :</span> {{data.student_name}}</p>
         <p class="card-text"><span class="fw-bold">Gender :</span> {{data.student_gender}}</p>

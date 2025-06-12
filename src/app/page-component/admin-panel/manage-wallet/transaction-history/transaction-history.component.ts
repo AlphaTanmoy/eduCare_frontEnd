@@ -321,16 +321,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
         // Open the dialog with the transaction data
         const dialogRef = this.dialog.open(ViewTransactionComponent, {
-          width: '800px',
-          maxWidth: '95vw',
-          maxHeight: '90vh',
-          panelClass: ['transaction-details-dialog', 'custom-dialog', 'no-header'],
-          data: transactionData, // Pass the extracted transaction data
-          autoFocus: false,
-          disableClose: false,
-          hasBackdrop: true,
-          closeOnNavigation: true,
-          backdropClass: 'custom-dialog-backdrop'
+          data: transactionData,
         });
 
         // Remove the header after the dialog is opened

@@ -34,6 +34,11 @@ export class ViewStudentComponent {
     return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
   }
 
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = 'image/default_student_photo.jpg'; // path to your default image
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
