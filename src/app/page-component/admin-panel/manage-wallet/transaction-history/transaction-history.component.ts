@@ -290,13 +290,73 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     this.loadTransactions();
   }
 
-  viewTransaction(transaction: any): void {
-    // TODO: Implement view transaction details
-    console.log('View transaction:', transaction);
-    this.showAlert('Transaction Details', `Transaction ID: ${transaction._id}\nAmount: ${this.formatCurrency(transaction.changedAmount)}\nStatus: ${transaction.status}`);
+  async viewTransaction(transaction: any): Promise<void> {
+    if (!transaction?._id) {
+      console.error('Invalid transaction data:', transaction);
+      this.showAlert('Error', 'Invalid transaction data');
+      return;
+    }
+
+    try {
+      this.matProgressBarVisible = true;
+      console.log('Fetching transaction details for ID:', transaction._id);
+      
+      const response = await firstValueFrom(
+        this.walletService.GetTransactionLogById(transaction._id)
+      );
+
+      console.log('Transaction details response:', response);
+
+      if (response?.data) {
+        // Format and display the transaction details
+        const details = this.formatTransactionDetails(response.data);
+        this.showAlert('Transaction Details', details);
+      } else {
+        this.showAlert('Error', 'Failed to load transaction details');
+      }
+    } catch (error) {
+      console.error('Error fetching transaction details:', error);
+      this.showAlert('Error', 'Failed to load transaction details. Please try again.');
+    } finally {
+      this.matProgressBarVisible = false;
+    }
   }
 
-  // Formatting helpers
+  private formatTransactionDetails(transaction: any): string {
+    try {
+      const details = [
+        `Reference ID: ${transaction.referenceId || 'N/A'}`,
+        `Type: ${transaction.transactionType || 'N/A'}`,
+        `Status: ${transaction.status || 'N/A'}`,
+        `Amount: ${this.formatCurrency(transaction.changedAmount || 0)}`,
+        `Balance: ${this.formatCurrency(transaction.currentAmount || 0)}`,
+        `Date: ${this.formatDate(transaction.date || transaction.createdAt || '')}`,
+        `Notes: ${transaction.notes || 'No additional notes'}`,
+      ];
+
+      // Add any additional fields from miscData if it exists
+      if (transaction.miscData) {
+        try {
+          const miscData = typeof transaction.miscData === 'string' 
+            ? JSON.parse(transaction.miscData) 
+            : transaction.miscData;
+          
+          details.push('\nAdditional Details:');
+          Object.entries(miscData).forEach(([key, value]) => {
+            details.push(`${key}: ${value}`);
+          });
+        } catch (e) {
+          console.warn('Could not parse miscData:', transaction.miscData);
+        }
+      }
+
+      return details.join('\n');
+    } catch (error) {
+      console.error('Error formatting transaction details:', error);
+      return 'Error formatting transaction details';
+    }
+  }
+
   formatDate(dateString: string): string {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString();
