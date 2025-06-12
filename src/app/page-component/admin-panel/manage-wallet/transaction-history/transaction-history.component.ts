@@ -94,6 +94,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   franchises: Dropdown[] = [];
   selectedFranchise: Dropdown | null = null;
   walletBalance: string = '₹0.00';
+  isFranchise: boolean = false;
+  isAdmin: boolean = false;
 
   // Pagination
   pageIndex = 0;
@@ -102,9 +104,35 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   isDataLoaded = false;
   searchText = '';
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.loadBootstrap();
-    await this.loadFranchises();
+    this.initializeComponent();
+  }
+
+  private async initializeComponent(): Promise<void> {
+    try {
+      const userRole = this.authService.getUserRole();
+      console.log('User role:', userRole);
+      
+      this.isFranchise = userRole?.toLowerCase() === 'franchise';
+      this.isAdmin = ['master', 'admin'].includes(userRole?.toLowerCase() || '');
+      
+      console.log('isFranchise:', this.isFranchise, 'isAdmin:', this.isAdmin);
+      
+      if (this.isAdmin) {
+        // For admin users, load franchises for selection
+        await this.loadFranchises();
+      } else if (this.isFranchise) {
+        // For franchise users, directly load transactions without franchise selection
+        console.log('Loading transactions for franchise user');
+        await this.loadTransactions();
+      } else {
+        console.warn('User role not recognized or missing');
+      }
+    } catch (error) {
+      console.error('Error initializing component:', error);
+      this.showAlert('Error', 'Failed to initialize component. Please try again.');
+    }
   }
 
   ngAfterViewInit() {
@@ -147,26 +175,68 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   }
 
   async loadTransactions(): Promise<void> {
-    if (!this.selectedFranchise?.id) {
-      this.dataSource.data = [];
-      this.totalCount = 0;
-      this.isDataLoaded = true;
-      return;
-    }
-
+    console.log('loadTransactions called - isFranchise:', this.isFranchise, 'isAdmin:', this.isAdmin);
     this.matProgressBarVisible = true;
     this.isDataLoaded = false;
 
     try {
-      const filters = this.searchText ? { search: this.searchText } : undefined;
+      // If admin and no franchise selected, show empty state
+      if (this.isAdmin && !this.selectedFranchise?.id) {
+        console.log('Admin user - no franchise selected, showing empty state');
+        this.dataSource.data = [];
+        this.totalCount = 0;
+        this.walletBalance = '₹0.00';
+        return;
+      }
+
+      let franchiseId: string | undefined;
+      
+      if (this.isAdmin) {
+        // For admin users, use the selected franchise ID
+        franchiseId = this.selectedFranchise?.id;
+        console.log('Admin user - using franchiseId:', franchiseId);
+      } else if (this.isFranchise) {
+        // For franchise users, fetch their franchise ID from the API
+        const userId = this.authService.getUserId();
+        console.log('Franchise user - userId:', userId);
+        
+        if (userId) {
+          try {
+            console.log('Fetching franchise ID for user:', userId);
+            const franchiseResponse = await firstValueFrom(
+              this.franchiseService.GetFranchiseIdByUserId(userId)
+            );
+            console.log('Franchise ID response:', franchiseResponse);
+            
+            if (franchiseResponse?.data?._id) {
+              franchiseId = franchiseResponse.data._id;
+              console.log('Using franchiseId:', franchiseId);
+            } else {
+              console.error('No franchise ID found in response');
+            }
+          } catch (error) {
+            console.error('Error fetching franchise ID:', error);
+          }
+        } else {
+          console.error('No user ID found');
+        }
+      }
+      
+      console.log('Calling GetFranchiseTransactionLogs with:', { 
+        page: this.pageIndex + 1, 
+        limit: this.pageSize, 
+        franchiseId 
+      });
+      
       const response = await firstValueFrom(
         this.walletService.GetFranchiseTransactionLogs(
-          this.selectedFranchise.id,
           this.pageIndex + 1,
           this.pageSize,
-          filters
+          franchiseId
         )
       );
+      
+      console.log('API Response:', response);
 
       if (response?.data?.[0]?.transactions) {
         this.dataSource.data = response.data[0].transactions;

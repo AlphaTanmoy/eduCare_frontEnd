@@ -5,7 +5,7 @@
 
 
     <div class="row mb-3 mt-2 d-flex justify-content-between">
-        <div class="col-12 col-md-6 mb-2">
+        <div class="col-12 col-md-6 mb-2" *ngIf="isAdmin">
             <app-custom-single-select-searchable-dropdown 
                 [options]="franchises"
                 [selectedOptions]="selectedFranchise"
@@ -14,7 +14,7 @@
             </app-custom-single-select-searchable-dropdown>
         </div>
 
-        <div class="col-12 col-md-6 mb-2 text-end">
+        <div class="col-12 mb-2 text-end" [class.col-md-6]="isAdmin" [class.col-12]="!isAdmin">
             <span class="wallet_balance">Wallet Balance: {{walletBalance}}</span>
         </div>
     </div>
