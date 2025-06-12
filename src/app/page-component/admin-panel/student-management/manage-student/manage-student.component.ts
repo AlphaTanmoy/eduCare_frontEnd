@@ -129,7 +129,6 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       disableClose: false,
       hasBackdrop: true,
       closeOnNavigation: true,
-      backdropClass: 'custom-dialog-backdrop'
     });
   }
 
