@@ -35,4 +35,8 @@ export class StudentService {
   getAllAvailableStudents(page_number: number, page_size: number): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.get_all_students, { page_number, page_size });
   }
+
+  getStudentsPhotoTenInALimit(student_guids: string[]): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.get_student_photo_by_batch_processing, student_guids);
+  }
 }

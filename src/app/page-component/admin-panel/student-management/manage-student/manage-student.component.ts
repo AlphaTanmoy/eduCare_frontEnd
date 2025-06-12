@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { faEdit, faCircleXmark, faTrash, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -32,6 +32,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   page_index: number = 0;
   page_size: number = 5;
+  batch_size: number = 5;
 
   faEdit = faEdit;
   faTrash = faTrash;
@@ -76,8 +77,32 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         return;
       }
 
-      this.dataSource.data = res.data[0].all_students;
+      const data = res.data[0].all_students;
+
+      for (let i = 0; i < data.length; i += this.batch_size) {
+        let student_guids = data.slice(i, i + this.batch_size).map((x: any) => x.student_guid);
+        let k = i;
+
+        await new Promise<void>((resolve, reject) => {
+          this.studentService.getStudentsPhotoTenInALimit(student_guids).subscribe({
+            next: (imageData) => {
+              for (let j = 0; j < Math.min(student_guids.length, this.batch_size); j++) {
+                data[k++].student_photo = `data:image/jpg;base64,${imageData.data[j]}`;
+              }
+              resolve();
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+              reject();
+            }
+          });
+        });
+      }
+
+      this.dataSource.data = data;
       this.totalCount = res.data[0].total_students;
+      this.cdr.detectChanges();
     } catch (error) {
       this.hideMatProgressBar();
       this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
