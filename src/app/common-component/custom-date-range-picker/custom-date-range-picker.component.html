@@ -1,0 +1,18 @@
+<mat-form-field appearance="fill" class="w-100 full-width">
+    <mat-label>{{ defaultPlaceholder }}</mat-label>
+
+    <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" readonly id="startDate" (dateChange)="onStartChange($event)">
+        <input matEndDate placeholder="End date" readonly id="endDate" (dateChange)="onEndChange($event)">
+    </mat-date-range-input>
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>
+
+
+<!-- How to Use
+<app-custom-date-range-picker 
+    [placeholder]="'Select a date range'"
+    (dateChanged)="handleDateRange($event)">
+</app-custom-date-range-picker> -->

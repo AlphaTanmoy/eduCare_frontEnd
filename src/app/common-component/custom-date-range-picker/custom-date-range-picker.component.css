@@ -1,0 +1,59 @@
+::ng-deep .mat-calendar-body-selected {
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+}
+
+::ng-deep .mat-calendar-body-in-range {
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+    border-radius: 0 !important;
+}
+
+::ng-deep .mat-calendar-body-comparison-in-range {
+    background-color: var(--light-blue) !important;
+}
+
+::ng-deep .mat-calendar-body-range-start {
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+    border-top-left-radius: 100% !important;
+    border-bottom-left-radius: 100% !important;
+    /* make start/end look like selected dots */
+}
+
+::ng-deep .mat-calendar-body-range-end {
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+    border-top-right-radius: 100% !important;
+    border-bottom-right-radius: 100% !important;
+    /* make start/end look like selected dots */
+}
+
+
+.full-width {
+    width: 100% !important;
+}
+
+/* Alternative approach - make all mat-form-fields full width by default */
+mat-form-field {
+    width: 100%;
+}
+
+/* If you need to override Angular Material's default appearance */
+.full-width .mat-mdc-form-field {
+    width: 100%;
+}
+
+.full-width .mat-mdc-text-field-wrapper {
+    width: 100%;
+}
+
+::ng-deep .mat-calendar {
+    background-color: var(--white) !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.mat-calendar {
+    background-color: var(--white) !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
