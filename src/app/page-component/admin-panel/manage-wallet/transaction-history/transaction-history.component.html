@@ -131,9 +131,13 @@
                             Actions
                         </th>
                         <td mat-cell *matCellDef="let transaction" class="text-center">
-                            <button mat-icon-button color="primary" [matTooltip]="'View Details'" (click)="viewTransaction(transaction)">
-                                <fa-icon [icon]="faEye"></fa-icon>
-                            </button>
+                            <div class="d-flex w-100 justify-content-center h-100">
+                                <fa-icon class="icon btn_cursor_pointer text-success me-1" 
+                                    matTooltipPosition="above"
+                                    matTooltip="View Transaction Details" 
+                                    [icon]="faEye"
+                                    (click)="viewTransaction(transaction)"></fa-icon>
+                            </div>
                         </td>
                     </ng-container>
 
