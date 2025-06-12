@@ -1,8 +1,44 @@
 ::ng-deep .cdk-overlay-pane,
 ::ng-deep .mat-mdc-dialog-panel {
   border-radius: 1rem !important;
+  overflow: hidden;
 }
 
 .cdk-overlay-pane .mat-mdc-dialog-panel {
   border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .amount_card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .amount_card p {
+    text-align: left;
+  }
+
+  .text_align_right {
+    text-align: left;
+  }
+
+  .text_align_center {
+    text-align: left;
+  }
+}
+
+.amount_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text_align_right {
+  text-align: right;
+}
+
+.text_align_center {
+  text-align: center;
 }

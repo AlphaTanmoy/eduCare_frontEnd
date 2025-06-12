@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { AmountStatus, AmountStatusDescriptions, TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
 
 export interface TransactionData {
   _id?: string;
@@ -39,6 +40,11 @@ export interface TransactionData {
 export class ViewTransactionComponent implements OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   faTimes = faTimes;
+
+  AmountStatus = AmountStatus;
+  AmountStatusDescriptions = AmountStatusDescriptions;
+  TransactionType = TransactionType;
+  TransactionTypeDescriptions = TransactionTypeDescriptions;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: TransactionData,
@@ -99,7 +105,7 @@ export class ViewTransactionComponent implements OnDestroy {
    * @param status - The status string
    * @returns CSS class for the status badge
    */
-  getStatusClass(status?: string): string {
+  getStatusClass(status: string | undefined): string {
     if (!status) return 'badge bg-secondary';
 
     const statusLower = status.toLowerCase();
@@ -107,20 +113,24 @@ export class ViewTransactionComponent implements OnDestroy {
       case 'success':
       case 'completed':
       case 'approved':
-        return 'badge bg-success';
+        return 'text_card_success';
       case 'failed':
       case 'rejected':
       case 'declined':
-        return 'badge bg-danger';
+        return 'text_card_danger';
       case 'pending':
       case 'processing':
-        return 'badge bg-warning text-dark';
+        return 'text_card_idle';
       case 'refunded':
       case 'reversed':
-        return 'badge bg-info text-dark';
+        return 'text_card_idle';
       default:
-        return 'badge bg-secondary';
+        return 'text_card_idle';
     }
+  }
+
+  GetAmountStatusLabel(value: string | undefined): string {
+    return AmountStatusDescriptions[value as AmountStatus] || 'Unknown';
   }
 
   /**
@@ -139,6 +149,10 @@ export class ViewTransactionComponent implements OnDestroy {
     } else {
       return 'text-primary';
     }
+  }
+
+  GetTransactionTypeLabel(value: string | undefined): string {
+    return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
   /**

@@ -1,68 +1,70 @@
-<div class="card">
+<div class="card d-flex flex-column h-100 justify-content-between">
   <h5 class="card-header pt-3 pb-3 fw-bold">Transaction Details</h5>
 
   <!-- Card Body -->
-  <div class="card-body">
+  <div class="card-body flex-grow-1 overflow-auto">
+
     <!-- Basic Transaction Info -->
-    <div class="row mb-4 d-flex justify-content-between">
+    <div class="row mb-2 gy-3 flex-column flex-md-row">
       <div class="col-md-6">
         <p class="mb-2"><strong>Reference ID:</strong> {{data.referenceId || 'N/A'}}</p>
-        <p class="mb-2">
-          <strong>Status:</strong>
+        <div class="mb-2">
+          <strong>Status: </strong>
           <span [class]="getStatusClass(data.status)">
-            {{data.status || 'N/A'}}
+            {{GetAmountStatusLabel(data.status)}}
           </span>
-        </p>
-        <p class="mb-2">
-          <strong>Type:</strong>
-          <span [class]="getTransactionTypeClass(data.transactionType)">
-            {{data.transactionType || 'N/A'}}
-          </span>
-        </p>
+        </div>
+        <div class="mb-2">
+          <strong>Type: </strong>
+          <span
+            [class]="getTransactionTypeClass(data.transactionType)">{{GetTransactionTypeLabel(data.transactionType)}}</span>
+        </div>
       </div>
-      <div class="col-md-6">
-        <p class="mb-2 text_align_right"><strong>Date & Time:</strong> {{formatDate(data.date)}}</p>
-        <p class="mb-2 text_align_right"><strong>Created At:</strong> {{formatDate(data.createdAt)}}</p>
-        <p class="mb-2 text_align_right"><strong>Updated At:</strong> {{formatDate(data.updatedAt)}}</p>
+      <div class="col-md-6 text-md-end">
+        <p class="mb-2"><strong>Date & Time:</strong> {{formatDate(data.date)}}</p>
+        <p class="mb-2"><strong>Created At:</strong> {{formatDate(data.createdAt)}}</p>
+        <p class="mb-2"><strong>Updated At:</strong> {{formatDate(data.updatedAt)}}</p>
       </div>
     </div>
 
     <!-- Amount Details -->
-    <div class="border-top pt-3 mb-4">
-      <h6 class="mb-3">Amount Details</h6>
-      <div class="row d-flex justify-content-between">
-        <div class="col-md-4">
-          <p class="mb-2"><strong>Amount:</strong>
-            <span [class]="(data.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
-              {{(data.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(data.changedAmount ?? 0)}}
-            </span>
-          </p>
-        </div>
-        <div class="col-md-4">
-          <p class="mb-2 text_align_center"><strong>Balance:</strong> {{formatCurrency(data.currentAmount ?? 0)}}</p>
-        </div>
-        <div class="col-md-4">
-          <p class="mb-2 text_align_right"><strong>Effected Value:</strong> {{data.effectedValue || 'N/A'}}</p>
-        </div>
+    <div class="row amount_card pt-2 mb-0">
+      <!-- Amount -->
+      <div class="col-12 col-md-4">
+        <p class="mb-2"><strong>Amount:</strong>
+          <span [class]="(data.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
+            {{(data.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(data.changedAmount ?? 0)}}
+          </span>
+        </p>
+      </div>
+
+      <!-- Balance -->
+      <div class="col-12 col-md-4 text_align_center">
+        <p class="mb-2"><strong>Balance:</strong> {{formatCurrency(data.currentAmount ?? 0)}}</p>
+      </div>
+
+      <!-- Effected Value -->
+      <div class="col-12 col-md-4 text_align_right">
+        <p class="mb-2"><strong>Effected Value:</strong> {{data.effectedValue || 'N/A'}}</p>
       </div>
     </div>
 
     <!-- Additional Info -->
-    <div class="border-top pt-3 mb-4">
-      <h6 class="mb-3">Additional Information</h6>
+    <div class="border-top pt-2 mb-2">
+      <h6 class="mb-2">Additional Information</h6>
       <p class="mb-2"><strong>Franchise ID:</strong> {{data.franchiseId || 'N/A'}}</p>
       <p class="mb-2"><strong>Wallet ID:</strong> {{data.walletId || 'N/A'}}</p>
       <p class="mb-2"><strong>Created By:</strong> {{data.createdBy || 'N/A'}}</p>
     </div>
 
     <!-- Notes -->
-    <div class="border-top pt-3 mb-3" *ngIf="data.notes">
-      <h6 class="mb-2">Notes</h6>
+    <div class="border-top pt-2 mb-3" *ngIf="data.notes">
+      <h6 class="mb-3">Notes</h6>
       <p class="mb-0">{{data.notes}}</p>
     </div>
 
     <!-- Misc Data -->
-    <div class="border-top pt-3" *ngIf="data.miscData">
+    <div class="border-top pt-2 mb-3" *ngIf="data.miscData">
       <h6 class="mb-3">Additional Details</h6>
       <div class="table-responsive">
         <table class="table table-sm table-bordered">
@@ -71,11 +73,11 @@
               <ng-container *ngIf="isObject(miscData)">
                 <ng-container *ngFor="let key of getObjectKeys(miscData)">
                   <tr *ngIf="!isObject(miscData[key]) && !isArray(miscData[key])">
-                    <td class="fw-bold" style="width: 30%;">{{key}}</td>
+                    <td class="fw-bold w-30">{{key}}</td>
                     <td>{{miscData[key] !== null && miscData[key] !== undefined ? miscData[key] : 'N/A'}}</td>
                   </tr>
                   <tr *ngIf="isObject(miscData[key]) || isArray(miscData[key])">
-                    <td class="fw-bold" style="width: 30%;">{{key}}</td>
+                    <td class="fw-bold w-30">{{key}}</td>
                     <td>
                       <pre class="mb-0">{{miscData[key] | json}}</pre>
                     </td>
@@ -93,6 +95,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Card Footer -->
   <div class="card-footer text-end">

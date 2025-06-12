@@ -321,6 +321,11 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
         // Open the dialog with the transaction data
         const dialogRef = this.dialog.open(ViewTransactionComponent, {
+          width: '1000px',
+          height: 'max-content',
+          maxWidth: '95vw',
+          maxHeight: '95vh',
+          panelClass: 'responsive-dialog',
           data: transactionData,
         });
 
