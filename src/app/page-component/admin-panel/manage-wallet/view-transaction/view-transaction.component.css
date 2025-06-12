@@ -28,6 +28,15 @@
   }
 }
 
+.card {
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.card-body {
+  overflow: scroll;
+}
+
 .amount_card {
   display: flex;
   flex-direction: row;

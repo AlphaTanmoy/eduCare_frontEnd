@@ -11,6 +11,11 @@
 
 .card {
     word-break: break-all;
+    overflow: hidden;
+}
+
+.card-body {
+    overflow: scroll;
 }
 
 .student_image {
