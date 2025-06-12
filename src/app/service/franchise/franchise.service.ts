@@ -21,26 +21,8 @@ export class FranchiseService {
     return this.http.post<any>(GetBaseURL() + Endpoints.franchise.upload_franchise_documents, formData);
   }
 
-  getAllCentersBasicInfo(): Observable<{
-    status: number;
-    responseType: string;
-    apiPath: string;
-    message: string;
-    data: Array<{
-      _id: string;
-      center_name: string;
-    }>;
-  }> {
-    return this.http.get<{
-      status: number;
-      responseType: string;
-      apiPath: string;
-      message: string;
-      data: Array<{
-        _id: string;
-        center_name: string;
-      }>;
-    }>(GetBaseURL() + Endpoints.franchise.get_all_centers_basic_info);
+  getAllCentersBasicInfo(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_all_centers_basic_info);
   }
 
   getAllAvailableSubCourseByFranchise(franchiseId: string | null): Observable<any> {

@@ -136,4 +136,38 @@ export const WalletAmountStatusDescriptions: Record<WalletAmountStatus, string> 
   [WalletAmountStatus.REJECTED]: 'Rejected',
 };
 
+export enum AmountStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  SYSTEM_APPROVED = "SYSTEM_APPROVED",
+  TRANSACTION_CONTROL = "TRANSACTION_CONTROL"
+}
+
+export const AmountStatusDescriptions: Record<AmountStatus, string> = {
+  [AmountStatus.PENDING]: 'Pending',
+  [AmountStatus.APPROVED]: 'Approved',
+  [AmountStatus.REJECTED]: 'Rejected',
+  [AmountStatus.SYSTEM_APPROVED]: 'System Approved',
+  [AmountStatus.TRANSACTION_CONTROL]: 'Transaction Control',
+};
+
+export enum TransactionType {
+  DEBIT = "DEBIT",
+  CREDIT = "CREDIT",
+  STUDENT_FEE_REFUND = "STUDENT_FEE_REFUND",
+  TERMINATED = "TERMINATED",
+  TICKET_RAISE = "TICKET_RAISE",
+  STUDENT_FEE_PAYMENT = "STUDENT_FEE_PAYMENT"
+}
+
+export const TransactionTypeDescriptions: Record<TransactionType, string> = {
+  [TransactionType.DEBIT]: 'Debit',
+  [TransactionType.CREDIT]: 'Credit',
+  [TransactionType.STUDENT_FEE_REFUND]: 'Student Fee Refund',
+  [TransactionType.TERMINATED]: 'Terminated',
+  [TransactionType.TICKET_RAISE]: 'Ticket Raise',
+  [TransactionType.STUDENT_FEE_PAYMENT]: 'Student Fee Payment',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

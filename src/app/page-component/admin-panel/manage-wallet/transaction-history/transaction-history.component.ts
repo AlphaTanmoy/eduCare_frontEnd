@@ -19,7 +19,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { Dropdown } from '../../../../constants/commonConstants';
+import { AmountStatus, AmountStatusDescriptions, Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 interface Transaction {
   _id: string;
@@ -38,8 +39,6 @@ interface Transaction {
   createdAt: string;
   updatedAt: string;
 }
-
-
 
 @Component({
   selector: 'app-transaction-history',
@@ -78,6 +77,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   faCircleInfo = faCircleInfo;
   faCircleXmark = faCircleXmark;
 
+  AmountStatus = AmountStatus;
+  AmountStatusDescriptions = AmountStatusDescriptions;
+  TransactionType = TransactionType;
+  TransactionTypeDescriptions = TransactionTypeDescriptions;
+
+  UserRole = UserRole;
+
   // Table data
   dataSource = new MatTableDataSource<Transaction>([]);
   displayedColumns: string[] = [
@@ -100,7 +106,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
   // Pagination
   pageIndex = 0;
-  pageSize = 10;
+  pageSize = 5;
   totalCount = 0;
   isDataLoaded = false;
   searchText = '';
@@ -114,12 +120,12 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     try {
       const userRole = this.authService.getUserRole();
       console.log('User role:', userRole);
-      
+
       this.isFranchise = userRole?.toLowerCase() === 'franchise';
-      this.isAdmin = ['master', 'admin'].includes(userRole?.toLowerCase() || '');
-      
+      this.isAdmin = [UserRole.MASTER, UserRole.ADMIN].includes(userRole?.toUpperCase() || '');
+
       console.log('isFranchise:', this.isFranchise, 'isAdmin:', this.isAdmin);
-      
+
       if (this.isAdmin) {
         // For admin users, load franchises for selection
         await this.loadFranchises();
@@ -160,11 +166,6 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       const response = await firstValueFrom(this.franchiseService.getAllCentersBasicInfo());
       if (response && response.data) {
         this.franchises = response.data.map((f: any) => new Dropdown(f._id, f.center_name));
-        // Auto-select the first franchise if none selected
-        if (this.franchises.length > 0 && !this.selectedFranchise) {
-          this.selectedFranchise = this.franchises[0];
-          await this.loadTransactions();
-        }
       }
     } catch (error) {
       console.error('Error loading franchises:', error);
@@ -191,7 +192,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       }
 
       let franchiseId: string | undefined;
-      
+
       if (this.isAdmin) {
         // For admin users, use the selected franchise ID
         franchiseId = this.selectedFranchise?.id;
@@ -200,7 +201,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
         // For franchise users, fetch their franchise ID from the API
         const userId = this.authService.getUserId();
         console.log('Franchise user - userId:', userId);
-        
+
         if (userId) {
           try {
             console.log('Fetching franchise ID for user:', userId);
@@ -208,7 +209,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
               this.franchiseService.GetFranchiseIdByUserId(userId)
             );
             console.log('Franchise ID response:', franchiseResponse);
-            
+
             if (franchiseResponse?.data?._id) {
               franchiseId = franchiseResponse.data._id;
               console.log('Using franchiseId:', franchiseId);
@@ -222,13 +223,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
           console.error('No user ID found');
         }
       }
-      
-      console.log('Calling GetFranchiseTransactionLogs with:', { 
-        page: this.pageIndex + 1, 
-        limit: this.pageSize, 
-        franchiseId 
+
+      console.log('Calling GetFranchiseTransactionLogs with:', {
+        page: this.pageIndex + 1,
+        limit: this.pageSize,
+        franchiseId
       });
-      
+
       const response = await firstValueFrom(
         this.walletService.GetFranchiseTransactionLogs(
           this.pageIndex + 1,
@@ -236,13 +237,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
           franchiseId
         )
       );
-      
+
       console.log('API Response:', response);
 
       if (response?.data?.[0]?.transactions) {
         this.dataSource.data = response.data[0].transactions;
         this.totalCount = response.data[0].pagination?.total || 0;
-        
+
         // Update wallet balance (assuming the latest transaction has the current balance)
         if (this.dataSource.data.length > 0) {
           const latestTx = this.dataSource.data[0];
@@ -275,20 +276,9 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     this.loadTransactions();
   }
 
-  applyFilter(event: Event): void {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.searchText = filterValue.trim().toLowerCase();
-    this.pageIndex = 0;
-    if (this.paginator) {
-      this.paginator.pageIndex = 0;
-    }
-    this.loadTransactions();
-  }
-
-  onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.loadTransactions();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   async viewTransaction(transaction: Transaction): Promise<void> {
@@ -301,7 +291,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     try {
       this.matProgressBarVisible = true;
       console.log('Fetching transaction details for ID:', transaction._id);
-      
+
       const response = await firstValueFrom(
         this.walletService.GetTransactionLogById(transaction._id)
       );
@@ -310,12 +300,12 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
       // Extract transaction data from the response structure
       let transactionData = response?.responseType?.transaction || response?.data;
-      
+
       // If transactionData is an array, take the first item
       if (Array.isArray(transactionData)) {
         transactionData = transactionData[0];
       }
-      
+
       // If we still don't have transaction data, try to use the original transaction
       if (!transactionData) {
         console.warn('No transaction data in response, using original transaction data');
@@ -325,10 +315,10 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       if (transactionData) {
         // Import the ViewTransactionComponent dynamically to avoid circular dependencies
         const { ViewTransactionComponent } = await import('../view-transaction/view-transaction.component');
-        
+
         // Log the data being passed to the dialog for debugging
         console.log('Opening dialog with transaction data:', transactionData);
-        
+
         // Open the dialog with the transaction data
         this.dialog.open(ViewTransactionComponent, {
           width: '800px',
@@ -345,69 +335,30 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     } catch (error: unknown) {
       console.error('Error viewing transaction:', error);
       let errorMessage = 'Please try again later.';
-      
+
       if (error && typeof error === 'object') {
         const errorObj = error as { error?: { message?: unknown } };
         if (errorObj?.error && typeof errorObj.error === 'object' && 'message' in errorObj.error) {
           errorMessage = String(errorObj.error.message);
         }
       }
-      
+
       this.showAlert('Error', `Failed to load transaction details. ${errorMessage}`);
     } finally {
       this.matProgressBarVisible = false;
     }
   }
 
-  private formatTransactionDetails(transaction: any): string {
-    try {
-      const details = [
-        `Reference ID: ${transaction.referenceId || 'N/A'}`,
-        `Type: ${transaction.transactionType || 'N/A'}`,
-        `Status: ${transaction.status || 'N/A'}`,
-        `Amount: ${this.formatCurrency(transaction.changedAmount || 0)}`,
-        `Balance: ${this.formatCurrency(transaction.currentAmount || 0)}`,
-        `Date: ${this.formatDate(transaction.date || transaction.createdAt || '')}`,
-        `Notes: ${transaction.notes || 'No additional notes'}`,
-      ];
-
-      // Add any additional fields from miscData if it exists
-      if (transaction.miscData) {
-        try {
-          const miscData = typeof transaction.miscData === 'string' 
-            ? JSON.parse(transaction.miscData) 
-            : transaction.miscData;
-          
-          details.push('\nAdditional Details:');
-          Object.entries(miscData).forEach(([key, value]) => {
-            details.push(`${key}: ${value}`);
-          });
-        } catch (e) {
-          console.warn('Could not parse miscData:', transaction.miscData);
-        }
-      }
-
-      return details.join('\n');
-    } catch (error) {
-      console.error('Error formatting transaction details:', error);
-      return 'Error formatting transaction details';
-    }
+  FormatDateTime(datetimeValue: any) {
+    return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return isNaN(date.getTime()) 
-      ? 'Invalid date' 
-      : date.toLocaleString('en-IN', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true
-        });
+  GetAmountStatusLabel(value: string): string {
+    return AmountStatusDescriptions[value as AmountStatus] || 'Unknown';
+  }
+
+  GetTransactionTypeLabel(value: string): string {
+    return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
   formatCurrency(amount: number): string {
@@ -421,48 +372,68 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
   getStatusClass(status: string): string {
     if (!status) return 'badge bg-secondary';
-    
+
     const statusLower = status.toLowerCase();
     switch (statusLower) {
       case 'success':
       case 'completed':
       case 'approved':
-        return 'badge bg-success';
+        return 'text_card_success';
       case 'failed':
       case 'rejected':
       case 'declined':
-        return 'badge bg-danger';
+        return 'text_card_danger';
       case 'pending':
       case 'processing':
-        return 'badge bg-warning text-dark';
+        return 'text_card_idle';
       case 'refunded':
       case 'reversed':
-        return 'badge bg-info text-dark';
+        return 'text_card_idle';
       default:
-        return 'badge bg-secondary';
+        return 'text_card_idle';
     }
   }
 
   getTransactionTypeClass(type: string): string {
     if (!type) return 'text-muted';
-    
+
     const typeLower = type.toLowerCase();
     if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
       return 'text-danger';
     } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
       return 'text-success';
     } else {
-      return 'text-info';
+      return 'text-primary';
     }
   }
 
   // Show alert dialog
   private showAlert(title: string, message: string): void {
     this.dialog.open(CustomAlertComponent, {
-      data: { 
-        title, 
-        text: message, 
+      data: {
+        title,
+        text: message,
         type: 3 // 3 is for error type
+      }
+    });
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, reFetchNeeded: boolean): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (reFetchNeeded) {
+
       }
     });
   }
