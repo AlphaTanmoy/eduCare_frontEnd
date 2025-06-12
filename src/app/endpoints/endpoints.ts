@@ -93,6 +93,6 @@ export const Endpoints = {
     unblock_franchise_transactions: "wallet/unblock-franchise-transactions",
     pay_student_fees: "wallet/pay-student-fees",
     refund_student_fees: "wallet/refund-student-fees",
-    franchise_transactions_logs: "franchise/transactionsLogs",
+    franchise_transactions_logs: "wallet/franchise/transactionsLogs",
   }
 }
