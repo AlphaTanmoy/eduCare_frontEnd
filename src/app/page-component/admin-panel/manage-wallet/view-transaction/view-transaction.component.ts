@@ -59,11 +59,7 @@ export class ViewTransactionComponent implements OnDestroy {
     this.bootstrapElements = loadBootstrap();
   }
 
-  /**
-   * Format date for display
-   * @param dateString - The date string to format
-   * @returns Formatted date string or 'N/A' if invalid
-   */
+
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
     try {
@@ -85,11 +81,6 @@ export class ViewTransactionComponent implements OnDestroy {
     }
   }
 
-  /**
-   * Format currency for display
-   * @param amount - The amount to format
-   * @returns Formatted currency string
-   */
   formatCurrency(amount: number | undefined | null): string {
     const value = amount ?? 0;
     return new Intl.NumberFormat('en-IN', {
@@ -100,11 +91,6 @@ export class ViewTransactionComponent implements OnDestroy {
     }).format(value);
   }
 
-  /**
-   * Get status badge class based on status
-   * @param status - The status string
-   * @returns CSS class for the status badge
-   */
   getStatusClass(status: string | undefined): string {
     if (!status) return 'badge bg-secondary';
 
@@ -133,11 +119,6 @@ export class ViewTransactionComponent implements OnDestroy {
     return AmountStatusDescriptions[value as AmountStatus] || 'Unknown';
   }
 
-  /**
-   * Get transaction type class
-   * @param type - The transaction type
-   * @returns CSS class for the transaction type
-   */
   getTransactionTypeClass(type?: string): string {
     if (!type) return 'text-muted';
 
@@ -155,10 +136,6 @@ export class ViewTransactionComponent implements OnDestroy {
     return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
-  /**
-   * Parse misc data if it's a JSON string
-   * @returns Parsed misc data or null
-   */
   getMiscData(): any {
     if (!this.data?.miscData) return null;
 
@@ -176,29 +153,14 @@ export class ViewTransactionComponent implements OnDestroy {
     }
   }
 
-  /**
-   * Check if a value is an object
-   * @param value - The value to check
-   * @returns True if the value is an object
-   */
   isObject(value: any): boolean {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
 
-  /**
-   * Check if a value is an array
-   * @param value - The value to check
-   * @returns True if the value is an array
-   */
   isArray(value: any): boolean {
     return Array.isArray(value);
   }
 
-  /**
-   * Safely get object keys
-   * @param obj - The object to get keys from
-   * @returns Array of keys or empty array if not an object
-   */
   getObjectKeys(obj: any): string[] {
     if (!this.isObject(obj)) {
       return [];
@@ -206,7 +168,6 @@ export class ViewTransactionComponent implements OnDestroy {
     return Object.keys(obj);
   }
 
-  // Clean up when component is destroyed
   ngOnDestroy(): void {
     if (this.bootstrapElements) {
       removeBootstrap(this.bootstrapElements);

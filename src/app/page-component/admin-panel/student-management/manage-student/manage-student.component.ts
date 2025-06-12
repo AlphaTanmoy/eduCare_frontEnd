@@ -122,6 +122,11 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ViewStudent(student: any) {
     const dialogRef = this.dialog.open(ViewStudentComponent, {
+      width: '1000px',
+      height: 'max-content',
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      panelClass: 'responsive-dialog',
       data: student,
     });
   }
