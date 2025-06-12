@@ -11,6 +11,39 @@
     /* user-select: none; */
 }
 
+/* Transaction Details Dialog */
+.transaction-details-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.transaction-details-dialog .mat-mdc-dialog-container .mdc-dialog__surface .mat-mdc-dialog-surface {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Responsive adjustments for dialogs */
+@media (max-width: 600px) {
+  .transaction-details-dialog {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .transaction-details-dialog .mat-mdc-dialog-container {
+    padding: 0;
+  }
+  
+  .transaction-details-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}
+
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
