@@ -54,7 +54,8 @@ interface Transaction {
     FontAwesomeModule,
     MatProgressBarModule,
     CustomSingleSelectSearchableDropdownComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCardModule
   ],
   templateUrl: './transaction-history.component.html',
   styleUrl: './transaction-history.component.css',
@@ -290,7 +291,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     this.loadTransactions();
   }
 
-  async viewTransaction(transaction: any): Promise<void> {
+  async viewTransaction(transaction: Transaction): Promise<void> {
     if (!transaction?._id) {
       console.error('Invalid transaction data:', transaction);
       this.showAlert('Error', 'Invalid transaction data');
@@ -307,16 +308,52 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
       console.log('Transaction details response:', response);
 
-      if (response?.data) {
-        // Format and display the transaction details
-        const details = this.formatTransactionDetails(response.data);
-        this.showAlert('Transaction Details', details);
-      } else {
-        this.showAlert('Error', 'Failed to load transaction details');
+      // Extract transaction data from the response structure
+      let transactionData = response?.responseType?.transaction || response?.data;
+      
+      // If transactionData is an array, take the first item
+      if (Array.isArray(transactionData)) {
+        transactionData = transactionData[0];
       }
-    } catch (error) {
-      console.error('Error fetching transaction details:', error);
-      this.showAlert('Error', 'Failed to load transaction details. Please try again.');
+      
+      // If we still don't have transaction data, try to use the original transaction
+      if (!transactionData) {
+        console.warn('No transaction data in response, using original transaction data');
+        transactionData = transaction;
+      }
+
+      if (transactionData) {
+        // Import the ViewTransactionComponent dynamically to avoid circular dependencies
+        const { ViewTransactionComponent } = await import('../view-transaction/view-transaction.component');
+        
+        // Log the data being passed to the dialog for debugging
+        console.log('Opening dialog with transaction data:', transactionData);
+        
+        // Open the dialog with the transaction data
+        this.dialog.open(ViewTransactionComponent, {
+          width: '800px',
+          maxWidth: '95vw',
+          maxHeight: '90vh',
+          panelClass: 'transaction-details-dialog',
+          data: transactionData, // Pass the extracted transaction data
+          autoFocus: false
+        });
+      } else {
+        console.warn('No transaction details found in response:', response);
+        this.showAlert('No Details', 'No additional details available for this transaction.');
+      }
+    } catch (error: unknown) {
+      console.error('Error viewing transaction:', error);
+      let errorMessage = 'Please try again later.';
+      
+      if (error && typeof error === 'object') {
+        const errorObj = error as { error?: { message?: unknown } };
+        if (errorObj?.error && typeof errorObj.error === 'object' && 'message' in errorObj.error) {
+          errorMessage = String(errorObj.error.message);
+        }
+      }
+      
+      this.showAlert('Error', `Failed to load transaction details. ${errorMessage}`);
     } finally {
       this.matProgressBarVisible = false;
     }
@@ -359,44 +396,74 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
   formatDate(dateString: string): string {
     if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleString();
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) 
+      ? 'Invalid date' 
+      : date.toLocaleString('en-IN', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
   }
 
   formatCurrency(amount: number): string {
-    return '₹' + (amount?.toFixed(2) || '0.00');
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
   }
 
   getStatusClass(status: string): string {
-    switch (status?.toUpperCase()) {
-      case 'COMPLETED':
-      case 'APPROVED':
+    if (!status) return 'badge bg-secondary';
+    
+    const statusLower = status.toLowerCase();
+    switch (statusLower) {
+      case 'success':
+      case 'completed':
+      case 'approved':
         return 'badge bg-success';
-      case 'PENDING':
-        return 'badge bg-warning text-dark';
-      case 'FAILED':
-      case 'REJECTED':
+      case 'failed':
+      case 'rejected':
+      case 'declined':
         return 'badge bg-danger';
+      case 'pending':
+      case 'processing':
+        return 'badge bg-warning text-dark';
+      case 'refunded':
+      case 'reversed':
+        return 'badge bg-info text-dark';
       default:
         return 'badge bg-secondary';
     }
   }
 
   getTransactionTypeClass(type: string): string {
-    switch (type?.toUpperCase()) {
-      case 'CREDIT':
-        return 'text-success';
-      case 'DEBIT':
-        return 'text-danger';
-      default:
-        return 'text-info';
+    if (!type) return 'text-muted';
+    
+    const typeLower = type.toLowerCase();
+    if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
+      return 'text-danger';
+    } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
+      return 'text-success';
+    } else {
+      return 'text-info';
     }
   }
 
-  // UI Helpers
+  // Show alert dialog
   private showAlert(title: string, message: string): void {
     this.dialog.open(CustomAlertComponent, {
-      width: '400px',
-      data: { title, message }
+      data: { 
+        title, 
+        text: message, 
+        type: 3 // 3 is for error type
+      }
     });
   }
 }
