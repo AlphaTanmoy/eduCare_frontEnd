@@ -17,6 +17,80 @@ export class WalletService {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.get_available_transactions_per_franchise_by_offset, { associated_franchise_id, page_number, page_size });
   }
 
+  getFranchiseTransactionLogs(franchiseId?: string): Observable<{
+    status: number;
+    responseType: string;
+    apiPath: string;
+    message: string;
+    data: Array<{
+      transactions: Array<{
+        _id: string;
+        date: string;
+        currentAmount: number;
+        changedAmount: number;
+        effectedValue: number;
+        franchiseId: string;
+        miscData: string | null;
+        walletId: string | null;
+        transactionType: string;
+        status: string;
+        referenceId: string;
+        notes: string;
+        createdBy: string | null;
+        createdAt: string;
+        updatedAt: string;
+        __v: number;
+      }>;
+      pagination: {
+        total: number;
+        page: number;
+        totalPages: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+        limit: number;
+      };
+    }>;
+  }> {
+    let url = GetBaseURL() + Endpoints.wallet.franchise_transactions_logs;
+    if (franchiseId) {
+      url += `?franchiseId=${franchiseId}`;
+    }
+    return this.http.get<{
+      status: number;
+      responseType: string;
+      apiPath: string;
+      message: string;
+      data: Array<{
+        transactions: Array<{
+          _id: string;
+          date: string;
+          currentAmount: number;
+          changedAmount: number;
+          effectedValue: number;
+          franchiseId: string;
+          miscData: string | null;
+          walletId: string | null;
+          transactionType: string;
+          status: string;
+          referenceId: string;
+          notes: string;
+          createdBy: string | null;
+          createdAt: string;
+          updatedAt: string;
+          __v: number;
+        }>;
+        pagination: {
+          total: number;
+          page: number;
+          totalPages: number;
+          hasNextPage: boolean;
+          hasPrevPage: boolean;
+          limit: number;
+        };
+      }>;
+    }>(url);
+  }
+
   DoApproveOrReject(status: string, notes: string, transaction_ids: string[]): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.approve_reject_wallet, { status, notes, transaction_ids });
   }
@@ -38,11 +112,18 @@ export class WalletService {
   }
 
   GetFranchiseTransactionLogs(franchiseId: string, page: number, limit: number, filters?: any): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.franchise_transactions_logs, { 
-      franchiseId, 
-      page, 
-      limit, 
-      ...filters 
-    });
+    // Build query parameters
+    let params: any = {
+      page: page.toString(),
+      limit: limit.toString(),
+      ...filters
+    };
+
+    // Only add franchiseId if it's provided
+    if (franchiseId) {
+      params.franchiseId = franchiseId;
+    }
+
+    return this.http.get<any>(GetBaseURL() + Endpoints.wallet.franchise_transactions_logs, { params });
   }
 }
