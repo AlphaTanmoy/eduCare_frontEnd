@@ -17,6 +17,36 @@
   overflow: hidden;
 }
 
+/* Completely hide dialog header and close button */
+.no-header .mdc-dialog__header,
+.no-header .mdc-dialog__title,
+.no-header .mdc-dialog__close,
+.no-header .mat-mdc-dialog-close,
+.no-header .mat-mdc-dialog-title,
+.no-header .mat-mdc-dialog-actions,
+.no-header .mat-mdc-dialog-close .mat-mdc-button-touch-target {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+/* Ensure the dialog content takes full height */
+.no-header .mdc-dialog__surface {
+  padding-top: 0 !important;
+}
+
+/* Hide any remaining close buttons */
+[mat-dialog-close],
+[mat-dialog-close]::before,
+[mat-dialog-close]::after {
+  display: none !important;
+}
+
 .transaction-details-dialog .mat-mdc-dialog-container .mdc-dialog__surface .mat-mdc-dialog-surface {
   padding: 0;
   background: transparent;

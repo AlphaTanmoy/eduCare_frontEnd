@@ -330,13 +330,28 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
         console.log('Opening dialog with transaction data:', transactionData);
         
         // Open the dialog with the transaction data
-        this.dialog.open(ViewTransactionComponent, {
+        const dialogRef = this.dialog.open(ViewTransactionComponent, {
           width: '800px',
           maxWidth: '95vw',
           maxHeight: '90vh',
-          panelClass: 'transaction-details-dialog',
+          panelClass: ['transaction-details-dialog', 'custom-dialog', 'no-header'],
           data: transactionData, // Pass the extracted transaction data
-          autoFocus: false
+          autoFocus: false,
+          disableClose: false,
+          hasBackdrop: true,
+          closeOnNavigation: true,
+          backdropClass: 'custom-dialog-backdrop'
+        });
+
+        // Remove the header after the dialog is opened
+        dialogRef.afterOpened().subscribe(() => {
+          const dialogContainer = document.querySelector('.mat-mdc-dialog-container');
+          if (dialogContainer) {
+            const header = dialogContainer.querySelector('.mdc-dialog__header');
+            if (header) {
+              header.remove();
+            }
+          }
         });
       } else {
         console.warn('No transaction details found in response:', response);
