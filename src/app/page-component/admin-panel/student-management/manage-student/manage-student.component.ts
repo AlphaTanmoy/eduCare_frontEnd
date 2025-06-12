@@ -111,6 +111,11 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = 'image/default_student_photo.jpg'; // path to your default image
+  }
+
   AddStudent() {
     window.location.href = "academic/register-student";
   }
