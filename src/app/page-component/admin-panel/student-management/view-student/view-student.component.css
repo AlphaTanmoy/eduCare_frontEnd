@@ -1,0 +1,8 @@
+::ng-deep .cdk-overlay-pane,
+::ng-deep .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+}
+
+.cdk-overlay-pane .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+}
