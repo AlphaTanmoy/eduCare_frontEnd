@@ -43,4 +43,8 @@ export class StudentService {
   getStudentsAadharCardPhotoStream(student_guid: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_aadhar_card_photo_stream + "/" + student_guid, { responseType: 'blob' });
   }
+
+  deleteStudent(studentId: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.delete_student, { studentId: studentId });
+  }
 }

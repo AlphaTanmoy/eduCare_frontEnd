@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { StudentService } from '../../../../service/student/student.service';
 import { firstValueFrom } from 'rxjs';
-import { ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -43,12 +43,14 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
+  ActiveInactiveStatus = ActiveInactiveStatus;
+  ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_image', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'data_status', 'created_at', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -159,7 +161,24 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   DeleteStudent(id: any) {
+    this.activeMatProgressBar();
 
+    this.studentService.deleteStudent(id).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
+          this.getStudents(this.page_index, this.page_size);
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -173,6 +192,10 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   GetVerificationStatusLabel(value: number): string {
     return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
+  }
+
+  GetDataStatusLabel(value: string): string {
+    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
 
   GetFormattedAddress(value: string): string {

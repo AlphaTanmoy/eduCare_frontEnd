@@ -86,7 +86,7 @@ export const Endpoints = {
     get_student_aadhar_card_photo_stream: "student/get_student_aadhar_card_photo_stream",
     get_student_by_id: "student/getById",
     update_student: "student/update",
-    delete_student: "student/delete",
+    delete_student: "student/delete_student",
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
