@@ -136,6 +136,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   DownloadAadharCard(student: any) {
     try {
+      this.activeMatProgressBar();
+
       this.studentService.getStudentsAadharCardPhotoStream(student.student_guid).subscribe({
         next: (imageData: Blob) => {
           let center_document = URL.createObjectURL(imageData);
@@ -145,6 +147,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
           link.href = center_document;
           link.download = `${StudentDocumentName.AADHAR_CARD_PHOTO}`;
           link.click();
+          this.hideMatProgressBar();
         },
         error: (err) => {
           this.hideMatProgressBar();
@@ -152,6 +155,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         }
       });
     } catch (error) {
+      this.hideMatProgressBar();
       this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
     }
   }
