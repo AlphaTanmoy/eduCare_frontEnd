@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { StudentService } from '../../../../service/student/student.service';
 import { firstValueFrom } from 'rxjs';
-import { ResponseTypeColor, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EnumsComponent } from '../../enums/enums.component';
 
 @Component({
   selector: 'app-manage-student',
@@ -132,7 +133,25 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   DownloadAadharCard(student: any) {
+    try {
+      this.studentService.getStudentsAadharCardPhotoStream(student.student_guid).subscribe({
+        next: (imageData: Blob) => {
+          let center_document = URL.createObjectURL(imageData);
+          this.hideMatProgressBar();
 
+          const link = document.createElement('a');
+          link.href = center_document;
+          link.download = `${StudentDocumentName.AADHAR_CARD_PHOTO}`;
+          link.click();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+        }
+      });
+    } catch (error) {
+      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, false);
+    }
   }
 
   EditStudent(id: any) {

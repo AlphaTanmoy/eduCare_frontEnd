@@ -39,4 +39,8 @@ export class StudentService {
   getStudentsPhotoTenInALimit(student_guids: string[]): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.get_student_photo_by_batch_processing, student_guids);
   }
+
+  getStudentsAadharCardPhotoStream(student_guid: string): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.student.get_student_aadhar_card_photo_stream + "/" + student_guid, { responseType: 'blob' });
+  }
 }
