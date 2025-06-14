@@ -238,17 +238,11 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
         )
       );
 
-      console.log('API Response:', response);
-
       if (response?.data?.[0]?.transactions) {
         this.dataSource.data = response.data[0].transactions;
         this.totalCount = response.data[0].pagination?.total || 0;
 
-        // Update wallet balance (assuming the latest transaction has the current balance)
-        if (this.dataSource.data.length > 0) {
-          const latestTx = this.dataSource.data[0];
-          this.walletBalance = this.formatCurrency(latestTx.currentAmount);
-        }
+        this.walletBalance = this.formatCurrency(response.data[0].wallet_balance);
       } else {
         this.dataSource.data = [];
         this.totalCount = 0;
