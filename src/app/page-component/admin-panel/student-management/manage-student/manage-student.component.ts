@@ -50,7 +50,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'is_email_verified', 'data_status', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'data_status', 'created_at', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
