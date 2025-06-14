@@ -19,6 +19,7 @@ import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../ut
 import { ViewStudentComponent } from '../view-student/view-student.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EnumsComponent } from '../../enums/enums.component';
+import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 
 @Component({
   selector: 'app-manage-student',
@@ -164,23 +165,29 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
-  DeleteStudent(id: any) {
-    this.activeMatProgressBar();
+  DeleteStudent(student: any) {
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to delete this student?<br><br>Student ID : " + student.student_id + "<br>Student Name : " + student.student_name } });
 
-    this.studentService.deleteStudent(id).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.activeMatProgressBar();
 
-        if (response.status === 200) {
-          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
-          this.getStudents(this.page_index, this.page_size);
-        } else {
-          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
-        }
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+        this.studentService.deleteStudent(student.student_id).subscribe({
+          next: (response) => {
+            this.hideMatProgressBar();
+
+            if (response.status === 200) {
+              this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
+              this.getStudents(this.page_index, this.page_size);
+            } else {
+              this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+            }
+          },
+          error: (err) => {
+            this.hideMatProgressBar();
+            this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+          }
+        });
       }
     });
   }
