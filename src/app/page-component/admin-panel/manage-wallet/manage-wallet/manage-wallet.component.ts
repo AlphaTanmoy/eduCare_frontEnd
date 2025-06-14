@@ -216,7 +216,7 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const link = document.createElement('a');
         link.href = center_document;
-        link.download = `${transaction_id}.jpg`;
+        link.download = `${transaction_id}`;
         link.click();
         this.hideMatProgressBar();
       },
