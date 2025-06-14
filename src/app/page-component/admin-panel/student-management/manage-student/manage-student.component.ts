@@ -84,24 +84,25 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       }
 
       const data = res.data[0].all_students;
-      let data1 = [];
-      let data2 = [];
+      let data1: any[] = [];
+      let data2: any[] = [];
 
-      for (let i = 0; i < data.length; i++) {
-        let cachedImage = await this.indexedDbService.getItem(IndexedDBItemKey.student_profile_photo + data[i].student_id);
+      await Promise.all(data.map(async (student: any) => {
+        const cachedImage = await this.indexedDbService.getItem(
+          IndexedDBItemKey.student_profile_photo + student.student_id
+        );
 
         if (cachedImage) {
-          data[i].student_photo = cachedImage.value;
-          data1.push(data[i]);
-        }else{
-          data2.push(data[i]);
+          student.student_photo = cachedImage.value;
+          data1.push(student);
+        } else {
+          student.student_photo = null;
+          data2.push(student);
         }
-      }
+      }));
 
       for (let i = 0; i < data2.length; i += this.batch_size) {
-        let student_guids = data2.slice(i, i + this.batch_size)
-          .filter((y: any) => y.student_photo === "null")
-          .map((x: any) => x.student_guid);
+        let student_guids = data2.slice(i, i + this.batch_size).map((x: any) => x.student_guid);
 
         let k = i;
 
@@ -109,8 +110,9 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
           this.studentService.getStudentsPhotoTenInALimit(student_guids).subscribe({
             next: async (imageData) => {
               for (let j = 0; j < Math.min(student_guids.length, this.batch_size); j++) {
-                data2[k].student_photo = `data:image/jpg;base64,${imageData.data2[j]}`;
-                await this.indexedDbService.addItem(IndexedDBItemKey.student_profile_photo + data2[k].student_id, data2[k++].student_photo);
+                data2[k].student_photo = `data:image/jpg;base64,${imageData.data[j]}`;
+                await this.indexedDbService.addItem(IndexedDBItemKey.student_profile_photo + data2[k].student_id, data2[k].student_photo);
+                k++;
               }
               resolve();
             },
@@ -123,7 +125,14 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       }
 
-      const merged = data1.concat(data2);
+      let merged = [];
+      if (data1.length > 0 && data2.length === 0) {
+        merged = data1;
+      } else if (data2.length > 0 && data1.length === 0) {
+        merged = data2;
+      } else {
+        merged = data1.concat(data2);
+      }
 
       this.dataSource.data = merged;
       this.totalCount = res.data[0].total_students;
