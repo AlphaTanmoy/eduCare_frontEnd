@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { StudentService } from '../../../../service/student/student.service';
 import { firstValueFrom } from 'rxjs';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, IndexedDBItemKey, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, IndexedDBItemKey, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -47,12 +47,14 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   YesNoStatusDescriptions = YesNoStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
+  EnrollmentStatus = EnrollmentStatus;
+  EnrollmentStatusDescriptions = EnrollmentStatusDescriptions;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'data_status', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'student_enrollment_status', 'data_status', 'created_at', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -238,6 +240,11 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   GetDataStatusLabel(value: string): string {
     return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
+
+  GetEnrollmentStatusLabel(value: string): string {
+    return EnrollmentStatusDescriptions[value as EnrollmentStatus] || 'Unknown';
+  }
+
 
   GetFormattedAddress(value: string): string {
     value = value.replace(/\n/g, '<br>');

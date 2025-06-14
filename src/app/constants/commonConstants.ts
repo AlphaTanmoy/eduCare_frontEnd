@@ -173,4 +173,20 @@ export const TransactionTypeDescriptions: Record<TransactionType, string> = {
   [TransactionType.STUDENT_FEE_PAYMENT]: 'Student Fee Payment',
 };
 
+export enum EnrollmentStatus {
+  REGISTERED = "REGISTERED",
+  FEES_REFUNDED = "FEES_REFUNDED",
+  CERTIFICATE_ISSUED = "CERTIFICATE_ISSUED",
+  FEES_PAID = "FEES_PAID",
+  COMPLETED = "COMPLETED",
+}
+
+export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
+  [EnrollmentStatus.REGISTERED]: 'Registered',
+  [EnrollmentStatus.FEES_REFUNDED]: 'Fees Refunded',
+  [EnrollmentStatus.CERTIFICATE_ISSUED]: 'Certificate Issued',
+  [EnrollmentStatus.FEES_PAID]: 'Fees Paid',
+  [EnrollmentStatus.COMPLETED]: 'Completed',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
