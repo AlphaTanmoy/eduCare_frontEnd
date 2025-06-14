@@ -76,11 +76,13 @@ export const MaritalStatus = [
 export enum ActiveInactiveStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
+  DELETED = "DELETED",
 }
 
 export const ActiveInactiveStatusDescriptions: Record<ActiveInactiveStatus, string> = {
   [ActiveInactiveStatus.ACTIVE]: 'Active',
   [ActiveInactiveStatus.INACTIVE]: 'Inactive',
+  [ActiveInactiveStatus.DELETED]: 'Deleted',
 };
 
 export enum YesNoStatus {
