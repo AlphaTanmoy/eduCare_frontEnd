@@ -13,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEdit, faCircleXmark, faTrash, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
@@ -42,6 +42,9 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   faEye = faEye;
   faCircleXmark = faCircleXmark;
   faDownload = faDownload;
+  faMoneyCheckDollar = faMoneyCheckDollar;
+  faArrowRotateLeft = faArrowRotateLeft;
+  faGraduationCap = faGraduationCap;
 
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
@@ -54,7 +57,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['student_image', 'id', 'student_name', 'gender', 'email', 'phone', 'address', 'franchise', 'student_enrollment_status', 'data_status', 'created_at', 'action'];
+  displayedColumns: string[] = ['student_image', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -197,6 +200,18 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
+  PayFees(student: any) {
+
+  }
+
+  RefundFees(student: any) {
+    
+  }
+
+  CerficiateIssued(student: any) {
+    
+  }
+
   DeleteStudent(student: any) {
     const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to delete this student?<br><br>Student ID : " + student.student_id + "<br>Student Name : " + student.student_name } });
 
@@ -244,7 +259,6 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   GetEnrollmentStatusLabel(value: string): string {
     return EnrollmentStatusDescriptions[value as EnrollmentStatus] || 'Unknown';
   }
-
 
   GetFormattedAddress(value: string): string {
     value = value.replace(/\n/g, '<br>');
