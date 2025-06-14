@@ -21,6 +21,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EnumsComponent } from '../../enums/enums.component';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
+import { WalletService } from '../../../../service/wallet/wallet.service';
+import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 
 @Component({
   selector: 'app-manage-student',
@@ -62,7 +64,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
-    private indexedDbService: IndexedDbService
+    private indexedDbService: IndexedDbService,
+    private walletService: WalletService
   ) { }
 
   async ngOnInit() {
@@ -201,15 +204,67 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   PayFees(student: any) {
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to pay fees for this student?<br><br>Student ID : " + student.student_id + "<br>Student Name : " + student.student_name } });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.activeMatProgressBar();
+
+        this.walletService.payFeesStudent(student.student_id).subscribe({
+          next: (response) => {
+            this.hideMatProgressBar();
+
+            if (response.status === 200) {
+              this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
+              this.getStudents(this.page_index, this.page_size);
+            } else {
+              this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+            }
+          },
+          error: (err) => {
+            this.hideMatProgressBar();
+            this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+          }
+        });
+      }
+    });
   }
 
   RefundFees(student: any) {
+    const dialogRef = this.dialog.open(CustomConfirmDialogWithRemarksComponent, { data: { text: "Do you want to refund fees for this student?<br><br>Student ID : " + student.student_id + "<br>Student Name : " + student.student_name } });
     
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result) {
+        if (result.status === true) {
+          this.activeMatProgressBar();
+
+          this.walletService.refundFeesStudent(student.student_id, result.remarks).subscribe({
+            next: (response) => {
+              this.hideMatProgressBar();
+
+              if (response.status === 200) {
+                this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
+                this.getStudents(this.page_index, this.page_size);
+              } else {
+                this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+              }
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+            }
+          });
+        } else {
+          return;
+        }
+      } else {
+        return;
+      }
+    });
   }
 
   CerficiateIssued(student: any) {
-    
+
   }
 
   DeleteStudent(student: any) {

@@ -97,6 +97,8 @@ export const Endpoints = {
     pay_student_fees: "wallet/pay_student_fees",
     refund_student_fees: "wallet/refund_student_fees",
     franchise_transactions_logs: "wallet/franchise/transactions_logs",
-    transaction_log_by_id: "wallet/transaction"
+    transaction_log_by_id: "wallet/transaction",
+    pay_fees: "wallet/pay_fees",
+    refund_fees: "wallet/refund_fees",
   }
 }

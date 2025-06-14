@@ -56,4 +56,16 @@ export class WalletService {
     }
     return this.http.get<any>(`${GetBaseURL()}${Endpoints.wallet.transaction_log_by_id}/${transactionId}`);
   }
+
+  payFeesStudent(studentId: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.pay_fees, { studentId: studentId });
+  }
+
+  refundFeesStudent(studentId: string, reason: string): Observable<any> {
+    const obj = {
+      studentId: studentId,
+      reason: reason
+    }
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.refund_fees, obj);
+  }
 }
