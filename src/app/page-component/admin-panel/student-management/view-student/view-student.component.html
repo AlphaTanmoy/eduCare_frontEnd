@@ -13,6 +13,12 @@
                 <p class="card-text"><span class="fw-bold">Marital Status :</span>
                     {{data.student_maratial_status}}</p>
                 <p class="card-text"><span class="fw-bold">Aadhar :</span> {{data.student_Adhar_number}}</p>
+                <p class="card-text"><span class="fw-bold">Status : </span> <span [ngClass]="
+                            data.data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
+                            data.data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' :
+                            data.data_status === ActiveInactiveStatus.DELETED ? 'text_card_deleted' : 'text_card_idle'
+                            ">{{ GetDataStatusLabel(data.data_status) }}
+                    </span></p>
             </div>
             <div class="student_image">
                 <img [src]="data.student_photo" (error)="onImageError($event)">

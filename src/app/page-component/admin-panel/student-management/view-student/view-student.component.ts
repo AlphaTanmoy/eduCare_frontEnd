@@ -5,7 +5,7 @@ import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 
 @Component({
   selector: 'app-view-student',
@@ -15,6 +15,9 @@ import { YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/comm
 })
 export class ViewStudentComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
+  ActiveInactiveStatus = ActiveInactiveStatus;
+  ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -28,6 +31,10 @@ export class ViewStudentComponent {
 
   FormatDateTime(datetimeValue: any) {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
+  }
+
+  GetDataStatusLabel(value: string): string {
+    return ActiveInactiveStatusDescriptions[value as ActiveInactiveStatus] || 'Unknown';
   }
 
   GetIsEmailVerifiedLabel(value: number): string {
