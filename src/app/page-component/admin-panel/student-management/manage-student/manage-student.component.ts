@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { StudentService } from '../../../../service/student/student.service';
 import { firstValueFrom } from 'rxjs';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, IndexedDBItemKey, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { ViewStudentComponent } from '../view-student/view-student.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EnumsComponent } from '../../enums/enums.component';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
+import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
 
 @Component({
   selector: 'app-manage-student',
@@ -56,6 +57,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
+    private indexedDbService: IndexedDbService
   ) { }
 
   async ngOnInit() {
@@ -82,16 +84,33 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       }
 
       const data = res.data[0].all_students;
+      let data1 = [];
+      let data2 = [];
 
-      for (let i = 0; i < data.length; i += this.batch_size) {
-        let student_guids = data.slice(i, i + this.batch_size).map((x: any) => x.student_guid);
+      for (let i = 0; i < data.length; i++) {
+        let cachedImage = await this.indexedDbService.getItem(IndexedDBItemKey.student_profile_photo + data[i].student_id);
+
+        if (cachedImage) {
+          data[i].student_photo = cachedImage.value;
+          data1.push(data[i]);
+        }else{
+          data2.push(data[i]);
+        }
+      }
+
+      for (let i = 0; i < data2.length; i += this.batch_size) {
+        let student_guids = data2.slice(i, i + this.batch_size)
+          .filter((y: any) => y.student_photo === "null")
+          .map((x: any) => x.student_guid);
+
         let k = i;
 
         await new Promise<void>((resolve, reject) => {
           this.studentService.getStudentsPhotoTenInALimit(student_guids).subscribe({
-            next: (imageData) => {
+            next: async (imageData) => {
               for (let j = 0; j < Math.min(student_guids.length, this.batch_size); j++) {
-                data[k++].student_photo = `data:image/jpg;base64,${imageData.data[j]}`;
+                data2[k].student_photo = `data:image/jpg;base64,${imageData.data2[j]}`;
+                await this.indexedDbService.addItem(IndexedDBItemKey.student_profile_photo + data2[k].student_id, data2[k++].student_photo);
               }
               resolve();
             },
@@ -104,7 +123,9 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       }
 
-      this.dataSource.data = data;
+      const merged = data1.concat(data2);
+
+      this.dataSource.data = merged;
       this.totalCount = res.data[0].total_students;
       this.cdr.detectChanges();
     } catch (error) {

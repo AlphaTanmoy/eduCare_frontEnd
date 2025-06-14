@@ -35,6 +35,7 @@ export class IndexedDB {
 
 export const IndexedDBItemKey = {
   dashboard_slideshow_images: "dashboard_slideshow_images",
+  student_profile_photo: "student_profile_photo",
 }
 
 export const MasterDataType = {
