@@ -89,10 +89,10 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     'date',
     'referenceId',
     'type',
+    'transfer_amount',
     'old_balance',
     'new_balance',
     'transaction_effect',
-    'notes',
     'actions'
   ];
 
