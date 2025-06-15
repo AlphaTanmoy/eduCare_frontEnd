@@ -30,8 +30,6 @@
                         (click)="ApproveOrReject(WalletAmountStatus.APPROVED)">Approve</button>
                     <button class="btn btn-danger me-2 btn-sm" [disabled]="!canApproveReject || matProgressBarVisible"
                         (click)="ApproveOrReject(WalletAmountStatus.REJECTED)">Reject</button>
-                    <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
-                        (click)="redirectToRechargeWallet()">Add</button>
                 </div>
             </div>
 

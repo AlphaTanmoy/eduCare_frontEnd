@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { WalletService } from '../../../../service/wallet/wallet.service';
-import { AuthService } from '../../../../service/auth/Auth.Service';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { Dropdown, ResponseTypeColor, WalletAmountStatus, WalletAmountStatusDescriptions } from '../../../../constants/commonConstants';
 import { firstValueFrom } from 'rxjs';
@@ -74,11 +73,12 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
   approve_reject_items: string[] = [];
 
   constructor(
-    private authService: AuthService,
-    private franchiseService: FranchiseService,
     private walletService: WalletService,
+    private franchiseService: FranchiseService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+
+  }
 
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
