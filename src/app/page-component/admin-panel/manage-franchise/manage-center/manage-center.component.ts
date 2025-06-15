@@ -50,7 +50,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
-  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'is_email_verified', 'approve_or_reject', 'created_at', 'action'];
+  displayedColumns: string[] = ['center_name', 'center_contact_number', 'center_email_id', 'center_category', 'center_type', 'center_address', 'data_status', 'is_approved', 'is_email_verified', 'approve_or_reject', 'stop_transactions', 'created_at', 'action'];
 
   canApproveReject: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -114,8 +114,20 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
     return ApproveRejectionStatusDescriptions[value as ApproveRejectionStatus] || 'Unknown';
   }
 
-  GetIsEmailVerifiedLabel(value: number): string {
+  GetIsYesNoLabel(value: number): string {
     return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
+  }
+
+  GetIsYesNoLabelForStopTransaction(value: number): string {
+    let val = YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
+
+    if(val == YesNoStatusDescriptions[YesNoStatus.YES]) {
+      return YesNoStatusDescriptions[YesNoStatus.NO];
+    } else if(val == YesNoStatusDescriptions[YesNoStatus.NO]) {
+      return YesNoStatusDescriptions[YesNoStatus.YES];
+    }
+
+    return val;
   }
 
   GetFormattedAddress(value: string): string {
