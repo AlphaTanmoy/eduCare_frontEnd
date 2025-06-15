@@ -119,7 +119,7 @@
                                     matTooltip="Edit Student Details" [icon]="faEdit"
                                     (click)="EditStudent(student.student_id)"></fa-icon>
 
-                                <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
+                                <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above" *ngIf="student.data_status !== ActiveInactiveStatus.DELETED"
                                     matTooltip="Delete Student" [icon]="faTrash"
                                     (click)="DeleteStudent(student)"></fa-icon>
                             </div>
