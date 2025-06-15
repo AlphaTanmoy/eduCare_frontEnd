@@ -128,13 +128,13 @@ export enum EducareFranchiseWalletRechargeBankDetails {
 }
 
 export enum WalletAmountStatus {
-  RECHARGE = "RECHARGE",
+  PENDING = "PENDING",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
 
 export const WalletAmountStatusDescriptions: Record<WalletAmountStatus, string> = {
-  [WalletAmountStatus.RECHARGE]: 'Recharged',
+  [WalletAmountStatus.PENDING]: 'Pending',
   [WalletAmountStatus.APPROVED]: 'Approved',
   [WalletAmountStatus.REJECTED]: 'Rejected',
 };
