@@ -118,7 +118,7 @@ body {
 }
 
 .text_card_primary {
-    background-color: var(--light-blue) !important;
+    background-color: #007bff57 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;

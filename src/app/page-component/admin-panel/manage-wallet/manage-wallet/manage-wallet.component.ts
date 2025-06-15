@@ -110,9 +110,9 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
       this.totalCount = res.data[0].total_transactions;
       this.wallet_balance = res.data[0].current_balance;
       this.is_mat_tables_data_loaded = true;
-    } catch (error) {
+    } catch (error : any) {
       this.hideMatProgressBar();
-      this.openDialog("Wallet", "Internal server error", ResponseTypeColor.ERROR, false);
+      this.openDialog("Wallet",  error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();
     }
@@ -165,14 +165,14 @@ export class ManageWalletComponent implements OnInit, OnDestroy, AfterViewInit {
       const res = await firstValueFrom(this.walletService.DoApproveOrReject(operation, remarks, this.approve_reject_items));
 
       if (res.status !== 200) {
-        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+        this.openDialog("Wallet", res.message, ResponseTypeColor.ERROR, false);
       } else {
-        this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+        this.openDialog("Wallet", res.message, ResponseTypeColor.SUCCESS, true);
         await this.getFranchises(this.page_index, this.page_size);
         this.approve_reject_items = [];
       }
-    } catch (error) {
-      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+    } catch (error: any) {
+      this.openDialog("Wallet", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();
     }

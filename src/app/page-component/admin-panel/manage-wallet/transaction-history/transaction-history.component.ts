@@ -90,9 +90,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     'date',
     'referenceId',
     'type',
-    'amount',
-    'balance',
-    'status',
+    'old_balance',
+    'new_balance',
     'notes',
     'actions'
   ];

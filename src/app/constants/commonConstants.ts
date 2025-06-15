@@ -128,13 +128,13 @@ export enum EducareFranchiseWalletRechargeBankDetails {
 }
 
 export enum WalletAmountStatus {
-  PENDING = "PENDING",
+  RECHARGE = "RECHARGE",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
 
 export const WalletAmountStatusDescriptions: Record<WalletAmountStatus, string> = {
-  [WalletAmountStatus.PENDING]: 'Pending',
+  [WalletAmountStatus.RECHARGE]: 'Recharged',
   [WalletAmountStatus.APPROVED]: 'Approved',
   [WalletAmountStatus.REJECTED]: 'Rejected',
 };
@@ -156,21 +156,20 @@ export const AmountStatusDescriptions: Record<AmountStatus, string> = {
 };
 
 export enum TransactionType {
-  DEBIT = "DEBIT",
-  CREDIT = "CREDIT",
+  RECHARGE = "RECHARGE",
+  STUDENT_FEE_PAYMENT = "STUDENT_FEE_PAYMENT",
   STUDENT_FEE_REFUND = "STUDENT_FEE_REFUND",
   TERMINATED = "TERMINATED",
-  TICKET_RAISE = "TICKET_RAISE",
-  STUDENT_FEE_PAYMENT = "STUDENT_FEE_PAYMENT"
+  WALLET_REOPENED = "WALLET_REOPENED",
+
 }
 
 export const TransactionTypeDescriptions: Record<TransactionType, string> = {
-  [TransactionType.DEBIT]: 'Debit',
-  [TransactionType.CREDIT]: 'Credit',
-  [TransactionType.STUDENT_FEE_REFUND]: 'Student Fee Refund',
+  [TransactionType.RECHARGE]: 'Recharge',
+  [TransactionType.STUDENT_FEE_PAYMENT]: 'Fees Payment',
+  [TransactionType.STUDENT_FEE_REFUND]: 'Fees Refund',
   [TransactionType.TERMINATED]: 'Terminated',
-  [TransactionType.TICKET_RAISE]: 'Ticket Raise',
-  [TransactionType.STUDENT_FEE_PAYMENT]: 'Student Fee Payment',
+  [TransactionType.WALLET_REOPENED]: 'Wallet Reopened',
 };
 
 export enum EnrollmentStatus {
