@@ -29,7 +29,7 @@
     <div class="row amount_card pt-2 mb-0">
       <!-- Amount -->
       <div class="col-12 col-md-4">
-        <p class="mb-2"><strong>Amount: </strong>
+        <p class="mb-2"><strong>Transfer Amount: </strong>
           <span [ngClass]="getCreditDebitClass(transaction.creditDebit)" [innerHTML]="getChangeAmontInnerHTML(transaction)">
           </span>
         </p>
@@ -37,12 +37,12 @@
 
       <!-- Balance -->
       <div class="col-12 col-md-4 text_align_center">
-        <p class="mb-2"><strong>Balance:</strong> {{formatCurrency(transaction.currentAmount ?? 0)}}</p>
+        <p class="mb-2"><strong>Old Balance:</strong> {{formatCurrency(transaction.currentAmount ?? 0)}}</p>
       </div>
 
       <!-- Effected Value -->
       <div class="col-12 col-md-4 text_align_right">
-        <p class="mb-2"><strong>Effected Value:</strong> {{transaction.effectedValue || 'N/A'}}</p>
+        <p class="mb-2"><strong>New Balance:</strong> {{transaction.effectedValue || 'N/A'}}</p>
       </div>
     </div>
 
