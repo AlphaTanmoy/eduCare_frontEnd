@@ -19,7 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { AmountStatus, AmountStatusDescriptions, Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
+import { Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 interface Transaction {
@@ -32,12 +32,13 @@ interface Transaction {
   miscData: string | null;
   walletId: string | null;
   transactionType: string;
-  status: string;
+  creditDebit: string;
   referenceId: string;
   notes: string;
   createdBy: string | null;
   createdAt: string;
   updatedAt: string;
+  __v?: number;
 }
 
 @Component({
@@ -77,8 +78,6 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   faCircleInfo = faCircleInfo;
   faCircleXmark = faCircleXmark;
 
-  AmountStatus = AmountStatus;
-  AmountStatusDescriptions = AmountStatusDescriptions;
   TransactionType = TransactionType;
   TransactionTypeDescriptions = TransactionTypeDescriptions;
 
@@ -92,6 +91,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     'type',
     'old_balance',
     'new_balance',
+    'transaction_effect',
     'notes',
     'actions'
   ];
@@ -118,19 +118,15 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   private async initializeComponent(): Promise<void> {
     try {
       const userRole = this.authService.getUserRole();
-      console.log('User role:', userRole);
 
       this.isFranchise = userRole?.toLowerCase() === 'franchise';
       this.isAdmin = [UserRole.MASTER, UserRole.ADMIN].includes(userRole?.toUpperCase() || '');
-
-      console.log('isFranchise:', this.isFranchise, 'isAdmin:', this.isAdmin);
 
       if (this.isAdmin) {
         // For admin users, load franchises for selection
         await this.loadFranchises();
       } else if (this.isFranchise) {
         // For franchise users, directly load transactions without franchise selection
-        console.log('Loading transactions for franchise user');
         await this.loadTransactions();
       } else {
         console.warn('User role not recognized or missing');
@@ -176,14 +172,12 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   }
 
   async loadTransactions(): Promise<void> {
-    console.log('loadTransactions called - isFranchise:', this.isFranchise, 'isAdmin:', this.isAdmin);
     this.matProgressBarVisible = true;
     this.isDataLoaded = false;
 
     try {
       // If admin and no franchise selected, show empty state
       if (this.isAdmin && !this.selectedFranchise?.id) {
-        console.log('Admin user - no franchise selected, showing empty state');
         this.dataSource.data = [];
         this.totalCount = 0;
         this.walletBalance = '₹0.00';
@@ -195,23 +189,18 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       if (this.isAdmin) {
         // For admin users, use the selected franchise ID
         franchiseId = this.selectedFranchise?.id;
-        console.log('Admin user - using franchiseId:', franchiseId);
       } else if (this.isFranchise) {
         // For franchise users, fetch their franchise ID from the API
         const userId = this.authService.getUserId();
-        console.log('Franchise user - userId:', userId);
 
         if (userId) {
           try {
-            console.log('Fetching franchise ID for user:', userId);
             const franchiseResponse = await firstValueFrom(
               this.franchiseService.GetFranchiseIdByUserId(userId)
             );
-            console.log('Franchise ID response:', franchiseResponse);
 
             if (franchiseResponse?.data?._id) {
               franchiseId = franchiseResponse.data._id;
-              console.log('Using franchiseId:', franchiseId);
             } else {
               console.error('No franchise ID found in response');
             }
@@ -222,12 +211,6 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
           console.error('No user ID found');
         }
       }
-
-      console.log('Calling GetFranchiseTransactionLogs with:', {
-        page: this.pageIndex + 1,
-        limit: this.pageSize,
-        franchiseId
-      });
 
       const response = await firstValueFrom(
         this.walletService.GetFranchiseTransactionLogs(
@@ -283,18 +266,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
     try {
       this.matProgressBarVisible = true;
-      console.log('Fetching transaction details for ID:', transaction._id);
 
       const response = await firstValueFrom(
         this.walletService.GetTransactionLogById(transaction._id)
       );
 
-      console.log('Transaction details response:', response);
-
-      // Extract transaction data from the response structure
       let transactionData = response?.responseType?.transaction || response?.data;
 
-      // If transactionData is an array, take the first item
       if (Array.isArray(transactionData)) {
         transactionData = transactionData[0];
       }
@@ -308,9 +286,6 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       if (transactionData) {
         // Import the ViewTransactionComponent dynamically to avoid circular dependencies
         const { ViewTransactionComponent } = await import('../view-transaction/view-transaction.component');
-
-        // Log the data being passed to the dialog for debugging
-        console.log('Opening dialog with transaction data:', transactionData);
 
         // Open the dialog with the transaction data
         const dialogRef = this.dialog.open(ViewTransactionComponent, {
@@ -357,21 +332,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
-  GetAmountStatusLabel(value: string): string {
-    return AmountStatusDescriptions[value as AmountStatus] || 'Unknown';
-  }
-
   GetTransactionTypeLabel(value: string): string {
     return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
   formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount);
+    if (amount === null || amount === undefined) return '₹0.00';
+    return '₹' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   getStatusClass(status: string): string {
@@ -398,17 +365,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     }
   }
 
-  getTransactionTypeClass(type: string): string {
-    if (!type) return 'text-muted';
-
-    const typeLower = type.toLowerCase();
-    if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
+  getTransactionTypeClass(type: string, creditDebit: 'CREDIT' | 'DEBIT' | 'NO_EFFECT'): string {
+    if (creditDebit === 'DEBIT') {
       return 'text-danger';
-    } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
+    } else if (creditDebit === 'CREDIT') {
       return 'text-success';
-    } else {
-      return 'text-primary';
     }
+    return 'text-muted';
   }
 
   // Show alert dialog

@@ -5,12 +5,11 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { AmountStatus, AmountStatusDescriptions, TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
+import { TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
 
 export interface TransactionData {
   _id?: string;
   referenceId?: string;
-  status?: string;
   transactionType?: string;
   date?: string;
   createdAt?: string;
@@ -41,8 +40,6 @@ export class ViewTransactionComponent implements OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   faTimes = faTimes;
 
-  AmountStatus = AmountStatus;
-  AmountStatusDescriptions = AmountStatusDescriptions;
   TransactionType = TransactionType;
   TransactionTypeDescriptions = TransactionTypeDescriptions;
 
@@ -115,10 +112,6 @@ export class ViewTransactionComponent implements OnDestroy {
     }
   }
 
-  GetAmountStatusLabel(value: string | undefined): string {
-    return AmountStatusDescriptions[value as AmountStatus] || 'Unknown';
-  }
-
   getTransactionTypeClass(type?: string): string {
     if (!type) return 'text-muted';
 
@@ -134,6 +127,17 @@ export class ViewTransactionComponent implements OnDestroy {
 
   GetTransactionTypeLabel(value: string | undefined): string {
     return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
+  }
+
+  GetAmountTransactionTypeLabel(transactionType: string | undefined): string {
+    if (!transactionType) return 'N/A';
+    
+    // Convert to title case and replace underscores with spaces
+    return transactionType
+      .toLowerCase()
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 
   getMiscData(): any {

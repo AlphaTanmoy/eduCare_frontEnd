@@ -139,37 +139,24 @@ export const WalletAmountStatusDescriptions: Record<WalletAmountStatus, string> 
   [WalletAmountStatus.REJECTED]: 'Rejected',
 };
 
-export enum AmountStatus {
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
-  SYSTEM_APPROVED = "SYSTEM_APPROVED",
-  TRANSACTION_CONTROL = "TRANSACTION_CONTROL"
-}
-
-export const AmountStatusDescriptions: Record<AmountStatus, string> = {
-  [AmountStatus.PENDING]: 'Pending',
-  [AmountStatus.APPROVED]: 'Approved',
-  [AmountStatus.REJECTED]: 'Rejected',
-  [AmountStatus.SYSTEM_APPROVED]: 'System Approved',
-  [AmountStatus.TRANSACTION_CONTROL]: 'Transaction Control',
-};
-
 export enum TransactionType {
-  RECHARGE = "RECHARGE",
-  STUDENT_FEE_PAYMENT = "STUDENT_FEE_PAYMENT",
-  STUDENT_FEE_REFUND = "STUDENT_FEE_REFUND",
-  TERMINATED = "TERMINATED",
-  WALLET_REOPENED = "WALLET_REOPENED",
-
+  RECHARGE = "RECHARGE", //for recharge
+  APPROVE_RECHARGE = "APPROVE_RECHARGE", //for admin recharge approval
+  REJECT_RECHARGE = "REJECT_RECHARGE", // for admin recharge reject
+  STUDENT_FEE_REFUND = "STUDENT_FEE_REFUND", // if fee refunded for student
+  STUDENT_FEE_PAYMENT = "STUDENT_FEE_PAYMENT", // if fee pay for student
+  BLOCKED_TRANSACTION = "BLOCKED_TRANSACTION", // if transaction blocked
+  UNBLOCKED_TRANSACTION = "UNBLOCKED_TRANSACTION" // if transaction unblocked
 }
 
 export const TransactionTypeDescriptions: Record<TransactionType, string> = {
   [TransactionType.RECHARGE]: 'Recharge',
   [TransactionType.STUDENT_FEE_PAYMENT]: 'Fees Payment',
   [TransactionType.STUDENT_FEE_REFUND]: 'Fees Refund',
-  [TransactionType.TERMINATED]: 'Terminated',
-  [TransactionType.WALLET_REOPENED]: 'Wallet Reopened',
+  [TransactionType.APPROVE_RECHARGE]: 'Approve Recharge',
+  [TransactionType.REJECT_RECHARGE]: 'Reject Recharge',
+  [TransactionType.BLOCKED_TRANSACTION]: 'Blocked Transaction',
+  [TransactionType.UNBLOCKED_TRANSACTION]: 'Unblocked Transaction',
 };
 
 export enum EnrollmentStatus {

@@ -10,8 +10,8 @@
         <p class="mb-2"><strong>Reference ID:</strong> {{data.referenceId || 'N/A'}}</p>
         <div class="mb-2">
           <strong>Status: </strong>
-          <span [class]="getStatusClass(data.status)">
-            {{GetAmountStatusLabel(data.status)}}
+          <span [class]="getStatusClass(data.transactionType)">
+            {{GetAmountTransactionTypeLabel(data.transactionType)}}
           </span>
         </div>
         <div class="mb-2">

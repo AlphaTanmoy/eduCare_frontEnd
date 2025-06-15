@@ -63,25 +63,25 @@
                             Type
                         </th>
                         <td mat-cell *matCellDef="let transaction" class="text-center"
-                            [ngClass]="getTransactionTypeClass(transaction.transactionType)">
+                            [ngClass]="getTransactionTypeClass(transaction.transactionType, transaction.creditDebit)">
                             {{ GetTransactionTypeLabel(transaction.transactionType) }}
                         </td>
                     </ng-container>
 
 
-                    <!-- Amount Column -->
+                    <!-- Old Balance Column -->
                     <ng-container matColumnDef="old_balance">
                         <th mat-header-cell *matHeaderCellDef class="text-center fw-bold mat_table_header_font_size"
                             style="background-color: var(--light); color: var(--default-theme);">
                             Old Balance
                         </th>
                         <td mat-cell *matCellDef="let transaction" class="text-center">
-                            {{ formatCurrency(transaction.currentAmount)}}
+                            {{ formatCurrency(transaction.currentAmount) }}
                         </td>
                     </ng-container>
 
 
-                    <!-- Balance Column -->
+                    <!-- New Balance Column -->
                     <ng-container matColumnDef="new_balance">
                         <th mat-header-cell *matHeaderCellDef class="text-center fw-bold mat_table_header_font_size"
                             style="background-color: var(--light); color: var(--default-theme);">
@@ -91,6 +91,18 @@
                             {{ formatCurrency(transaction.effectedValue) }}
                         </td>
                     </ng-container>
+
+                    <!-- Transaction Effect Column -->
+                    <ng-container matColumnDef="transaction_effect">
+                        <th mat-header-cell *matHeaderCellDef class="text-center fw-bold mat_table_header_font_size"
+                            style="background-color: var(--light); color: var(--default-theme);">
+                            Transaction Effect
+                        </th>
+                        <td mat-cell *matCellDef="let transaction" class="text-center">
+                            {{ transaction.creditDebit }}
+                        </td>
+                    </ng-container>
+
 
                     <!-- Notes Column -->
                     <ng-container matColumnDef="notes">
