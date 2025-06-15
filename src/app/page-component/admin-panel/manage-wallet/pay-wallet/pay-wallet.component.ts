@@ -81,7 +81,7 @@ export class PayWalletComponent {
           });
         } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
           this.hideMatProgressBar();
-          this.openDialog("Wallet", "You are viewing this page as a Master/Admin", ResponseTypeColor.INFO, false);
+          this.openDialog("Wallet", "You are viewing this page as a Master/Admin. Features are disabled for you.", ResponseTypeColor.INFO, false);
 
           // const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
           // this.hideMatProgressBar();
