@@ -335,8 +335,14 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   }
 
   formatCurrency(amount: number): string {
-    if (amount === null || amount === undefined) return '₹0.00';
+    if (amount === null || amount === undefined) return '₹+0.00';
     return '₹' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  getChangeAmontInnerHTML(transaction: any){
+    if (transaction.changedAmount === null || transaction.changedAmount === undefined) return '₹+0.00';
+
+    return '₹' + ((transaction.changedAmount ?? 0) >= 0 ? '+' : '') + transaction.changedAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   GetTransactionTypeLabel(value: string): string {
