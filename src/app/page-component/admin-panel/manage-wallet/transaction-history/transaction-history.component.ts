@@ -19,7 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { CreditDebit, CreditDebitDescriptions, Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
+import { CreditDebit, CreditDebitDescriptions, Dropdown, ResponseTypeColor, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 interface Transaction {
@@ -161,12 +161,16 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     this.matProgressBarVisible = true;
     try {
       const response = await firstValueFrom(this.franchiseService.getAllCentersBasicInfo());
+      if (response.status !== 200) {
+        this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
+        return;
+      }
+
       if (response && response.data) {
         this.franchises = response.data.map((f: any) => new Dropdown(f._id, f.center_name));
       }
-    } catch (error) {
-      console.error('Error loading franchises:', error);
-      this.showAlert('Error', 'Failed to load franchises. Please try again.');
+    } catch (error: any) {
+      this.openDialog("Wallet",  error.error.message ?? "Failed to load franchises. Please try again.", ResponseTypeColor.ERROR, false);
     } finally {
       this.matProgressBarVisible = false;
       this.cdr.detectChanges();
@@ -174,7 +178,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   }
 
   async loadTransactions(): Promise<void> {
-    this.matProgressBarVisible = true;
+    this.activeMatProgressBar();
     this.isDataLoaded = false;
 
     try {
@@ -197,30 +201,31 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
         if (userId) {
           try {
-            const franchiseResponse = await firstValueFrom(
-              this.franchiseService.GetFranchiseIdByUserId(userId)
-            );
+            const franchiseResponse = await firstValueFrom(this.franchiseService.GetFranchiseIdByUserId(userId));
+            this.hideMatProgressBar();
+
+            if (franchiseResponse.status !== 200) {
+              this.openDialog("Wallet", franchiseResponse.message, ResponseTypeColor.ERROR, false);
+              return;
+            }
 
             if (franchiseResponse?.data?._id) {
               franchiseId = franchiseResponse.data._id;
             } else {
-              console.error('No franchise ID found in response');
+              this.openDialog("Wallet",  "No franchise ID found in response", ResponseTypeColor.ERROR, false);
             }
-          } catch (error) {
-            console.error('Error fetching franchise ID:', error);
+          } catch (error: any) {
+            this.hideMatProgressBar();
+            this.openDialog("Wallet",  error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
           }
         } else {
-          console.error('No user ID found');
+          this.hideMatProgressBar();
+          this.openDialog("Wallet",  "No user ID found", ResponseTypeColor.ERROR, false);
         }
       }
 
-      const response = await firstValueFrom(
-        this.walletService.GetFranchiseTransactionLogs(
-          this.pageIndex + 1,
-          this.pageSize,
-          franchiseId
-        )
-      );
+      this.activeMatProgressBar();
+      const response = await firstValueFrom(this.walletService.GetFranchiseTransactionLogs(this.pageIndex + 1, this.pageSize, franchiseId));
 
       if (response?.data?.[0]?.transactions) {
         this.dataSource.data = response.data[0].transactions;
@@ -232,16 +237,15 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
         this.totalCount = 0;
         this.walletBalance = '₹0.00';
       }
-    } catch (error) {
-      console.error('Error loading transactions:', error);
-      this.showAlert('Error', 'Failed to load transaction history. Please try again.');
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      this.openDialog("Wallet",  error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
       this.dataSource.data = [];
       this.totalCount = 0;
       this.walletBalance = '₹0.00';
     } finally {
-      this.matProgressBarVisible = false;
       this.isDataLoaded = true;
-      this.cdr.detectChanges();
+      this.hideMatProgressBar();
     }
   }
 
