@@ -295,7 +295,7 @@ export const MenuItems: any[] = [
             id: 971,
             name: 'Recharge Wallet',
             route: '/control-panel/wallet/recharge',
-            role: [UserRole.FRANCHISE],
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
           },
           {
             id: 972,

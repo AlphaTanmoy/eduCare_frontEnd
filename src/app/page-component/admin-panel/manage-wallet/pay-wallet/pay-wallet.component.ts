@@ -80,17 +80,20 @@ export class PayWalletComponent {
             }
           });
         } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
-          const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
           this.hideMatProgressBar();
+          this.openDialog("Wallet", "You are viewing this page as a Master/Admin", ResponseTypeColor.INFO, false);
 
-          if (res.status !== 200) {
-            this.openDialog("Wallet", res.message, ResponseTypeColor.ERROR, false);
-            return;
-          }
+          // const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
+          // this.hideMatProgressBar();
 
-          res.data.forEach((element: any) => {
-            this.available_franchises.push(new Dropdown(element.id, element.center_name));
-          });
+          // if (res.status !== 200) {
+          //   this.openDialog("Wallet", res.message, ResponseTypeColor.ERROR, false);
+          //   return;
+          // }
+
+          // res.data.forEach((element: any) => {
+          //   this.available_franchises.push(new Dropdown(element.id, element.center_name));
+          // });
         } else {
           this.hideMatProgressBar();
           this.openDialog("Wallet", "You are not authorized to access this page", ResponseTypeColor.ERROR, false);
