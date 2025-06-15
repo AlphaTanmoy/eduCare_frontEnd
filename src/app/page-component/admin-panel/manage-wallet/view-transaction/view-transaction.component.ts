@@ -146,6 +146,12 @@ export class ViewTransactionComponent implements OnDestroy {
     return 'text_card_primary_light';
   }
 
+  getChangeAmontInnerHTML(transaction: any){
+    if (transaction.changedAmount === null || transaction.changedAmount === undefined) return '₹+0.00';
+
+    return '₹' + ((transaction.changedAmount ?? 0) >= 0 ? '+' : '') + transaction.changedAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   getMiscData(): any {
     if (!this.data?.miscData) return null;
 

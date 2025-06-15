@@ -29,9 +29,8 @@
     <div class="row amount_card pt-2 mb-0">
       <!-- Amount -->
       <div class="col-12 col-md-4">
-        <p class="mb-2"><strong>Amount:</strong>
-          <span [class]="(transaction.changedAmount ?? 0) >= 0 ? 'credit_text' : 'debit_text'">
-            {{(transaction.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(transaction.changedAmount ?? 0)}}
+        <p class="mb-2"><strong>Amount: </strong>
+          <span [ngClass]="getCreditDebitClass(transaction.creditDebit)" [innerHTML]="getChangeAmontInnerHTML(transaction)">
           </span>
         </p>
       </div>
