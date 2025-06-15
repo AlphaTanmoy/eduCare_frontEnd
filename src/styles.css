@@ -141,6 +141,24 @@ body {
     font-size: 0.8rem;
 }
 
+.credit_text{
+    color: rgb(45, 156, 1);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.debit_text{
+    color: rgb(255, 6, 6);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.no_effect_text{
+    color: rgb(116, 116, 116);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .form-check-input {
     width: 2.5rem;
     padding: 0 !important;

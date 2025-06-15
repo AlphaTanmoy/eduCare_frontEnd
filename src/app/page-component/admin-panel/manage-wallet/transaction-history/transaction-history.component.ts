@@ -19,7 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faDownload, faCircleInfo, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
+import { CreditDebit, CreditDebitDescriptions, Dropdown, TransactionType, TransactionTypeDescriptions, UserRole } from '../../../../constants/commonConstants';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 interface Transaction {
@@ -80,6 +80,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
   TransactionType = TransactionType;
   TransactionTypeDescriptions = TransactionTypeDescriptions;
+  CreditDebit = CreditDebit;
+  CreditDebitDescriptions = CreditDebitDescriptions;
 
   UserRole = UserRole;
 
@@ -341,28 +343,17 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     return '₹' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  getStatusClass(status: string): string {
-    if (!status) return 'badge bg-secondary';
-
-    const statusLower = status.toLowerCase();
-    switch (statusLower) {
-      case 'success':
-      case 'completed':
-      case 'approved':
-        return 'text_card_success';
-      case 'failed':
-      case 'rejected':
-      case 'declined':
-        return 'text_card_danger';
-      case 'pending':
-      case 'processing':
-        return 'text_card_idle';
-      case 'refunded':
-      case 'reversed':
-        return 'text_card_idle';
-      default:
-        return 'text_card_idle';
+  getCreditDebitClass(status: string): string {
+    if(status === CreditDebit.CREDIT) {
+      return 'credit_text';
+    } else if (status === CreditDebit.DEBIT) {
+      return 'debit_text';
     }
+    return 'no_effect_text';
+  }
+
+  GetCreditDebitLabel(value: string): string {
+    return CreditDebitDescriptions[value as CreditDebit] || 'Unknown';
   }
 
   getTransactionTypeClass(type: string): string {

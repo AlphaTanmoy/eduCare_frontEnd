@@ -182,8 +182,8 @@ export enum CreditDebit {
 }
 
 export const CreditDebitDescriptions: Record<CreditDebit, string> = {
-  [CreditDebit.CREDIT]: 'Credit',
-  [CreditDebit.DEBIT]: 'Debit',
+  [CreditDebit.CREDIT]: '&#8679; Credit',
+  [CreditDebit.DEBIT]: '&#8681; Debit',
   [CreditDebit.NO_EFFECT]: 'No Effect',
 };
 
