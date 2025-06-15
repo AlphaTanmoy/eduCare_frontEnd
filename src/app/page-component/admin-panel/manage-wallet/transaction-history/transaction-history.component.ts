@@ -133,9 +133,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       } else {
         console.warn('User role not recognized or missing');
       }
-    } catch (error) {
-      console.error('Error initializing component:', error);
-      this.showAlert('Error', 'Failed to initialize component. Please try again.');
+    } catch (error: any) {
+      this.openDialog("Wallet", error.error.message ?? "Failed to initialize page. Please try again.", ResponseTypeColor.ERROR, false);
     }
   }
 
@@ -170,7 +169,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
         this.franchises = response.data.map((f: any) => new Dropdown(f._id, f.center_name));
       }
     } catch (error: any) {
-      this.openDialog("Wallet",  error.error.message ?? "Failed to load franchises. Please try again.", ResponseTypeColor.ERROR, false);
+      this.matProgressBarVisible = false;
+      this.openDialog("Wallet", error.error.message ?? "Failed to load franchises. Please try again.", ResponseTypeColor.ERROR, false);
     } finally {
       this.matProgressBarVisible = false;
       this.cdr.detectChanges();
@@ -209,23 +209,29 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
               return;
             }
 
-            if (franchiseResponse?.data?._id) {
-              franchiseId = franchiseResponse.data._id;
+            if (franchiseResponse?.data && franchiseResponse.data.length > 0) {
+              franchiseId = franchiseResponse.data[0];
             } else {
-              this.openDialog("Wallet",  "No franchise ID found in response", ResponseTypeColor.ERROR, false);
+              this.openDialog("Wallet", "No franchise ID found in response", ResponseTypeColor.ERROR, false);
             }
           } catch (error: any) {
             this.hideMatProgressBar();
-            this.openDialog("Wallet",  error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+            this.openDialog("Wallet", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
           }
         } else {
           this.hideMatProgressBar();
-          this.openDialog("Wallet",  "No user ID found", ResponseTypeColor.ERROR, false);
+          this.openDialog("Wallet", "No user ID found", ResponseTypeColor.ERROR, false);
         }
       }
 
       this.activeMatProgressBar();
       const response = await firstValueFrom(this.walletService.GetFranchiseTransactionLogs(this.pageIndex + 1, this.pageSize, franchiseId));
+
+      this.hideMatProgressBar();
+      if (response.status !== 200) {
+        this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
+        return;
+      }
 
       if (response?.data?.[0]?.transactions) {
         this.dataSource.data = response.data[0].transactions;
@@ -239,7 +245,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       }
     } catch (error: any) {
       this.hideMatProgressBar();
-      this.openDialog("Wallet",  error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+      this.openDialog("Wallet", error.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
       this.dataSource.data = [];
       this.totalCount = 0;
       this.walletBalance = '₹0.00';
@@ -265,17 +271,20 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
   async viewTransaction(transaction: Transaction): Promise<void> {
     if (!transaction?._id) {
-      console.error('Invalid transaction data:', transaction);
-      this.showAlert('Error', 'Invalid transaction data');
+      this.openDialog("Wallet", "Invalid transaction data", ResponseTypeColor.INFO, false);
       return;
     }
 
     try {
-      this.matProgressBarVisible = true;
+      this.activeMatProgressBar();
+      const response = await firstValueFrom(this.walletService.GetTransactionLogById(transaction._id));
+      this.hideMatProgressBar();
 
-      const response = await firstValueFrom(
-        this.walletService.GetTransactionLogById(transaction._id)
-      );
+      if (response.status !== 200) {
+        this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
+        return;
+      }
+
 
       let transactionData = response?.responseType?.transaction || response?.data;
 
@@ -285,15 +294,12 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
 
       // If we still don't have transaction data, try to use the original transaction
       if (!transactionData) {
-        console.warn('No transaction data in response, using original transaction data');
         transactionData = transaction;
       }
 
       if (transactionData) {
-        // Import the ViewTransactionComponent dynamically to avoid circular dependencies
         const { ViewTransactionComponent } = await import('../view-transaction/view-transaction.component');
 
-        // Open the dialog with the transaction data
         const dialogRef = this.dialog.open(ViewTransactionComponent, {
           width: '1000px',
           height: 'max-content',
@@ -302,35 +308,14 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
           panelClass: 'responsive-dialog',
           data: transactionData,
         });
-
-        // Remove the header after the dialog is opened
-        dialogRef.afterOpened().subscribe(() => {
-          const dialogContainer = document.querySelector('.mat-mdc-dialog-container');
-          if (dialogContainer) {
-            const header = dialogContainer.querySelector('.mdc-dialog__header');
-            if (header) {
-              header.remove();
-            }
-          }
-        });
       } else {
-        console.warn('No transaction details found in response:', response);
-        this.showAlert('No Details', 'No additional details available for this transaction.');
+        this.openDialog("Wallet", "No additional details available for this transaction", ResponseTypeColor.INFO, false);
       }
-    } catch (error: unknown) {
-      console.error('Error viewing transaction:', error);
-      let errorMessage = 'Please try again later.';
-
-      if (error && typeof error === 'object') {
-        const errorObj = error as { error?: { message?: unknown } };
-        if (errorObj?.error && typeof errorObj.error === 'object' && 'message' in errorObj.error) {
-          errorMessage = String(errorObj.error.message);
-        }
-      }
-
-      this.showAlert('Error', `Failed to load transaction details. ${errorMessage}`);
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      this.openDialog("Wallet", error.error.message ?? "Failed to load franchises. Please try again.", ResponseTypeColor.ERROR, false);
     } finally {
-      this.matProgressBarVisible = false;
+      this.hideMatProgressBar();
     }
   }
 
@@ -343,7 +328,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     return '₹' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  getChangeAmontInnerHTML(transaction: any){
+  getChangeAmontInnerHTML(transaction: any) {
     if (transaction.changedAmount === null || transaction.changedAmount === undefined) return '₹+0.00';
 
     return '₹' + ((transaction.changedAmount ?? 0) >= 0 ? '+' : '') + transaction.changedAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -354,7 +339,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
   }
 
   getCreditDebitClass(status: string): string {
-    if(status === CreditDebit.CREDIT) {
+    if (status === CreditDebit.CREDIT) {
       return 'credit_text';
     } else if (status === CreditDebit.DEBIT) {
       return 'debit_text';
@@ -371,24 +356,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
       return 'text_card_primary';
     } else if (type === TransactionType.APPROVE_RECHARGE || type === TransactionType.STUDENT_FEE_PAYMENT) {
       return 'text_card_success';
-    }else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
+    } else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
       return 'text_card_deleted';
-    }else if (type === TransactionType.BLOCKED_TRANSACTION) {
+    } else if (type === TransactionType.BLOCKED_TRANSACTION) {
       return 'text_card_danger';
     }
-    
-    return 'text_card_primary_light';
-  }
 
-  // Show alert dialog
-  private showAlert(title: string, message: string): void {
-    this.dialog.open(CustomAlertComponent, {
-      data: {
-        title,
-        text: message,
-        type: 3 // 3 is for error type
-      }
-    });
+    return 'text_card_primary_light';
   }
 
   activeMatProgressBar() {
