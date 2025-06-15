@@ -10,13 +10,12 @@
         <p class="mb-2"><strong>Reference ID:</strong> {{transaction.referenceId || 'N/A'}}</p>
         <div class="mb-2">
           <strong>Transaction Type: </strong>
-          <span [class]="getTransactionTypeClass(transaction.transactionType)">
-            {{getTransactionTypeLabel(transaction.transactionType)}}
+          <span [class]="getTransactionTypeClass(transaction.transactionType)" [innerHTML]="GetTransactionTypeLabel(transaction.transactionType)">
           </span>
         </div>
         <div class="mb-2">
           <strong>Credit/Debit: </strong>
-          <span [class]="getCreditDebitClass(transaction.creditDebit)">{{getCreditDebitLabel(transaction.creditDebit)}}</span>
+          <span [class]="getCreditDebitClass(transaction.creditDebit)" [innerHTML]="GetCreditDebitLabel(transaction.creditDebit)"></span>
         </div>
       </div>
       <div class="col-md-6 text-md-end">
@@ -31,7 +30,7 @@
       <!-- Amount -->
       <div class="col-12 col-md-4">
         <p class="mb-2"><strong>Amount:</strong>
-          <span [class]="(transaction.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
+          <span [class]="(transaction.changedAmount ?? 0) >= 0 ? 'credit_text' : 'debit_text'">
             {{(transaction.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(transaction.changedAmount ?? 0)}}
           </span>
         </p>
