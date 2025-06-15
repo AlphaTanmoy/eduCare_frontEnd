@@ -144,6 +144,10 @@
             <td mat-cell *matCellDef="let franchise" class="text-center">
 
               <div class="d-flex w-100 justify-content-around h-100">
+                <fa-icon class="icon btn_cursor_pointer text-danger me-1" matTooltipPosition="above" *ngIf="franchise.stop_transactions === YesNoStatus.YES"
+                  matTooltip="Unblock Transaction" [icon]="faLockOpen"
+                  (click)="EditFranchiseDetails(franchise.center_id)"></fa-icon>
+
                 <fa-icon class="icon btn_cursor_pointer text-success me-1" matTooltipPosition="above"
                   matTooltip="View Franchise Center Head Details" [icon]="faEye"
                   (click)="ViewFranchiseCenterHeadDetails(franchise.center_id, franchise.center_head_id)"></fa-icon>
@@ -152,7 +156,7 @@
                   matTooltip="Edit Franchise Details" [icon]="faEdit"
                   (click)="EditFranchiseDetails(franchise.center_id)"></fa-icon>
 
-                <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
+                <fa-icon class="icon btn_cursor_pointer text-secondary" matTooltipPosition="above"
                   matTooltip="Download Franchise Supportable Document" [icon]="faDownload"
                   (click)="DownloadFranchiseDocuments(franchise.center_id)"></fa-icon>
               </div>
