@@ -334,13 +334,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }
 
-  GetTransactionTypeLabel(value: string): string {
-    return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
-  }
-
   formatCurrency(amount: number): string {
     if (amount === null || amount === undefined) return '₹0.00';
     return '₹' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  GetTransactionTypeLabel(value: string): string {
+    return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
   getCreditDebitClass(status: string): string {

@@ -115,73 +115,35 @@ export class ViewTransactionComponent implements OnDestroy {
     }).format(value);
   }
 
-  getStatusClass(status: string | undefined): string {
-    if (!status) return 'badge bg-secondary';
-
-    const statusLower = status.toLowerCase();
-    switch (statusLower) {
-      case 'success':
-      case 'completed':
-      case 'approved':
-        return 'text_card_success';
-      case 'failed':
-      case 'rejected':
-      case 'declined':
-        return 'text_card_danger';
-      case 'pending':
-      case 'processing':
-        return 'text_card_idle';
-      case 'refunded':
-      case 'reversed':
-        return 'text_card_idle';
-      default:
-        return 'text_card_idle';
-    }
-  }
-
-  getTransactionTypeClass(transactionType?: string): string {
-    if (!transactionType) return 'text-muted';
-
-    const typeLower = transactionType.toLowerCase();
-    if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
-      return 'text-danger';
-    } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
-      return 'text-success';
-    } else {
-      return 'text-primary';
-    }
-  }
-
   GetTransactionTypeLabel(value: string | undefined): string {
     return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
   }
 
-  getCreditDebitClass(creditDebit?: string): string {
-    if (!creditDebit) return 'text-muted';
-
-    const typeLower = creditDebit.toLowerCase();
-    if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
-      return 'text-danger';
-    } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
-      return 'text-success';
-    } else {
-      return 'text-primary';
+  getCreditDebitClass(status: string | undefined): string {
+    if(status === CreditDebit.CREDIT) {
+      return 'credit_text';
+    } else if (status === CreditDebit.DEBIT) {
+      return 'debit_text';
     }
+    return 'no_effect_text';
   }
 
   GetCreditDebitLabel(value: string | undefined): string {
     return CreditDebitDescriptions[value as CreditDebit] || 'Unknown';
   }
 
-  GetAmountTransactionTypeLabel(transactionType: string | undefined): string {
-    if (!transactionType) return 'N/A';
+  getTransactionTypeClass(type: string | undefined): string {
+    if (type === TransactionType.RECHARGE) {
+      return 'text_card_primary';
+    } else if (type === TransactionType.APPROVE_RECHARGE || type === TransactionType.STUDENT_FEE_PAYMENT) {
+      return 'text_card_success';
+    }else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
+      return 'text_card_deleted';
+    }else if (type === TransactionType.BLOCKED_TRANSACTION) {
+      return 'text_card_danger';
+    }
     
-    // Convert to title case and replace underscores with spaces
-    return transactionType
-      .toLowerCase()
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    return 'text_card_primary_light';
   }
 
   getMiscData(): any {
