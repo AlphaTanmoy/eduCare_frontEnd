@@ -365,13 +365,18 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy, AfterView
     }
   }
 
-  getTransactionTypeClass(type: string, creditDebit: 'CREDIT' | 'DEBIT' | 'NO_EFFECT'): string {
-    if (creditDebit === 'DEBIT') {
-      return 'text-danger';
-    } else if (creditDebit === 'CREDIT') {
-      return 'text-success';
+  getTransactionTypeClass(type: string): string {
+    if (type === TransactionType.RECHARGE) {
+      return 'text_card_primary';
+    } else if (type === TransactionType.APPROVE_RECHARGE || type === TransactionType.STUDENT_FEE_PAYMENT) {
+      return 'text_card_success';
+    }else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
+      return 'text_card_deleted';
+    }else if (type === TransactionType.BLOCKED_TRANSACTION) {
+      return 'text_card_danger';
     }
-    return 'text-muted';
+    
+    return 'text_card_primary_light';
   }
 
   // Show alert dialog

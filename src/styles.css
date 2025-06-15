@@ -118,7 +118,7 @@ body {
 }
 
 .text_card_primary {
-    background-color: #007bff57 !important;
+    background-color: #00d9ff49 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
@@ -126,7 +126,7 @@ body {
 }
 
 .text_card_primary_light {
-    background-color: #0dcaf0 !important;
+    background-color: #e373ff38 !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;
