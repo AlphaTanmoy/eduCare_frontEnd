@@ -7,23 +7,22 @@
     <!-- Basic Transaction Info -->
     <div class="row mb-2 gy-3 flex-column flex-md-row">
       <div class="col-md-6">
-        <p class="mb-2"><strong>Reference ID:</strong> {{data.referenceId || 'N/A'}}</p>
+        <p class="mb-2"><strong>Reference ID:</strong> {{transaction.referenceId || 'N/A'}}</p>
         <div class="mb-2">
-          <strong>Status: </strong>
-          <span [class]="getStatusClass(data.transactionType)">
-            {{GetAmountTransactionTypeLabel(data.transactionType)}}
+          <strong>Transaction Type: </strong>
+          <span [class]="getTransactionTypeClass(transaction.transactionType)">
+            {{getTransactionTypeLabel(transaction.transactionType)}}
           </span>
         </div>
         <div class="mb-2">
-          <strong>Type: </strong>
-          <span
-            [class]="getTransactionTypeClass(data.transactionType)">{{GetTransactionTypeLabel(data.transactionType)}}</span>
+          <strong>Credit/Debit: </strong>
+          <span [class]="getCreditDebitClass(transaction.creditDebit)">{{getCreditDebitLabel(transaction.creditDebit)}}</span>
         </div>
       </div>
       <div class="col-md-6 text-md-end">
-        <p class="mb-2"><strong>Date & Time:</strong> {{formatDate(data.date)}}</p>
-        <p class="mb-2"><strong>Created At:</strong> {{formatDate(data.createdAt)}}</p>
-        <p class="mb-2"><strong>Updated At:</strong> {{formatDate(data.updatedAt)}}</p>
+        <p class="mb-2"><strong>Date & Time:</strong> {{formatDate(transaction.date)}}</p>
+        <p class="mb-2"><strong>Created At:</strong> {{formatDate(transaction.createdAt)}}</p>
+        <p class="mb-2"><strong>Updated At:</strong> {{formatDate(transaction.updatedAt)}}</p>
       </div>
     </div>
 
@@ -32,39 +31,39 @@
       <!-- Amount -->
       <div class="col-12 col-md-4">
         <p class="mb-2"><strong>Amount:</strong>
-          <span [class]="(data.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
-            {{(data.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(data.changedAmount ?? 0)}}
+          <span [class]="(transaction.changedAmount ?? 0) >= 0 ? 'text-success' : 'text-danger'">
+            {{(transaction.changedAmount ?? 0) >= 0 ? '+' : ''}}{{formatCurrency(transaction.changedAmount ?? 0)}}
           </span>
         </p>
       </div>
 
       <!-- Balance -->
       <div class="col-12 col-md-4 text_align_center">
-        <p class="mb-2"><strong>Balance:</strong> {{formatCurrency(data.currentAmount ?? 0)}}</p>
+        <p class="mb-2"><strong>Balance:</strong> {{formatCurrency(transaction.currentAmount ?? 0)}}</p>
       </div>
 
       <!-- Effected Value -->
       <div class="col-12 col-md-4 text_align_right">
-        <p class="mb-2"><strong>Effected Value:</strong> {{data.effectedValue || 'N/A'}}</p>
+        <p class="mb-2"><strong>Effected Value:</strong> {{transaction.effectedValue || 'N/A'}}</p>
       </div>
     </div>
 
     <!-- Additional Info -->
     <div class="border-top pt-2 mb-2">
       <h6 class="mb-2">Additional Information</h6>
-      <p class="mb-2"><strong>Franchise ID:</strong> {{data.franchiseId || 'N/A'}}</p>
-      <p class="mb-2"><strong>Wallet ID:</strong> {{data.walletId || 'N/A'}}</p>
-      <p class="mb-2"><strong>Created By:</strong> {{data.createdBy || 'N/A'}}</p>
+      <p class="mb-2"><strong>Franchise ID:</strong> {{transaction.franchiseId || 'N/A'}}</p>
+      <p class="mb-2"><strong>Wallet ID:</strong> {{transaction.walletId || 'N/A'}}</p>
+      <p class="mb-2"><strong>Created By:</strong> {{transaction.createdBy || 'N/A'}}</p>
     </div>
 
     <!-- Notes -->
-    <div class="border-top pt-2 mb-3" *ngIf="data.notes">
+    <div class="border-top pt-2 mb-3" *ngIf="transaction.notes">
       <h6 class="mb-3">Notes</h6>
-      <p class="mb-0">{{data.notes}}</p>
+      <p class="mb-0">{{transaction.notes}}</p>
     </div>
 
     <!-- Misc Data -->
-    <div class="border-top pt-2 mb-3" *ngIf="data.miscData">
+    <div class="border-top pt-2 mb-3" *ngIf="transaction.miscData">
       <h6 class="mb-3">Additional Details</h6>
       <div class="table-responsive">
         <table class="table table-sm table-bordered">
