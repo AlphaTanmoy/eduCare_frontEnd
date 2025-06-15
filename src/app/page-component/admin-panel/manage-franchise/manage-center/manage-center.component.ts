@@ -165,6 +165,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.approve_reject_items = [];
       }
     } catch (error) {
+      this.hideMatProgressBar();
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();
@@ -215,6 +216,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
       }
     } catch (error) {
+      this.hideMatProgressBar();
       this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
     } finally {
       this.hideMatProgressBar();
