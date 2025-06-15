@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
+import {CreditDebit, CreditDebitDescriptions, TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
 
 export interface TransactionData {
   _id?: string;
   referenceId?: string;
   transactionType?: string;
+  creditDebit? : string;
   date?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -43,19 +44,45 @@ export class ViewTransactionComponent implements OnDestroy {
   TransactionType = TransactionType;
   TransactionTypeDescriptions = TransactionTypeDescriptions;
 
+  CreditDebit = CreditDebit;
+  CreditDebitDescriptions = CreditDebitDescriptions;
+
+  transaction: TransactionData = {} as TransactionData;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: TransactionData,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ViewTransactionComponent>,
   ) {
-    // Ensure we have valid data
-    if (!this.data) {
+    // Handle both direct transaction data and nested response structure
+    if (data) {
+      if (Array.isArray(data) && data.length > 0 && data[0].transaction) {
+        // Handle case where data is an array with transaction object
+        this.transaction = data[0].transaction;
+      } else if (data.transaction) {
+        // Handle case where data has a transaction property
+        this.transaction = data.transaction;
+      } else {
+        // Handle case where data is already the transaction object
+        this.transaction = data;
+      }
+    } else {
       console.error('No transaction data provided');
-      this.data = {} as TransactionData;
+      this.transaction = {} as TransactionData;
     }
-    console.log('Transaction data received:', this.data);
+    console.log('Transaction data received:', this.transaction);
     this.bootstrapElements = loadBootstrap();
   }
 
+
+  getTransactionTypeLabel(type?: string): string {
+    if (!type) return 'N/A';
+    return this.TransactionTypeDescriptions[type as keyof typeof this.TransactionTypeDescriptions] || type;
+  }
+
+  getCreditDebitLabel(type?: string): string {
+    if (!type) return 'N/A';
+    return this.CreditDebitDescriptions[type as keyof typeof this.CreditDebitDescriptions] || type;
+  }
 
   formatDate(dateString?: string): string {
     if (!dateString) return 'N/A';
@@ -112,10 +139,10 @@ export class ViewTransactionComponent implements OnDestroy {
     }
   }
 
-  getTransactionTypeClass(type?: string): string {
-    if (!type) return 'text-muted';
+  getTransactionTypeClass(transactionType?: string): string {
+    if (!transactionType) return 'text-muted';
 
-    const typeLower = type.toLowerCase();
+    const typeLower = transactionType.toLowerCase();
     if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
       return 'text-danger';
     } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
@@ -127,6 +154,23 @@ export class ViewTransactionComponent implements OnDestroy {
 
   GetTransactionTypeLabel(value: string | undefined): string {
     return TransactionTypeDescriptions[value as TransactionType] || 'Unknown';
+  }
+
+  getCreditDebitClass(creditDebit?: string): string {
+    if (!creditDebit) return 'text-muted';
+
+    const typeLower = creditDebit.toLowerCase();
+    if (typeLower.includes('debit') || typeLower.includes('withdraw')) {
+      return 'text-danger';
+    } else if (typeLower.includes('credit') || typeLower.includes('deposit')) {
+      return 'text-success';
+    } else {
+      return 'text-primary';
+    }
+  }
+
+  GetCreditDebitLabel(value: string | undefined): string {
+    return CreditDebitDescriptions[value as CreditDebit] || 'Unknown';
   }
 
   GetAmountTransactionTypeLabel(transactionType: string | undefined): string {

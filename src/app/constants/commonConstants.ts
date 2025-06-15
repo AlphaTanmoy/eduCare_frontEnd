@@ -175,4 +175,16 @@ export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
   [EnrollmentStatus.COMPLETED]: 'Completed',
 };
 
+export enum CreditDebit {
+  CREDIT = "CREDIT",
+  DEBIT = "DEBIT",
+  NO_EFFECT = "NO_EFFECT"
+}
+
+export const CreditDebitDescriptions: Record<CreditDebit, string> = {
+  [CreditDebit.CREDIT]: 'Credit',
+  [CreditDebit.DEBIT]: 'Debit',
+  [CreditDebit.NO_EFFECT]: 'No Effect',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];
