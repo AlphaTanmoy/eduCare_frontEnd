@@ -68,4 +68,8 @@ export class WalletService {
     }
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.refund_fees, obj);
   }
+
+  DoUnblockFranchiseTransactions(franchiseId: string): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.unblock_franchise_transactions, { franchiseId: franchiseId });
+  }
 }

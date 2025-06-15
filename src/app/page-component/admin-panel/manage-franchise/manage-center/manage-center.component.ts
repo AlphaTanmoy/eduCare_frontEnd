@@ -19,6 +19,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { ViewCenterHeadComponent } from '../view-center-head/view-center-head.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { WalletService } from '../../../../service/wallet/wallet.service';
 
 @Component({
   selector: 'app-manage-center',
@@ -64,7 +65,8 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private franchiseService: FranchiseService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private walletService: WalletService
   ) { }
 
   async ngOnInit() {
@@ -201,6 +203,22 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
+  }
+
+  async UnblockFranchiseTransactions(_id: string) {
+    try {
+      this.activeMatProgressBar();
+      const res = await firstValueFrom(this.walletService.DoUnblockFranchiseTransactions(_id));
+      if (res.status !== 200) {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, false);
+      } else {
+        this.openDialog("Franchise", res.message, ResponseTypeColor.SUCCESS, true);
+      }
+    } catch (error) {
+      this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, false);
+    } finally {
+      this.hideMatProgressBar();
+    }
   }
 
   ngOnDestroy(): void {
