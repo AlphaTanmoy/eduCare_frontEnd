@@ -17,8 +17,8 @@ export class WalletService {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.get_available_transactions_per_franchise_by_offset, { associated_franchise_id, page_number, page_size });
   }
 
-  DoApproveOrReject(status: string, notes: string, transaction_ids: string[]): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.approve_reject_wallet, { status, notes, transaction_ids });
+  DoApproveOrReject(wallet_status: string, notes: string, transaction_ids: string[]): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.wallet.approve_reject_wallet, { wallet_status, notes, transaction_ids });
   }
 
   GetWalletRechargeTransactionProofImage(transaction_id: string): Observable<any> {
