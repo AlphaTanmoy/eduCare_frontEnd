@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { StudentService } from '../../../../service/student/student.service';
 import { firstValueFrom } from 'rxjs';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, IndexedDBItemKey, ResponseTypeColor, StudentDocumentName, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, IndexedDBItemKey, ResponseTypeColor, StudentDocumentName, UserRole, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import { CustomConfirmDialogComponent } from '../../../../common-component/custo
 import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
 import { WalletService } from '../../../../service/wallet/wallet.service';
 import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
+import { AuthService } from '../../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-manage-student',
@@ -60,9 +61,12 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   dataSource = new MatTableDataSource<any>();
   totalCount: number = 0;
 
+  isFranchise: boolean = false;
+
   displayedColumns: string[] = ['student_image', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
   constructor(
+    private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
     private indexedDbService: IndexedDbService,
@@ -70,6 +74,11 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   ) { }
 
   async ngOnInit() {
+    let userRole = await this.authService.getUserRole();
+    if (userRole === UserRole.FRANCHISE) {
+      this.isFranchise = true;
+    }
+    
     this.bootstrapElements = loadBootstrap();
     await this.getStudents(this.page_index, this.page_size);
   }
