@@ -47,4 +47,8 @@ export class StudentService {
   deleteStudent(studentId: string): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.delete_student, { studentId: studentId });
   }
+
+  getStudentCourseInfo(studentId: string | null): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.student.get_student_course_info + "/" + studentId);
+  }
 }

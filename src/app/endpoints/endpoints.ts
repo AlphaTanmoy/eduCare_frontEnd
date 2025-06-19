@@ -87,6 +87,7 @@ export const Endpoints = {
     get_student_by_id: "student/getById",
     update_student: "student/update",
     delete_student: "student/delete_student",
+    get_student_course_info: "student/get_student_course_info",
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
