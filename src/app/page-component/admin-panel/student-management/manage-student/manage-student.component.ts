@@ -276,7 +276,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   MarksUpdate(student: any) {
-    this.router.navigate(['/control-panel/update-exam-marks']);
+    this.router.navigate(['/control-panel/update-exam-marks/'+student.student_id]);
   }
 
   CerficiateIssued(student: any) {
