@@ -5,10 +5,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 import { ResponseTypeColor } from '../../../constants/commonConstants';
 import { StudentService } from '../../../service/student/student.service';
+import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-manage-exam-marks',
-  imports: [],
+  imports: [
+    CommonModule,
+    MatTooltipModule,
+    FontAwesomeModule,
+    MatProgressBarModule,
+    FormsModule,
+    MatTableModule
+  ],
   templateUrl: './manage-exam-marks.component.html',
   styleUrl: './manage-exam-marks.component.css'
 })
@@ -19,7 +34,11 @@ export class ManageExamMarksComponent {
 
   StudentId: string | null = null;
 
-  StudentEnrolledCourses: any[] = [];
+  MaximumPracticalMarks: number = 0;
+  MaximumTheoreticalMarks: number = 0;
+  ModuleCount: number = 0;
+  ModuleDetails: any[] = [];
+  OriginalMarks: any[] = [];
 
   constructor(
     private router: Router,
@@ -41,13 +60,24 @@ export class ManageExamMarksComponent {
   }
 
   FetchStudentCourseDetails() {
+    this.activeMatProgressBar();
+
     this.studentService.getStudentCourseInfo(this.StudentId).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.StudentEnrolledCourses = response.data[0];
-          console.log(this.StudentEnrolledCourses)
+          this.MaximumPracticalMarks = response.data[0].maximum_practical_marks;
+          this.MaximumTheoreticalMarks = response.data[0].maximum_theory_marks;
+          this.ModuleCount = response.data[0].module_count;
+          this.ModuleDetails = response.data[0].module_details;
+          this.OriginalMarks = response.data[0].original_marks;
+
+          console.log("this.MaximumPracticalMarks", this.MaximumPracticalMarks);
+          console.log("this.MaximumTheoreticalMarks", this.MaximumTheoreticalMarks);
+          console.log("this.ModuleCount", this.ModuleCount);
+          console.log("this.ModuleDetails", this.ModuleDetails);
+          console.log("this.OriginalMarks", this.OriginalMarks);
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }
@@ -57,6 +87,10 @@ export class ManageExamMarksComponent {
         this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  SaveMarks(data: any) {
+    
   }
 
   activeMatProgressBar() {

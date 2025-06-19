@@ -1,1 +1,24 @@
-<p>manage-exam-marks works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mb-3">
+    <h2 class="m-4 text-center">Manage Exam Marks</h2>
+
+    <div class="card mb-4" *ngFor="let data of OriginalMarks">
+        <div class="card-header d-flex flex-column">
+            <span class="text-secondary module_font topic_font">Module {{data.module_index+1}}</span>
+            <span class="topic_color"><span class="topic_font">Topics : </span> {{ModuleDetails[data.module_index].join(',
+                ')}}</span>
+        </div>
+        <div class="card-body">
+            <label class="form-label mb-1">Theoretical Marks<span class="text-danger">*</span></label>
+            <input type="number" class="form-control mb-3" placeholder="Theoretical Marks" [(ngModel)]="data.theory_marks">
+    
+            <label class="form-label mb-1">Practical Marks<span class="text-danger">*</span></label>
+            <input type="number" class="form-control" placeholder="Practical Marks" [(ngModel)]="data.practical_marks">
+    
+            <div class="w-100 d-flex justify-content-end mt-3">
+                <button class="btn btn-primary btn-sm" (click)="SaveMarks(data)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
