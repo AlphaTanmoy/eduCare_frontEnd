@@ -24,6 +24,7 @@ import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.serv
 import { WalletService } from '../../../../service/wallet/wallet.service';
 import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 import { AuthService } from '../../../../service/auth/Auth.Service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-student',
@@ -66,6 +67,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   displayedColumns: string[] = ['student_image', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
@@ -78,7 +80,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
     if (userRole === UserRole.FRANCHISE) {
       this.isFranchise = true;
     }
-    
+
     this.bootstrapElements = loadBootstrap();
     await this.getStudents(this.page_index, this.page_size);
   }
@@ -274,7 +276,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   MarksUpdate(student: any) {
-
+    this.router.navigate(['/control-panel/update-exam-marks']);
   }
 
   CerficiateIssued(student: any) {
