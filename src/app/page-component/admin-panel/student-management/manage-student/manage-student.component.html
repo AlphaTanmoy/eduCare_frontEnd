@@ -104,10 +104,10 @@
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
 
-                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above"
-                                *ngIf="isFranchise && student.student_enrollment_status === EnrollmentStatus.FEES_PAID && student.data_status === ActiveInactiveStatus.ACTIVE"
-                                matTooltip="Issue Certificate" [icon]="faGraduationCap"
-                                (click)="CerficiateIssued(student)"></fa-icon>
+                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above" 
+                                *ngIf="student.has_given_exam && student.student_enrollment_status === EnrollmentStatus.FEES_PAID && 
+                                    student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Issue Certificate"
+                                [icon]="faGraduationCap" (click)="CerficiateIssued(student)"></fa-icon>
                         </td>
                     </ng-container>
 
