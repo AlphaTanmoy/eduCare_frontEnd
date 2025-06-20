@@ -51,4 +51,8 @@ export class StudentService {
   getStudentCourseInfo(studentId: string | null): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_course_info + "/" + studentId);
   }
+
+  updateStudentMarks(student_id: string | null, course_code: string | null, marks: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.update_student_marks, { marks, course_code, student_id });
+  }
 }

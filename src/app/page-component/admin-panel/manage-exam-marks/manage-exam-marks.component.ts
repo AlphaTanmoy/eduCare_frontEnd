@@ -39,6 +39,9 @@ export class ManageExamMarksComponent {
   ModuleCount: number = 0;
   ModuleDetails: any[] = [];
   OriginalMarks: any[] = [];
+  course_code: string | null = null;
+
+  err_msg: string | null = null;
 
   constructor(
     private router: Router,
@@ -72,12 +75,7 @@ export class ManageExamMarksComponent {
           this.ModuleCount = response.data[0].module_count;
           this.ModuleDetails = response.data[0].module_details;
           this.OriginalMarks = response.data[0].original_marks;
-
-          console.log("this.MaximumPracticalMarks", this.MaximumPracticalMarks);
-          console.log("this.MaximumTheoreticalMarks", this.MaximumTheoreticalMarks);
-          console.log("this.ModuleCount", this.ModuleCount);
-          console.log("this.ModuleDetails", this.ModuleDetails);
-          console.log("this.OriginalMarks", this.OriginalMarks);
+          this.course_code = response.data[0].course_code;
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }
@@ -89,8 +87,45 @@ export class ManageExamMarksComponent {
     });
   }
 
+  ValidateTheoryMarks(data: any) {
+    if (data.theory_marks < 0) {
+      data.theory_err_msg = "Theory marks cannot be negative";
+    } else if (data.theory_marks > this.MaximumTheoreticalMarks) {
+      data.theory_err_msg = "Theory marks cannot be more than the maximum theoretical marks : " + this.MaximumTheoreticalMarks;
+    } else {
+      data.theory_err_msg = null;
+    }
+  }
+
+  ValidatePracticalMarks(data: any) {
+    if (data.practical_marks < 0) {
+      data.practical_err_msg = "Practical marks cannot be negative";
+    } else if (data.practical_marks > this.MaximumPracticalMarks) {
+      data.practical_err_msg = "Practical marks cannot be more than the maximum practical marks : " + this.MaximumPracticalMarks;
+    } else {
+      data.practical_err_msg = null;
+    }
+  }
+
   SaveMarks(data: any) {
-    
+    this.activeMatProgressBar();
+
+    this.studentService.updateStudentMarks(this.StudentId, this.course_code, data).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.FetchStudentCourseDetails();
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   activeMatProgressBar() {

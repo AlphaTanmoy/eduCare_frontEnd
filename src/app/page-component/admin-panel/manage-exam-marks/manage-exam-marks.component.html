@@ -6,18 +6,33 @@
     <div class="card mb-4" *ngFor="let data of OriginalMarks">
         <div class="card-header d-flex flex-column">
             <span class="text-secondary module_font topic_font">Module {{data.module_index+1}}</span>
-            <span class="topic_color"><span class="topic_font">Topics : </span> {{ModuleDetails[data.module_index].join(',
-                ')}}</span>
+            <span class="topic_color"><span class="topic_font">Topics : </span>
+                {{ModuleDetails[data.module_index].join(',')}}</span>
         </div>
         <div class="card-body">
+            <!-- Theory Marks -->
             <label class="form-label mb-1">Theoretical Marks<span class="text-danger">*</span></label>
-            <input type="number" class="form-control mb-3" placeholder="Theoretical Marks" [(ngModel)]="data.theory_marks">
-    
+            <br *ngIf="data.theory_err_msg">
+            <span *ngIf="data.theory_err_msg" class="text-danger">{{ data.theory_err_msg }}</span>
+
+            <input type="number" class="form-control mb-3" placeholder="Theoretical Marks" [min]="0"
+                [max]="MaximumTheoreticalMarks" [(ngModel)]="data.theory_marks"
+                (ngModelChange)="ValidateTheoryMarks(data)" />
+
+            <!-- Practical Marks -->
             <label class="form-label mb-1">Practical Marks<span class="text-danger">*</span></label>
-            <input type="number" class="form-control" placeholder="Practical Marks" [(ngModel)]="data.practical_marks">
-    
+            <br *ngIf="data.practical_err_msg">
+            <span *ngIf="data.practical_err_msg" class="text-danger">{{ data.practical_err_msg }}</span>
+
+            <input type="number" class="form-control" placeholder="Practical Marks" [min]="0"
+                [max]="MaximumPracticalMarks" [(ngModel)]="data.practical_marks"
+                (ngModelChange)="ValidatePracticalMarks(data)" />
+
+
             <div class="w-100 d-flex justify-content-end mt-3">
-                <button class="btn btn-primary btn-sm" (click)="SaveMarks(data)">Save</button>
+                <button class="btn btn-primary btn-sm"
+                    [disabled]="data.theory_err_msg || data.practical_err_msg || data.theory_marks == null || data.practical_marks === null"
+                    (click)="SaveMarks(data)">Save</button>
             </div>
         </div>
     </div>
