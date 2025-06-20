@@ -64,7 +64,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   isFranchise: boolean = false;
 
-  displayedColumns: string[] = ['student_image', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
+  displayedColumns: string[] = ['student_image', 'regno', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
   constructor(
     private router: Router,
