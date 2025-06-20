@@ -13,12 +13,25 @@
                 <p class="card-text"><span class="fw-bold">Marital Status :</span>
                     {{data.student_maratial_status}}</p>
                 <p class="card-text"><span class="fw-bold">Aadhar :</span> {{data.student_Adhar_number}}</p>
-                <p class="card-text"><span class="fw-bold">Status : </span> <span [ngClass]="
+
+                <div class="student_card_data">
+                    <p class="card-text me-3"><span class="fw-bold">Status : </span> <span [ngClass]="
                             data.data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
                             data.data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' :
                             data.data_status === ActiveInactiveStatus.DELETED ? 'text_card_deleted' : 'text_card_idle'
                             ">{{ GetDataStatusLabel(data.data_status) }}
-                    </span></p>
+                        </span></p>
+
+                    <p class="card-text"><span class="fw-bold">Enrollment Status : </span>
+                        <span [ngClass]="
+                            data.student_enrollment_status === EnrollmentStatus.REGISTERED ? 'text_card_idle' :
+                            data.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
+                            data.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED ? 'text_card_danger' :
+                            data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary_light' : 'text_card_primary'
+                            ">{{ GetEnrollmentStatusLabel(data.student_enrollment_status) }}
+                        </span>
+                    </p>
+                </div>
             </div>
             <div class="student_image">
                 <img [src]="data.student_photo" (error)="onImageError($event)">
@@ -48,11 +61,27 @@
             <p class="card-text"><span class="fw-bold">Guardian's Number :</span> {{data.student_guardians_number}}</p>
         </div>
 
+        <div class="student_card_data mb-3 d-flex flex-column">
+            <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{data.enrolled_courses}}
+                ({{data.marks.length}} Module)</p>
 
+            <table>
+                <tr>
+                    <th>Module</th>
+                    <th>Theory Marks</th>
+                    <th>Practical Marks</th>
+                </tr>
+                <tr *ngFor="let mark of data.marks">
+                    <td>{{mark.module_index + 1}}</td>
+                    <td>{{ mark.theory_marks ?? 'Not updated' }}</td>
+                    <td>{{ mark.practical_marks ?? 'Not updated' }}</td>
+                </tr>
+            </table>
+        </div>
 
 
         <p class="card-text"><span class="fw-bold">Associated Center :</span> {{data.associated_franchise}}</p>
-        <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{data.enrolled_courses}}</p>
+
         <p class="card-text"><span class="fw-bold">Email Verified :</span>
             {{GetIsEmailVerifiedLabel(data.is_email_verified)}}</p>
         <p class="card-text"><span class="fw-bold">Created At :</span> {{FormatDateTime(data.created_at)}}</p>
