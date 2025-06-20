@@ -3,7 +3,7 @@ import { loadBootstrap } from '../../../../load-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor } from '../../../constants/commonConstants';
+import { ResponseTypeColor, UserRole } from '../../../constants/commonConstants';
 import { StudentService } from '../../../service/student/student.service';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { AuthService } from '../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-manage-exam-marks',
@@ -43,10 +44,14 @@ export class ManageExamMarksComponent {
 
   err_msg: string | null = null;
 
+  role: string | null = null;
+  UserRole = UserRole;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private studentService: StudentService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -60,6 +65,12 @@ export class ManageExamMarksComponent {
       }
     });
     this.FetchStudentCourseDetails();
+
+    this.role = this.authService.getUserRole();
+
+    if (this.role === UserRole.ADMIN || this.role === UserRole.MASTER) {
+      this.openDialog("Marks Update", "You are viewing this page as a Master/Admin. Features are disabled for you.", ResponseTypeColor.INFO, null);
+    }
   }
 
   FetchStudentCourseDetails() {

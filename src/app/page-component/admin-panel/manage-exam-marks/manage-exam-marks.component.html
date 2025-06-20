@@ -16,8 +16,8 @@
             <span *ngIf="data.theory_err_msg" class="text-danger">{{ data.theory_err_msg }}</span>
 
             <input type="number" class="form-control mb-3" placeholder="Theoretical Marks" [min]="0"
-                [max]="MaximumTheoreticalMarks" [(ngModel)]="data.theory_marks"
-                (ngModelChange)="ValidateTheoryMarks(data)" />
+                [disabled]="role === UserRole.ADMIN || role === UserRole.MASTER" [max]="MaximumTheoreticalMarks"
+                [(ngModel)]="data.theory_marks" (ngModelChange)="ValidateTheoryMarks(data)" />
 
             <!-- Practical Marks -->
             <label class="form-label mb-1">Practical Marks<span class="text-danger">*</span></label>
@@ -25,13 +25,13 @@
             <span *ngIf="data.practical_err_msg" class="text-danger">{{ data.practical_err_msg }}</span>
 
             <input type="number" class="form-control" placeholder="Practical Marks" [min]="0"
-                [max]="MaximumPracticalMarks" [(ngModel)]="data.practical_marks"
-                (ngModelChange)="ValidatePracticalMarks(data)" />
+                [disabled]="role === UserRole.ADMIN || role === UserRole.MASTER" [max]="MaximumPracticalMarks"
+                [(ngModel)]="data.practical_marks" (ngModelChange)="ValidatePracticalMarks(data)" />
 
 
             <div class="w-100 d-flex justify-content-end mt-3">
-                <button class="btn btn-primary btn-sm"
-                    [disabled]="data.theory_err_msg || data.practical_err_msg || data.theory_marks == null || data.practical_marks === null"
+                <button class="btn btn-primary btn-sm" [disabled]="data.theory_err_msg || data.practical_err_msg || data.theory_marks == null || 
+                        data.practical_marks === null || role == UserRole.ADMIN || role == UserRole.MASTER"
                     (click)="SaveMarks(data)">Save</button>
             </div>
         </div>

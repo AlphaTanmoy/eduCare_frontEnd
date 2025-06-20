@@ -100,7 +100,7 @@
                                 (click)="RefundFees(student)"></fa-icon>
 
                             <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
-                                *ngIf="isFranchise && student.student_enrollment_status === EnrollmentStatus.FEES_PAID && student.data_status === ActiveInactiveStatus.ACTIVE"
+                                *ngIf="student.student_enrollment_status === EnrollmentStatus.FEES_PAID && student.data_status === ActiveInactiveStatus.ACTIVE"
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
 
