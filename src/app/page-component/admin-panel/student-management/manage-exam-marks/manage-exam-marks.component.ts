@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { loadBootstrap } from '../../../../load-bootstrap';
+import { loadBootstrap } from '../../../../../load-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor, UserRole } from '../../../constants/commonConstants';
-import { StudentService } from '../../../service/student/student.service';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { StudentService } from '../../../../service/student/student.service';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { AuthService } from '../../../service/auth/Auth.Service';
+import { AuthService } from '../../../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-manage-exam-marks',

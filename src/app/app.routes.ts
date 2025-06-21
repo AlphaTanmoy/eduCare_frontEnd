@@ -50,7 +50,7 @@ import { ManageStudentComponent } from './page-component/admin-panel/student-man
 import { ManageWalletComponent } from './page-component/admin-panel/manage-wallet/manage-wallet/manage-wallet.component';
 import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/pay-wallet/pay-wallet.component';
 import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
-import { ManageExamMarksComponent } from './page-component/admin-panel/manage-exam-marks/manage-exam-marks.component';
+import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
