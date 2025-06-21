@@ -283,30 +283,30 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   CerficiateIssued(student: any) {
-    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to issue certificate for this student?<br><br>Registration No. : " + student.registration_number + "<br>Student Name : " + student.student_name } });
+    // const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to issue certificate for this student?<br><br>Registration No. : " + student.registration_number + "<br>Student Name : " + student.student_name } });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.activeMatProgressBar();
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === true) {
+    //     this.activeMatProgressBar();
 
-        this.studentCertificateService.issueCertificate(student.student_id).subscribe({
-          next: (response) => {
-            this.hideMatProgressBar();
+    //     this.studentCertificateService.issueCertificate(student.student_id).subscribe({
+    //       next: (response) => {
+    //         this.hideMatProgressBar();
 
-            if (response.status === 200) {
-              this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
-              this.getStudents(this.page_index, this.page_size);
-            } else {
-              this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
-            }
-          },
-          error: (err) => {
-            this.hideMatProgressBar();
-            this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
-          }
-        });
-      }
-    });
+    //         if (response.status === 200) {
+    //           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, false);
+    //           this.getStudents(this.page_index, this.page_size);
+    //         } else {
+    //           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+    //         }
+    //       },
+    //       error: (err) => {
+    //         this.hideMatProgressBar();
+    //         this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+    //       }
+    //     });
+    //   }
+    // });
   }
 
   DeleteStudent(student: any) {
