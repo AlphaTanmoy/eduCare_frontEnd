@@ -11,6 +11,6 @@ export class StudentCertificateService {
   constructor(private http: HttpClient) { }
 
   issueCertificate(student_id: string | null): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.student.issue_certificate, { student_id });
+    return this.http.post<any>(GetBaseURL() + Endpoints.student_certificate.issue_certificate, { student_id });
   }
 }
