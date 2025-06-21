@@ -5,7 +5,8 @@
 
     <div class="mb-3 mt-2 d-flex justify-content-end">
         <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below" matTooltip="This excel contains information of those students whose marks have been uploaded and excel is not generated yet. 
-                With the help of this excel, you can make certificate and upload further" (click)="GenerateAndDownloadExcelOfAllStudents()">Generate
+                With the help of this excel, you can make certificate and upload further"
+            (click)="GenerateAndDownloadExcelOfAllStudents()">Generate
             Excel</button>
     </div>
 
@@ -17,8 +18,9 @@
         </div>
 
         <div class="mt-5 d-flex justify-content-end">
-            <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below"
-                matTooltip="This excel contains information of the student whose registration number you've typed above.">Download
+            <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below" [disabled]="student_registration_number === null"
+                matTooltip="This excel contains information of the student whose registration number you've typed above."
+                (click)="GenerateAndDownloadExcelOfTypedStudent()">Download
                 Excel To Generate Certificate</button>
         </div>
     </div>

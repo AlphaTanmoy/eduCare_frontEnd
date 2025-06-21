@@ -43,22 +43,18 @@ export class DownloadExcelToGenerateCertificateComponent {
 
     this.studentCertificateService.downloadExcelRelatedToCertificateIssue(info).subscribe({
       next: (response: HttpResponse<Blob>) => {
-        debugger;
         const blob = response.body!;
 
-        // Extract filename from headers
         const contentDisposition = response.headers.get('Content-Disposition') || '';
         const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
         const match = filenameRegex.exec(contentDisposition);
         const filename = match && match[1] ? match[1].replace(/['"]/g, '') : 'Excel_Related_to_Certificate_Issue.xlsx';
 
-        // Trigger download
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = filename;
         link.click();
 
-        // Cleanup
         URL.revokeObjectURL(link.href);
         this.hideMatProgressBar();
       },
@@ -67,7 +63,60 @@ export class DownloadExcelToGenerateCertificateComponent {
         this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
       }
     });
+  }
 
+
+  GenerateAndDownloadExcelOfTypedStudent() {
+    this.activeMatProgressBar();
+
+    const info = {
+      "status": "SINGLE",
+      "student_registration_number": this.student_registration_number
+    }
+
+    try {
+      this.studentCertificateService.downloadExcelRelatedToCertificateIssue(info).subscribe({
+        next: (response: HttpResponse<Blob>) => {
+          const blob = response.body!;
+
+          const contentDisposition = response.headers.get('Content-Disposition') || '';
+          const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+          const match = filenameRegex.exec(contentDisposition);
+          const filename = match && match[1] ? match[1].replace(/['"]/g, '') : 'Excel_Related_to_Certificate_Issue.xlsx';
+
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+          link.click();
+
+          URL.revokeObjectURL(link.href);
+          this.hideMatProgressBar();
+        },
+        error: async (err) => {
+          this.hideMatProgressBar();
+
+          let errorMessage = "Failed to generate certificate related excel file";
+
+          try {
+            // Try to parse JSON error only if it's not already an object
+            if (err.error instanceof Blob) {
+              const errorText = await err.error.text();
+              const parsedError = JSON.parse(errorText);
+              errorMessage = parsedError.details || parsedError.message || errorMessage;
+            } else if (typeof err.error === 'object') {
+              errorMessage = err.error.details || err.error.message || errorMessage;
+            }
+          } catch (e) {
+            this.openDialog("Download Excel", "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
+          }
+
+          this.openDialog("Download Excel", errorMessage, ResponseTypeColor.ERROR, null);
+        }
+      });
+    } catch (err) {
+      this.hideMatProgressBar();
+      this.openDialog("Download Excel", "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
+    }
   }
 
   ngOnDestroy(): void {
