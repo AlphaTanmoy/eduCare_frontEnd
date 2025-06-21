@@ -317,6 +317,12 @@ export const MenuItems: any[] = [
         route: '/control-panel/data-backup',
         role: [UserRole.MASTER],
       },
+      {
+        id: 99,
+        name: 'Excel Of Students',
+        route: '/control-panel/download-excel-of-students',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+      },
     ],
   },
   {
