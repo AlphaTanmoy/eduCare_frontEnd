@@ -65,7 +65,6 @@ export class DownloadExcelToGenerateCertificateComponent {
     });
   }
 
-
   GenerateAndDownloadExcelOfTypedStudent() {
     this.activeMatProgressBar();
 
