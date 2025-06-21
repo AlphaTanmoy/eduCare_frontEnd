@@ -110,7 +110,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       console.log(data)
 
       for(let i=0; i<data.length; i++) {
-        if(data[i].certificate_downloaded === false && data[i].has_given_exam === true && data[i].student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED) {
+        if(data[i].excel_downloaded === false && data[i].has_given_exam === true && data[i].student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED) {
           this.generateExcelOfCertificateVisible = true;
           break;
         }
