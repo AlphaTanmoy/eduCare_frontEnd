@@ -91,6 +91,9 @@ export const Endpoints = {
     update_student_marks: "student/update_student_marks", 
     issue_certificate: "student/issue_certificate", 
   },
+  student_certificate: {
+    issue_certificate: "student_certificate/issue_certificate", 
+  },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
     get_available_transactions_per_franchise_by_offset: "wallet/get_available_transactions_per_franchise_by_offset",

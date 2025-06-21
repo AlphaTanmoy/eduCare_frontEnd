@@ -25,6 +25,7 @@ import { WalletService } from '../../../../service/wallet/wallet.service';
 import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { Router } from '@angular/router';
+import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
 
 @Component({
   selector: 'app-manage-student',
@@ -72,7 +73,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
     private indexedDbService: IndexedDbService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private studentCertificateService: StudentCertificateService
   ) { }
 
   async ngOnInit() {
@@ -287,7 +289,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       if (result === true) {
         this.activeMatProgressBar();
 
-        this.studentService.issueCertificate(student.student_id).subscribe({
+        this.studentCertificateService.issueCertificate(student.student_id).subscribe({
           next: (response) => {
             this.hideMatProgressBar();
 
