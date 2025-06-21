@@ -319,7 +319,7 @@ export const MenuItems: any[] = [
       },
       {
         id: 99,
-        name: 'Excel Of Students',
+        name: 'Excel To Generate Certificate',
         route: '/control-panel/download-excel-of-students',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
