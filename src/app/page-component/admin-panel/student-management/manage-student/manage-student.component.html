@@ -12,6 +12,9 @@
                     placeholder="Search..." />
 
                 <div class="d-flex">
+                    <button class="btn btn-secondary btn-sm me-2" [disabled]="matProgressBarVisible" *ngIf="generateExcelOfCertificateVisible"
+                        (click)="DownloadExcelOfCertificate()">Excel</button>
+
                     <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
                         (click)="AddStudent()">Add</button>
                 </div>

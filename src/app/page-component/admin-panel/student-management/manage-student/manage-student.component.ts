@@ -51,6 +51,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   faGraduationCap = faGraduationCap;
   faRectangleList = faRectangleList;
 
+  generateExcelOfCertificateVisible: boolean = false;
+
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -104,6 +106,16 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       }
 
       const data = res.data[0].all_students;
+
+      console.log(data)
+
+      for(let i=0; i<data.length; i++) {
+        if(data[i].certificate_downloaded === false && data[i].has_given_exam === true && data[i].student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED) {
+          this.generateExcelOfCertificateVisible = true;
+          break;
+        }
+      }
+
       let data1: any[] = [];
       let data2: any[] = [];
 
@@ -331,6 +343,29 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       }
     });
+  }
+
+  DownloadExcelOfCertificate() {
+    // this.activeMatProgressBar();
+
+    // this.studentService.downloadExcelOfCertificate().subscribe({
+    //   next: (response) => {
+    //     this.hideMatProgressBar();
+
+    //     if (response.status === 200) {
+    //       const link = document.createElement('a');
+    //       link.href = response.data;
+    //       link.download = `Excel of Certificate.xlsx`;
+    //       link.click();
+    //     } else {
+    //       this.openDialog("Student", response.message, ResponseTypeColor.ERROR, false);
+    //     }
+    //   },
+    //   error: (err) => {
+    //     this.hideMatProgressBar();
+    //     this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+    //   }
+    // });
   }
 
   applyFilter(event: Event) {
