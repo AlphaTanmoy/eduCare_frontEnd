@@ -55,4 +55,8 @@ export class StudentService {
   updateStudentMarks(student_id: string | null, course_code: string | null, marks: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.update_student_marks, { marks, course_code, student_id });
   }
+
+  issueCertificate(student_id: string | null): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.issue_certificate, { student_id });
+  }
 }
