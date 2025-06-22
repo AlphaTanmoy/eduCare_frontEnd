@@ -1,0 +1,68 @@
+::ng-deep .cdk-overlay-pane,
+::ng-deep .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+.cdk-overlay-pane .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+.card {
+    word-break: break-all;
+    overflow: hidden;
+}
+
+.card-body {
+    overflow: scroll;
+}
+
+.student_image {
+    width: max-content;
+    height: 200px;
+    border: 4px solid rgb(100, 100, 100);
+}
+
+.card-text {
+    margin: 0;
+    padding-bottom: 0.2rem;
+}
+
+.student_image img {
+    height: 100%;
+}
+
+.student_card_header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: max-content;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.student_card_data {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .student_card_header {
+        flex-direction: column;
+        flex-direction: column-reverse;
+    }
+
+    .student_card_data {
+        flex-direction: column;
+    }
+
+    .student_image {
+        margin-bottom: 1rem;
+    }
+}
