@@ -50,7 +50,7 @@ import { ManageWalletComponent } from './page-component/admin-panel/manage-walle
 import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/pay-wallet/pay-wallet.component';
 import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
 import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
-import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
+import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
 import { StudentLoginComponent } from './page-component/student/student-login/student-login.component';
 import { StudentDashboardComponent } from './page-component/student/student-dashboard/student-dashboard.component';
 import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';

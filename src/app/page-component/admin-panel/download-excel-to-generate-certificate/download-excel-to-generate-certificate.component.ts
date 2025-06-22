@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
-import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
+import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { StudentCertificateService } from '../../../service/student-certificate/student-certificate.service';
+import { ResponseTypeColor } from '../../../constants/commonConstants';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
