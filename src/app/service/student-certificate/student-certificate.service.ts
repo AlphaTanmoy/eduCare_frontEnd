@@ -10,8 +10,8 @@ export class StudentCertificateService {
 
   constructor(private http: HttpClient) { }
 
-  issueCertificate(student_id: string | null): Observable<any> {
-    return this.http.post<any>(GetBaseURL() + Endpoints.student_certificate.issue_certificate, { student_id });
+  issueCertificate(formData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student_certificate.issue_certificate, formData);
   }
 
   downloadExcelRelatedToCertificateIssue(info: any): Observable<any> {

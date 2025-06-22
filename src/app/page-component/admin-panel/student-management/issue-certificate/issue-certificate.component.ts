@@ -16,11 +16,18 @@ export class IssueCertificateComponent {
 
   certificate_file: File | null = null;
 
-  Save(){
-
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.certificate_file = input.files?.[0] || null;
   }
 
-  Close(){
+  Save() {
+    if (this.certificate_file) {
+      this.dialogRef.close(this.certificate_file);
+    } 
+  }
+
+  Close() {
     this.dialogRef.close();
   }
 }
