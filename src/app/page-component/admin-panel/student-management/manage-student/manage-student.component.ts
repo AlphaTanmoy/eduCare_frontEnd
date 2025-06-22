@@ -107,6 +107,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
       }
 
       const data = res.data[0].all_students;
+      console.log(data)
 
       let data1: any[] = [];
       let data2: any[] = [];
@@ -348,6 +349,10 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         });
       }
     });
+  }
+
+  DownloadCertificate(student: any) {
+    
   }
 
   applyFilter(event: Event) {
