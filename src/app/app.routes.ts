@@ -113,6 +113,12 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'student/login', component: StudentLoginComponent },
+    { 
+      path: 'student/dashboard', 
+      loadComponent: () => import('./page-component/student/student-dashboard/student-dashboard.component').then(m => m.StudentDashboardComponent),
+      canActivate: [AuthGuard],
+      data: { role: [UserRole.STUDENT] } 
+    },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
