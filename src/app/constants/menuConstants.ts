@@ -283,27 +283,33 @@ export const MenuItems: any[] = [
         id: 97,
         name: 'Excel To Generate Certificate',
         route: '/control-panel/download-excel-of-students',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+        role: [UserRole.MASTER, UserRole.ADMIN],
       },
       {
         id: 98,
+        name: 'Request For Certificate',
+        route: '/control-panel/request-for-certificate',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+      },
+      {
+        id: 99,
         name: 'Manage Wallet',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
         subMenu: [
           {
-            id: 981,
+            id: 991,
             name: 'Recharge Wallet',
             route: '/control-panel/wallet/recharge',
             role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
           },
           {
-            id: 982,
+            id: 992,
             name: 'Manage Wallet',
             route: '/control-panel/wallet/manage',
             role: [UserRole.MASTER, UserRole.ADMIN],
           },
           {
-            id: 983,
+            id: 993,
             name: 'Transaction History',
             route: '/control-panel/wallet/transaction-history',
             role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
@@ -311,7 +317,7 @@ export const MenuItems: any[] = [
         ],
       },
       {
-        id: 99,
+        id: 100,
         name: 'Data Backup',
         route: '/control-panel/data-backup',
         role: [UserRole.MASTER],
