@@ -1,5 +1,7 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mt-5 mb-3">
+  <div class="row justify-content-center align-items-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6">
       <div class="card p-4 shadow-sm">
         <div class="text-center mb-4">
@@ -13,26 +15,11 @@
             <label class="form-label">Registration Number</label>
             <div class="input-group">
               <span class="input-group-text bg-light">{{ regPrefix }}</span>
-              <input 
-                type="text" 
-                class="form-control" 
-                [(ngModel)]="regYear" 
-                name="regYear" 
-                maxlength="2" 
-                (input)="onInput($event, 'regNumber')"
-                placeholder="YY"
-                required>
+              <input type="text" class="form-control" [(ngModel)]="regYear" name="regYear" maxlength="2"
+                (input)="onInput($event, 'regNumber')" placeholder="YY" required>
               <span class="input-group-text bg-light">-</span>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="regNumber"
-                [(ngModel)]="regNumber" 
-                name="regNumber" 
-                maxlength="5" 
-                (input)="onInput($event, 'day')"
-                placeholder="00000"
-                required>
+              <input type="text" class="form-control" id="regNumber" [(ngModel)]="regNumber" name="regNumber"
+                maxlength="5" (input)="onInput($event, 'day')" placeholder="00000" required>
             </div>
             <small class="text-muted">Format: {{ regPrefix }}YY-00000</small>
           </div>
@@ -42,40 +29,18 @@
             <label class="form-label">Date of Birth</label>
             <div class="row g-2">
               <div class="col-4">
-                <input 
-                  type="text" 
-                  class="form-control text-center" 
-                  [(ngModel)]="day" 
-                  name="day" 
-                  maxlength="2" 
-                  (input)="onInput($event, 'month')"
-                  placeholder="DD"
-                  required>
+                <input type="text" class="form-control text-center" [(ngModel)]="day" name="day" maxlength="2"
+                  (input)="onInput($event, 'month')" placeholder="DD" required>
                 <small class="text-muted">Day</small>
               </div>
               <div class="col-4">
-                <input 
-                  type="text" 
-                  class="form-control text-center" 
-                  [(ngModel)]="month" 
-                  name="month" 
-                  maxlength="2" 
-                  (input)="onInput($event, 'year')"
-                  placeholder="MM"
-                  required>
+                <input type="text" class="form-control text-center" [(ngModel)]="month" name="month" maxlength="2"
+                  (input)="onInput($event, 'year')" placeholder="MM" required>
                 <small class="text-muted">Month</small>
               </div>
               <div class="col-4">
-                <input 
-                  type="text" 
-                  class="form-control text-center" 
-                  id="year"
-                  [(ngModel)]="year" 
-                  name="year" 
-                  maxlength="4" 
-                  (input)="onInput($event)"
-                  placeholder="YYYY"
-                  required>
+                <input type="text" class="form-control text-center" id="year" [(ngModel)]="year" name="year"
+                  maxlength="4" (input)="onInput($event)" placeholder="YYYY" required>
                 <small class="text-muted">Year</small>
               </div>
             </div>
@@ -84,14 +49,7 @@
 
           <!-- Submit Button -->
           <div class="d-grid gap-2">
-            <button 
-              type="submit" 
-              class="btn btn-primary btn-lg"
-              [disabled]="isLoading">
-              <span *ngIf="!isLoading">Login</span>
-              <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span *ngIf="isLoading" class="ms-2">Logging in...</span>
-            </button>
+            <button type="submit" class="btn btn-primary btn-lg" [disabled]="matProgressBarVisible">Login</button>
           </div>
         </form>
       </div>
