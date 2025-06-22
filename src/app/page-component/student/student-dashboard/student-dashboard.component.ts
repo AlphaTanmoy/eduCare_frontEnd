@@ -33,11 +33,11 @@ export class StudentDashboardComponent implements OnInit {
     this.error = null;
 
     this.studentService.getStudentProfile().subscribe({
-      next: (response) => {
-        if (response.status === 200 && response.data?.[0]?.personal_info) {
-          this.profile = response.data[0].personal_info;
+      next: (profile: StudentProfile) => {
+        if (profile && profile.id) {
+          this.profile = profile;
         } else {
-          this.error = 'Failed to load profile data';
+          this.error = 'No profile data available';
         }
         this.isLoading = false;
       },
