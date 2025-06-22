@@ -52,6 +52,7 @@ import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/p
 import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
 import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
 import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
+import { StudentLoginComponent } from './page-component/student/student-login/student-login.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -111,6 +112,7 @@ export const routes: Routes = [
     { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
 
     { path: 'login', component: LoginComponent },
+    { path: 'student/login', component: StudentLoginComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
