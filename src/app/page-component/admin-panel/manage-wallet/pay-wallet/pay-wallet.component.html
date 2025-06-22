@@ -31,7 +31,7 @@
 
             <div class="form-group mt-2">
                 <label for="courseName">Transaction Proof (Screenshot)<span class="text-danger">*</span></label>
-                <input type="file" #AadharPhotoInput class="form-control" accept="image/jpeg,image/jpg" [disabled]="(userRole === UserRole.MASTER || userRole === UserRole.ADMIN)"
+                <input type="file" #AadharPhotoInput class="form-control" accept="image/jpeg,image/jpg,image/png" [disabled]="(userRole === UserRole.MASTER || userRole === UserRole.ADMIN)"
                     (change)="handleTransactionProofSelected($event)">
             </div>
 
