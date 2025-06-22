@@ -1,53 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
-import { Endpoints, GetBaseURL } from '../../endpoints/endpoints';
+import { catchError, map, tap } from 'rxjs/operators';
+import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
+import { AuthService } from '../auth/Auth.Service';
+import { StudentLoginResponse, StudentProfile, StudentProfileResponse } from '../../model/student.model';
 
-export interface StudentLoginResponse {
-  status: number;
-  responseType: string;
-  apiPath: string;
-  message: string;
-  token: string;
-}
-
-export interface StudentProfile {
-  id: string;
-  name: string;
-  date_of_birth: string;
-  registration_number: string;
-  certification_number: string;
-  father_name: string;
-  mother_name: string;
-  spouse_name: string;
-  address: string;
-}
-
-export interface StudentProfileResponse {
-  status: number;
-  responseType: string;
-  apiPath: string;
-  message: string;
-  data: Array<{
-    personal_info: StudentProfile;
-  }>;
-}
+export type { StudentLoginResponse, StudentProfile, StudentProfileResponse } from '../../model/student.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  private readonly TOKEN_KEY = 'student_auth_token';
-  private studentProfile: any = null;
+  private studentProfile: StudentProfile | null = null;
 
-  constructor(private http: HttpClient) {
-    // Load profile from token if available
-    const token = this.getToken();
-    if (token) {
-      this.studentProfile = this.decodeToken(token);
-    }
-  }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   studentLogin(registrationNumber: string, studentDOB: string): Observable<StudentLoginResponse> {
     return this.http.post<StudentLoginResponse>(
@@ -59,93 +29,83 @@ export class StudentService {
     ).pipe(
       tap((response: StudentLoginResponse) => {
         if (response.status === 200 && response.responseType === 'SUCCESS' && response.token) {
-          this.saveToken(response.token);
+          this.authService.saveToken(response.token);
+          this.studentProfile = this.decodeToken(response.token);
         }
       }),
       catchError(error => {
-        console.error('Login error:', error);
         throw error;
       })
     );
   }
 
-  saveToken(token: string): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(this.TOKEN_KEY, token);
-      this.studentProfile = this.decodeToken(token);
-    }
-  }
-
-  private getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  private getAuthHeaders(): { [header: string]: string } {
-    const token = this.getToken();
-    return token ? { 'Authorization': `Bearer ${token}` } : {};
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    if (!token) return false;
-    
-    try {
-      const decoded: any = this.decodeToken(token);
-      if (!decoded || !decoded.exp) return false;
-      
-      // Check if token is expired
-      const currentTime = Math.floor(Date.now() / 1000);
-      return decoded.exp > currentTime;
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return false;
-    }
-  }
-
   logout(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem(this.TOKEN_KEY);
-    }
+    this.authService.logout();
     this.studentProfile = null;
   }
 
-  getStudentProfile(useCache: boolean = true): Observable<StudentProfileResponse> {
-    // Return cached profile if available and useCache is true
-    if (useCache && this.studentProfile) {
-      return of({
-        status: 200,
-        responseType: 'SUCCESS',
-        apiPath: 'student/profile',
-        message: 'Student profile retrieved from cache',
-        data: [{ personal_info: this.studentProfile }]
-      });
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  getStudentProfile(): Observable<StudentProfile> {
+    if (this.studentProfile && this.studentProfile.id) {
+      return of(this.studentProfile);
     }
 
-    return this.http.get<StudentProfileResponse>(
-      `${GetBaseURL()}student/profile`,
-      { headers: this.getAuthHeaders() }
-    ).pipe(
-      tap(response => {
-        if (response.status === 200 && response.data?.[0]?.personal_info) {
-          this.studentProfile = response.data[0].personal_info;
+    if (this.isLoggedIn()) {
+      const token = this.authService.getToken();
+      if (token) {
+        try {
+          this.studentProfile = this.decodeToken(token);
+          if (this.studentProfile.id) {
+            return of(this.studentProfile);
+          }
+        } catch (error) {
+          console.error('Error getting profile from token:', error)
         }
+      }
+      
+      return this.fetchStudentProfileFromApi();
+    }
+    
+    return of({
+      id: '',
+      name: '',
+      date_of_birth: '',
+      registration_number: '',
+      certification_number: '',
+      father_name: '',
+      mother_name: '',
+      spouse_name: '',
+      address: ''
+    });
+  }
+
+  private fetchStudentProfileFromApi(): Observable<StudentProfile> {
+    return this.http.get<StudentProfileResponse>(
+      GetBaseURL() + Endpoints.student.get_student_by_id
+    ).pipe(
+      map((response: StudentProfileResponse) => {
+        if (response.status === 200 && response.responseType === 'SUCCESS' && response.data?.[0]?.personal_info) {
+          this.studentProfile = response.data[0].personal_info;
+          return this.studentProfile;
+        }
+        throw new Error('Failed to load profile data');
       }),
-      catchError(error => {
+      catchError((error: any) => {
         console.error('Error fetching student profile:', error);
         throw error;
       })
     );
   }
 
-  getCachedProfile(): StudentProfile | null {
-    return this.studentProfile;
-  }
-
-  private decodeToken(token: string): any {
+  private decodeToken(token: string): StudentProfile {
     try {
-      // Simple JWT decode (without signature verification)
       const base64Url = token.split('.')[1];
-      if (!base64Url) return null;
+      if (!base64Url) {
+        throw new Error('Invalid token format');
+      }
       
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
@@ -155,15 +115,36 @@ export class StudentService {
           .join('')
       );
       
-      return JSON.parse(jsonPayload);
+      const payload = JSON.parse(jsonPayload);
+      
+      return {
+        id: payload.id || '',
+        name: payload.name || '',
+        date_of_birth: payload.date_of_birth || '',
+        registration_number: payload.registration_number || '',
+        certification_number: payload.certification_number || '',
+        father_name: payload.father_name || '',
+        mother_name: payload.mother_name || '',
+        spouse_name: payload.spouse_name || '',
+        address: payload.address || ''
+      };
     } catch (error) {
       console.error('Error decoding token:', error);
-      return null;
+      return {
+        id: '',
+        name: '',
+        date_of_birth: '',
+        registration_number: '',
+        certification_number: '',
+        father_name: '',
+        mother_name: '',
+        spouse_name: '',
+        address: ''
+      };
     }
   }
 
   CreateStudent(Student: any): Observable<any> {
-    // Format the date to DD-MM-YYYY before sending
     if (Student.student_DOB) {
       const date = new Date(Student.student_DOB);
       const day = date.getDate().toString().padStart(2, '0');
@@ -172,7 +153,6 @@ export class StudentService {
       Student.student_DOB = `${day}-${month}-${year}`;
     }
 
-    // Fix the marital status field name to match the API
     if (Student.student_marital_status) {
       Student.student_maratial_status = Student.student_marital_status;
       delete Student.student_marital_status;
