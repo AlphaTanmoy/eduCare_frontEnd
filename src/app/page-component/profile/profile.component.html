@@ -1,1 +1,75 @@
-<p>profile works!</p>
+<div class="container py-4">
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p class="mt-2">Loading profile...</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div *ngIf="!isLoading" class="row justify-content-center">
+    <div class="col-lg-8">
+      <mat-card class="shadow-sm">
+        <mat-card-header class="bg-light p-3">
+          <mat-card-title class="mb-0">Student Profile</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content class="p-4">
+          <div class="row align-items-center">
+            <!-- Student Photo -->
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+              <div class="position-relative d-inline-block">
+                <img [src]="studentPhoto" 
+                     (error)="onImageError($event)" 
+                     alt="Student Photo" 
+                     class="img-fluid rounded-circle border"
+                     style="width: 200px; height: 200px; object-fit: cover;">
+                <div *ngIf="isLoading" class="position-absolute top-50 start-50 translate-middle">
+                  <mat-spinner diameter="30"></mat-spinner>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Details -->
+            <div class="col-md-8">
+              <div class="table-responsive">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <th class="text-muted" style="width: 40%;">Name</th>
+                      <td>{{ student.student_name || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-muted">Registration Number</th>
+                      <td>{{ student.registration_number || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-muted">Email</th>
+                      <td>{{ student.student_email || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-muted">Phone</th>
+                      <td>{{ student.student_phone_no || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th class="text-muted">Date of Birth</th>
+                      <td>
+                        <ng-container *ngIf="student.date_of_birth; else noDate">
+                          {{ student.date_of_birth | date:'mediumDate' }}
+                        </ng-container>
+                        <ng-template #noDate>N/A</ng-template>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="text-muted">Address</th>
+                      <td>{{ student.address || 'N/A' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

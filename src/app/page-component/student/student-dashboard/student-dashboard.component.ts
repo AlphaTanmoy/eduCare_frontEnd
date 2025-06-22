@@ -1,61 +1,77 @@
+// student-dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { CommonModule, DatePipe } from '@angular/common';
+import { StudentService } from '../../../service/student/student.service';
+import { finalize } from 'rxjs/operators';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
-import { StudentService, StudentProfile } from '../../../service/student/student.service';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatIconModule
-  ],
+  imports: [CommonModule, MatProgressSpinnerModule, DatePipe],
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.css']
 })
 export class StudentDashboardComponent implements OnInit {
-  isLoading = true;
-  profile: StudentProfile | null = null;
-  error: string | null = null;
-
-  constructor(private studentService: StudentService) {}
+  profile: any = {};
+  isLoading = false;
+  studentPhoto: string = 'assets/images/default_student_photo.jpg';
+  hasImageError = false;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.loadProfile();
+    this.bootstrapElements = loadBootstrap();
+    this.fetchStudentProfile();
   }
 
-  private loadProfile(): void {
+  fetchStudentProfile(): void {
     this.isLoading = true;
-    this.error = null;
-
-    this.studentService.getStudentProfile().subscribe({
-      next: (profile: StudentProfile) => {
-        if (profile && profile.id) {
+    this.studentService.fetchStudentProfileFromApi()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (profile) => {
           this.profile = profile;
-        } else {
-          this.error = 'No profile data available';
+          if (profile?.id) {
+            this.loadStudentPhoto(profile.id);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching profile:', error);
         }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading profile:', err);
-        this.error = 'Error loading profile. Please try again later.';
-        this.isLoading = false;
-      }
-    });
+      });
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  loadStudentPhoto(studentId: string): void {
+    if (this.hasImageError) {
+      return; // Don't try to load if we've already had an error
+    }
+    
+    this.studentService.getStudentsPhotoTenInALimit([studentId])
+      .subscribe({
+        next: (response) => {
+          if (response?.status === 200 && response.data?.length > 0) {
+            const photoData = response.data[0]?.student_photo;
+            if (photoData) {
+              this.studentPhoto = 'data:image/jpeg;base64,' + photoData;
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Error loading student photo:', error);
+          this.hasImageError = true;
+        }
+      });
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    this.hasImageError = true;
+    target.src = 'image/default_student_photo.jpg';
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 }
