@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { StudentService, StudentLoginResponse } from '../../../service/student/student.service';
+import { AuthService } from '../../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -34,6 +35,7 @@ export class StudentLoginComponent implements OnDestroy {
 
   constructor(
     private studentService: StudentService,
+    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
@@ -110,7 +112,7 @@ export class StudentLoginComponent implements OnDestroy {
         this.isLoading = false;
         if (response.status === 200 && response.responseType === 'SUCCESS') {
           // Save token and redirect to student dashboard
-          this.studentService.saveToken(response.token);
+          this.authService.saveToken(response.token);
           this.showSuccess('Login successful! Redirecting to dashboard...');
           
           // Add a small delay before redirecting to show the success message
