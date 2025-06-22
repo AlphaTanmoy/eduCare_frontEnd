@@ -340,22 +340,47 @@ export const MenuItems: any[] = [
   {
     id: 11,
     name: 'User',
-    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
+    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
     subMenu: [
       {
         id: 111,
         name: 'Profile',
         route: '/profile',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
       {
         id: 112,
         name: 'Logout',
         route: '/logout',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
     ],
   },
+  {
+    id: 12,
+    name: 'Student',
+    role: [UserRole.STUDENT],
+    subMenu: [
+      {
+        id: 121,
+        name: 'Student Dashboard',
+        route: '/student/student-dashboard',
+        role: [UserRole.STUDENT],
+      },
+      {
+        id: 122,
+        name: 'My Study Metarials',
+        route: '/student/my-study-materials',
+        role: [UserRole.STUDENT],
+      },
+      {
+        id: 123,
+        name: 'Logout',
+        route: '/logout',
+        role: [UserRole.STUDENT],
+      },
+    ],
+  }
 ];
 
 export function GetMenuItemsAssignedByRole(userRole: string): any[] {
