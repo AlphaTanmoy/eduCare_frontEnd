@@ -69,10 +69,10 @@ export const MenuItems: any[] = [
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
       },
       {
-        id: 33,
+        id: 34,
         name: 'Apply Franchise',
         route: '/academic/apply-franchise',
-        role: [UserRole.COMMON],
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
       },
     ],
   },

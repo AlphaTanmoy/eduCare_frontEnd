@@ -4,7 +4,7 @@ import { AuthService } from './Auth.Service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor } from '../../constants/commonConstants';
+import { ResponseTypeColor, UserRole } from '../../constants/commonConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,12 @@ export class AuthGuard implements CanActivate {
     console.log('AuthGuard activated for:', state.url);
     const token = this.authService.getToken();
 
+    const requiredRole = route.data['role'];
+
+    if(!token && requiredRole && requiredRole.includes(UserRole.COMMON.toUpperCase())){
+      return true;
+    }
+
     if (!token || this.jwtHelper.isTokenExpired(token)) {
       this.authService.logout();
       this.openDialog("Login", "Session expired or authentication token not found. Redirecting to login.", ResponseTypeColor.ERROR, '/login');
@@ -27,7 +33,6 @@ export class AuthGuard implements CanActivate {
 
     try {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const requiredRole = route.data['role'];
 
       if (requiredRole && !requiredRole.includes(decodedToken?.user_role?.toUpperCase())) {
         this.openDialog("Access Denied", "Role mismatch. Unauthorized access.", ResponseTypeColor.ERROR, "/un-authorized");
