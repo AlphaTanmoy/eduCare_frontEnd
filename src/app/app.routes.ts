@@ -17,7 +17,6 @@ import { AboutRegistrationComponent } from './page-component/about/about-registr
 import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
 import { StudentVerifyComponent } from './page-component/verification/student-verify/student-verify.component';
 import { CourseCertificateVerifyComponent } from './page-component/verification/certificate-verify/course-certificate-verify/course-certificate-verify.component';
-import { OtherCertificateVerifyComponent } from './page-component/verification/certificate-verify/other-certificate-verify/other-certificate-verify.component';
 import { OtherCourseComponent } from './page-component/course-offered/other-course/other-course.component';
 import { ComputerCourseComponent } from './page-component/course-offered/computer-course/computer-course.component';
 import { DanceCourseComponent } from './page-component/course-offered/dance-course/dance-course.component';
@@ -59,8 +58,7 @@ export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
 
-    { path: 'verification/certificate/course', component: CourseCertificateVerifyComponent },
-    { path: 'verification/certificate/other', component: OtherCertificateVerifyComponent },
+    { path: 'verification/certificate', component: CourseCertificateVerifyComponent },
     { path: 'verification/student', component: StudentVerifyComponent },
     { path: 'verification/center', component: CenterVerifyComponent },
 

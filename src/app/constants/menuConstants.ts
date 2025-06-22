@@ -14,22 +14,9 @@ export const MenuItems: any[] = [
     subMenu: [
       {
         id: 21,
-        name: 'Certificate Verify',
+        name: 'Course Certificate Verify',
+        route: '/verification/certificate',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-        subMenu: [
-          {
-            id: 211,
-            name: 'Course Certificate Verify',
-            route: '/verification/certificate/course',
-            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-          },
-          {
-            id: 212,
-            name: 'Other Certificate Verify',
-            route: '/verification/certificate/other',
-            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-          },
-        ],
       },
       {
         id: 22,
