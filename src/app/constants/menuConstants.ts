@@ -115,7 +115,7 @@ export const MenuItems: any[] = [
   },
   {
     id: 5,
-    name: 'Student',
+    name: 'Student Information',
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {

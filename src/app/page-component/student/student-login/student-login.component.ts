@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -9,16 +9,18 @@ import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ResponseTypeColor } from '../../../constants/commonConstants';
 
 @Component({
   selector: 'app-student-login',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
+    CommonModule,
+    FormsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './student-login.component.html',
   styleUrls: ['./student-login.component.css']
@@ -30,16 +32,19 @@ export class StudentLoginComponent implements OnDestroy {
   day: string = '';
   month: string = '';
   year: string = '';
-  isLoading: boolean = false;
+  // isLoading: boolean = false;
   private bootstrapElements: any;
+
+  matProgressBarVisible = false;
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private studentService: StudentService,
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
-  ) {}
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
@@ -54,7 +59,7 @@ export class StudentLoginComponent implements OnDestroy {
   onInput(event: any, nextField?: string): void {
     const input = event.target;
     const value = input.value;
-    
+
     // Only allow numbers
     if (value && !/^\d*$/.test(value)) {
       input.value = value.replace(/\D/g, '');
@@ -72,22 +77,22 @@ export class StudentLoginComponent implements OnDestroy {
 
   login(event: Event): void {
     event.preventDefault();
-    
+
     // Validate all fields are filled
     if (!this.regYear || !this.regNumber || !this.day || !this.month || !this.year) {
-      this.showError('Please fill in all fields');
+      this.openDialog("Login", "Please fill in all fields", ResponseTypeColor.ERROR, false);
       return;
     }
 
     // Validate registration number parts are numbers
     if (!this.isNumeric(this.regYear) || !this.isNumeric(this.regNumber)) {
-      this.showError('Registration number must contain only numbers');
+      this.openDialog("Login", "Registration number must contain only numbers", ResponseTypeColor.ERROR, false);
       return;
     }
 
     // Validate date parts are numbers
     if (!this.isNumeric(this.day) || !this.isNumeric(this.month) || !this.isNumeric(this.year)) {
-      this.showError('Date of birth must contain only numbers');
+      this.openDialog("Login", "Date of birth must contain only numbers", ResponseTypeColor.ERROR, false);
       return;
     }
 
@@ -97,36 +102,32 @@ export class StudentLoginComponent implements OnDestroy {
 
     // Validate date is valid
     if (!this.isValidDate(day, month, year)) {
-      this.showError('Please enter a valid date');
+      this.openDialog("Login", "Please enter a valid date", ResponseTypeColor.ERROR, false);
       return;
     }
+
+    this.activeMatProgressBar();
 
     // Format date as YYYY-MM-DD for the API
     const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     const registrationNumber = `${this.regPrefix}${this.regYear}-${this.regNumber.padStart(5, '0')}`;
-    
-    this.isLoading = true;
-    
+
     this.studentService.studentLogin(registrationNumber, formattedDate).subscribe({
       next: (response: StudentLoginResponse) => {
-        this.isLoading = false;
+        this.hideMatProgressBar();
+
         if (response.status === 200 && response.responseType === 'SUCCESS') {
           // Save token and redirect to student dashboard
           this.authService.saveToken(response.token);
-          this.showSuccess('Login successful! Redirecting to dashboard...');
-          
-          // Add a small delay before redirecting to show the success message
-          setTimeout(() => {
-            this.router.navigate(['/student/dashboard']);
-          }, 1500);
+          this.openDialog("Login", "Login successful! Redirecting to dashboard...", ResponseTypeColor.SUCCESS, "/student/dashboard");
         } else {
-          this.showError(response.message || 'Invalid credentials');
+          this.openDialog("Login", response.message || 'Invalid credentials', ResponseTypeColor.ERROR, false);
         }
       },
       error: (error) => {
-        this.isLoading = false;
+        this.hideMatProgressBar();
         let errorMessage = 'An error occurred during login';
-        
+
         if (error.error && error.error.message) {
           errorMessage = error.error.message;
         } else if (error.status === 401) {
@@ -134,28 +135,24 @@ export class StudentLoginComponent implements OnDestroy {
         } else if (error.status === 0) {
           errorMessage = 'Unable to connect to the server. Please check your internet connection.';
         }
-        
-        this.showError(errorMessage);
+
+        this.openDialog("Login", errorMessage ?? "Internal server error", ResponseTypeColor.ERROR, false);
       }
     });
   }
 
-  private showError(message: string): void {
-    this.openDialog('Error', message, 3, null); // Type 3 is for error
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
   }
 
-  private showSuccess(message: string): void {
-    this.openDialog('Success', message, 1, null); // Type 1 is for success
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
-    const dialogRef = this.dialog.open(CustomAlertComponent, { 
-      data: { 
-        title: dialogTitle, 
-        text: dialogText, 
-        type: dialogType 
-      } 
-    });
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (navigateRoute) {
@@ -177,16 +174,16 @@ export class StudentLoginComponent implements OnDestroy {
   private isValidDate(day: number, month: number, year: number): boolean {
     if (month < 1 || month > 12) return false;
     if (day < 1 || day > 31) return false;
-    
+
     // Check for months with 30 days
     if ([4, 6, 9, 11].includes(month) && day > 30) return false;
-    
+
     // Check for February
     if (month === 2) {
       const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
       return isLeapYear ? day <= 29 : day <= 28;
     }
-    
+
     return true;
   }
 }

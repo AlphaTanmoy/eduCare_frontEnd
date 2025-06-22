@@ -20,17 +20,17 @@
 
 .student_image {
     width: max-content;
-    height: 200px;
+    width: 10rem;
+}
+
+.student_image img {
+    width: 100%;
     border: 4px solid rgb(100, 100, 100);
 }
 
 .card-text {
     margin: 0;
     padding-bottom: 0.2rem;
-}
-
-.student_image img {
-    height: 100%;
 }
 
 .student_card_header {
