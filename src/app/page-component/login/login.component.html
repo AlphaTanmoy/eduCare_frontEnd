@@ -25,7 +25,10 @@
             <h4 class="mb-3">{{ role.charAt(0) + role.slice(1).toLowerCase() }} Login</h4>
             <input type="email" class="form-control mb-2" [(ngModel)]="email" [name]="role.toLowerCase() + 'Email'" placeholder="Email" required>
             <input type="password" class="form-control mb-3" [(ngModel)]="password" [name]="role.toLowerCase() + 'Password'" placeholder="Password" required>
-            <button type="submit" class="btn btn-primary w-100 transition-btn">Login</button>
+            <button type="submit" class="btn btn-primary w-100 transition-btn mb-2">Login</button>
+            <div class="text-end">
+              <a href="javascript:void(0)" (click)="navigateToForgotPassword()" class="text-decoration-none">Forgot Password?</a>
+            </div>
           </form>
         </div>
       </div>

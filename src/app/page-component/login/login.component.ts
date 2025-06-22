@@ -75,6 +75,10 @@ export class LoginComponent {
     });
   }
 
+  navigateToForgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
+  }
+
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: any): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
 
