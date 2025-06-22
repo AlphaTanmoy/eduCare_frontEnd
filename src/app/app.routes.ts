@@ -53,6 +53,7 @@ import { TransactionHistoryComponent } from './page-component/admin-panel/manage
 import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
 import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
 import { StudentLoginComponent } from './page-component/student/student-login/student-login.component';
+import { StudentDashboardComponent } from './page-component/student/student-dashboard/student-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -83,6 +84,7 @@ export const routes: Routes = [
     { path: 'student/notes', component: NotesComponent },
     { path: 'student/marks-division', component: MarksDivisionComponent },
     { path: 'student/software-download', component: SoftwareDownloadComponent },
+    { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
 
     { path: 'gallary/:type', component: GallaryComponent },
 
@@ -113,12 +115,7 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'student/login', component: StudentLoginComponent },
-    { 
-      path: 'student/dashboard', 
-      loadComponent: () => import('./page-component/student/student-dashboard/student-dashboard.component').then(m => m.StudentDashboardComponent),
-      canActivate: [AuthGuard],
-      data: { role: [UserRole.STUDENT] } 
-    },
+    
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
