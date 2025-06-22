@@ -163,9 +163,9 @@ export const MenuItems: any[] = [
       },
       {
         id: 56,
-        name: 'Login',
+        name: 'Student Login',
         route: '/student/login',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
+        role: [UserRole.COMMON],
       },
     ],
   },
