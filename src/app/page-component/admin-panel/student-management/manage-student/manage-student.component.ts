@@ -26,6 +26,7 @@ import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-comp
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { Router } from '@angular/router';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
+import { IssueCertificateComponent } from '../issue-certificate/issue-certificate.component';
 
 @Component({
   selector: 'app-manage-student',
@@ -283,6 +284,14 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   CerficiateIssued(student: any) {
+    const dialogRef = this.dialog.open(IssueCertificateComponent, {
+      width: '1000px',
+      height: 'max-content',
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      panelClass: 'responsive-dialog',
+      data: student,
+    });
     // const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { data: { text: "Do you want to issue certificate for this student?<br><br>Registration No. : " + student.registration_number + "<br>Student Name : " + student.student_name } });
 
     // dialogRef.afterClosed().subscribe(result => {
