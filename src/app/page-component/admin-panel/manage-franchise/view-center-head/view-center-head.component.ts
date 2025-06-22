@@ -121,7 +121,7 @@ export class ViewCenterHeadComponent implements OnInit, OnDestroy {
 
     const link = document.createElement('a');
     link.href = this.center_head_documnt_photo;
-    link.download = `${this.center_head_documnt_name}.jpg`;
+    link.download = `${this.center_id}_${this.center_head_documnt_name}.jpg`;
     link.click();
   }
 

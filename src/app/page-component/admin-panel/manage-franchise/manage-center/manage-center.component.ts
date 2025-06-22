@@ -196,7 +196,7 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const link = document.createElement('a');
         link.href = center_document;
-        link.download = `${FranchiseDocumentName.SUPPORTABLE_DOCUMENT}`;
+        link.download = `${center_id}_${FranchiseDocumentName.SUPPORTABLE_DOCUMENT}`;
         link.click();
       },
       error: (err) => {
