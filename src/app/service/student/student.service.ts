@@ -48,54 +48,53 @@ export class StudentService {
     return this.authService.isAuthenticated();
   }
 
-  getStudentProfile(): Observable<StudentProfile> {
-    if (this.studentProfile && this.studentProfile.id) {
-      return of(this.studentProfile);
-    }
-
-    if (this.isLoggedIn()) {
-      const token = this.authService.getToken();
-      if (token) {
-        try {
-          this.studentProfile = this.decodeToken(token);
-          if (this.studentProfile.id) {
-            return of(this.studentProfile);
-          }
-        } catch (error) {
-          console.error('Error getting profile from token:', error)
+  fetchStudentProfileFromApi(): Observable<StudentProfile> {
+    return this.http.get<any>(`${GetBaseURL()}student/profile`).pipe(
+      tap(response => console.log('Raw API Response:', response)),
+      map(response => {
+        // Check if response has the expected structure
+        if (!response || !response.data || !Array.isArray(response.data) || response.data.length === 0) {
+          throw new Error('Invalid response format: missing or empty data array');
         }
-      }
-      
-      return this.fetchStudentProfileFromApi();
-    }
-    
-    return of({
-      id: '',
-      name: '',
-      date_of_birth: '',
-      registration_number: '',
-      certification_number: '',
-      father_name: '',
-      mother_name: '',
-      spouse_name: '',
-      address: ''
-    });
-  }
 
-  private fetchStudentProfileFromApi(): Observable<StudentProfile> {
-    return this.http.get<StudentProfileResponse>(
-      GetBaseURL() + Endpoints.student.get_student_by_id
-    ).pipe(
-      map((response: StudentProfileResponse) => {
-        if (response.status === 200 && response.responseType === 'SUCCESS' && response.data?.[0]?.personal_info) {
-          this.studentProfile = response.data[0].personal_info;
-          return this.studentProfile;
+        const firstItem = response.data[0];
+        if (!firstItem.personal_info) {
+          throw new Error('Invalid response format: missing personal_info');
         }
-        throw new Error('Failed to load profile data');
+
+        const profile = firstItem.personal_info;
+        
+        // Map the response to the StudentProfile interface
+        const mappedProfile: StudentProfile = {
+          id: profile.id || '',
+          name: profile.name || '',
+          date_of_birth: profile.date_of_birth || '',
+          registration_number: profile.registration_number || '',
+          certification_number: profile.certification_number || '',
+          father_name: profile.father_name || 'NOT_PROVIDED',
+          mother_name: profile.mother_name || 'NOT_PROVIDED',
+          spouse_name: profile.spouse_name || 'NOT_PROVIDED',
+          address: profile.address || ''
+        };
+
+        // Cache the profile
+        this.studentProfile = mappedProfile;
+        
+        return mappedProfile;
       }),
-      catchError((error: any) => {
-        console.error('Error fetching student profile:', error);
-        throw error;
+      catchError(error => {
+        console.error('Error in fetchStudentProfileFromApi:', error);
+        return of({
+          id: '',
+          name: 'Error loading profile',
+          date_of_birth: '',
+          registration_number: '',
+          certification_number: '',
+          father_name: 'ERROR',
+          mother_name: 'ERROR',
+          spouse_name: 'ERROR',
+          address: 'Error loading profile data'
+        });
       })
     );
   }
