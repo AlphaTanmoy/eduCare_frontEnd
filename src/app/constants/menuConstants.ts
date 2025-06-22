@@ -364,7 +364,7 @@ export const MenuItems: any[] = [
       {
         id: 121,
         name: 'Student Dashboard',
-        route: '/student/student-dashboard',
+        route: '/student/dashboard',
         role: [UserRole.STUDENT],
       },
       {
