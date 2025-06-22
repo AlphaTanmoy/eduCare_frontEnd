@@ -335,7 +335,7 @@ export const MenuItems: any[] = [
     id: 10,
     name: 'Login',
     route: '/login',
-    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+    role: [UserRole.COMMON],
   },
   {
     id: 11,
