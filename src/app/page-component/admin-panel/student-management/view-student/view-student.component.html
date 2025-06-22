@@ -4,7 +4,9 @@
     <div class="card-body">
         <div class="student_card_header">
             <div class="d-flex flex-column justify-content-around">
-                <p class="card-text"><span class="fw-bold">Registration Number. :</span> {{data.registration_number}}</p>
+                <p class="card-text"><span class="fw-bold">Registration Number :</span> {{data.registration_number}}</p>
+                <p class="card-text" *ngIf="data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED">
+                    <span class="fw-bold">Certificate Number :</span> {{data.certification_number}}</p>
                 <p class="card-text"><span class="fw-bold">Name :</span> {{data.student_name}}</p>
                 <p class="card-text"><span class="fw-bold">Gender :</span> {{data.student_gender}}</p>
                 <p class="card-text"><span class="fw-bold">Date of Birth :</span>
@@ -32,8 +34,13 @@
                         </span>
                     </p>
                 </div>
+
+                <p class="card-text" *ngIf="data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED"><span class="fw-bold">Certificate
+                        Issued At :</span>
+                    {{FormatDateTime(data.certificate_issue_date)}}
+                </p>
             </div>
-            <div class="student_image">
+            <div class="student_image d-flex flex-column justify-content-center align-items-center">
                 <img [src]="data.student_photo" (error)="onImageError($event)">
             </div>
         </div>
