@@ -115,8 +115,8 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'student/login', component: StudentLoginComponent },
-    
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
+    { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },
     { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
     { path: '**', component: ErrorComponent },
