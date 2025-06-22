@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Endpoints, GetBaseURL } from '../../endpoints/endpoints';
 
@@ -13,10 +13,25 @@ export interface StudentLoginResponse {
 }
 
 export interface StudentProfile {
-  // Define student profile properties here
   id: string;
+  name: string;
+  date_of_birth: string;
   registration_number: string;
-  // Add other student profile fields as needed
+  certification_number: string;
+  father_name: string;
+  mother_name: string;
+  spouse_name: string;
+  address: string;
+}
+
+export interface StudentProfileResponse {
+  status: number;
+  responseType: string;
+  apiPath: string;
+  message: string;
+  data: Array<{
+    personal_info: StudentProfile;
+  }>;
 }
 
 @Injectable({
@@ -55,17 +70,19 @@ export class StudentService {
   }
 
   saveToken(token: string): void {
-    if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.setItem(this.TOKEN_KEY, token);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.TOKEN_KEY, token);
       this.studentProfile = this.decodeToken(token);
     }
   }
 
-  getToken(): string | null {
-    if (typeof sessionStorage !== 'undefined') {
-      return sessionStorage.getItem(this.TOKEN_KEY);
-    }
-    return null;
+  private getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  private getAuthHeaders(): { [header: string]: string } {
+    const token = this.getToken();
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
   }
 
   isLoggedIn(): boolean {
@@ -86,24 +103,41 @@ export class StudentService {
   }
 
   logout(): void {
-    if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.removeItem(this.TOKEN_KEY);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(this.TOKEN_KEY);
     }
     this.studentProfile = null;
   }
 
-  getStudentProfile(): any {
-    if (!this.isLoggedIn()) {
-      return null;
+  getStudentProfile(useCache: boolean = true): Observable<StudentProfileResponse> {
+    // Return cached profile if available and useCache is true
+    if (useCache && this.studentProfile) {
+      return of({
+        status: 200,
+        responseType: 'SUCCESS',
+        apiPath: 'student/profile',
+        message: 'Student profile retrieved from cache',
+        data: [{ personal_info: this.studentProfile }]
+      });
     }
-    
-    if (!this.studentProfile) {
-      const token = this.getToken();
-      if (token) {
-        this.studentProfile = this.decodeToken(token);
-      }
-    }
-    
+
+    return this.http.get<StudentProfileResponse>(
+      `${GetBaseURL()}student/profile`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(response => {
+        if (response.status === 200 && response.data?.[0]?.personal_info) {
+          this.studentProfile = response.data[0].personal_info;
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching student profile:', error);
+        throw error;
+      })
+    );
+  }
+
+  getCachedProfile(): StudentProfile | null {
     return this.studentProfile;
   }
 

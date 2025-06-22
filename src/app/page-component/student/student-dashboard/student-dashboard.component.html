@@ -1,1 +1,93 @@
-<p>student-dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Section 1: Student Photo -->
+  <div class="dashboard-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Student Photo</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="photo-placeholder">
+        <div class="photo-container">
+          <mat-icon class="photo-icon">account_circle</mat-icon>
+          <p>Photo will be displayed here</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Section 2: Student Profile -->
+  <div class="dashboard-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Student Profile</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="isLoading" class="loading-container">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading profile...</p>
+        </div>
+
+        <div *ngIf="error" class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <p>{{ error }}</p>
+        </div>
+
+        <div *ngIf="!isLoading && !error && profile" class="profile-details">
+          <div class="detail-row">
+            <span class="detail-label">Name:</span>
+            <span class="detail-value">{{ profile.name || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Registration Number:</span>
+            <span class="detail-value">{{ profile.registration_number || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Certification Number:</span>
+            <span class="detail-value">{{ profile.certification_number || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Date of Birth:</span>
+            <span class="detail-value">{{ formatDate(profile.date_of_birth) }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Father's Name:</span>
+            <span class="detail-value">{{ profile.father_name || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Mother's Name:</span>
+            <span class="detail-value">{{ profile.mother_name || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Address:</span>
+            <span class="detail-value">{{ profile.address || 'N/A' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Section 3: Aadhar Document -->
+  <div class="dashboard-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Aadhar Document</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="document-placeholder">
+        <mat-icon>badge</mat-icon>
+        <p>Aadhar document will be displayed here</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Section 4: Certificate -->
+  <div class="dashboard-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Certificate</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="document-placeholder">
+        <mat-icon>school</mat-icon>
+        <p>Certificate will be displayed here</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
