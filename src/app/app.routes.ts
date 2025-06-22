@@ -54,6 +54,8 @@ import { ManageExamMarksComponent } from './page-component/admin-panel/student-m
 import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
 import { StudentLoginComponent } from './page-component/student/student-login/student-login.component';
 import { StudentDashboardComponent } from './page-component/student/student-dashboard/student-dashboard.component';
+import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './page-component/change-password/change-password.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -114,6 +116,8 @@ export const routes: Routes = [
     { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
 
     { path: 'login', component: LoginComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'student/login', component: StudentLoginComponent },
     { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
