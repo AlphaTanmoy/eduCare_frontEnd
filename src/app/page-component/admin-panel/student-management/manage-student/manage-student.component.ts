@@ -200,7 +200,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
           const link = document.createElement('a');
           link.href = center_document;
-          link.download = `${StudentDocumentName.AADHAR_CARD_PHOTO}`;
+          link.download = `${student.registration_number}_${StudentDocumentName.AADHAR_CARD_PHOTO}`;
           link.click();
           this.hideMatProgressBar();
         },
