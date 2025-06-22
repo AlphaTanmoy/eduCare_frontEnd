@@ -33,7 +33,10 @@ export const Endpoints = {
     get_enum_names: "enums/name"
   },
   auth: {
-    login: "auth/login"
+    login: "auth/login",
+    send_otp_for_password_reset: "auth/send_otp_for_password_reset",
+    change_password: "auth/change_password",
+    forgot_password: "auth/forgot_password"
   },
   server: {
     get_server_status: "server/get_server_status",
