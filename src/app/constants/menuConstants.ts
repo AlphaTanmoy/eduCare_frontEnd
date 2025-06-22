@@ -161,6 +161,12 @@ export const MenuItems: any[] = [
         route: '/student/software-download',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
+      {
+        id: 56,
+        name: 'Login',
+        route: '/student/login',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
+      },
     ],
   },
   {
