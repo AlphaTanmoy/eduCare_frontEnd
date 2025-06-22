@@ -5,10 +5,7 @@
       <!-- Tabs for Roles -->
       <ul class="nav nav-tabs mb-3 col-12 justify-content-between flex-wrap" id="roleTabs" role="tablist">
         <li class="nav-item flex-fill text-center" role="presentation">
-          <button class="nav-link active w-100" id="student-tab" data-bs-toggle="tab" data-bs-target="#student" type="button" role="tab">Student</button>
-        </li>
-        <li class="nav-item flex-fill text-center" role="presentation">
-          <button class="nav-link w-100" id="franchise-tab" data-bs-toggle="tab" data-bs-target="#franchise" type="button" role="tab">Franchise</button>
+          <button class="nav-link active w-100" id="franchise-tab" data-bs-toggle="tab" data-bs-target="#franchise" type="button" role="tab">Franchise</button>
         </li>
         <li class="nav-item flex-fill text-center" role="presentation">
           <button class="nav-link w-100" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab">Admin</button>
@@ -21,7 +18,7 @@
       <!-- Tab Contents -->
       <div class="tab-content" id="roleTabsContent">
         <!-- Tab Panes (reuse structure, only changing role) -->
-        <div *ngFor="let role of ['STUDENT', 'FRANCHISE', 'ADMIN', 'MASTER']; let i = index"
+        <div *ngFor="let role of ['FRANCHISE', 'ADMIN', 'MASTER']; let i = index"
              class="tab-pane fade" [class.show]="i === 0" [class.active]="i === 0"
              [id]="role.toLowerCase()" role="tabpanel">
           <form (submit)="login(role); $event.preventDefault()" class="card p-4">
