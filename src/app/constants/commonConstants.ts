@@ -47,6 +47,11 @@ export const MasterDataType = {
   WHATSAPP: 'WHATSAPP',
 }
 
+export enum OTP_TYPE {
+  CHANGE_PASSWORD = 'CHANGE_PASSWORD',
+  FORGOT_PASSWORD = 'FORGOT_PASSWORD'
+}
+
 export enum ServerStatusType {
   HEALTHY = 'Healthy',
   HIGH_LOAD = 'High Load',
