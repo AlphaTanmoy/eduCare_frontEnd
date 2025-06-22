@@ -14,6 +14,8 @@ export class IssueCertificateComponent {
     public dialogRef: MatDialogRef<IssueCertificateComponent>,
   ) { }
 
+  certificate_file: File | null = null;
+
   Save(){
 
   }
