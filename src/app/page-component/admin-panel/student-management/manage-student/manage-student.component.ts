@@ -285,7 +285,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
 
   CerficiateIssued(student: any) {
     const dialogRef = this.dialog.open(IssueCertificateComponent, {
-      width: '1000px',
+      width: '500px',
       height: 'max-content',
       maxWidth: '95vw',
       maxHeight: '95vh',
