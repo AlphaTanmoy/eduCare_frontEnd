@@ -352,7 +352,24 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   DownloadCertificate(student: any) {
-    
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.downloadCertificate(student.student_id).subscribe({
+      next: (blob) => {
+        this.hideMatProgressBar();
+
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = student.registration_number;
+        link.click();
+        window.URL.revokeObjectURL(blobUrl);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error/Certificate not found", ResponseTypeColor.ERROR, false);
+      },
+    });
   }
 
   applyFilter(event: Event) {

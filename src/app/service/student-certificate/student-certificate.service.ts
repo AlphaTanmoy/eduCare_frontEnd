@@ -17,4 +17,8 @@ export class StudentCertificateService {
   downloadExcelRelatedToCertificateIssue(info: any): Observable<any> {
     return this.http.post(GetBaseURL() + Endpoints.student_certificate.generate_and_download_excel_to_generate_certificate, { info: info }, { observe: 'response', responseType: 'blob' });
   }
+
+  downloadCertificate(student_id: string) {
+    return this.http.get(GetBaseURL() + Endpoints.student_certificate.download_certificate + "/" + student_id, { responseType: 'blob' });
+  }
 }
