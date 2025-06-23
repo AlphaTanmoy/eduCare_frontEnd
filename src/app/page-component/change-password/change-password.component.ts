@@ -1,138 +1,242 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../service/auth/Auth.Service';
+import { PasswordService } from '../../service/password/password.service';
+import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../constants/commonConstants';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    RouterModule
+  ],
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
   changePasswordForm: FormGroup;
   showOtpSection = false;
-  isResendDisabled = false;
-  resendButtonText = 'Send OTP';
-  countdown = 60;
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
-  
-  // Track field interactions
+  isLoading = false;
+  errorMessage = '';
+  isResendDisabled = false;
+  resendButtonText = 'Resend OTP';
+  countdown = 60;
+  private countdownInterval: any;
   fieldInteracted: { [key: string]: boolean } = {
     oldPassword: false,
     newPassword: false,
     confirmPassword: false,
     otp: false
   };
-  
-  private countdownInterval: any;
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private passwordService: PasswordService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', [Validators.required]],
       newPassword: ['', [
         Validators.required,
         Validators.minLength(8),
-        // Custom validator for password requirements
-        (control: AbstractControl) => {
-          if (!control.value) return null;
-          const value = control.value;
-          const hasLetter = /[a-zA-Z]/.test(value);
-          const hasNumber = /[0-9]/.test(value);
-          const hasSpecialChar = /[!@#$%^&*]/.test(value);
-          
-          if (!hasLetter || !hasNumber || !hasSpecialChar) {
-            return { invalidPassword: true };
-          }
-          return null;
-        }
+        this.passwordStrengthValidator()
       ]],
       confirmPassword: ['', [Validators.required]],
-      otp: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]]
-    }, { validators: [this.passwordMatchValidator, this.passwordsMatchValidator] });
+      otp: ['', [
+        Validators.required,
+        Validators.pattern('^[0-9]{6}$')
+      ]]
+    }, { validators: this.passwordMatchValidator });
+  }
 
-    // Add value change subscription to validate on password change
-    this.changePasswordForm.get('newPassword')?.valueChanges.subscribe(() => {
-      this.changePasswordForm.get('confirmPassword')?.updateValueAndValidity();
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute?: string): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { 
+      data: { 
+        title: dialogTitle, 
+        text: dialogText, 
+        type: dialogType 
+      } 
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (navigateRoute) {
+        if (navigateRoute === 'logout') {
+          this.authService.logout();
+        } else {
+          window.location.href = navigateRoute;
+        }
+      }
     });
   }
 
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.countdownInterval);
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
     removeBootstrap(this.bootstrapElements);
   }
 
-  get f() { return this.changePasswordForm.controls; }
+  get f() {
+    return this.changePasswordForm.controls;
+  }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const newPassword = formGroup.get('newPassword')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
+  private passwordStrengthValidator() {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const value = control.value || '';
+      const hasNumber = /[0-9]/.test(value);
+      const hasUpper = /[A-Z]/.test(value);
+      const hasLower = /[a-z]/.test(value);
+      const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+      const valid = hasNumber && hasUpper && hasLower && hasSpecial;
+      return valid ? null : { passwordStrength: true };
+    };
+  }
+
+  private passwordMatchValidator(control: AbstractControl) {
+    const newPassword = control.get('newPassword')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
     return newPassword === confirmPassword ? null : { mismatch: true };
   }
 
-  // Additional validator to show error on confirm password field
-  passwordsMatchValidator(formGroup: FormGroup): { [key: string]: boolean } | null {
-    const newPassword = formGroup.get('newPassword')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    
-    if (confirmPassword && newPassword !== confirmPassword) {
-      formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
-      return { passwordMismatch: true };
-    } else {
-      // Clear the error if passwords match
-      formGroup.get('confirmPassword')?.setErrors(null);
-    }
-    return null;
+  onFieldBlur(field: string): void {
+    this.fieldInteracted[field] = true;
   }
 
-  getPasswordErrors() {
-    const errors = [];
-    const newPassword = this.f['newPassword'];
-    const value = newPassword?.value || '';
-    
-    if (newPassword?.errors?.['minlength']) {
-      errors.push('Password must be at least 8 characters long');
-    }
-    if (newPassword?.errors?.['invalidPassword']) {
-      if (!/[a-zA-Z]/.test(value)) {
-        errors.push('Must contain at least one letter');
-      }
-      if (!/[0-9]/.test(value)) {
-        errors.push('Must contain at least one number');
-      }
-      if (!/[!@#$%^&*]/.test(value)) {
-        errors.push('Must contain at least one special character (!@#$%^&*)');
-      }
-    }
-    return errors;
+  shouldShowError(field: string): boolean {
+    const control = this.changePasswordForm.get(field);
+    return !!control && control.invalid && (control.dirty || control.touched || this.fieldInteracted[field]);
   }
 
   togglePasswordVisibility(field: 'old' | 'new' | 'confirm'): void {
-    if (field === 'old') this.showOldPassword = !this.showOldPassword;
-    if (field === 'new') this.showNewPassword = !this.showNewPassword;
-    if (field === 'confirm') this.showConfirmPassword = !this.showConfirmPassword;
+    switch (field) {
+      case 'old':
+        this.showOldPassword = !this.showOldPassword;
+        break;
+      case 'new':
+        this.showNewPassword = !this.showNewPassword;
+        break;
+      case 'confirm':
+        this.showConfirmPassword = !this.showConfirmPassword;
+        break;
+    }
   }
 
-  onFieldBlur(fieldName: string) {
-    this.fieldInteracted[fieldName] = true;
+  getPasswordErrors(): string[] {
+    const errors: string[] = [];
+    const passwordControl = this.changePasswordForm.get('newPassword');
+    
+    if (!passwordControl?.errors) return errors;
+
+    if (passwordControl.errors['required']) {
+      errors.push('Password is required');
+    }
+    if (passwordControl.errors['minlength']) {
+      errors.push('Password must be at least 8 characters long');
+    }
+    if (passwordControl.errors['passwordStrength']) {
+      errors.push('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character');
+    }
+    
+    return errors;
   }
 
-  shouldShowError(fieldName: string): boolean {
-    const control = this.changePasswordForm.get(fieldName);
-    return (control?.invalid && (control?.dirty || control?.touched || this.fieldInteracted[fieldName])) || false;
+  isFormValid(): boolean {
+    if (!this.showOtpSection) {
+      const oldPasswordValid = !!this.changePasswordForm.get('oldPassword')?.valid;
+      const newPasswordValid = !!this.changePasswordForm.get('newPassword')?.valid;
+      const confirmPasswordValid = !!this.changePasswordForm.get('confirmPassword')?.valid;
+      const noMismatchError = !this.changePasswordForm.errors?.['mismatch'];
+      
+      return oldPasswordValid && newPasswordValid && confirmPasswordValid && noMismatchError;
+    } else {
+      return !!this.changePasswordForm.get('otp')?.valid;
+    }
+  }
+
+  private startCountdown(): void {
+    this.countdown = 60;
+    this.isResendDisabled = true;
+    
+    this.countdownInterval = setInterval(() => {
+      this.countdown--;
+      this.resendButtonText = `Resend OTP (${this.countdown}s)`;
+      
+      if (this.countdown <= 0) {
+        clearInterval(this.countdownInterval);
+        this.isResendDisabled = false;
+        this.resendButtonText = 'Resend OTP';
+      }
+    }, 1000);
+  }
+
+  onChangePassword(): void {
+    if (!this.isFormValid()) {
+      return;
+    }
+    
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    const { oldPassword, newPassword, otp } = this.changePasswordForm.value;
+    
+    this.passwordService.changePassword(oldPassword, newPassword, otp).subscribe({
+      next: (response: any) => {
+        if (response.status === 200 && response.responseType === 'SUCCESS') {
+          this.openDialog('Success', 'Password changed successfully', ResponseTypeColor.SUCCESS, '/login');
+        } else {
+          throw new Error(response.message || 'Failed to change password');
+        }
+      },
+      error: (error) => {
+        console.error('Error changing password:', error);
+        this.errorMessage = error.error?.message || 'Failed to change password. Please try again.';
+        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private extractEmailFromUsername(username: string): string | null {
+    if (!username) {
+      return null;
+    }
+    
+    // If username is in format "User/@{email}"
+    if (username.startsWith('User/@')) {
+      return username.substring(6); // Remove 'User/@' prefix
+    }
+    
+    // If username is just the email
+    if (username.includes('@')) {
+      return username;
+    }
+    
+    return null;
   }
 
   onSendOtp(): void {
-    console.log('onSendOtp called');
-    
     // Mark all fields as touched to trigger validation
     this.changePasswordForm.markAllAsTouched();
     
@@ -145,56 +249,41 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     this.changePasswordForm.updateValueAndValidity();
     
     // Check if form is valid and passwords match
-    const newPassword = this.changePasswordForm.get('newPassword')?.value;
-    const confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
-    const passwordsMatch = newPassword === confirmPassword;
-    
-    console.log('onSendOtp - Validation Check:', {
-      formValid: this.changePasswordForm.valid,
-      formErrors: this.changePasswordForm.errors,
-      newPassword,
-      confirmPassword,
-      passwordsMatch,
-      isFormValid: this.isFormValid(),
-      showOtpSection: this.showOtpSection // Current state before change
-    });
-    
-    if (!this.isFormValid() || !passwordsMatch) {
-      console.log('Form is not valid, not sending OTP');
-      console.log('Form validity:', {
-        oldPassword: this.changePasswordForm.get('oldPassword')?.valid,
-        newPassword: this.changePasswordForm.get('newPassword')?.valid,
-        confirmPassword: this.changePasswordForm.get('confirmPassword')?.valid,
-        formValid: this.changePasswordForm.valid,
-        passwordsMatch
-      });
+    if (!this.isFormValid()) {
       return;
     }
 
-    console.log('Form is valid, showing OTP section');
+    this.isLoading = true;
+    this.errorMessage = '';
     
-    // Here you would typically call your API to send OTP
-    this.showOtpSection = true;
-    this.isResendDisabled = true;
+    // Get the username and extract email
+    const username = this.authService.getUsername();
+    const email = this.extractEmailFromUsername(username);
     
-    console.log('showOtpSection set to:', this.showOtpSection);
-    
-    // Force change detection to update the view
-    setTimeout(() => {
-      console.log('After timeout - showOtpSection:', this.showOtpSection);
-    });
-    
-    this.startCountdown();
-  }
-
-  onChangePassword(): void {
-    if (this.changePasswordForm.invalid) {
-      this.changePasswordForm.markAllAsTouched();
+    if (!email) {
+      this.isLoading = false;
+      this.errorMessage = 'Could not determine your email address. Please log in again.';
+      this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR, '/login');
       return;
     }
 
-    // Here you would typically call your API to change password
-    alert('Password changed successfully!');
+    this.passwordService.sendOtpForChangePassword(email).subscribe({
+      next: (response) => {
+        this.showOtpSection = true;
+        this.isResendDisabled = true;
+        this.startCountdown();
+        this.openDialog('Success', 'OTP sent successfully', ResponseTypeColor.SUCCESS);
+      },
+      error: (error) => {
+        console.error('Error sending OTP:', error);
+        this.errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
+        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   onResendOtp(): void {
@@ -202,126 +291,44 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
     // Reset the OTP field
     this.changePasswordForm.get('otp')?.reset();
-    
+
     // Reset the countdown
     this.countdown = 60;
     this.isResendDisabled = true;
     this.resendButtonText = 'Resend OTP';
-    
-    // Log the resend action
-    console.log('Resending OTP...');
-    
-    // Here you would typically call your API to resend OTP
-    
-    // Start the countdown
-    this.startCountdown();
-  }
 
-  private startCountdown(): void {
-    clearInterval(this.countdownInterval);
-    this.countdownInterval = setInterval(() => {
-      this.countdown--;
-      if (this.countdown <= 0) {
-        clearInterval(this.countdownInterval);
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    // Get the username and extract email
+    const username = this.authService.getUsername();
+    const email = this.extractEmailFromUsername(username);
+    
+    if (!email) {
+      this.isLoading = false;
+      this.isResendDisabled = false;
+      this.errorMessage = 'Could not determine your email address. Please log in again.';
+      this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR, '/login');
+      return;
+    }
+
+    this.passwordService.sendOtpForChangePassword(email).subscribe({
+      next: () => {
+        this.openDialog('Success', 'OTP resent successfully', ResponseTypeColor.SUCCESS);
+        this.startCountdown();
+      },
+      error: (error) => {
+        console.error('Error resending OTP:', error);
+        this.errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
+        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
         this.isResendDisabled = false;
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    }, 1000);
+    });
   }
 
-  isFormValid(): boolean {
-    const oldPassword = this.changePasswordForm.get('oldPassword');
-    const newPassword = this.changePasswordForm.get('newPassword');
-    const confirmPassword = this.changePasswordForm.get('confirmPassword');
-    
-    // Check if all required fields have values
-    const hasValues = oldPassword?.value && newPassword?.value && confirmPassword?.value;
-    
-    // Check if all fields are valid
-    const oldPasswordValid = oldPassword?.valid;
-    const newPasswordValid = newPassword?.valid;
-    const confirmPasswordValid = confirmPassword?.valid;
-    
-    // Check if passwords match
-    const passwordsMatch = newPassword?.value === confirmPassword?.value;
-    
-    // Check if there are any password mismatch errors
-    const noMismatchError = !this.changePasswordForm.hasError('mismatch') && 
-                           !confirmPassword?.hasError('passwordMismatch');
-    
-    // Log detailed debug info
-    console.log('Form Validation Check:', {
-      fields: {
-        oldPassword: { value: oldPassword?.value, valid: oldPasswordValid, errors: oldPassword?.errors },
-        newPassword: { value: newPassword?.value, valid: newPasswordValid, errors: newPassword?.errors },
-        confirmPassword: { value: confirmPassword?.value, valid: confirmPasswordValid, errors: confirmPassword?.errors }
-      },
-      validation: {
-        hasValues,
-        allFieldsValid: oldPasswordValid && newPasswordValid && confirmPasswordValid,
-        passwordsMatch,
-        noMismatchError
-      },
-      finalResult: hasValues && oldPasswordValid && newPasswordValid && confirmPasswordValid && passwordsMatch && noMismatchError
-    });
-    
-    return hasValues && oldPasswordValid && newPasswordValid && confirmPasswordValid && passwordsMatch && noMismatchError;
-  }
-
-  // Keeping this for backward compatibility, but it's now deprecated in favor of isFormValid()
-  isSendOtpButtonEnabled(): boolean {
-    const oldPassword = this.changePasswordForm.get('oldPassword');
-    const newPassword = this.changePasswordForm.get('newPassword');
-    const confirmPassword = this.changePasswordForm.get('confirmPassword');
-    
-    // Manually check each field's validity
-    const oldPasswordValid = oldPassword?.valid;
-    const newPasswordValid = newPassword?.valid;
-    const confirmPasswordValid = confirmPassword?.valid;
-    
-    // Check if all required fields have values
-    const hasValues = oldPassword?.value && newPassword?.value && confirmPassword?.value;
-    
-    // Check if passwords match
-    const passwordsMatch = newPassword?.value === confirmPassword?.value;
-    
-    // Check if all fields are valid
-    const allFieldsValid = oldPasswordValid && newPasswordValid && confirmPasswordValid;
-    
-    // Check if there are any password mismatch errors
-    const noMismatchError = !this.changePasswordForm.hasError('mismatch') && 
-                           !confirmPassword?.hasError('passwordMismatch');
-    
-    // Log detailed debug info
-    console.log('Button State Check:', {
-      oldPassword: { 
-        value: oldPassword?.value, 
-        valid: oldPasswordValid, 
-        errors: oldPassword?.errors,
-        touched: oldPassword?.touched,
-        dirty: oldPassword?.dirty
-      },
-      newPassword: { 
-        value: newPassword?.value, 
-        valid: newPasswordValid, 
-        errors: newPassword?.errors
-      },
-      confirmPassword: { 
-        value: confirmPassword?.value, 
-        valid: confirmPasswordValid, 
-        errors: confirmPassword?.errors 
-      },
-      validation: {
-        allFieldsValid,
-        hasValues,
-        passwordsMatch,
-        noMismatchError,
-        formValid: this.changePasswordForm.valid,
-        formErrors: this.changePasswordForm.errors
-      },
-      finalResult: hasValues && allFieldsValid && passwordsMatch && noMismatchError
-    });
-    
-    // Return true only if all conditions are met
-    return hasValues && allFieldsValid && passwordsMatch && noMismatchError;
-  }
+  // ... rest of the component ...
 }

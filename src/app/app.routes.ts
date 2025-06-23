@@ -58,8 +58,31 @@ import { ChangePasswordComponent } from './page-component/change-password/change
 import { RequestForCertificateComponent } from './page-component/admin-panel/student-management/request-for-certificate/request-for-certificate.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
+    // Public routes - no authentication required
+    { 
+      path: '', 
+      redirectTo: 'home', 
+      pathMatch: 'full' 
+    },
+    { 
+      path: 'home', 
+      component: HomeComponent 
+    },
+    { 
+      path: 'login', 
+      component: LoginComponent,
+      canActivate: [] // Explicitly empty array to ensure no guards
+    },
+    { 
+      path: 'forgot-password', 
+      component: ForgotPasswordComponent,
+      canActivate: [] // Explicitly empty array to ensure no guards
+    },
+    { 
+      path: 'student/login', 
+      component: StudentLoginComponent,
+      canActivate: [] // Explicitly empty array to ensure no guards
+    },
 
     { path: 'verification/certificate', component: CourseCertificateVerifyComponent },
     { path: 'verification/student', component: StudentVerifyComponent },
@@ -115,10 +138,7 @@ export const routes: Routes = [
     { path: 'control-panel/wallet/transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
 
-    { path: 'login', component: LoginComponent },
-    { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
-    { path: 'student/login', component: StudentLoginComponent },
+    { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] }},
     { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'un-authorized', component: UnAuthorizeComponent },

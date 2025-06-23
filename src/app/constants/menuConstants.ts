@@ -347,6 +347,12 @@ export const MenuItems: any[] = [
         route: '/logout',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
+      {
+        id: 113,
+        name: 'Change Password',
+        route: '/change-password',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+      },
     ],
   },
   {

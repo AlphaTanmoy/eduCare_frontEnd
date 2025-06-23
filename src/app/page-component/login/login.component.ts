@@ -1,21 +1,27 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../service/auth/Auth.Service';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
 import { ActiveInactiveStatus, IndexedDBItemKey, ResponseTypeColor } from '../../constants/commonConstants';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatDialogModule
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   email: string = '';
@@ -34,9 +40,11 @@ export class LoginComponent {
 
   login(userType: string) {
     this.authService.login(this.email, this.password, userType).subscribe({
-      next: (response) => {
-        if (response.status === 200 && response.responseType === 'SUCCESS') {
-          const token = response.token.token;
+      next: (response: any) => {
+        // Check if response has token in the expected format
+        const token = response?.token?.token || response?.token;
+        
+        if (token) {
           sessionStorage.clear();
           this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
           sessionStorage.setItem('authToken', token);
@@ -44,33 +52,47 @@ export class LoginComponent {
 
           try {
             const decodedToken: any = jwtDecode(token);
-            const jwtUserRole = decodedToken?.user_role;
-            console.log(decodedToken)
-            const not_verified = ((decodedToken?.is_verified && decodedToken?.is_verified === false) || (decodedToken?.email_verified && decodedToken?.email_verified === false) || (decodedToken?.data_status && decodedToken?.data_status === ActiveInactiveStatus.INACTIVE));
-
-            console.log('JWT User Role -> ', jwtUserRole);
-            console.log('Selected User Type -> ', userType);
-
-            if (jwtUserRole !== userType) {
+            console.log('Decoded Token:', decodedToken); // Debug log
+            
+            const jwtUserRole = decodedToken?.user_role || decodedToken?.userRole;
+            const isEmailVerified = decodedToken?.email_verified || decodedToken?.is_verified;
+            const isActive = decodedToken?.data_status !== ActiveInactiveStatus.INACTIVE;
+            
+            // Check if user role matches
+            if (jwtUserRole && jwtUserRole.toLowerCase() !== userType.toLowerCase()) {
               this.openDialog("Login", `Your credential has ${jwtUserRole} role assigned.`, ResponseTypeColor.INFO, 'logout');
               return;
             }
 
-            if (not_verified) {
-              this.openDialog("Login", `Your account is not verified. Please verify your account.`, ResponseTypeColor.INFO, 'logout');
+            // Check if account is verified and active
+            if (!isEmailVerified) {
+              this.openDialog("Login", `Your email is not verified. Please verify your email.`, ResponseTypeColor.INFO, 'logout');
               return;
             }
 
+            if (!isActive) {
+              this.openDialog("Login", `Your account is inactive. Please contact support.`, ResponseTypeColor.ERROR, 'logout');
+              return;
+            }
+
+            // Successful login
             this.openDialog("Login", 'You have logged in successfully!', ResponseTypeColor.SUCCESS, "/home");
           } catch (error) {
-            this.openDialog("Login", 'Invalid token/Session expired. Please log in again', ResponseTypeColor.ERROR, 'logout');
+            console.error('Token decode error:', error);
+            this.openDialog("Login", 'Invalid token format. Please try again.', ResponseTypeColor.ERROR, 'logout');
           }
         } else {
-          this.openDialog("Login", 'Invalid credentials, please try again', ResponseTypeColor.ERROR, null);
+          // Handle case where token is missing
+          const errorMessage = response?.message || 'Invalid response from server. Please try again.';
+          this.openDialog("Login", errorMessage, ResponseTypeColor.ERROR, null);
         }
       },
-      error: (error) => {
-        this.openDialog("Login", 'An unexpected error occurred. Please try again later', ResponseTypeColor.ERROR, null);
+      error: (error: any) => {
+        console.error('Login error:', error);
+        const errorMessage = error.error?.message || 
+                             error.message || 
+                             'An unexpected error occurred. Please try again later';
+        this.openDialog("Login", errorMessage, ResponseTypeColor.ERROR, null);
       },
     });
   }
