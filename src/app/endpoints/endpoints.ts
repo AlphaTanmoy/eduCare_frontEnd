@@ -34,7 +34,7 @@ export const Endpoints = {
   },
   auth: {
     login: "auth/login",
-    send_otp_for_password_reset: "auth/send_otp_for_password_reset",
+    send_otp_for_password_reset: "auth/send_otp",
     change_password: "auth/change_password",
     forgot_password: "auth/forgot_password"
   },
