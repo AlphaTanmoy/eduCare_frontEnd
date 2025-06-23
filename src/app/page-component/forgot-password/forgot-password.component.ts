@@ -1,15 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { AuthService } from '../../service/auth/Auth.Service';
 import { PasswordService } from '../../service/password/password.service';
+import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../constants/commonConstants';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    MatDialogModule,
+    MatProgressBarModule
+  ],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css']
 })
@@ -25,12 +35,15 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   showNewPassword = false;
   showConfirmPassword = false;
   private countdownInterval: any;
+  matProgressBarVisible = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private passwordService: PasswordService
+    private passwordService: PasswordService,
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -50,7 +63,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     const hasLetter = /[a-zA-Z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
     const hasSpecialChar = /[!@#$%^&*]/.test(value);
-    
+
     if (!hasLetter || !hasNumber || !hasSpecialChar) {
       return { invalidPassword: true };
     }
@@ -60,7 +73,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   private passwordsMatchValidator(formGroup: FormGroup) {
     const newPassword = formGroup.get('newPassword')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-    
+
     if (confirmPassword && newPassword !== confirmPassword) {
       formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
@@ -89,6 +102,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
 
     this.passwordService.sendOtpForForgotPassword(emailControl.value).subscribe({
@@ -100,7 +114,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       error: (error: any) => {
         console.error('Error sending OTP:', error);
-        this.errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
+        const errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, null);
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
@@ -115,8 +131,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
     this.showPasswordFields = true;
+    this.hideMatProgressBar();
     this.isLoading = false;
   }
 
@@ -127,12 +145,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
 
     const email = this.forgotPasswordForm.get('email')?.value;
     const newPassword = this.forgotPasswordForm.get('newPassword')?.value;
     const otp = this.forgotPasswordForm.get('otp')?.value;
-    
+
     if (!email || !newPassword || !otp) {
       this.errorMessage = 'Please fill in all required fields';
       this.isLoading = false;
@@ -146,7 +165,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error resetting password:', error);
-        this.errorMessage = error.error?.message || 'Failed to reset password. Please try again.';
+        const errorMessage = error.error?.message || 'Failed to reset password. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, null);
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
@@ -165,6 +186,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
 
     this.isLoading = true;
+    this.activeMatProgressBar();
 
     this.passwordService.sendOtpForForgotPassword(emailControl.value).subscribe({
       next: () => {
@@ -173,8 +195,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       error: (error: any) => {
         console.error('Error resending OTP:', error);
-        this.errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
+        const errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, null);
         this.isResendDisabled = false;
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
@@ -201,7 +225,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   getPasswordErrors() {
     const errors = [];
     const value = this.newPassword?.value || '';
-    
+
     if (this.newPassword?.errors?.['minlength']) {
       errors.push('Password must be at least 8 characters long');
     }
@@ -218,7 +242,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
     return errors;
   }
-  
+
   togglePasswordVisibility(field: 'new' | 'confirm'): void {
     if (field === 'new') {
       this.showNewPassword = !this.showNewPassword;
@@ -230,5 +254,31 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.countdownInterval);
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string | null): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: dialogTitle,
+        text: dialogText,
+        type: dialogType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (navigateRoute) {
+        window.location.href = navigateRoute;
+      }
+    });
   }
 }
