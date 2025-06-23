@@ -36,7 +36,8 @@ export const Endpoints = {
     login: "auth/login",
     send_otp_for_password_reset: "auth/send_otp",
     change_password: "auth/change_password",
-    forgot_password: "auth/forgot_password"
+    forgot_password: "auth/forgot_password",
+    get_profile: "auth/get_profile"
   },
   server: {
     get_server_status: "server/get_server_status",
