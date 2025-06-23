@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../service/auth/Auth.Service';
 import { PasswordService } from '../../service/password/password.service';
@@ -17,6 +18,7 @@ import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatProgressBarModule,
     RouterModule
   ],
   templateUrl: './change-password.component.html',
@@ -33,6 +35,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   isResendDisabled = false;
   resendButtonText = 'Resend OTP';
   countdown = 60;
+  matProgressBarVisible = false;
   private countdownInterval: any;
   fieldInteracted: { [key: string]: boolean } = {
     oldPassword: false,
@@ -46,7 +49,8 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private passwordService: PasswordService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', [Validators.required]],
@@ -63,13 +67,13 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     }, { validators: this.passwordMatchValidator });
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute?: string): void {
-    const dialogRef = this.dialog.open(CustomAlertComponent, { 
-      data: { 
-        title: dialogTitle, 
-        text: dialogText, 
-        type: dialogType 
-      } 
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string | null = null): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: dialogTitle,
+        text: dialogText,
+        type: dialogType
+      }
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -93,6 +97,16 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       clearInterval(this.countdownInterval);
     }
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
   }
 
   get f() {
@@ -194,6 +208,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     }
     
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
     
     const { oldPassword, newPassword, otp } = this.changePasswordForm.value;
@@ -208,12 +223,14 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error changing password:', error);
-        this.errorMessage = error.error?.message || 'Failed to change password. Please try again.';
-        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
+        const errorMessage = error.error?.message || 'Failed to change password. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR);
         this.isLoading = false;
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
@@ -254,6 +271,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
     
     // Get the username and extract email
@@ -262,8 +280,8 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     
     if (!email) {
       this.isLoading = false;
-      this.errorMessage = 'Could not determine your email address. Please log in again.';
-      this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR, '/login');
+      const errorMessage = 'Could not determine your email address. Please log in again.';
+      this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, '/login');
       return;
     }
 
@@ -276,12 +294,14 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error sending OTP:', error);
-        this.errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
-        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
+        const errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR);
         this.isLoading = false;
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
@@ -298,6 +318,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     this.resendButtonText = 'Resend OTP';
 
     this.isLoading = true;
+    this.activeMatProgressBar();
     this.errorMessage = '';
     
     // Get the username and extract email
@@ -307,8 +328,8 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     if (!email) {
       this.isLoading = false;
       this.isResendDisabled = false;
-      this.errorMessage = 'Could not determine your email address. Please log in again.';
-      this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR, '/login');
+      const errorMessage = 'Could not determine your email address. Please log in again.';
+      this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, null);
       return;
     }
 
@@ -319,16 +340,16 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error resending OTP:', error);
-        this.errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
-        this.openDialog('Error', this.errorMessage, ResponseTypeColor.ERROR);
+        const errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR);
         this.isResendDisabled = false;
         this.isLoading = false;
+        this.hideMatProgressBar();
       },
       complete: () => {
         this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
-
-  // ... rest of the component ...
 }
