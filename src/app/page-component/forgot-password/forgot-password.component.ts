@@ -132,12 +132,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.activeMatProgressBar();
     this.errorMessage = '';
     this.showPasswordFields = true;
+    this.startCountdown();
     this.hideMatProgressBar();
   }
 
-  otpTyped(){
+  otpTyped() {
     const otp = this.forgotPasswordForm.get('otp')?.value;
-    if(otp.length !== 6){
+    if (otp.length !== 6) {
       return false;
     }
 
@@ -181,12 +182,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   onResendOtp(): void {
+    debugger;
     const emailControl = this.forgotPasswordForm.get('email');
     if (this.isResendDisabled || !emailControl?.value) return;
 
     this.otp?.reset();
-    this.countdown = 60;
-    this.isResendDisabled = true;
+    // this.countdown = 60;
+    // this.isResendDisabled = true;
     this.resendButtonText = 'Resend OTP';
     this.errorMessage = '';
 
@@ -196,6 +198,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       next: () => {
         // OTP resent successfully
         this.hideMatProgressBar();
+        this.showOtpSection = true;
+        this.showPasswordFields = false;
+        this.isResendDisabled = true;
         this.startCountdown();
       },
       error: (error: any) => {
@@ -207,6 +212,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.hideMatProgressBar();
+        this.startCountdown();
       }
     });
   }
@@ -256,8 +262,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBackToLogin(){
-    if(this.matProgressBarVisible) return;
+  onBackToLogin() {
+    if (this.matProgressBarVisible) return;
     this.router.navigate(['login']);
   }
 
