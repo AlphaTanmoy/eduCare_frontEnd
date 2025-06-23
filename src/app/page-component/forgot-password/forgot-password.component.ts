@@ -14,9 +14,9 @@ import { ResponseTypeColor } from '../../constants/commonConstants';
   selector: 'app-forgot-password',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     MatProgressBarModule
   ],
@@ -29,7 +29,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   isResendDisabled = false;
   resendButtonText = 'Send OTP';
   countdown = 60; // 1 minute in seconds
-  isLoading = false;
   errorMessage = '';
   showPasswordFields = false;
   showNewPassword = false;
@@ -101,7 +100,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoading = true;
     this.activeMatProgressBar();
     this.errorMessage = '';
 
@@ -109,6 +107,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       next: () => {
         this.showOtpSection = true;
         this.isResendDisabled = true;
+        this.hideMatProgressBar();
         this.startCountdown();
         // OTP sent successfully
       },
@@ -119,7 +118,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
       },
       complete: () => {
-        this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
@@ -130,12 +129,19 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoading = true;
     this.activeMatProgressBar();
     this.errorMessage = '';
     this.showPasswordFields = true;
     this.hideMatProgressBar();
-    this.isLoading = false;
+  }
+
+  otpTyped(){
+    const otp = this.forgotPasswordForm.get('otp')?.value;
+    if(otp.length !== 6){
+      return false;
+    }
+
+    return true;
   }
 
   onResetPassword(): void {
@@ -144,7 +150,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoading = true;
     this.activeMatProgressBar();
     this.errorMessage = '';
 
@@ -154,14 +159,14 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     if (!email || !newPassword || !otp) {
       this.errorMessage = 'Please fill in all required fields';
-      this.isLoading = false;
+      this.hideMatProgressBar();
       return;
     }
 
     this.passwordService.forgotPassword(email, newPassword, otp).subscribe({
       next: () => {
         // Password reset successfully
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']);
       },
       error: (error) => {
         console.error('Error resetting password:', error);
@@ -170,7 +175,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
       },
       complete: () => {
-        this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
@@ -185,12 +190,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.resendButtonText = 'Resend OTP';
     this.errorMessage = '';
 
-    this.isLoading = true;
     this.activeMatProgressBar();
 
     this.passwordService.sendOtpForForgotPassword(emailControl.value).subscribe({
       next: () => {
         // OTP resent successfully
+        this.hideMatProgressBar();
         this.startCountdown();
       },
       error: (error: any) => {
@@ -201,7 +206,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.hideMatProgressBar();
       },
       complete: () => {
-        this.isLoading = false;
+        this.hideMatProgressBar();
       }
     });
   }
@@ -249,6 +254,11 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     } else if (field === 'confirm') {
       this.showConfirmPassword = !this.showConfirmPassword;
     }
+  }
+
+  onBackToLogin(){
+    if(this.matProgressBarVisible) return;
+    this.router.navigate(['login']);
   }
 
   ngOnDestroy(): void {
