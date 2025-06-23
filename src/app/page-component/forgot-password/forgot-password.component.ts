@@ -182,7 +182,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   onResendOtp(): void {
-    debugger;
     const emailControl = this.forgotPasswordForm.get('email');
     if (this.isResendDisabled || !emailControl?.value) return;
 
