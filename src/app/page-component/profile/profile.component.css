@@ -1,3 +1,13 @@
+/* Progress bar styles */
+.matProgressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-radius: 0;
+}
+
 .profile-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -12,7 +22,7 @@
 }
 
 .profile-header {
-  background-color: #3f51b5;
+  background-color: var(--default-theme);
   color: white;
   padding: 1.5rem;
 }
@@ -93,7 +103,7 @@
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top: 4px solid #3f51b5;
+  border-top: 4px solid  var(--default-theme);
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
