@@ -15,7 +15,8 @@
                 <h5 class="mb-0">No Eligible Ticket Found To Raise</h5>
             </div>
 
-            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info" *ngIf="eligible_student_list.length > 0">
+            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info"
+                *ngIf="eligible_student_list.length > 0">
                 <div class="eligible_student_list_table">
                     <table>
                         <tr>
@@ -42,9 +43,18 @@
         <div class="card existing_ticket w-100 mb-3" *ngFor="let ticket of all_raised_ticket_list">
             <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
                 <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span> {{ticket.ticket_id}}</span>
-                <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0"><span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}</span>
-                <span class="card-text mb-0"><span class="fw-bold">Status :</span> {{GetVerificationStatusLabel(ticket.data_status)}}</span>
-                <span class="card-text mb-0"><span class="fw-bold">Raised At :</span> {{FormatDateTime(ticket.created_at)}}</span>
+                <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0"><span
+                        class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}</span>
+                <span class="card-text mb-0"><span class="fw-bold">Status : </span>
+                    <span [ngClass]="
+                            ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                            ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                            ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                            ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' : 'text_card_primary'
+                            ">{{ GetVerificationStatusLabel(ticket.data_status) }}
+                    </span></span>
+                <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                    {{FormatDateTime(ticket.created_at)}}</span>
                 <span class="card-text mb-0"><span class="fw-bold">Remarks :</span> {{ticket.remarks}}</span>
             </div>
 
