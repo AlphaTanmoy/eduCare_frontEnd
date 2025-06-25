@@ -1,1 +1,29 @@
-<p>request-for-certificate works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container w-100 mb-3">
+    <h2 class="m-4 text-center">Request For Certificate</h2>
+
+    <div class="mb-3 mt-2 d-flex justify-content-between">
+        <div class="card w-100" *ngIf="eligible_student_list.length > 0">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Eligible Ticket</h5>
+                <button class="btn btn-primary btn-sm">Raise</button>
+            </div>
+
+            <div class="eligible_student_list_table_parent m-2">
+                <div class="eligible_student_list_table">
+                    <table>
+                        <tr>
+                            <th>Registration Number</th>
+                            <th>Student Name</th>
+                        </tr>
+                        <tr *ngFor="let student of eligible_student_list">
+                            <td>{{student.registration_number}}</td>
+                            <td>{{student.student_name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

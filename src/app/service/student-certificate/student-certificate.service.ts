@@ -21,4 +21,8 @@ export class StudentCertificateService {
   downloadCertificate(student_id: string) {
     return this.http.get(GetBaseURL() + Endpoints.student_certificate.download_certificate + "/" + student_id, { responseType: 'blob' });
   }
+
+  getEligibleStudentListForRaisingTicket() {
+    return this.http.get(GetBaseURL() + Endpoints.student_certificate.get_eligible_student_list_for_raising_ticket);
+  }
 }

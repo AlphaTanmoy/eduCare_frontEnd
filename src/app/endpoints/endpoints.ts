@@ -99,6 +99,7 @@ export const Endpoints = {
     issue_certificate: "student_certificate/issue_certificate", 
     generate_and_download_excel_to_generate_certificate: "student_certificate/generate_and_download_excel_to_generate_certificate", 
     download_certificate: "student_certificate/download_certificate", 
+    get_eligible_student_list_for_raising_ticket: "student_certificate/get_eligible_student_list_for_raising_ticket", 
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",

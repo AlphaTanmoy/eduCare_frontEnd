@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid var(--light);
+  background-color: #fff;
+  text-align: center;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.eligible_student_list_table_parent{
+    border: 1px solid rgb(218, 218, 218);
+    border-radius: 0.3rem;
+    overflow: hidden;
+}
+
+.eligible_student_list_table {
+  overflow-y: auto;
+  max-height: 20rem;
+  margin: 0;
+  padding: 0;
+}
+
+table tr:first-child th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+
+table tr:first-child th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
