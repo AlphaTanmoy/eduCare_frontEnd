@@ -166,15 +166,17 @@ export const TransactionTypeDescriptions: Record<TransactionType, string> = {
 
 export enum EnrollmentStatus {
   REGISTERED = "REGISTERED",
-  FEES_REFUNDED = "FEES_REFUNDED",
-  CERTIFICATE_ISSUED = "CERTIFICATE_ISSUED",
   FEES_PAID = "FEES_PAID",
+  FEES_REFUNDED = "FEES_REFUNDED",
+  TICKET_RAISED_FOR_CERTIFICATE = "TICKET_RAISED_FOR_CERTIFICATE",
+  CERTIFICATE_ISSUED = "CERTIFICATE_ISSUED",
   COMPLETED = "COMPLETED",
 }
 
 export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
   [EnrollmentStatus.REGISTERED]: 'Registered',
   [EnrollmentStatus.FEES_REFUNDED]: 'Fees Refunded',
+  [EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE]: 'Ticket Raised For Certificate',
   [EnrollmentStatus.CERTIFICATE_ISSUED]: 'Certificate Issued',
   [EnrollmentStatus.FEES_PAID]: 'Fees Paid',
   [EnrollmentStatus.COMPLETED]: 'Completed',

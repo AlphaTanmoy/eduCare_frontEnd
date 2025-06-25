@@ -1,6 +1,6 @@
 <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
 
-<div class="container w-100 mb-3">
+<div class="container-fluid w-100 mb-3">
     <h2 class="m-4 text-center">Student Management</h2>
 
     <div class="border p-3 rounded-2" style="background-color: var(--light1);">
@@ -75,6 +75,7 @@
                             student.student_enrollment_status === EnrollmentStatus.REGISTERED ? 'text_card_idle' :
                             student.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
                             student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED ? 'text_card_danger' :
+                            student.student_enrollment_status === EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE ? 'text_card_deleted' :
                             student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary_light' : 'text_card_primary'
                             ">{{ GetEnrollmentStatusLabel(student.student_enrollment_status) }}
                             </span>
