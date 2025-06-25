@@ -3,17 +3,19 @@
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Request For Certificate</h2>
 
-    <div class="mb-3 mt-2 d-flex justify-content-between">
+    <div class="mb-3 mt-2">
         <div class="card w-100" *ngIf="role === UserRole.FRANCHISE">
-            <div class="card-body d-flex justify-content-between align-items-center" *ngIf="eligible_student_list.length > 0">
+            <div class="card-body d-flex justify-content-between align-items-center"
+                *ngIf="eligible_student_list.length > 0">
                 <h5 class="mb-0">Eligible Ticket</h5>
                 <button class="btn btn-primary btn-sm" (click)="RaiseTicket()">Raise</button>
             </div>
-            <div class="card-body d-flex justify-content-center align-items-center" *ngIf="eligible_student_list.length === 0">
+            <div class="card-body d-flex justify-content-center align-items-center"
+                *ngIf="eligible_student_list.length === 0">
                 <h5 class="mb-0">No Eligible Ticket Found To Raise</h5>
             </div>
 
-            <div class="eligible_student_list_table_parent m-2" *ngIf="eligible_student_list.length > 0">
+            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info" *ngIf="eligible_student_list.length > 0">
                 <div class="eligible_student_list_table">
                     <table>
                         <tr>
@@ -21,6 +23,39 @@
                             <th>Student Name</th>
                         </tr>
                         <tr *ngFor="let student of eligible_student_list">
+                            <td>{{student.registration_number}}</td>
+                            <td>{{student.student_name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <h3 class="mt-5 text-center">Raised Ticket</h3>
+
+        <div class="card-body d-flex justify-content-center align-items-center"
+            *ngIf="all_raised_ticket_list.length === 0">
+            <h5 class="mb-0">No Raised Ticket Found</h5>
+        </div>
+
+        <div class="card existing_ticket w-100 mb-3" *ngFor="let ticket of all_raised_ticket_list">
+            <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+                <span class="mb-0">Ticket ID: {{ticket.ticket_id}}</span>
+                <span class="mb-0" *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER">Franchise Name: {{ticket.franchise_name}}</span>
+                <span class="mb-0">Status: {{GetVerificationStatusLabel(ticket.data_status)}}</span>
+                <span class="mb-0">Raised At: {{FormatDateTime(ticket.created_at)}}</span>
+                <span class="mb-0">Remarks: {{ticket.remarks}}</span>
+            </div>
+
+            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                <div class="eligible_student_list_table">
+                    <table>
+                        <tr>
+                            <th>Registration Number</th>
+                            <th>Student Name</th>
+                        </tr>
+                        <tr *ngFor="let student of ticket.student_list">
                             <td>{{student.registration_number}}</td>
                             <td>{{student.student_name}}</td>
                         </tr>

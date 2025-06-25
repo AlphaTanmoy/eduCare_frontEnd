@@ -13,7 +13,7 @@ td {
 }
 
 th {
-  background-color: #f8f9fa;
+  background-color: #e7e7e7;
   font-weight: 600;
 }
 
@@ -44,4 +44,21 @@ table tr:last-child td:first-child {
 
 table tr:last-child td:last-child {
   border-bottom-right-radius: 0.5rem;
+}
+
+.padding_raised_ticket_info {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.padding_raised_ticket_student_info {
+  margin-top: 0rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.existing_ticket{
+  background-color: var(--light1);
 }

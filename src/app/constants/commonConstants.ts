@@ -194,4 +194,20 @@ export const CreditDebitDescriptions: Record<CreditDebit, string> = {
   [CreditDebit.NO_EFFECT]: 'No Effect',
 };
 
+export enum CertificateTicketStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  PROCESSING = "PROCESSING",
+  COMPLETED = "COMPLETED",
+}
+
+export const CertificateTicketStatusDescriptions: Record<CertificateTicketStatus, string> = {
+  [CertificateTicketStatus.PENDING]: 'Pending',
+  [CertificateTicketStatus.ACCEPTED]: 'Accepted',
+  [CertificateTicketStatus.REJECTED]: 'Rejected',
+  [CertificateTicketStatus.PROCESSING]: 'Processing',
+  [CertificateTicketStatus.COMPLETED]: 'Completed',
+};
+
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

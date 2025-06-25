@@ -3,7 +3,7 @@ import { loadBootstrap } from '../../../../../load-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { CertificateTicketStatus, CertificateTicketStatusDescriptions, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -15,6 +15,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 
 @Component({
@@ -37,6 +38,9 @@ export class RequestForCertificateComponent {
 
   role: string | null = null;
   UserRole = UserRole;
+
+  CertificateTicketStatus = CertificateTicketStatus;
+  CertificateTicketStatusDescriptions = CertificateTicketStatusDescriptions;
 
   eligible_student_list: any[] = [];
   all_raised_ticket_list: any[] = [];
@@ -82,7 +86,7 @@ export class RequestForCertificateComponent {
     });
   }
 
-  FetchAllAvailableRaisedTicketList(){
+  FetchAllAvailableRaisedTicketList() {
     this.activeMatProgressBar();
 
     this.studentCertificateService.getAvailableCertificateTicketList().subscribe({
@@ -123,6 +127,14 @@ export class RequestForCertificateComponent {
         this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  FormatDateTime(datetimeValue: any) {
+    return GetFormattedCurrentDatetime(new Date(datetimeValue));
+  }
+
+  GetVerificationStatusLabel(value: string): string {
+    return CertificateTicketStatusDescriptions[value as CertificateTicketStatus] || 'Unknown';
   }
 
   activeMatProgressBar() {
