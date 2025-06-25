@@ -41,11 +41,11 @@
 
         <div class="card existing_ticket w-100 mb-3" *ngFor="let ticket of all_raised_ticket_list">
             <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
-                <span class="mb-0">Ticket ID: {{ticket.ticket_id}}</span>
-                <span class="mb-0" *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER">Franchise Name: {{ticket.franchise_name}}</span>
-                <span class="mb-0">Status: {{GetVerificationStatusLabel(ticket.data_status)}}</span>
-                <span class="mb-0">Raised At: {{FormatDateTime(ticket.created_at)}}</span>
-                <span class="mb-0">Remarks: {{ticket.remarks}}</span>
+                <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span> {{ticket.ticket_id}}</span>
+                <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0"><span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}</span>
+                <span class="card-text mb-0"><span class="fw-bold">Status :</span> {{GetVerificationStatusLabel(ticket.data_status)}}</span>
+                <span class="card-text mb-0"><span class="fw-bold">Raised At :</span> {{FormatDateTime(ticket.created_at)}}</span>
+                <span class="card-text mb-0"><span class="fw-bold">Remarks :</span> {{ticket.remarks}}</span>
             </div>
 
             <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
