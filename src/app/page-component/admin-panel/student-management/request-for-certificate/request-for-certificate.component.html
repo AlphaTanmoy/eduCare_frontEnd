@@ -4,13 +4,16 @@
     <h2 class="m-4 text-center">Request For Certificate</h2>
 
     <div class="mb-3 mt-2 d-flex justify-content-between">
-        <div class="card w-100" *ngIf="eligible_student_list.length > 0">
-            <div class="card-body d-flex justify-content-between align-items-center">
+        <div class="card w-100" *ngIf="role === UserRole.FRANCHISE">
+            <div class="card-body d-flex justify-content-between align-items-center" *ngIf="eligible_student_list.length > 0">
                 <h5 class="mb-0">Eligible Ticket</h5>
                 <button class="btn btn-primary btn-sm" (click)="RaiseTicket()">Raise</button>
             </div>
+            <div class="card-body d-flex justify-content-center align-items-center" *ngIf="eligible_student_list.length === 0">
+                <h5 class="mb-0">No Eligible Ticket Found To Raise</h5>
+            </div>
 
-            <div class="eligible_student_list_table_parent m-2">
+            <div class="eligible_student_list_table_parent m-2" *ngIf="eligible_student_list.length > 0">
                 <div class="eligible_student_list_table">
                     <table>
                         <tr>
