@@ -66,9 +66,30 @@ export class RequestForCertificateComponent {
     this.studentCertificateService.getEligibleStudentListForRaisingTicket().subscribe({
       next: (response: any) => {
         this.hideMatProgressBar();
-        console.log(response);
+
         if (response.status === 200) {
           this.eligible_student_list = response.data;
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
+  RaiseTicket() {
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.raiseTicketForCertificateGeneration().subscribe({
+      next: (response: any) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+          this.FetchEligibleStudentListForRaisingTicket();
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }

@@ -100,6 +100,7 @@ export const Endpoints = {
     generate_and_download_excel_to_generate_certificate: "student_certificate/generate_and_download_excel_to_generate_certificate", 
     download_certificate: "student_certificate/download_certificate", 
     get_eligible_student_list_for_raising_ticket: "student_certificate/get_eligible_student_list_for_raising_ticket", 
+    raise_ticket_for_certificate_generation: "student_certificate/raise_ticket_for_certificate_generation", 
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
