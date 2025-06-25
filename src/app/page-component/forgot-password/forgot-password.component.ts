@@ -138,11 +138,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   otpTyped() {
     const otp = this.forgotPasswordForm.get('otp')?.value;
-    if (otp.length !== 6) {
-      return false;
-    }
-
-    return true;
+    return otp && otp.length === 6;
   }
 
   onResetPassword(): void {
@@ -186,11 +182,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     if (this.isResendDisabled || !emailControl?.value) return;
 
     this.otp?.reset();
-    // this.countdown = 60;
-    // this.isResendDisabled = true;
-    this.resendButtonText = 'Resend OTP';
     this.errorMessage = '';
-
     this.activeMatProgressBar();
 
     this.passwordService.sendOtpForForgotPassword(emailControl.value).subscribe({
@@ -200,6 +192,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.showOtpSection = true;
         this.showPasswordFields = false;
         this.isResendDisabled = true;
+        this.resendButtonText = 'Resend OTP';
+        this.countdown = 60; // Reset countdown to 60 seconds
         this.startCountdown();
       },
       error: (error: any) => {
@@ -211,7 +205,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.hideMatProgressBar();
-        this.startCountdown();
       }
     });
   }
@@ -220,15 +213,17 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
     }
-    this.countdown = 60; // Reset countdown to 60 seconds
 
     this.countdownInterval = setInterval(() => {
       this.countdown--;
-
+      this.resendButtonText = `Resend OTP (${this.countdown}s)`;
+      
       if (this.countdown <= 0) {
         clearInterval(this.countdownInterval);
         this.isResendDisabled = false;
+        this.resendButtonText = 'Resend OTP';
       }
+      this.cdr.detectChanges();
     }, 1000);
   }
 
