@@ -39,6 +39,7 @@ export class RequestForCertificateComponent {
   UserRole = UserRole;
 
   eligible_student_list: any[] = [];
+  all_raised_ticket_list: any[] = [];
 
   constructor(
     private router: Router,
@@ -51,6 +52,7 @@ export class RequestForCertificateComponent {
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
 
+    this.FetchAllAvailableRaisedTicketList();
     this.role = this.authService.getUserRole();
 
     if (this.role === UserRole.ADMIN || this.role === UserRole.MASTER) {
@@ -80,6 +82,27 @@ export class RequestForCertificateComponent {
     });
   }
 
+  FetchAllAvailableRaisedTicketList(){
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.getAvailableCertificateTicketList().subscribe({
+      next: (response: any) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.all_raised_ticket_list = response.data;
+          console.log(this.all_raised_ticket_list)
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   RaiseTicket() {
     this.activeMatProgressBar();
 
@@ -90,6 +113,7 @@ export class RequestForCertificateComponent {
         if (response.status === 200) {
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
           this.FetchEligibleStudentListForRaisingTicket();
+          this.FetchAllAvailableRaisedTicketList();
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }

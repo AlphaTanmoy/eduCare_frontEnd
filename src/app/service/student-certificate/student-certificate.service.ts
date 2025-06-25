@@ -29,4 +29,8 @@ export class StudentCertificateService {
   raiseTicketForCertificateGeneration() {
     return this.http.get(GetBaseURL() + Endpoints.student_certificate.raise_ticket_for_certificate_generation);
   }
+
+  getAvailableCertificateTicketList() {
+    return this.http.get(GetBaseURL() + Endpoints.student_certificate.get_available_certificate_ticket_list);
+  }
 }
