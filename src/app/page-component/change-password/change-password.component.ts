@@ -80,6 +80,10 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       if (navigateRoute) {
         if (navigateRoute === 'logout') {
           this.authService.logout();
+        } else if (navigateRoute === '/login') {
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.href = navigateRoute;
         } else {
           window.location.href = navigateRoute;
         }
