@@ -19,6 +19,7 @@ import { firstValueFrom } from 'rxjs';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-download-excel-to-generate-certificate',
@@ -41,6 +42,8 @@ export class DownloadExcelToGenerateCertificateComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+
+  faDownload = faDownload;
 
   student_registration_number: string | null = null;
   CertificateTicketStatus = CertificateTicketStatus;
