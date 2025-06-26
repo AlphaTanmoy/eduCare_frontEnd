@@ -16,7 +16,7 @@ import { AboutInstitutionComponent } from './page-component/about/about-institut
 import { AboutRegistrationComponent } from './page-component/about/about-registration/about-registration.component';
 import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
 import { StudentVerifyComponent } from './page-component/verification/student-verify/student-verify.component';
-import { CourseCertificateVerifyComponent } from './page-component/verification/certificate-verify/course-certificate-verify/course-certificate-verify.component';
+import { CourseCertificateVerifyComponent } from './page-component/verification/course-certificate-verify/course-certificate-verify.component';
 import { OtherCourseComponent } from './page-component/course-offered/other-course/other-course.component';
 import { ComputerCourseComponent } from './page-component/course-offered/computer-course/computer-course.component';
 import { DanceCourseComponent } from './page-component/course-offered/dance-course/dance-course.component';

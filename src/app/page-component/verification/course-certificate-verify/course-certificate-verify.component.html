@@ -1,0 +1,103 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">Certificate Verification</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Verification Form -->
+                    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()" novalidate>
+                        <div class="mb-3">
+                            <label for="certificateNumber" class="form-label">Certificate Number</label>
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="certificateNumber"
+                                       formControlName="certificateNumber"
+                                       placeholder="e.g. 2025-12345"
+                                       [class.is-invalid]="certificateNumber?.invalid && (certificateNumber?.dirty || certificateNumber?.touched)">
+                                <button class="btn btn-primary" type="submit" [disabled]="isLoading || verifyForm.invalid">
+                                    <span *ngIf="!isLoading">Verify</span>
+                                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="form-text text-muted small mb-2">
+                                Enter the 10-digit certificate number (e.g., 2025-12345)
+                            </div>
+                            <div class="text-danger small" *ngIf="certificateNumber?.invalid && (certificateNumber?.dirty || certificateNumber?.touched)">
+                                <div *ngIf="certificateNumber?.errors?.['required']">Certificate number is required</div>
+                                <div *ngIf="certificateNumber?.errors?.['pattern']">Format should be YYYY-##### (e.g., 2025-12345)</div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Error Message -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+                        {{ errorMessage }}
+                    </div>
+
+                    <!-- Results -->
+                    <div *ngIf="certificateData && certificateData.length > 0" class="mt-4">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Verification Result</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Certificate Image -->
+                                    <div class="col-md-5 text-center mb-3 mb-md-0">
+                                        <div class="border rounded p-2 mb-2" style="width: 100%; max-width: 100%;">
+                                            <div class="position-relative" style="width: 100%; height: 300px; overflow: hidden; border: 1px solid #dee2e6; border-radius: 0.25rem; background-color: #f8f9fa;">
+                                                <div *ngIf="certificateData[0].certificatePhotoUrl" class="h-100 w-100">
+                                                    <iframe 
+                                                        [src]="getSafeUrl()"
+                                                        width="100%" 
+                                                        height="100%"
+                                                        style="border: none;"
+                                                        allow="autoplay">
+                                                    </iframe>
+                                                </div>
+                                                <div *ngIf="!certificateData[0].certificatePhotoUrl" class="h-100 w-100 d-flex align-items-center justify-content-center">
+                                                    <img [src]="defaultImage" 
+                                                         alt="Certificate Image"
+                                                         class="img-fluid"
+                                                         style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mt-2">Certificate Preview</p>
+                                    </div>
+
+                                    <!-- Certificate Details -->
+                                    <div class="col-md-7">
+                                        <h4 class="text-primary">{{ certificateData[0].studentName }}</h4>
+                                        <hr>
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-6">
+                                                <div class="text-muted small">Certificate Number</div>
+                                                <div class="fw-medium">{{ certificateData[0].certificateNumber }}</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="text-muted small">Issue Date</div>
+                                                <div class="fw-medium">{{ certificateData[0].issueDate }}</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="text-muted small">Franchise</div>
+                                                <div class="fw-medium">{{ certificateData[0].franchiseName }}</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="text-muted small">Status</div>
+                                                <span class="badge bg-success">{{ certificateData[0].status }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
