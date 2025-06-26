@@ -38,7 +38,8 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
   private verifySubscription: Subscription | null = null;
   defaultImage = '/images/educare_logo.png';
   
-  get certificateNumber() { return this.verifyForm.get('certificateNumber'); }
+  get year() { return this.verifyForm.get('year'); }
+  get number() { return this.verifyForm.get('number'); }
 
   constructor(
     private fb: FormBuilder,
@@ -46,11 +47,17 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer
   ) {
     this.verifyForm = this.fb.group({
-      certificateNumber: ['', [
+      year: [new Date().getFullYear().toString(), [
         Validators.required,
-        Validators.pattern('^\\d{4}-\\d{5}$'),
-        Validators.minLength(10),
-        Validators.maxLength(10)
+        Validators.pattern('^\\d{4}$'),
+        Validators.minLength(4),
+        Validators.maxLength(4)
+      ]],
+      number: ['', [
+        Validators.required,
+        Validators.pattern('^\\d{5}$'),
+        Validators.minLength(5),
+        Validators.maxLength(5)
       ]]
     });
   }
@@ -66,7 +73,7 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
     }
   }
 
-  verifyCertificate(certificateNumber: string) {
+  verifyCertificate() {
     this.safeUrlCache = null;
     this.isLoading = true;
     this.errorMessage = null;
@@ -75,6 +82,9 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
       this.verifySubscription.unsubscribe();
     }
     
+    const year = this.verifyForm.get('year')?.value;
+    const number = this.verifyForm.get('number')?.value;
+    const certificateNumber = `${year}-${number}`;
     this.verifySubscription = this.verifyService.verifyCertificate(certificateNumber).subscribe({
       next: (response: CertificateVerificationResponse) => {
         this.certificateData = response.data;
@@ -104,8 +114,45 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
     this.certificateData = null;
     this.safeUrlCache = null;
 
-    const certificateNumber = this.verifyForm.get('certificateNumber')?.value;
-    this.verifyCertificate(certificateNumber);
+    this.verifyCertificate();
+  }
+
+  validateNumberInput(event: KeyboardEvent): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    // Allow: 0-9, backspace, tab, enter, delete, left/right arrows, home, end
+    if (
+      [8, 9, 13, 27, 35, 36, 37, 39, 46].includes(charCode) ||
+      // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+      (event.ctrlKey && [65, 67, 86, 88].includes(charCode)) ||
+      // Allow: 0-9 on numpad
+      (charCode >= 48 && charCode <= 57) ||
+      (charCode >= 96 && charCode <= 105)
+    ) {
+      return true;
+    }
+    
+    event.preventDefault();
+    return false;
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    const pastedText = event.clipboardData?.getData('text/plain');
+    if (pastedText && /^\d+$/.test(pastedText)) {
+      const target = event.target as HTMLInputElement;
+      const isYearField = target.id === 'year';
+      const maxLength = isYearField ? 4 : 5;
+      const formControlName = isYearField ? 'year' : 'number';
+      
+      const start = target.selectionStart || 0;
+      const end = target.selectionEnd || 0;
+      const newValue = target.value.substring(0, start) + pastedText + target.value.substring(end);
+      
+      if (newValue.length <= maxLength) {
+        target.value = newValue;
+        this.verifyForm.get(formControlName)?.setValue(newValue);
+      }
+    }
   }
 
   getSafeUrl(): SafeResourceUrl | null {
@@ -122,7 +169,7 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
     );
     return this.safeUrlCache;
   }
-  
+
   getImageUrl(): string {
     return this.certificateData?.[0]?.certificatePhotoUrl || this.defaultImage;
   }

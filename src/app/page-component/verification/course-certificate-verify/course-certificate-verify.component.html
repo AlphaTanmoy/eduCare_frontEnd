@@ -12,22 +12,48 @@
                             <label for="certificateNumber" class="form-label">Certificate Number</label>
                             <div class="input-group">
                                 <input type="text" 
-                                       class="form-control" 
-                                       id="certificateNumber"
-                                       formControlName="certificateNumber"
-                                       placeholder="e.g. 2025-12345"
-                                       [class.is-invalid]="certificateNumber?.invalid && (certificateNumber?.dirty || certificateNumber?.touched)">
+                                       class="form-control text-center" 
+                                       id="year"
+                                       formControlName="year"
+                                       placeholder="2025"
+                                       maxlength="4"
+                                       inputmode="numeric"
+                                       pattern="[0-9]*"
+                                       style="max-width: 80px;"
+                                       (keypress)="validateNumberInput($event)"
+                                       (paste)="onPaste($event)"
+                                       [class.is-invalid]="year?.invalid && (year?.dirty || year?.touched)">
+                                <span class="input-group-text bg-light">-</span>
+                                <input type="text" 
+                                       class="form-control text-center" 
+                                       id="number"
+                                       formControlName="number"
+                                       placeholder="12345"
+                                       maxlength="5"
+                                       inputmode="numeric"
+                                       pattern="[0-9]*"
+                                       [class.is-invalid]="number?.invalid && (number?.dirty || number?.touched)">
                                 <button class="btn btn-primary" type="submit" [disabled]="isLoading || verifyForm.invalid">
                                     <span *ngIf="!isLoading">Verify</span>
                                     <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </button>
                             </div>
                             <div class="form-text text-muted small mb-2">
-                                Enter the 10-digit certificate number (e.g., 2025-12345)
+                                Enter the year (4 digits) and 5-digit number (e.g., 2025-12345)
                             </div>
-                            <div class="text-danger small" *ngIf="certificateNumber?.invalid && (certificateNumber?.dirty || certificateNumber?.touched)">
-                                <div *ngIf="certificateNumber?.errors?.['required']">Certificate number is required</div>
-                                <div *ngIf="certificateNumber?.errors?.['pattern']">Format should be YYYY-##### (e.g., 2025-12345)</div>
+                            <div class="row g-2">
+                                <div class="col-12" *ngIf="year?.invalid && (year?.dirty || year?.touched)">
+                                    <div class="text-danger small">
+                                        <div *ngIf="year?.errors?.['required']">Year is required</div>
+                                        <div *ngIf="year?.errors?.['pattern']">Must be a 4-digit year</div>
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="number?.invalid && (number?.dirty || number?.touched)">
+                                    <div class="text-danger small">
+                                        <div *ngIf="number?.errors?.['required']">Certificate number is required</div>
+                                        <div *ngIf="number?.errors?.['pattern']">Must be a 5-digit number</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
