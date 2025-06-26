@@ -20,6 +20,7 @@ import { FranchiseService } from '../../../../service/franchise/franchise.servic
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 
 @Component({
   selector: 'app-download-excel-to-generate-certificate',
@@ -198,23 +199,58 @@ export class DownloadExcelToGenerateCertificateComponent {
   }
 
   AcceptRejectTicket(_ticketid: string, status: string) {
-    this.activeMatProgressBar();
+    if (status === CertificateTicketStatus.REJECTED) {
+      const dialogRef = this.dialog.open(CustomConfirmDialogWithRemarksComponent, { data: { text: "Please enter the reason for rejecting this ticket" } });
 
-    this.studentCertificateService.acceptOrRejectTicket(_ticketid, status).subscribe({
-      next: (response: any) => {
-        this.hideMatProgressBar();
+      dialogRef.afterClosed().subscribe(async (result: any) => {
+        if (result) {
+          if (result.status === true) {
+            this.activeMatProgressBar();
 
-        if (response.status === 200) {
-          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+            this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, result.remarks).subscribe({
+              next: (response: any) => {
+                this.hideMatProgressBar();
+
+                if (response.status === 200) {
+                  this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+                  this.FetchAllAvailableRaisedTicketList();
+                } else {
+                  this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+                }
+              },
+              error: (err) => {
+                this.hideMatProgressBar();
+                this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+              }
+            });
+          } else {
+            return;
+          }
         } else {
-          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+          return;
         }
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
-      }
-    });
+      });
+    } else {
+      this.activeMatProgressBar();
+
+      this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, null).subscribe({
+        next: (response: any) => {
+          this.hideMatProgressBar();
+
+          if (response.status === 200) {
+            this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+            this.FetchAllAvailableRaisedTicketList();
+          } else {
+            this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+          }
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+        }
+      });
+    }
+
   }
 
   DownloadExcelOfTicket(_ticketid: string) {
