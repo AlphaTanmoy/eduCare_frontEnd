@@ -11,7 +11,7 @@
             </app-custom-single-select-searchable-dropdown> -->
             <app-custom-multi-select-dropdown *ngIf="available_franchises.length > 0"
                 [dropdownLabel]="'Select Franchise'" [dropdownList]="available_franchises"
-                [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedCourses($event)">
+                [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedFranchises($event)">
             </app-custom-multi-select-dropdown>
         </div>
     </div>

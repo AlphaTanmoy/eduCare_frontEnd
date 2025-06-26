@@ -44,7 +44,7 @@ export class DownloadExcelToGenerateCertificateComponent {
   student_registration_number: string | null = null;
 
   available_franchises: Dropdown[] = [];
-  associated_franchise_id: string[] = [];
+  franchise_ids: string[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -71,8 +71,9 @@ export class DownloadExcelToGenerateCertificateComponent {
     });
   }
 
-  handleSelectedCourses(selectedItems: Dropdown[]) {
-    this.associated_franchise_id = selectedItems.map((item: Dropdown) => item.id ?? "");
+  handleSelectedFranchises(selectedItems: Dropdown[]) {
+    this.franchise_ids = selectedItems.map((item: Dropdown) => item.id ?? "");
+    console.log(this.franchise_ids)
   }
 
 
