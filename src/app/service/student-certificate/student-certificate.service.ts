@@ -33,4 +33,8 @@ export class StudentCertificateService {
   getAvailableCertificateTicketList(franchise_ids: string[]) {
     return this.http.post(GetBaseURL() + Endpoints.student_certificate.get_available_certificate_ticket_list, { franchise_ids });
   }
+
+  acceptOrRejectTicket(_ticketid: string, status: string) {
+    return this.http.post(GetBaseURL() + Endpoints.student_certificate.accept_reject_ticket, { _ticketid, status });
+  }
 }

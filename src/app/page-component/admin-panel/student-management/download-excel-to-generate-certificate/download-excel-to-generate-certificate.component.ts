@@ -197,6 +197,30 @@ export class DownloadExcelToGenerateCertificateComponent {
     return CertificateTicketStatusDescriptions[value as CertificateTicketStatus] || 'Unknown';
   }
 
+  AcceptRejectTicket(_ticketid: string, status: string) {
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.acceptOrRejectTicket(_ticketid, status).subscribe({
+      next: (response: any) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
+  DownloadExcelOfTicket(_ticketid: string) {
+
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
