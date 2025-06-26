@@ -114,6 +114,11 @@ export const Endpoints = {
     franchise_transactions_logs: "wallet/franchise/transactions_logs",
     transaction_log_by_id: "wallet/transaction",
     pay_fees: "wallet/pay_fees",
-    refund_fees: "wallet/refund_fees",
+    refund_fees: "wallet/refund_fees"
+  },
+  verify: {
+    student: "verify/student",
+    franchise: "verify/franchise",
+    certificate: "verify/certificate"
   }
 }
