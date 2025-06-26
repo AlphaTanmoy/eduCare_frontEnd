@@ -1,64 +1,64 @@
 table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
 }
 
 th,
 td {
-  padding: 12px;
-  border: 1px solid var(--light);
-  background-color: #fff;
-  text-align: center;
+  padding: 12px !important;
+  border: 1px solid var(--light) !important;
+  background-color: #fff !important;
+  text-align: center !important;
 }
 
 th {
-  background-color: #e7e7e7;
-  font-weight: 600;
+  background-color: #e7e7e7 !important;
+  font-weight: 600 !important;
 }
 
 .eligible_student_list_table_parent {
-  border: 1px solid rgb(218, 218, 218);
-  border-radius: 0.3rem;
-  overflow: hidden;
+  border: 1px solid rgb(218, 218, 218) !important;
+  border-radius: 0.3rem !important;
+  overflow: hidden !important;
 }
 
 .eligible_student_list_table {
-  overflow-y: auto;
-  max-height: 20rem;
-  margin: 0;
-  padding: 0;
+  overflow-y: auto !important;
+  max-height: 20rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 table tr:first-child th:first-child {
-  border-top-left-radius: 0.5rem;
+  border-top-left-radius: 0.5rem !important;
 }
 
 table tr:first-child th:last-child {
-  border-top-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem !important;
 }
 
 table tr:last-child td:first-child {
-  border-bottom-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem !important;
 }
 
 table tr:last-child td:last-child {
-  border-bottom-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem !important;
 }
 
 .padding_raised_ticket_info {
-  padding-top: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-top: 1rem !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }
 
 .padding_raised_ticket_student_info {
-  margin-top: 0rem;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0rem !important;
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .existing_ticket{
-  background-color: var(--light1);
+  background-color: var(--light1) !important;
 }
