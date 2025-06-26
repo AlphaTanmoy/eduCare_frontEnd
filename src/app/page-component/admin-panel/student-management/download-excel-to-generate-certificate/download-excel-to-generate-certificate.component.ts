@@ -45,6 +45,7 @@ export class DownloadExcelToGenerateCertificateComponent {
 
   available_franchises: Dropdown[] = [];
   franchise_ids: string[] = [];
+  all_raised_ticket_list: any[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -71,9 +72,30 @@ export class DownloadExcelToGenerateCertificateComponent {
     });
   }
 
+  FetchAllAvailableRaisedTicketList() {
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.getAvailableCertificateTicketList(this.franchise_ids).subscribe({
+      next: (response: any) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.all_raised_ticket_list = response.data;
+          console.log(this.all_raised_ticket_list)
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   handleSelectedFranchises(selectedItems: Dropdown[]) {
     this.franchise_ids = selectedItems.map((item: Dropdown) => item.id ?? "");
-    console.log(this.franchise_ids)
+    this.FetchAllAvailableRaisedTicketList();
   }
 
 
