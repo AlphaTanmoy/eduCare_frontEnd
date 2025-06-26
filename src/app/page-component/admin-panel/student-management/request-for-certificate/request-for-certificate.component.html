@@ -40,36 +40,70 @@
             <h5 class="mb-0">No Raised Ticket Found</h5>
         </div>
 
-        <div class="card existing_ticket w-100 mb-3" *ngFor="let ticket of all_raised_ticket_list">
-            <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
-                <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span> {{ticket.ticket_id}}</span>
-                <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0"><span
-                        class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}</span>
-                <span class="card-text mb-0"><span class="fw-bold">Status : </span>
-                    <span [ngClass]="
-                            ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
-                            ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
-                            ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
-                            ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' : 'text_card_primary'
-                            ">{{ GetVerificationStatusLabel(ticket.data_status) }}
-                    </span></span>
-                <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
-                    {{FormatDateTime(ticket.created_at)}}</span>
-                <span class="card-text mb-0"><span class="fw-bold">Remarks :</span> {{ticket.remarks}}</span>
+        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="d-flex justify-content-end mt-2 mb-3">
+                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                    data-bs-slide="prev">
+                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                    data-bs-slide="next">
+                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                </button>
             </div>
 
-            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
-                <div class="eligible_student_list_table">
-                    <table>
-                        <tr>
-                            <th>Registration Number</th>
-                            <th>Student Name</th>
-                        </tr>
-                        <tr *ngFor="let student of ticket.student_list">
-                            <td>{{student.registration_number}}</td>
-                            <td>{{student.student_name}}</td>
-                        </tr>
-                    </table>
+            <div class="carousel-inner">
+                <div *ngFor="let ticket of all_raised_ticket_list; let i = index" class="carousel-item"
+                    [class.active]="i === 0">
+
+                    <div class="card existing_ticket w-100 mb-3">
+                        <div
+                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                {{ticket.ticket_id}}</span>
+
+                            <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0">
+                                <span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}
+                            </span>
+
+                            <span class="card-text mb-0">
+                                <span class="fw-bold">Status : </span>
+                                <span
+                                    [ngClass]="
+                                    ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                                    ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                                    ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                                    ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
+                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                </span>
+                            </span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                {{FormatDateTime(ticket.created_at)}}</span>
+                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                {{ticket.remarks}}</span>
+                        </div>
+
+                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                            <div class="eligible_student_list_table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of ticket.student_list">
+                                            <td>{{student.registration_number}}</td>
+                                            <td>{{student.student_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
