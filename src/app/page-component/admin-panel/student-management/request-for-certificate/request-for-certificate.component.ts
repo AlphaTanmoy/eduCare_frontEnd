@@ -89,7 +89,7 @@ export class RequestForCertificateComponent {
   FetchAllAvailableRaisedTicketList() {
     this.activeMatProgressBar();
 
-    this.studentCertificateService.getAvailableCertificateTicketList().subscribe({
+    this.studentCertificateService.getAvailableCertificateTicketList([]).subscribe({
       next: (response: any) => {
         this.hideMatProgressBar();
 
