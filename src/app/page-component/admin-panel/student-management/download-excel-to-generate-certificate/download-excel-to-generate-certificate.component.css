@@ -1,0 +1,80 @@
+.single_search_field {
+    height: 40px;
+}
+
+.control_excel{
+    border-radius: 0.5rem;
+    padding: 0.5rem
+}
+
+table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 0;
+}
+
+th,
+td {
+  padding: 12px !important;
+  border: 1px solid var(--light) !important;
+  background-color: #fff !important;
+  text-align: center !important;
+}
+
+th {
+  background-color: #e7e7e7 !important;
+  font-weight: 600 !important;
+}
+
+.eligible_student_list_table_parent {
+  /* border: 1px solid rgb(218, 218, 218) !important; */
+  border-radius: 0.3rem !important;
+  overflow: hidden !important;
+}
+
+.eligible_student_list_table {
+  overflow-y: auto !important;
+  max-height: 20rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+table tr:first-child th:first-child {
+  border-top-left-radius: 0.5rem !important;
+}
+
+table tr:first-child th:last-child {
+  border-top-right-radius: 0.5rem !important;
+}
+
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem !important;
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem !important;
+}
+
+.padding_raised_ticket_info {
+  padding-top: 1rem !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.padding_raised_ticket_student_info {
+  margin-top: 0rem !important;
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.existing_ticket{
+  background-color: var(--light1) !important;
+}
+
+.slider_custom{
+  border-radius: 0.3rem !important;
+  overflow: hidden !important;
+  /* border: 1px solid rgb(218, 218, 218) !important; */
+}

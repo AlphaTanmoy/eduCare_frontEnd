@@ -281,8 +281,8 @@ export const MenuItems: any[] = [
       },
       {
         id: 97,
-        name: 'Excel To Generate Certificate',
-        route: '/control-panel/download-excel-of-students',
+        name: 'View Certificate Ticket',
+        route: '/control-panel/download-excel-for-certificate-generation',
         role: [UserRole.MASTER, UserRole.ADMIN],
       },
       {

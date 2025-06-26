@@ -3,12 +3,18 @@
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Download Excel To Generate Certificate</h2>
 
-    <div class="row mb-3 mt-2 d-flex justify-content-between">
-        <div class="col-12 col-md-6 mb-2">
-            <!-- <app-custom-single-select-searchable-dropdown [options]="available_franchises"
-                [ariaLabel]="'Select Franchise'" [selectedOptions]="null"
-                (selectionChange)="handleFranchiseSelection($event)">
-            </app-custom-single-select-searchable-dropdown> -->
+    <div class="row g-lg-5 g-2 mb-3 align-items-center control_excel">
+        <div class="col-12 col-md-6 d-flex gap-2 align-items-stretch single_search_field">
+            <input type="text" class="form-control" [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="student_registration_number" placeholder="Student's Registration Number" required />
+
+            <button class="btn btn-primary" [disabled]="student_registration_number === null || matProgressBarVisible"
+                (click)="GenerateAndDownloadExcelOfTypedStudent()">
+                Excel
+            </button>
+        </div>
+
+        <div class="col-12 col-md-6">
             <app-custom-multi-select-dropdown *ngIf="available_franchises.length > 0"
                 [dropdownLabel]="'Select Franchise'" [dropdownList]="available_franchises" [dropdownListSelected]="[]"
                 (selectedItemsChanged)="handleSelectedFranchises($event)">
@@ -16,30 +22,19 @@
         </div>
     </div>
 
-    <div class="mb-3 mt-2 d-flex justify-content-end">
-        <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below" matTooltip="This excel contains information of those students whose marks have been uploaded and excel is not generated yet. 
-                With the help of this excel, you can make certificate and upload further"
-            (click)="GenerateAndDownloadExcelOfAllStudents()">Generate
-            Excel</button>
-    </div>
-
     <div>
-        <h2 class="mt-5 text-center">Raised Ticket</h2>
-
-        <div class="card-body d-flex justify-content-center align-items-center"
-            *ngIf="all_raised_ticket_list.length === 0">
-            <h5 class="mb-0">No Raised Ticket Found</h5>
-        </div>
+        <h2 class="text-center" *ngIf="all_raised_ticket_list.length > 0">{{all_raised_ticket_list.length}} Raised Ticket</h2>
+        <h2 class="text-center" *ngIf="all_raised_ticket_list.length === 0">No Raised Ticket Found</h2>
 
         <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
             *ngIf="all_raised_ticket_list.length > 0">
             <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_raised_ticket_list.length > 1">
                 <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
-                    data-bs-slide="prev">
+                    [disabled]="matProgressBarVisible" data-bs-slide="prev">
                     <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
                 </button>
                 <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
-                    data-bs-slide="next">
+                    [disabled]="matProgressBarVisible" data-bs-slide="next">
                     <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
                 </button>
             </div>
@@ -50,8 +45,20 @@
                     [class.active]="i === 0">
 
                     <div class="card existing_ticket w-100 mb-3">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
+                                matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
+                                [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
+                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+
+                            <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
+                                <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.REJECTED)">Reject</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.ACCEPTED)">Accept</button>
+                            </div>
                         </div>
                         <div
                             class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
@@ -59,7 +66,8 @@
                             <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
                                 {{ticket.ticket_id}}</span>
 
-                            <span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}
+                            <span class="card-text mb-0"><span class="fw-bold">Franchise Name :</span>
+                                {{ticket.franchise_name}}</span>
 
                             <span class="card-text mb-0">
                                 <span class="fw-bold">Status : </span>
@@ -104,20 +112,4 @@
         </div>
     </div>
 
-
-    <div class="border p-3 rounded-2" style="background-color: var(--light);">
-        <div class="mb-3 mt-2">
-            <label for="courseName">Student Registration Number<span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="student_registration_number" required />
-        </div>
-
-        <div class="mt-5 d-flex justify-content-end">
-            <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below"
-                [disabled]="student_registration_number === null"
-                matTooltip="This excel contains information of the student whose registration number you've typed above."
-                (click)="GenerateAndDownloadExcelOfTypedStudent()">Download
-                Excel To Generate Certificate</button>
-        </div>
-    </div>
 </div>

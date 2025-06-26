@@ -11,6 +11,7 @@ import { AuthService } from '../../service/auth/Auth.Service';
 import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DashboardService } from '../../service/dashboard/dashboard.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vertical-layout',
@@ -64,9 +65,19 @@ export class VerticalLayoutComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private dashboardService: DashboardService) { }
+    private dashboardService: DashboardService,
+    private titleService: Title
+  ) { }
+
+  MakeHeader(role: string) {
+    const customRole = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+    return "Educare/" + customRole;
+  }
 
   ngOnInit() {
+    const role = this.authService.getUserRole();
+    this.titleService.setTitle(this.MakeHeader(role));
+
     this.dashboardService.getAllDashboardMasterData().subscribe({
       next: (response) => {
         try {
@@ -106,7 +117,7 @@ export class VerticalLayoutComponent {
       }
     });
 
-    this.menuItems = GetMenuItemsAssignedByRole(this.authService.getUserRole());
+    this.menuItems = GetMenuItemsAssignedByRole(role);
 
     this.adjustNavbar();
   }

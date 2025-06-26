@@ -19,6 +19,8 @@ import { firstValueFrom } from 'rxjs';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 
 @Component({
   selector: 'app-download-excel-to-generate-certificate',
@@ -41,6 +43,8 @@ export class DownloadExcelToGenerateCertificateComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
   readonly dialog = inject(MatDialog);
+
+  faDownload = faDownload;
 
   student_registration_number: string | null = null;
   CertificateTicketStatus = CertificateTicketStatus;
@@ -101,44 +105,13 @@ export class DownloadExcelToGenerateCertificateComponent {
     this.FetchAllAvailableRaisedTicketList();
   }
 
-  GenerateAndDownloadExcelOfAllStudents() {
-    this.activeMatProgressBar();
-
-    const info = {
-      "status": "ALL",
-      "student_registration_number": null
-    }
-
-    this.studentCertificateService.downloadExcelRelatedToCertificateIssue(info).subscribe({
-      next: (response: HttpResponse<Blob>) => {
-        const blob = response.body!;
-
-        const contentDisposition = response.headers.get('Content-Disposition') || '';
-        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-        const match = filenameRegex.exec(contentDisposition);
-        const filename = match && match[1] ? match[1].replace(/['"]/g, '') : 'Excel_Related_to_Certificate_Issue.xlsx';
-
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = filename;
-        link.click();
-
-        URL.revokeObjectURL(link.href);
-        this.hideMatProgressBar();
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
-      }
-    });
-  }
-
   GenerateAndDownloadExcelOfTypedStudent() {
     this.activeMatProgressBar();
 
     const info = {
       "status": "SINGLE",
-      "student_registration_number": this.student_registration_number
+      "student_registration_number": this.student_registration_number,
+      "ticket_id": null
     }
 
     try {
@@ -192,6 +165,95 @@ export class DownloadExcelToGenerateCertificateComponent {
 
   GetVerificationStatusLabel(value: string): string {
     return CertificateTicketStatusDescriptions[value as CertificateTicketStatus] || 'Unknown';
+  }
+
+  AcceptRejectTicket(_ticketid: string, status: string) {
+    if (status === CertificateTicketStatus.REJECTED) {
+      const dialogRef = this.dialog.open(CustomConfirmDialogWithRemarksComponent, { data: { text: "Please enter the reason for rejecting this ticket" } });
+
+      dialogRef.afterClosed().subscribe(async (result: any) => {
+        if (result) {
+          if (result.status === true) {
+            this.activeMatProgressBar();
+
+            this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, result.remarks).subscribe({
+              next: (response: any) => {
+                this.hideMatProgressBar();
+
+                if (response.status === 200) {
+                  this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+                  this.FetchAllAvailableRaisedTicketList();
+                } else {
+                  this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+                }
+              },
+              error: (err) => {
+                this.hideMatProgressBar();
+                this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+              }
+            });
+          } else {
+            return;
+          }
+        } else {
+          return;
+        }
+      });
+    } else {
+      this.activeMatProgressBar();
+
+      this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, null).subscribe({
+        next: (response: any) => {
+          this.hideMatProgressBar();
+
+          if (response.status === 200) {
+            this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+            this.FetchAllAvailableRaisedTicketList();
+          } else {
+            this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+          }
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+        }
+      });
+    }
+
+  }
+
+  DownloadExcelOfTicket(_ticketid: string) {
+    this.activeMatProgressBar();
+
+    const info = {
+      "status": "TICKET",
+      "student_registration_number": null,
+      "ticket_id": _ticketid
+    }
+
+    this.studentCertificateService.downloadExcelRelatedToCertificateIssue(info).subscribe({
+      next: (response: HttpResponse<Blob>) => {
+        const blob = response.body!;
+
+        const contentDisposition = response.headers.get('Content-Disposition') || '';
+        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        const match = filenameRegex.exec(contentDisposition);
+        const filename = match && match[1] ? match[1].replace(/['"]/g, '') : 'Excel_Related_to_Certificate_Issue.xlsx';
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+        this.FetchAllAvailableRaisedTicketList();
+        this.hideMatProgressBar();
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   ngOnDestroy(): void {

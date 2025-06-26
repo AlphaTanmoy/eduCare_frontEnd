@@ -169,16 +169,20 @@ export enum EnrollmentStatus {
   FEES_PAID = "FEES_PAID",
   FEES_REFUNDED = "FEES_REFUNDED",
   TICKET_RAISED_FOR_CERTIFICATE = "TICKET_RAISED_FOR_CERTIFICATE",
+  CERTIFICATE_PROCESSING = "CERTIFICATE_PROCESSING",
+  CERTIFICATE_REQUEST_REJECTED = "CERTIFICATE_REQUEST_REJECTED",
   CERTIFICATE_ISSUED = "CERTIFICATE_ISSUED",
   COMPLETED = "COMPLETED",
 }
 
 export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
   [EnrollmentStatus.REGISTERED]: 'Registered',
+  [EnrollmentStatus.FEES_PAID]: 'Fees Paid',
   [EnrollmentStatus.FEES_REFUNDED]: 'Fees Refunded',
   [EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE]: 'Ticket Raised For Certificate',
+  [EnrollmentStatus.CERTIFICATE_PROCESSING]: 'Certificate Processing',
+  [EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED]: 'Certificate Request Rejected',
   [EnrollmentStatus.CERTIFICATE_ISSUED]: 'Certificate Issued',
-  [EnrollmentStatus.FEES_PAID]: 'Fees Paid',
   [EnrollmentStatus.COMPLETED]: 'Completed',
 };
 
