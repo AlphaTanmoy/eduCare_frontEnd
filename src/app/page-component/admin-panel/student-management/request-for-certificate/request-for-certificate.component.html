@@ -34,7 +34,7 @@
 
 
         <div *ngIf="role === UserRole.FRANCHISE">
-            <h2 class="mt-5 text-center">Raised Ticket</h2>
+            <h2 class="mt-5 text-center">{{all_raised_ticket_list.length}} Raised Ticket</h2>
 
             <div class="card-body d-flex justify-content-center align-items-center"
                 *ngIf="all_raised_ticket_list.length === 0">
