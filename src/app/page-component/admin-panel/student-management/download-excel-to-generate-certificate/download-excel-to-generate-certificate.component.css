@@ -3,7 +3,6 @@
 }
 
 .control_excel{
-    border: 1px solid var(--light);
     border-radius: 0.5rem;
     padding: 0.5rem
 }
