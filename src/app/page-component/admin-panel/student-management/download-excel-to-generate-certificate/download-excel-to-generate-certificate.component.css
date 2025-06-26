@@ -11,6 +11,7 @@ table {
   width: 100% !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
+  margin: 0;
 }
 
 th,
