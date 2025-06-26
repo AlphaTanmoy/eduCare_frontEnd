@@ -41,7 +41,7 @@
                 <h5 class="mb-0">No Raised Ticket Found</h5>
             </div>
 
-            <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+            <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false" *ngIf="all_raised_ticket_list.length > 0">
                 <div class="d-flex justify-content-end mt-2 mb-3">
                     <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
                         data-bs-slide="prev">
