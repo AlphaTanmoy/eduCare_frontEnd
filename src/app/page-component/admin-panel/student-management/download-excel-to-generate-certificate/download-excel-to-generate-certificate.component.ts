@@ -8,12 +8,31 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
-import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { HttpResponse } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { firstValueFrom } from 'rxjs';
+import { FranchiseService } from '../../../../service/franchise/franchise.service';
+import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
 
 @Component({
   selector: 'app-download-excel-to-generate-certificate',
-  imports: [CommonModule, FormsModule, MatProgressBarModule, MatTooltipModule],
+  imports: [
+    MatTooltipModule,
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FontAwesomeModule,
+    MatProgressBarModule,
+    CustomMultiSelectDropdownComponent,
+    MatTooltipModule
+  ],
   templateUrl: './download-excel-to-generate-certificate.component.html',
   styleUrl: './download-excel-to-generate-certificate.component.css'
 })
@@ -24,14 +43,38 @@ export class DownloadExcelToGenerateCertificateComponent {
 
   student_registration_number: string | null = null;
 
+  available_franchises: Dropdown[] = [];
+  associated_franchise_id: string[] = [];
+
   constructor(
     private cdr: ChangeDetectorRef,
+    private franchiseService: FranchiseService,
     private studentCertificateService: StudentCertificateService
   ) { }
 
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
+    this.getFranchises();
   }
+
+  async getFranchises() {
+    const res = await firstValueFrom(this.franchiseService.GetAllAvailableFranchisesAndItsCourseDetails());
+    this.hideMatProgressBar();
+
+    if (res.status !== 200) {
+      this.openDialog("Student", res.message, ResponseTypeColor.ERROR, null);
+      return;
+    }
+
+    res.data.forEach((element: any) => {
+      this.available_franchises.push(new Dropdown(element.id, element.center_name));
+    });
+  }
+
+  handleSelectedCourses(selectedItems: Dropdown[]) {
+    this.associated_franchise_id = selectedItems.map((item: Dropdown) => item.id ?? "");
+  }
+
 
   GenerateAndDownloadExcelOfAllStudents() {
     this.activeMatProgressBar();

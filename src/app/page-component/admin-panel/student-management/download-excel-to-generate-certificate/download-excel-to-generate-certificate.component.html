@@ -3,6 +3,19 @@
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Download Excel To Generate Certificate</h2>
 
+    <div class="row mb-3 mt-2 d-flex justify-content-between">
+        <div class="col-12 col-md-6 mb-2">
+            <!-- <app-custom-single-select-searchable-dropdown [options]="available_franchises"
+                [ariaLabel]="'Select Franchise'" [selectedOptions]="null"
+                (selectionChange)="handleFranchiseSelection($event)">
+            </app-custom-single-select-searchable-dropdown> -->
+            <app-custom-multi-select-dropdown *ngIf="available_franchises.length > 0"
+                [dropdownLabel]="'Select Franchise'" [dropdownList]="available_franchises"
+                [dropdownListSelected]="[]" (selectedItemsChanged)="handleSelectedCourses($event)">
+            </app-custom-multi-select-dropdown>
+        </div>
+    </div>
+
     <div class="mb-3 mt-2 d-flex justify-content-end">
         <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below" matTooltip="This excel contains information of those students whose marks have been uploaded and excel is not generated yet. 
                 With the help of this excel, you can make certificate and upload further"
@@ -18,7 +31,8 @@
         </div>
 
         <div class="mt-5 d-flex justify-content-end">
-            <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below" [disabled]="student_registration_number === null"
+            <button class="btn btn-primary" style="width: max-content;" matTooltipPosition="below"
+                [disabled]="student_registration_number === null"
                 matTooltip="This excel contains information of the student whose registration number you've typed above."
                 (click)="GenerateAndDownloadExcelOfTypedStudent()">Download
                 Excel To Generate Certificate</button>
