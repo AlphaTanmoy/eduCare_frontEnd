@@ -65,6 +65,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   totalCount: number = 0;
 
   isFranchise: boolean = false;
+  isAdmin: boolean = false;
 
   displayedColumns: string[] = ['student_image', 'regno', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
@@ -82,6 +83,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
     let userRole = await this.authService.getUserRole();
     if (userRole === UserRole.FRANCHISE) {
       this.isFranchise = true;
+    } else if(userRole === UserRole.ADMIN || userRole === UserRole.MASTER) {
+      this.isAdmin = true;
     }
 
     this.bootstrapElements = loadBootstrap();

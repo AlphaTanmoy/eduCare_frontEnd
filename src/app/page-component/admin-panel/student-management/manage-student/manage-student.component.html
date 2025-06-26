@@ -12,8 +12,7 @@
                     placeholder="Search..." />
 
                 <div class="d-flex">
-                    <button class="btn btn-primary btn-sm"
-                        (click)="AddStudent()">Add</button>
+                    <button class="btn btn-primary btn-sm" (click)="AddStudent()">Add</button>
                 </div>
             </div>
 
@@ -117,12 +116,12 @@
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
 
-                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above"
-                                *ngIf="student.has_given_exam && 
-                                student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING && student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Upload Certificate"
+                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above" *ngIf="isAdmin && student.has_given_exam && 
+                                (student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING || student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED) && 
+                                student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Upload Certificate"
                                 [icon]="faGraduationCap" (click)="CerficiateIssued(student)"></fa-icon>
 
-                            <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
+                            <fa-icon class="icon btn_cursor_pointer text-danger me-1" matTooltipPosition="above"
                                 *ngIf="student.has_given_exam && 
                                 student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED && student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Download Certificate"
                                 [icon]="faDownload" (click)="DownloadCertificate(student)"></fa-icon>
