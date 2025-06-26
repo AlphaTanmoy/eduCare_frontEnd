@@ -62,3 +62,8 @@ table tr:last-child td:last-child {
 .existing_ticket{
   background-color: var(--light1) !important;
 }
+
+.slider_custom{
+  border-radius: 0.3rem !important;
+  overflow: hidden !important;
+}
