@@ -132,7 +132,7 @@ export const routes: Routes = [
     { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/update-exam-marks/:studentId', component: ManageExamMarksComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/request-for-certificate', component: RequestForCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
-    { path: 'control-panel/download-excel-of-students', component: DownloadExcelToGenerateCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+    { path: 'control-panel/download-excel-for-certificate-generation', component: DownloadExcelToGenerateCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
     { path: 'control-panel/wallet/manage', component: ManageWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
     { path: 'control-panel/wallet/recharge', component: PayWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'control-panel/wallet/transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
