@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
-import { Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
+import { CertificateTicketStatus, CertificateTicketStatusDescriptions, Dropdown, ResponseTypeColor } from '../../../../constants/commonConstants';
 import { HttpResponse } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { firstValueFrom } from 'rxjs';
 import { FranchiseService } from '../../../../service/franchise/franchise.service';
 import { CustomMultiSelectDropdownComponent } from '../../../../common-component/custom-multi-select-dropdown/custom-multi-select-dropdown.component';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 
 @Component({
   selector: 'app-download-excel-to-generate-certificate',
@@ -42,6 +43,8 @@ export class DownloadExcelToGenerateCertificateComponent {
   readonly dialog = inject(MatDialog);
 
   student_registration_number: string | null = null;
+  CertificateTicketStatus = CertificateTicketStatus;
+  CertificateTicketStatusDescriptions = CertificateTicketStatusDescriptions;
 
   available_franchises: Dropdown[] = [];
   franchise_ids: string[] = [];
@@ -97,7 +100,6 @@ export class DownloadExcelToGenerateCertificateComponent {
     this.franchise_ids = selectedItems.map((item: Dropdown) => item.id ?? "");
     this.FetchAllAvailableRaisedTicketList();
   }
-
 
   GenerateAndDownloadExcelOfAllStudents() {
     this.activeMatProgressBar();
@@ -182,6 +184,14 @@ export class DownloadExcelToGenerateCertificateComponent {
       this.hideMatProgressBar();
       this.openDialog("Download Excel", "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
     }
+  }
+
+  FormatDateTime(datetimeValue: any) {
+    return GetFormattedCurrentDatetime(new Date(datetimeValue));
+  }
+
+  GetVerificationStatusLabel(value: string): string {
+    return CertificateTicketStatusDescriptions[value as CertificateTicketStatus] || 'Unknown';
   }
 
   ngOnDestroy(): void {
