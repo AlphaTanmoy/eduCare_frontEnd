@@ -33,80 +33,84 @@
         </div>
 
 
-        <h2 class="mt-5 text-center">Raised Ticket</h2>
+        <div *ngIf="role === UserRole.FRANCHISE">
+            <h2 class="mt-5 text-center">Raised Ticket</h2>
 
-        <div class="card-body d-flex justify-content-center align-items-center"
-            *ngIf="all_raised_ticket_list.length === 0">
-            <h5 class="mb-0">No Raised Ticket Found</h5>
-        </div>
-
-        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
-            <div class="d-flex justify-content-end mt-2 mb-3">
-                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
-                    data-bs-slide="prev">
-                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
-                </button>
-                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
-                    data-bs-slide="next">
-                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
-                </button>
+            <div class="card-body d-flex justify-content-center align-items-center"
+                *ngIf="all_raised_ticket_list.length === 0">
+                <h5 class="mb-0">No Raised Ticket Found</h5>
             </div>
 
-            <div class="carousel-inner">
-                <div *ngFor="let ticket of all_raised_ticket_list; let i = index" class="carousel-item"
-                    [class.active]="i === 0">
+            <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                <div class="d-flex justify-content-end mt-2 mb-3">
+                    <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                        data-bs-slide="prev">
+                        <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                        data-bs-slide="next">
+                        <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                    </button>
+                </div>
 
-                    <div class="card existing_ticket w-100 mb-3">
-                        <div class="card-header">
-                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
-                        </div>
-                        <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
-                            
-                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
-                                {{ticket.ticket_id}}</span>
+                <div class="carousel-inner">
+                    <div *ngFor="let ticket of all_raised_ticket_list; let i = index" class="carousel-item"
+                        [class.active]="i === 0">
 
-                            <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER" class="card-text mb-0">
-                                <span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}
-                            </span>
+                        <div class="card existing_ticket w-100 mb-3">
+                            <div class="card-header">
+                                <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+                            </div>
+                            <div
+                                class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
 
-                            <span class="card-text mb-0">
-                                <span class="fw-bold">Status : </span>
-                                <span
-                                    [ngClass]="
+                                <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                    {{ticket.ticket_id}}</span>
+
+                                <span *ngIf="role === UserRole.ADMIN || role === UserRole.MASTER"
+                                    class="card-text mb-0">
+                                    <span class="fw-bold">Franchise Name :</span> {{ticket.franchise_name}}
+                                </span>
+
+                                <span class="card-text mb-0">
+                                    <span class="fw-bold">Status : </span>
+                                    <span
+                                        [ngClass]="
                                     ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
                                     ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
                                     ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
                                     ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
-                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                        {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                    </span>
                                 </span>
-                            </span>
 
-                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
-                                {{FormatDateTime(ticket.created_at)}}</span>
-                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
-                                {{ticket.remarks}}</span>
-                        </div>
+                                <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                    {{FormatDateTime(ticket.created_at)}}</span>
+                                <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                    {{ticket.remarks}}</span>
+                            </div>
 
-                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
-                            <div class="eligible_student_list_table">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Registration Number</th>
-                                            <th>Student Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let student of ticket.student_list">
-                                            <td>{{student.registration_number}}</td>
-                                            <td>{{student.student_name}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                                <div class="eligible_student_list_table">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Registration Number</th>
+                                                <th>Student Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let student of ticket.student_list">
+                                                <td>{{student.registration_number}}</td>
+                                                <td>{{student.student_name}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>

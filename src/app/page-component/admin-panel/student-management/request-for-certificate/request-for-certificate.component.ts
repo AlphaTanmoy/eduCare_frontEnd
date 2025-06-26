@@ -56,13 +56,13 @@ export class RequestForCertificateComponent {
   ngOnInit() {
     this.bootstrapElements = loadBootstrap();
 
-    this.FetchAllAvailableRaisedTicketList();
     this.role = this.authService.getUserRole();
 
     if (this.role === UserRole.ADMIN || this.role === UserRole.MASTER) {
       this.openDialog("Marks Update", "You are viewing this page as a Master/Admin. Features are disabled for you.", ResponseTypeColor.INFO, null);
     } else if (this.role === UserRole.FRANCHISE) {
       this.FetchEligibleStudentListForRaisingTicket();
+      this.FetchAllAvailableRaisedTicketList();
     }
   }
 
