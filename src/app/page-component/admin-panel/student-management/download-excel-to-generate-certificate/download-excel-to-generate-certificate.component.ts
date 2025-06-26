@@ -246,6 +246,7 @@ export class DownloadExcelToGenerateCertificateComponent {
         link.click();
 
         URL.revokeObjectURL(link.href);
+        this.FetchAllAvailableRaisedTicketList();
         this.hideMatProgressBar();
       },
       error: (err) => {
