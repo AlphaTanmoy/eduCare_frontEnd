@@ -57,8 +57,11 @@
                     [class.active]="i === 0">
 
                     <div class="card existing_ticket w-100 mb-3">
-                        <div
-                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+                        <div class="card-header">
+                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+                        </div>
+                        <div class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+                            
                             <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
                                 {{ticket.ticket_id}}</span>
 
