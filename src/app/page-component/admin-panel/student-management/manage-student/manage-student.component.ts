@@ -27,6 +27,7 @@ import { AuthService } from '../../../../service/auth/Auth.Service';
 import { Router } from '@angular/router';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
 import { IssueCertificateComponent } from '../issue-certificate/issue-certificate.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-student',
@@ -76,7 +77,8 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
     private studentService: StudentService,
     private indexedDbService: IndexedDbService,
     private walletService: WalletService,
-    private studentCertificateService: StudentCertificateService
+    private studentCertificateService: StudentCertificateService,
+    private http: HttpClient
   ) { }
 
   async ngOnInit() {
@@ -372,6 +374,26 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
         this.hideMatProgressBar();
         this.openDialog("Student", err.error.message ?? "Internal server error/Certificate not found", ResponseTypeColor.ERROR, false);
       },
+    });
+  }
+
+  downloadRegistrationCard(student: any) {
+    this.activeMatProgressBar();
+    
+    this.studentService.downloadRegistrationCard(student.student_id).subscribe({
+      next: (blob) => {
+        this.hideMatProgressBar();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `${student.registration_number}_registration_card.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(blobUrl);
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error?.message ?? "Failed to download registration card", ResponseTypeColor.ERROR, false);
+      }
     });
   }
 

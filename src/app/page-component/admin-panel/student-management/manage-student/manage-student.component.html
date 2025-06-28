@@ -142,6 +142,10 @@
                                     matTooltip="Download Student's Aadhar Card" [icon]="faDownload"
                                     (click)="DownloadAadharCard(student)"></fa-icon>
 
+                                <fa-icon class="icon btn_cursor_pointer text-info me-1" matTooltipPosition="above"
+                                    matTooltip="Download Registration Card" [icon]="faDownload"
+                                    (click)="downloadRegistrationCard(student)"></fa-icon>
+
                                 <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
                                     matTooltip="Edit Student Details" [icon]="faEdit"
                                     (click)="EditStudent(student.student_id)"></fa-icon>
