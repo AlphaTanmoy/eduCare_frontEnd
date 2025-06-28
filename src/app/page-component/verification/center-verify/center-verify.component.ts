@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { VerifyService } from '../../../../app/service/verify/verify.service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { Subscription } from 'rxjs';
+import { HumanVerificationComponent } from '../../../common-component/human-verification/human-verification.component';
 
 export interface FranchiseVerificationResponse {
   status: number;
@@ -27,7 +28,7 @@ export interface FranchiseVerificationResponse {
 @Component({
   selector: 'app-center-verify',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HumanVerificationComponent],
   templateUrl: './center-verify.component.html',
   styleUrls: ['./center-verify.component.css']
 })
@@ -35,6 +36,7 @@ export class CenterVerifyComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   verifyForm: FormGroup;
   isLoading = false;
+  showVerification = false;
   franchiseData: FranchiseVerificationResponse['data'] | null = null;
   errorMessage: string | null = null;
   currentYear: string;
@@ -42,6 +44,7 @@ export class CenterVerifyComponent implements OnInit, OnDestroy {
   defaultImage = '/images/educare_logo.png';
   private safeUrlCache: SafeResourceUrl | null = null;
   private verifySubscription: Subscription | null = null;
+  private pendingVerificationData: { franchiseYear: string; franchiseNumber: string } | null = null;
   
   get franchiseYear() { return this.verifyForm.get('franchiseYear'); }
   get franchiseNumber() { return this.verifyForm.get('franchiseNumber'); }
@@ -80,12 +83,20 @@ export class CenterVerifyComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatFranchiseNumber(year: string, number: string): string {
-    const formattedNumber = number.padStart(5, '0');
-    return `WB${year}/ECI-CN${formattedNumber}`;
+
+
+  verifyFranchise() {
+    this.pendingVerificationData = {
+      franchiseYear: this.verifyForm.get('franchiseYear')?.value,
+      franchiseNumber: this.verifyForm.get('franchiseNumber')?.value
+    };
+    this.showVerification = true;
   }
 
-  verifyFranchise(franchiseNumber: string) {
+  onVerificationComplete() {
+    this.showVerification = false;
+    if (!this.pendingVerificationData) return;
+
     this.safeUrlCache = null;
     this.isLoading = true;
     this.errorMessage = null;
@@ -94,7 +105,9 @@ export class CenterVerifyComponent implements OnInit, OnDestroy {
       this.verifySubscription.unsubscribe();
     }
     
-    this.verifySubscription = this.verifyService.verifyFranchise(franchiseNumber).subscribe({
+    const { franchiseYear, franchiseNumber } = this.pendingVerificationData;
+    const formattedNumber = `WB${franchiseYear}/ECI-CN${franchiseNumber.padStart(5, '0')}`;
+    this.verifySubscription = this.verifyService.verifyFranchise(formattedNumber).subscribe({
       next: (response: FranchiseVerificationResponse) => {
         this.franchiseData = response.data;
         if (this.franchiseData?.[0]?.headPhotoUrl) {
@@ -115,17 +128,7 @@ export class CenterVerifyComponent implements OnInit, OnDestroy {
       this.verifyForm.markAllAsTouched();
       return;
     }
-
-    this.isLoading = true;
-    this.errorMessage = null;
-    this.franchiseData = null;
-    this.safeUrlCache = null;
-
-    const year = this.verifyForm.get('franchiseYear')?.value;
-    const number = this.verifyForm.get('franchiseNumber')?.value;
-    const franchiseNumber = this.formatFranchiseNumber(year, number);
-    
-    this.verifyFranchise(franchiseNumber);
+    this.verifyFranchise();
   }
 
   getSafeUrl(): SafeResourceUrl | null {
