@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { VerifyService } from '../../../../app/service/verify/verify.service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { Subscription } from 'rxjs';
+import { HumanVerificationComponent } from '../../../common-component/human-verification/human-verification.component';
 
 export interface StudentVerificationResponse {
   status: number;
@@ -28,7 +29,7 @@ export interface StudentVerificationResponse {
 @Component({
   selector: 'app-student-verify',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HumanVerificationComponent],
   templateUrl: './student-verify.component.html',
   styleUrls: ['./student-verify.component.css']
 })
@@ -36,11 +37,13 @@ export class StudentVerifyComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   verifyForm: FormGroup;
   isLoading = false;
+  showVerification = false;
   studentData: StudentVerificationResponse['data'] | null = null;
   errorMessage: string | null = null;
   private safeUrlCache: SafeResourceUrl | null = null;
   private verifySubscription: Subscription | null = null;
   defaultImage = '/images/educare_logo.png';
+  private pendingVerificationData: { year: string; number: string } | null = null;
   
   get year() { return this.verifyForm.get('year'); }
   get number() { return this.verifyForm.get('number'); }
@@ -78,6 +81,17 @@ export class StudentVerifyComponent implements OnInit, OnDestroy {
   }
 
   verifyStudent() {
+    this.pendingVerificationData = {
+      year: this.verifyForm.get('year')?.value,
+      number: this.verifyForm.get('number')?.value
+    };
+    this.showVerification = true;
+  }
+
+  onVerificationComplete() {
+    this.showVerification = false;
+    if (!this.pendingVerificationData) return;
+
     this.safeUrlCache = null;
     this.isLoading = true;
     this.errorMessage = null;
@@ -86,8 +100,7 @@ export class StudentVerifyComponent implements OnInit, OnDestroy {
       this.verifySubscription.unsubscribe();
     }
     
-    const year = this.verifyForm.get('year')?.value;
-    const number = this.verifyForm.get('number')?.value;
+    const { year, number } = this.pendingVerificationData;
     const formattedNumber = `ECI${year}-${number}`;
     this.verifySubscription = this.verifyService.verifyStudent(formattedNumber).subscribe({
       next: (response: StudentVerificationResponse) => {

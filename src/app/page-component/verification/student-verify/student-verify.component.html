@@ -6,8 +6,14 @@
                     <h2 class="h5 mb-0">Student Verification</h2>
                 </div>
                 <div class="card-body">
+                    <!-- Human Verification Popup -->
+                    <app-human-verification 
+                        *ngIf="showVerification"
+                        (verificationComplete)="onVerificationComplete()">
+                    </app-human-verification>
+
                     <!-- Verification Form -->
-                    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()" novalidate>
+                    <form [formGroup]="verifyForm" (ngSubmit)="verifyStudent()" novalidate>
                         <div class="mb-3">
                             <label for="registrationNumber" class="form-label">Student Registration Number</label>
                             <div class="input-group">
