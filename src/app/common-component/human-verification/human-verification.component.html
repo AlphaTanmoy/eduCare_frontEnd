@@ -1,0 +1,28 @@
+<div class="verification-overlay" *ngIf="!isComplete">
+  <div class="verification-container">
+    <div class="verification-content">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Verifying you're human...</p>
+      </div>
+
+      <!-- Checkbox State -->
+      <div *ngIf="!isLoading && !isVerified" class="checkbox-state">
+        <h3>Human Verification</h3>
+        <p>Please verify you're not a robot</p>
+        <label class="checkbox-container">
+          <input type="checkbox" (change)="onCheckboxChange($event)">
+          <span class="checkmark"></span>
+          I'm not a robot
+        </label>
+      </div>
+
+      <!-- Verified State -->
+      <div *ngIf="isVerified" class="verified-state">
+        <div class="checkmark-circle">✓</div>
+        <p>Human Verification Complete!</p>
+      </div>
+    </div>
+  </div>
+</div>
