@@ -189,4 +189,8 @@ export class StudentService {
   updateStudentMarks(student_id: string | null, course_code: string | null, marks: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.update_student_marks, { marks, course_code, student_id });
   }
+
+  downloadRegistrationCard(studentId: string): Observable<Blob> {
+    return this.http.get(GetBaseURL() + Endpoints.student.download_registration_card + "/" + studentId, { responseType: 'blob' });
+  }
 }
