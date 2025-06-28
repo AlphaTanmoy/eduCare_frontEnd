@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { VerifyService } from '../../../../app/service/verify/verify.service';
 import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { Subscription } from 'rxjs';
+import { HumanVerificationComponent } from '../../../common-component/human-verification/human-verification.component';
 
 export interface CertificateVerificationResponse {
   status: number;
@@ -24,7 +25,7 @@ export interface CertificateVerificationResponse {
 @Component({
   selector: 'app-course-certificate-verify',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HumanVerificationComponent],
   templateUrl: './course-certificate-verify.component.html',
   styleUrls: ['./course-certificate-verify.component.css']
 })
@@ -32,11 +33,13 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   verifyForm: FormGroup;
   isLoading = false;
+  showVerification = false;
   certificateData: CertificateVerificationResponse['data'] | null = null;
   errorMessage: string | null = null;
   private safeUrlCache: SafeResourceUrl | null = null;
   private verifySubscription: Subscription | null = null;
   defaultImage = '/images/educare_logo.png';
+  private pendingVerificationData: { year: string; number: string } | null = null;
   
   get year() { return this.verifyForm.get('year'); }
   get number() { return this.verifyForm.get('number'); }
@@ -74,6 +77,17 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
   }
 
   verifyCertificate() {
+    this.pendingVerificationData = {
+      year: this.verifyForm.get('year')?.value,
+      number: this.verifyForm.get('number')?.value
+    };
+    this.showVerification = true;
+  }
+
+  onVerificationComplete() {
+    this.showVerification = false;
+    if (!this.pendingVerificationData) return;
+
     this.safeUrlCache = null;
     this.isLoading = true;
     this.errorMessage = null;
@@ -82,8 +96,7 @@ export class CourseCertificateVerifyComponent implements OnInit, OnDestroy {
       this.verifySubscription.unsubscribe();
     }
     
-    const year = this.verifyForm.get('year')?.value;
-    const number = this.verifyForm.get('number')?.value;
+    const { year, number } = this.pendingVerificationData;
     const certificateNumber = `${year}-${number}`;
     this.verifySubscription = this.verifyService.verifyCertificate(certificateNumber).subscribe({
       next: (response: CertificateVerificationResponse) => {
