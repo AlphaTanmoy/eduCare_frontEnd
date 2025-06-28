@@ -13,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap, faRectangleList } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap, faRectangleList, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
@@ -53,6 +53,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   faArrowRotateLeft = faArrowRotateLeft;
   faGraduationCap = faGraduationCap;
   faRectangleList = faRectangleList;
+  faFileDownload = faFileDownload;
 
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
