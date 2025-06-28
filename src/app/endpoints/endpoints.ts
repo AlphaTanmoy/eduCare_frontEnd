@@ -94,6 +94,7 @@ export const Endpoints = {
     get_student_course_info: "student/get_student_course_info",
     update_student_marks: "student/update_student_marks", 
     student_login: "student/login",
+    download_registration_card: "registration_card",
   },
   student_certificate: {
     issue_certificate: "student_certificate/issue_certificate", 
