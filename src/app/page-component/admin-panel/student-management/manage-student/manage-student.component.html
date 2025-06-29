@@ -125,6 +125,10 @@
                                 *ngIf="student.has_given_exam && 
                                 student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED && student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Download Certificate"
                                 [icon]="faDownload" (click)="DownloadCertificate(student)"></fa-icon>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above"
+                                matTooltip="Download Registration Card" [icon]="faFileDownload"
+                                (click)="downloadRegistrationCard(student)"></fa-icon>
                         </td>
                     </ng-container>
 
@@ -141,10 +145,6 @@
                                 <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
                                     matTooltip="Download Student's Aadhar Card" [icon]="faDownload"
                                     (click)="DownloadAadharCard(student)"></fa-icon>
-
-                                <fa-icon class="icon btn_cursor_pointer text-info me-1" matTooltipPosition="above"
-                                    matTooltip="Download Registration Card" [icon]="faFileDownload"
-                                    (click)="downloadRegistrationCard(student)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
                                     matTooltip="Edit Student Details" [icon]="faEdit"
