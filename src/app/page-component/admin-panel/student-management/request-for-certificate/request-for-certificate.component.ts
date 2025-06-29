@@ -136,6 +136,28 @@ export class RequestForCertificateComponent {
     });
   }
 
+  PublishTicket(ticket: any){
+    this.activeMatProgressBar();
+
+    this.studentCertificateService.publishTicket(ticket._id).subscribe({
+      next: (response: any) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+          this.FetchEligibleStudentListForRaisingTicket();
+          this.FetchAllAvailableRaisedTicketList();
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   FormatDateTime(datetimeValue: any) {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }

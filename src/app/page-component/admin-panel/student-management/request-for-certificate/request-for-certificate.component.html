@@ -377,7 +377,7 @@
 
                                     <div *ngIf="ticket.data_status === CertificateTicketStatus.COMPLETED">
                                         <button class="btn btn-success btn-sm"
-                                            [disabled]="matProgressBarVisible">Publish</button>
+                                            [disabled]="matProgressBarVisible" (click)="PublishTicket(ticket)">Publish</button>
                                     </div>
                                 </div>
                                 <div

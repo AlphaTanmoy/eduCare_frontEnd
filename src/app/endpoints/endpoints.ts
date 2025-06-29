@@ -104,6 +104,7 @@ export const Endpoints = {
     raise_ticket_for_certificate_generation: "student_certificate/raise_ticket_for_certificate_generation", 
     get_available_certificate_ticket_list: "student_certificate/get_available_certificate_ticket_list", 
     accept_reject_ticket: "student_certificate/accept_reject_ticket", 
+    publish_ticket: "student_certificate/publish_ticket", 
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
