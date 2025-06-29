@@ -1,27 +1,54 @@
-<div class="verification-overlay" *ngIf="!isComplete">
-  <div class="verification-container">
-    <div class="verification-content">
-      <!-- Loading State -->
-      <div *ngIf="isLoading" class="loading-state">
-        <div class="spinner"></div>
-        <p>Verifying you're human...</p>
-      </div>
+<div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75" style="z-index: 1050;" *ngIf="!isComplete">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-lg">
+          <div class="card-body p-4 p-md-5">
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="text-center py-4">
+              <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <h4 class="h5 mb-0">Verifying you're human...</h4>
+              <p class="text-muted mb-0">Please wait a moment</p>
+            </div>
 
-      <!-- Checkbox State -->
-      <div *ngIf="!isLoading && !isVerified" class="checkbox-state">
-        <h3>Human Verification</h3>
-        <p>Please verify you're not a robot</p>
-        <label class="checkbox-container">
-          <input type="checkbox" (change)="onCheckboxChange($event)">
-          <span class="checkmark"></span>
-          I'm not a robot
-        </label>
-      </div>
+            <!-- Checkbox State -->
+            <div *ngIf="!isLoading && !isVerified" class="text-center">
+              <div class="mb-4">
+                <i class="bi bi-shield-lock text-primary" style="font-size: 2.5rem;"></i>
+                <h2 class="h4 mt-3 mb-2">Human Verification</h2>
+                <p class="text-muted mb-4">Please verify you're not a robot</p>
+              </div>
+              
+              <div class="form-check d-inline-flex align-items-center p-4 px-5 border rounded-3 bg-light mb-4">
+                <input class="form-check-input me-3" type="checkbox" 
+                       id="humanCheckbox" (change)="onCheckboxChange($event)"
+                       style="width: 1.25rem; height: 1.25rem;">
+                <label class="form-check-label fw-medium fs-5" for="humanCheckbox">
+                  I'm not a robot
+                </label>
+              </div>
+              
+              <div class="mt-4">
+                <p class="small text-muted">
+                  <i class="bi bi-info-circle me-1"></i>
+                  This helps prevent automated submissions.
+                </p>
+              </div>
+            </div>
 
-      <!-- Verified State -->
-      <div *ngIf="isVerified" class="verified-state">
-        <div class="checkmark-circle">✓</div>
-        <p>Human Verification Complete!</p>
+            <!-- Verified State -->
+            <div *ngIf="isVerified" class="text-center py-4">
+              <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 rounded-circle mb-3" 
+                   style="width: 80px; height: 80px;">
+                <i class="bi bi-check2-circle text-success" style="font-size: 2.5rem;"></i>
+              </div>
+              <h3 class="h4 text-success mb-2">Verification Complete!</h3>
+              <p class="text-muted mb-0">Thank you for verifying you're human</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
