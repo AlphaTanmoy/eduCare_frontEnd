@@ -372,8 +372,13 @@
                             [class.active]="i === 0">
 
                             <div class="card existing_ticket w-100 mb-3">
-                                <div class="card-header align-items-center">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                                    <div *ngIf="ticket.data_status === CertificateTicketStatus.COMPLETED">
+                                        <button class="btn btn-success btn-sm"
+                                            [disabled]="matProgressBarVisible">Publish</button>
+                                    </div>
                                 </div>
                                 <div
                                     class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
