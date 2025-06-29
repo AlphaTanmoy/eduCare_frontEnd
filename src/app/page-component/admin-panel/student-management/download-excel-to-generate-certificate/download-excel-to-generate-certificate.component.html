@@ -327,7 +327,7 @@
                             <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
                                 matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
                                 [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
-                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+                                *ngIf="ticket.data_status === CertificateTicketStatus.PROCESSING"></fa-icon>
 
                             <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
                                 <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
