@@ -38,24 +38,6 @@ export const MenuItems: any[] = [
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
     subMenu: [
       {
-        id: 31,
-        name: 'Download Certificate',
-        route: 'academic/download-certificate',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 32,
-        name: 'Download Form',
-        route: '/academic/download-form',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 33,
-        name: 'Pay Fees',
-        route: '/academic/pay-fees',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT],
-      },
-      {
         id: 34,
         name: 'Apply Franchise',
         route: '/academic/apply-franchise',
@@ -144,8 +126,14 @@ export const MenuItems: any[] = [
       },
       {
         id: 55,
-        name: 'Software Download',
+        name: 'Download Software',
         route: '/student/software-download',
+        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
+      },
+      {
+        id: 56,
+        name: 'Download Form',
+        route: '/academic/download-form',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
     ],

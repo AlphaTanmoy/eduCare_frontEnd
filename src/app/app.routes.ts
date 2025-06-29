@@ -2,9 +2,7 @@ import { CourseListComponent } from './page-component/admin-panel/course-managem
 import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './page-component/home/home.component';
-import { DownloadCertificateComponent } from './page-component/academic/download-certificate/download-certificate.component';
-import { DownloadFormComponent } from './page-component/academic/download-form/download-form.component';
-import { PayFeesComponent } from './page-component/academic/pay-fees/pay-fees.component';
+import { DownloadFormComponent } from './page-component/student/download-form/download-form.component';
 import { SpokenEnglishComponent } from './page-component/course-offered/spoken-english/spoken-english.component';
 import { EBookComponent } from './page-component/student/e-book/e-book.component';
 import { MarksDivisionComponent } from './page-component/student/marks-division/marks-division.component';
@@ -82,9 +80,7 @@ export const routes: Routes = [
     { path: 'verification/student', component: StudentVerifyComponent },
     { path: 'verification/center', component: CenterVerifyComponent },
 
-    { path: 'academic/download-certificate', component: DownloadCertificateComponent },
     { path: 'academic/download-form', component: DownloadFormComponent },
-    { path: 'academic/pay-fees', component: PayFeesComponent },
     { path: 'academic/apply-franchise', component: ApplyFranchiesComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON] } },
     { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'academic/register-student', component: RegisterStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
