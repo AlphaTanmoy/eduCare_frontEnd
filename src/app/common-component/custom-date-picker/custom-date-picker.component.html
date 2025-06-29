@@ -1,15 +1,15 @@
 <mat-form-field class="full-width">
   <mat-label>{{ defaultPlaceholder }}</mat-label>
-  <input matInput 
-    [matDatepicker]="picker" 
-    [value]="selectedDate" 
-    (dateChange)="onDateChange($event)" 
+  <input matInput
+    [matDatepicker]="picker"
+    [value]="selectedDate"
+    (dateChange)="onDateChange($event)"
     [matDatepickerFilter]="dateFilter"
     placeholder="DD/MM/YYYY"
     readonly>
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker 
-    #picker 
+  <mat-datepicker
+    #picker
     [startAt]="selectedDate"
     [touchUi]="false"
     panelClass="custom-datepicker">

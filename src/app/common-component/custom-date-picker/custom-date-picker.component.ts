@@ -40,6 +40,7 @@ export class CustomDatePickerComponent implements OnInit, OnChanges {
 
   selectedDate: Date | null = null;
   defaultPlaceholder: string = '';
+  today = new Date();
   dateFilter = (d: Date | null): boolean => {
     // Prevent selecting future dates
     const today = new Date();
