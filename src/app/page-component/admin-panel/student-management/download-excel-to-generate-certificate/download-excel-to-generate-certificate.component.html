@@ -22,7 +22,9 @@
         </div>
     </div>
 
-    <div>
+    
+    <!-- Raised Ticket -->
+    <div *ngIf="all_raised_ticket_list.length > 0">
         <h2 class="text-center" *ngIf="all_raised_ticket_list.length > 0">{{all_raised_ticket_list.length}} Raised Ticket</h2>
         <h2 class="text-center" *ngIf="all_raised_ticket_list.length === 0">No Raised Ticket Found</h2>
 
@@ -112,4 +114,371 @@
         </div>
     </div>
 
+
+    <!-- Accepted Ticket -->
+    <div *ngIf="all_accepted_ticket_list.length > 0">
+        <h2 class="text-center" *ngIf="all_accepted_ticket_list.length > 0">{{all_accepted_ticket_list.length}} Accepted Ticket</h2>
+        <h2 class="text-center" *ngIf="all_accepted_ticket_list.length === 0">No Accepted Ticket Found</h2>
+
+        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
+            *ngIf="all_accepted_ticket_list.length > 0">
+            <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_accepted_ticket_list.length > 1">
+                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="next">
+                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                </button>
+            </div>
+
+
+            <div class="carousel-inner slider_custom">
+                <div *ngFor="let ticket of all_accepted_ticket_list; let i = index" class="carousel-item"
+                    [class.active]="i === 0">
+
+                    <div class="card existing_ticket w-100 mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
+                                matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
+                                [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
+                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+
+                            <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
+                                <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.REJECTED)">Reject</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.ACCEPTED)">Accept</button>
+                            </div>
+                        </div>
+                        <div
+                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+
+                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                {{ticket.ticket_id}}</span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Franchise Name :</span>
+                                {{ticket.franchise_name}}</span>
+
+                            <span class="card-text mb-0">
+                                <span class="fw-bold">Status : </span>
+                                <span
+                                    [ngClass]="
+                                    ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                                    ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                                    ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                                    ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
+                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                </span>
+                            </span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                {{FormatDateTime(ticket.created_at)}}</span>
+                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                {{ticket.remarks}}</span>
+                        </div>
+
+                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                            <div class="eligible_student_list_table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of ticket.student_list">
+                                            <td>{{student.registration_number}}</td>
+                                            <td>{{student.student_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Rejected Ticket -->
+    <div *ngIf="all_rejected_ticket_list.length > 0">
+        <h2 class="text-center" *ngIf="all_rejected_ticket_list.length > 0">{{all_rejected_ticket_list.length}} Reject Ticket</h2>
+        <h2 class="text-center" *ngIf="all_rejected_ticket_list.length === 0">No Rejected Ticket Found</h2>
+
+        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
+            *ngIf="all_rejected_ticket_list.length > 0">
+            <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_rejected_ticket_list.length > 1">
+                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="next">
+                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                </button>
+            </div>
+
+
+            <div class="carousel-inner slider_custom">
+                <div *ngFor="let ticket of all_rejected_ticket_list; let i = index" class="carousel-item"
+                    [class.active]="i === 0">
+
+                    <div class="card existing_ticket w-100 mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
+                                matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
+                                [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
+                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+
+                            <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
+                                <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.REJECTED)">Reject</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.ACCEPTED)">Accept</button>
+                            </div>
+                        </div>
+                        <div
+                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+
+                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                {{ticket.ticket_id}}</span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Franchise Name :</span>
+                                {{ticket.franchise_name}}</span>
+
+                            <span class="card-text mb-0">
+                                <span class="fw-bold">Status : </span>
+                                <span
+                                    [ngClass]="
+                                    ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                                    ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                                    ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                                    ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
+                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                </span>
+                            </span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                {{FormatDateTime(ticket.created_at)}}</span>
+                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                {{ticket.remarks}}</span>
+                        </div>
+
+                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                            <div class="eligible_student_list_table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of ticket.student_list">
+                                            <td>{{student.registration_number}}</td>
+                                            <td>{{student.student_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Processing Ticket -->
+    <div *ngIf="all_processing_ticket_list.length > 0">
+        <h2 class="text-center" *ngIf="all_processing_ticket_list.length > 0">{{all_processing_ticket_list.length}} Processing Ticket</h2>
+        <h2 class="text-center" *ngIf="all_processing_ticket_list.length === 0">No Processing Ticket Found</h2>
+
+        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
+            *ngIf="all_processing_ticket_list.length > 0">
+            <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_processing_ticket_list.length > 1">
+                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="next">
+                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                </button>
+            </div>
+
+
+            <div class="carousel-inner slider_custom">
+                <div *ngFor="let ticket of all_processing_ticket_list; let i = index" class="carousel-item"
+                    [class.active]="i === 0">
+
+                    <div class="card existing_ticket w-100 mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
+                                matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
+                                [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
+                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+
+                            <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
+                                <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.REJECTED)">Reject</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.ACCEPTED)">Accept</button>
+                            </div>
+                        </div>
+                        <div
+                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+
+                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                {{ticket.ticket_id}}</span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Franchise Name :</span>
+                                {{ticket.franchise_name}}</span>
+
+                            <span class="card-text mb-0">
+                                <span class="fw-bold">Status : </span>
+                                <span
+                                    [ngClass]="
+                                    ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                                    ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                                    ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                                    ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
+                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                </span>
+                            </span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                {{FormatDateTime(ticket.created_at)}}</span>
+                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                {{ticket.remarks}}</span>
+                        </div>
+
+                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                            <div class="eligible_student_list_table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of ticket.student_list">
+                                            <td>{{student.registration_number}}</td>
+                                            <td>{{student.student_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Processing Ticket -->
+    <div *ngIf="all_completed_ticket_list.length > 0">
+        <h2 class="text-center" *ngIf="all_completed_ticket_list.length > 0">{{all_completed_ticket_list.length}} Completed Ticket</h2>
+        <h2 class="text-center" *ngIf="all_completed_ticket_list.length === 0">No Completed Ticket Found</h2>
+
+        <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
+            *ngIf="all_completed_ticket_list.length > 0">
+            <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_completed_ticket_list.length > 1">
+                <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-target="#raisedTicketCarousel"
+                    [disabled]="matProgressBarVisible" data-bs-slide="next">
+                    <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
+                </button>
+            </div>
+
+
+            <div class="carousel-inner slider_custom">
+                <div *ngFor="let ticket of all_completed_ticket_list; let i = index" class="carousel-item"
+                    [class.active]="i === 0">
+
+                    <div class="card existing_ticket w-100 mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold text-secondary p-0 m-0">{{ticket.ticket_number}}</h5>
+
+                            <fa-icon class="icon btn_cursor_pointer text-primary cursor_pointer"
+                                matTooltipPosition="above" matTooltip="Download Excel Of This Ticket"
+                                [icon]="faDownload" (click)="DownloadExcelOfTicket(ticket._id)"
+                                *ngIf="ticket.data_status === CertificateTicketStatus.ACCEPTED"></fa-icon>
+
+                            <div *ngIf="ticket.data_status === CertificateTicketStatus.PENDING">
+                                <button class="btn btn-danger btn-sm me-2" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.REJECTED)">Reject</button>
+                                <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
+                                    (click)="AcceptRejectTicket(ticket._id, CertificateTicketStatus.ACCEPTED)">Accept</button>
+                            </div>
+                        </div>
+                        <div
+                            class="card-body p-2 padding_raised_ticket_info d-flex justify-content-between flex-column">
+
+                            <span class="card-text mb-0"><span class="fw-bold">Ticket ID :</span>
+                                {{ticket.ticket_id}}</span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Franchise Name :</span>
+                                {{ticket.franchise_name}}</span>
+
+                            <span class="card-text mb-0">
+                                <span class="fw-bold">Status : </span>
+                                <span
+                                    [ngClass]="
+                                    ticket.data_status === CertificateTicketStatus.PENDING ? 'text_card_idle' :
+                                    ticket.data_status === CertificateTicketStatus.ACCEPTED ? 'text_card_success' :
+                                    ticket.data_status === CertificateTicketStatus.REJECTED ? 'text_card_danger' :
+                                    ticket.data_status === CertificateTicketStatus.PROCESSING ? 'text_card_deleted' :'text_card_primary'">
+                                    {{ GetVerificationStatusLabel(ticket.data_status) }}
+                                </span>
+                            </span>
+
+                            <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
+                                {{FormatDateTime(ticket.created_at)}}</span>
+                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
+                                {{ticket.remarks}}</span>
+                        </div>
+
+                        <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
+                            <div class="eligible_student_list_table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <th>Student Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of ticket.student_list">
+                                            <td>{{student.registration_number}}</td>
+                                            <td>{{student.student_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

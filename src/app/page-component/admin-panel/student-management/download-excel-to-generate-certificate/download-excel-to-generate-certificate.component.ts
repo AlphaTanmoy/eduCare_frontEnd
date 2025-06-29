@@ -53,6 +53,10 @@ export class DownloadExcelToGenerateCertificateComponent {
   available_franchises: Dropdown[] = [];
   franchise_ids: string[] = [];
   all_raised_ticket_list: any[] = [];
+  all_accepted_ticket_list: any[] = [];
+  all_rejected_ticket_list: any[] = [];
+  all_processing_ticket_list: any[] = [];
+  all_completed_ticket_list: any[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -87,7 +91,11 @@ export class DownloadExcelToGenerateCertificateComponent {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.all_raised_ticket_list = response.data;
+          this.all_raised_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.PENDING);
+          this.all_accepted_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.ACCEPTED);
+          this.all_rejected_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.REJECTED);
+          this.all_processing_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.PROCESSING);
+          this.all_completed_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.COMPLETED);
           console.log(this.all_raised_ticket_list)
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
