@@ -85,8 +85,6 @@
 
                             <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
                                 {{FormatDateTime(ticket.created_at)}}</span>
-                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
-                                {{ticket.remarks}}</span>
                         </div>
 
                         <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
@@ -177,8 +175,6 @@
 
                             <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
                                 {{FormatDateTime(ticket.created_at)}}</span>
-                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
-                                {{ticket.remarks}}</span>
                         </div>
 
                         <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
@@ -363,8 +359,6 @@
 
                             <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
                                 {{FormatDateTime(ticket.created_at)}}</span>
-                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
-                                {{ticket.remarks}}</span>
                         </div>
 
                         <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
@@ -393,7 +387,7 @@
     </div>
 
 
-    <!-- Processing Ticket -->
+    <!-- Completed Ticket -->
     <div *ngIf="all_completed_ticket_list.length > 0">
         <div id="raisedTicketCarousel5" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
             <div class="d-flex justify-content-between align-items-center">
@@ -455,8 +449,6 @@
 
                             <span class="card-text mb-0"><span class="fw-bold">Raised At :</span>
                                 {{FormatDateTime(ticket.created_at)}}</span>
-                            <span class="card-text mb-0"><span class="fw-bold">Remarks :</span>
-                                {{ticket.remarks}}</span>
                         </div>
 
                         <div class="eligible_student_list_table_parent padding_raised_ticket_student_info">
