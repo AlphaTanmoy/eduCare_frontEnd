@@ -4,7 +4,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MasterDataService } from '../../../../service/master-data/master-data.service';
-import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 @Component({
   selector: 'app-ytlinks-add',
@@ -22,8 +24,8 @@ export class YtlinksAddComponent implements OnInit {
     private fb: FormBuilder,
     private masterDataService: MasterDataService,
     private router: Router,
-    private toastr: ToastrService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dialog: MatDialog
   ) {
     this.youtubeForm = this.fb.group({
       link_heading: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
@@ -58,6 +60,22 @@ export class YtlinksAddComponent implements OnInit {
     return regExp.test(control.value) ? null : { invalidYoutubeUrl: true };
   }
 
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean = false): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: dialogTitle,
+        text: dialogText,
+        type: dialogType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.youtubeForm.invalid) {
       this.youtubeForm.markAllAsTouched();
@@ -70,15 +88,22 @@ export class YtlinksAddComponent implements OnInit {
     const { link_heading, yt_link } = this.youtubeForm.value;
 
     this.masterDataService.createYouTubeLink(link_heading, yt_link).subscribe({
-      next: () => {
-        this.toastr.success('YouTube link added successfully', 'Success');
-        this.router.navigate(['/control-panel/manage-youtube-link']);
+      next: (response: any) => {
+        if (response?.responseType === 'SUCCESS') {
+          this.openDialog('Success', 'YouTube link added successfully', ResponseTypeColor.SUCCESS, false);
+          this.router.navigate(['/control-panel/manage-youtube-link']);
+        } else {
+          const errorMessage = response?.message || 'Failed to add YouTube link. Please try again.';
+          this.error = errorMessage;
+          this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, false);
+        }
+        this.isLoading = false;
       },
       error: (error: any) => {
         console.error('Error adding YouTube link:', error);
         const errorMessage = error.error?.message || 'Failed to add YouTube link. Please try again.';
         this.error = errorMessage;
-        this.toastr.error(errorMessage, 'Error');
+        this.openDialog('Error', errorMessage, ResponseTypeColor.ERROR, false);
         this.isLoading = false;
       }
     });
