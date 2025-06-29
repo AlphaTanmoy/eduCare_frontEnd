@@ -32,18 +32,11 @@ export const MenuItems: any[] = [
       },
     ],
   },
-  {
+   {
     id: 3,
-    name: 'Academic',
-    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-    subMenu: [
-      {
-        id: 34,
-        name: 'Apply Franchise',
-        route: '/academic/apply-franchise',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
-      },
-    ],
+    name: 'Apply Franchise',
+    route: '/academic/apply-franchise',
+    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
   },
   {
     id: 4,
