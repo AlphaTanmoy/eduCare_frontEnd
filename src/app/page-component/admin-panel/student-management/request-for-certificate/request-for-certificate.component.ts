@@ -44,6 +44,10 @@ export class RequestForCertificateComponent {
 
   eligible_student_list: any[] = [];
   all_raised_ticket_list: any[] = [];
+  all_accepted_ticket_list: any[] = [];
+  all_rejected_ticket_list: any[] = [];
+  all_processing_ticket_list: any[] = [];
+  all_completed_ticket_list: any[] = [];
 
   constructor(
     private router: Router,
@@ -94,8 +98,11 @@ export class RequestForCertificateComponent {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.all_raised_ticket_list = response.data;
-          console.log(this.all_raised_ticket_list)
+          this.all_raised_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.PENDING);
+          this.all_accepted_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.ACCEPTED);
+          this.all_rejected_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.REJECTED);
+          this.all_processing_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.PROCESSING);
+          this.all_completed_ticket_list = response.data.filter((item: any) => item.data_status === CertificateTicketStatus.COMPLETED);
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }

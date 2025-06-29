@@ -209,7 +209,6 @@
 
     <!-- Rejected Ticket -->
     <div *ngIf="all_rejected_ticket_list.length > 0">
-
         <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="text-center">{{all_rejected_ticket_list.length}} Rejected Ticket</h3>
@@ -398,8 +397,7 @@
     <div *ngIf="all_completed_ticket_list.length > 0">
         <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="text-center" *ngIf="all_completed_ticket_list.length > 0">
-                    {{all_completed_ticket_list.length}} Completed Ticket</h3>
+                <h3 class="text-center">{{all_completed_ticket_list.length}} Completed Ticket</h3>
 
                 <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_completed_ticket_list.length > 1">
                     <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#raisedTicketCarousel"
