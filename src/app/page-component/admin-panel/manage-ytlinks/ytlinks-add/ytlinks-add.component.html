@@ -1,1 +1,117 @@
-<p>ytlinks-add works!</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Add New YouTube Link</h4>
+          <button 
+            type="button" 
+            class="btn-close" 
+            aria-label="Close"
+            (click)="onCancel()"
+            [disabled]="isLoading">
+          </button>
+        </div>
+        
+        <div class="card-body">
+          <!-- Error Message -->
+          <div *ngIf="error" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+          </div>
+
+          <form [formGroup]="youtubeForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Link Heading -->
+            <div class="form-group mb-4">
+              <label for="link_heading" class="form-label">
+                Title <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="link_heading" 
+                formControlName="link_heading"
+                [class.is-invalid]="youtubeForm.get('link_heading')?.invalid && youtubeForm.get('link_heading')?.touched"
+                placeholder="Enter video title"
+                autofocus>
+              
+              <div class="invalid-feedback" *ngIf="youtubeForm.get('link_heading')?.errors?.['required']">
+                <i class="fas fa-exclamation-circle me-1"></i>Title is required
+              </div>
+              <div class="invalid-feedback" *ngIf="youtubeForm.get('link_heading')?.errors?.['minlength']">
+                <i class="fas fa-exclamation-circle me-1"></i>Title must be at least 3 characters long
+              </div>
+              <div class="invalid-feedback" *ngIf="youtubeForm.get('link_heading')?.errors?.['maxlength']">
+                <i class="fas fa-exclamation-circle me-1"></i>Title cannot exceed 100 characters
+              </div>
+            </div>
+
+            <!-- YouTube Link -->
+            <div class="form-group mb-4">
+              <label for="yt_link" class="form-label">
+                YouTube URL <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="url" 
+                class="form-control form-control-lg" 
+                id="yt_link" 
+                formControlName="yt_link"
+                [class.is-invalid]="youtubeForm.get('yt_link')?.invalid && youtubeForm.get('yt_link')?.touched"
+                placeholder="https://www.youtube.com/watch?v=...">
+              
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>Example: https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID
+              </div>
+              
+              <div class="invalid-feedback" *ngIf="youtubeForm.get('yt_link')?.errors?.['required']">
+                <i class="fas fa-exclamation-circle me-1"></i>YouTube URL is required
+              </div>
+              <div class="invalid-feedback" *ngIf="youtubeForm.get('yt_link')?.errors?.['invalidYoutubeUrl']">
+                <i class="fas fa-exclamation-circle me-1"></i>Please enter a valid YouTube URL
+              </div>
+              
+              <!-- Preview Section (shown when URL is valid) -->
+              <div class="mt-3" *ngIf="youtubeForm.get('yt_link')?.valid && !youtubeForm.get('yt_link')?.errors">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <span class="text-muted small">Valid YouTube URL detected</span>
+                </div>
+                <div class="ratio ratio-16x9 bg-light rounded">
+                  <iframe 
+                    [src]="getYouTubeEmbedUrl(youtubeForm.get('yt_link')?.value)"
+                    title="YouTube video preview"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions d-flex justify-content-between pt-3 mt-4 border-top">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                (click)="onCancel()"
+                [disabled]="isLoading">
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="youtubeForm.invalid || isLoading"
+                [class.btn-primary]="!isLoading"
+                [class.btn-success]="isLoading">
+                <span *ngIf="!isLoading">
+                  <i class="fas fa-plus me-2"></i>Add Link
+                </span>
+                <span *ngIf="isLoading">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span class="sr-only">Adding...</span>Processing...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
