@@ -127,13 +127,13 @@ export const MenuItems: any[] = [
       {
         id: 55,
         name: 'Download Software',
-        route: '/student/software-download',
+        route: '/student/download-software',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
         id: 56,
         name: 'Download Form',
-        route: '/academic/download-form',
+        route: '/student/download-form',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
     ],

@@ -80,7 +80,7 @@ export const routes: Routes = [
     { path: 'verification/student', component: StudentVerifyComponent },
     { path: 'verification/center', component: CenterVerifyComponent },
 
-    { path: 'academic/download-form', component: DownloadFormComponent },
+    
     { path: 'academic/apply-franchise', component: ApplyFranchiesComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON] } },
     { path: 'academic/edit-franchise/:center_id', component: EditFranchiseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
     { path: 'academic/register-student', component: RegisterStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
@@ -97,7 +97,8 @@ export const routes: Routes = [
     { path: 'student/e-book', component: EBookComponent },
     { path: 'student/notes', component: NotesComponent },
     { path: 'student/marks-division', component: MarksDivisionComponent },
-    { path: 'student/software-download', component: SoftwareDownloadComponent },
+    { path: 'student/download-software', component: SoftwareDownloadComponent },
+    { path: 'student/download-form', component: DownloadFormComponent },
     { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
 
     { path: 'gallary/:type', component: GallaryComponent },
