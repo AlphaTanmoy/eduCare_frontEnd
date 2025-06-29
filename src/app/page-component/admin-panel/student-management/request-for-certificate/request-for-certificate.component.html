@@ -36,18 +36,18 @@
         <div *ngIf="role === UserRole.FRANCHISE">
             <!-- Raised Ticket -->
             <div *ngIf="all_raised_ticket_list.length > 0">
-                <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                <div id="raisedTicketCarousel1" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="text-center">{{all_raised_ticket_list.length}} Raised Ticket</h3>
 
                         <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_raised_ticket_list.length > 1">
                             <button class="btn btn-outline-secondary me-2" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel1" [disabled]="matProgressBarVisible"
                                 data-bs-slide="prev">
                                 <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
                             </button>
                             <button class="btn btn-outline-secondary" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel1" [disabled]="matProgressBarVisible"
                                 data-bs-slide="next">
                                 <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
                             </button>
@@ -115,18 +115,18 @@
 
             <!-- Accepted Ticket -->
             <div *ngIf="all_accepted_ticket_list.length > 0">
-                <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                <div id="raisedTicketCarousel2" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="text-center">{{all_accepted_ticket_list.length}} Accepted Ticket</h3>
 
                         <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_accepted_ticket_list.length > 1">
                             <button class="btn btn-outline-secondary me-2" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel2" [disabled]="matProgressBarVisible"
                                 data-bs-slide="prev">
                                 <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
                             </button>
                             <button class="btn btn-outline-secondary" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel2" [disabled]="matProgressBarVisible"
                                 data-bs-slide="next">
                                 <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
                             </button>
@@ -194,18 +194,18 @@
 
             <!-- Rejected Ticket -->
             <div *ngIf="all_rejected_ticket_list.length > 0">
-                <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                <div id="raisedTicketCarousel3" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="text-center">{{all_rejected_ticket_list.length}} Rejected Ticket</h3>
 
                         <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_rejected_ticket_list.length > 1">
                             <button class="btn btn-outline-secondary me-2" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel3" [disabled]="matProgressBarVisible"
                                 data-bs-slide="prev">
                                 <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
                             </button>
                             <button class="btn btn-outline-secondary" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel3" [disabled]="matProgressBarVisible"
                                 data-bs-slide="next">
                                 <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
                             </button>
@@ -273,7 +273,7 @@
 
             <!-- Processing Ticket -->
             <div *ngIf="all_processing_ticket_list.length > 0">
-                <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
+                <div id="raisedTicketCarousel4" class="carousel slide" data-bs-ride="false" data-bs-interval="false"
                     *ngIf="all_processing_ticket_list.length > 0">
 
                     <div class="d-flex justify-content-between align-items-center">
@@ -281,12 +281,12 @@
 
                         <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_processing_ticket_list.length > 1">
                             <button class="btn btn-outline-secondary me-2" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel4" [disabled]="matProgressBarVisible"
                                 data-bs-slide="prev">
                                 <i class="bi bi-chevron-left" style="font-size: 1.3rem"></i>
                             </button>
                             <button class="btn btn-outline-secondary" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel4" [disabled]="matProgressBarVisible"
                                 data-bs-slide="next">
                                 <i class="bi bi-chevron-right" style="font-size: 1.3rem"></i>
                             </button>
@@ -354,18 +354,18 @@
 
             <!-- Processing Ticket -->
             <div *ngIf="all_completed_ticket_list.length > 0">
-                <div id="raisedTicketCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                <div id="raisedTicketCarousel5" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="text-center">{{all_completed_ticket_list.length}} Completed Ticket</h3>
 
                         <div class="d-flex justify-content-end mt-2 mb-3" *ngIf="all_completed_ticket_list.length > 1">
                             <button class="btn btn-outline-secondary me-2" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel5" [disabled]="matProgressBarVisible"
                                 data-bs-slide="prev">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
                             <button class="btn btn-outline-secondary" type="button"
-                                data-bs-target="#raisedTicketCarousel" [disabled]="matProgressBarVisible"
+                                data-bs-target="#raisedTicketCarousel5" [disabled]="matProgressBarVisible"
                                 data-bs-slide="next">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
