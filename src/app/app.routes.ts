@@ -51,7 +51,6 @@ import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/p
 import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
 import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
 import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
-import { StudentLoginComponent } from './page-component/student/student-login/student-login.component';
 import { StudentDashboardComponent } from './page-component/student/student-dashboard/student-dashboard.component';
 import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './page-component/change-password/change-password.component';
@@ -76,11 +75,6 @@ export const routes: Routes = [
     { 
       path: 'forgot-password', 
       component: ForgotPasswordComponent,
-      canActivate: [] // Explicitly empty array to ensure no guards
-    },
-    { 
-      path: 'student/login', 
-      component: StudentLoginComponent,
       canActivate: [] // Explicitly empty array to ensure no guards
     },
 

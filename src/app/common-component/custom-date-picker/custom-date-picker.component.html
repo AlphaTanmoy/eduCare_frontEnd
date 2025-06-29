@@ -10,7 +10,7 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker 
     #picker 
-    [startAt]="selectedDate || new Date()"
+    [startAt]="selectedDate || defaultDate || today"
     [touchUi]="false"
     panelClass="custom-datepicker">
   </mat-datepicker>
