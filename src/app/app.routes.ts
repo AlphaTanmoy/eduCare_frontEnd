@@ -113,6 +113,7 @@ export const routes: Routes = [
   { path: 'control-panel/add-brand', component: BrandsAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/manage-youtube-link', component: YtlinksManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-youtube-link', component: YtlinksAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+  { path: 'control-panel/add-youtube-link', component: YtlinksAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/manage-notification', component: NotificationManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-notification', component: NotificationAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
