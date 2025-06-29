@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { ResponseTypeColor } from '../../../../constants/commonConstants';
 
 // Services
 import { MasterDataService } from '../../../../service/master-data/master-data.service';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
+
+// Components
+import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
 
 interface YouTubeLink {
   _id: string;
@@ -26,27 +32,28 @@ interface YouTubeLink {
   selector: 'app-ytlinks-management',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   templateUrl: './ytlinks-management.component.html',
   styleUrls: ['./ytlinks-management.component.css'],
   host: { 'class': 'd-block' }
 })
-export class YtlinksManagementComponent implements OnInit {
+export class YtlinksManagementComponent implements OnInit, OnDestroy {
   youtubeLinks: YouTubeLink[] = [];
   isLoading = false;
   error: string | null = null;
   searchQuery: string = '';
   lastUpdated: Date | null = null;
 
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
   constructor(
     private masterDataService: MasterDataService,
-    private router: Router
-  ) {}
-
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     console.log('Initializing YtlinksManagementComponent');
@@ -107,7 +114,7 @@ export class YtlinksManagementComponent implements OnInit {
         console.error('Error loading YouTube links:', err);
         this.error = 'Failed to load YouTube links. Please try again later.';
         this.isLoading = false;
-        
+
         // If it's a 401/403, the user might not have permission
         if (err.status === 401 || err.status === 403) {
           this.error = 'You do not have permission to access this resource';
@@ -184,35 +191,76 @@ export class YtlinksManagementComponent implements OnInit {
   // Delete YouTube link
   confirmDelete(link: YouTubeLink): void {
     const heading = link?.link_heading || 'this link';
-    if (confirm(`Are you sure you want to delete "${heading}"? This action cannot be undone.`)) {
-      this.deleteLink(link._id);
-    }
-  }
 
-  deleteLink(linkId: string): void {
-    if (confirm('Are you sure you want to delete this YouTube link?')) {
-      this.isLoading = true;
-      this.masterDataService.deleteYouTubeLink(linkId).subscribe({
-        next: (response: any) => {
-          if (response?.status === 'success') {
-            console.log('YouTube link deleted successfully');
-            this.loadYouTubeLinks();
-          } else {
-            this.error = response?.message || 'Failed to delete YouTube link';
-            console.error('Delete failed:', response);
-          }
-          this.isLoading = false;
-        },
-        error: (error: any) => {
-          console.error('Error deleting YouTube link:', error);
-          this.error = 'Failed to delete YouTube link. Please try again.';
-          this.isLoading = false;
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(CustomConfirmDialogComponent, {
+      data: {
+        text: `Are you sure you want to delete "${heading}"? This action cannot be undone.`
+      },
+      width: '500px',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteLink(link._id);
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    removeBootstrap(this.bootstrapElements);
+    if (this.bootstrapElements) {
+      removeBootstrap(this.bootstrapElements);
+    }
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean = false): void {
+    // Map the ResponseTypeColor to the values expected by CustomAlertComponent
+    const alertTypeMap = {
+      [ResponseTypeColor.SUCCESS]: 1, // SUCCESS
+      [ResponseTypeColor.WARNING]: 2, // WARNING
+      [ResponseTypeColor.INFO]: 3,    // INFO
+      [ResponseTypeColor.ERROR]: 4    // ERROR
+    };
+
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: dialogTitle,
+        text: dialogText,
+        type: alertTypeMap[dialogType] || 1 // Default to SUCCESS if not found
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (pageReloadNeeded) {
+        location.reload();
+      }
+    });
+  }
+
+  deleteLink(linkId: string): void {
+    this.isLoading = true;
+    this.error = null; // Clear any previous errors
+
+    this.masterDataService.deleteYouTubeLink(linkId).subscribe({
+      next: (response: any) => {
+        if (response?.responseType === 'SUCCESS') {
+          this.openDialog('Success', 'YouTube link deleted successfully', ResponseTypeColor.SUCCESS, true);
+        } else {
+          // Show error alert
+          this.openDialog('Error', response?.message || 'Failed to delete YouTube link', ResponseTypeColor.ERROR, false);
+          console.error('Delete failed:', response);
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.openDialog('Error', 'An error occurred while deleting the YouTube link', ResponseTypeColor.ERROR, false);
+        console.error('Error deleting YouTube link:', error);
+        // Only set error if not already set by loadYouTubeLinks
+        if (!this.error) {
+          this.error = 'Failed to delete YouTube link. Please try again.';
+        }
+      }
+    });
   }
 }

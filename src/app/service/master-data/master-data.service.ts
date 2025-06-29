@@ -28,7 +28,7 @@ export class MasterDataService {
   }
 
   deleteYouTubeLink(linkId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}masterdata/delete_yt_links/${linkId}`);
+    return this.http.post(`${this.baseUrl}masterdata/delete_yt_links/${linkId}`, {});
   }
 
   // Brands
@@ -50,7 +50,7 @@ export class MasterDataService {
   }
 
   deleteBrand(brandId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}masterdata/delete_brands/${brandId}`);
+    return this.http.post(`${this.baseUrl}masterdata/delete_brands/${brandId}`, {});
   }
 
   // Notifications
@@ -70,6 +70,6 @@ export class MasterDataService {
   }
 
   deleteNotification(notificationId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}masterdata/delete_notifications/${notificationId}`);
+    return this.http.post(`${this.baseUrl}masterdata/delete_notifications/${notificationId}`, {});
   }
 }
