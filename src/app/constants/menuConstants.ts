@@ -32,7 +32,7 @@ export const MenuItems: any[] = [
       },
     ],
   },
-   {
+  {
     id: 3,
     name: 'Apply Franchise',
     route: '/academic/apply-franchise',
@@ -41,39 +41,8 @@ export const MenuItems: any[] = [
   {
     id: 4,
     name: 'Course Offered',
+    route: '/course-offered',
     role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-    subMenu: [
-      {
-        id: 41,
-        name: 'Computer',
-        route: '/course-offered/computer',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 42,
-        name: 'Drawing',
-        route: '/course-offered/drawing',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 43,
-        name: 'Dance',
-        route: '/course-offered/dance',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 44,
-        name: 'Spoken English',
-        route: '/course-offered/drawing',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 45,
-        name: 'Others',
-        route: '/course-offered/others',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-    ],
   },
   {
     id: 5,

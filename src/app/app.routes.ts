@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './page-component/home/home.component';
 import { DownloadFormComponent } from './page-component/student/download-form/download-form.component';
-import { SpokenEnglishComponent } from './page-component/course-offered/spoken-english/spoken-english.component';
 import { EBookComponent } from './page-component/student/e-book/e-book.component';
 import { MarksDivisionComponent } from './page-component/student/marks-division/marks-division.component';
 import { NotesComponent } from './page-component/student/notes/notes.component';
@@ -15,10 +14,6 @@ import { AboutRegistrationComponent } from './page-component/about/about-registr
 import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
 import { StudentVerifyComponent } from './page-component/verification/student-verify/student-verify.component';
 import { CourseCertificateVerifyComponent } from './page-component/verification/course-certificate-verify/course-certificate-verify.component';
-import { OtherCourseComponent } from './page-component/course-offered/other-course/other-course.component';
-import { ComputerCourseComponent } from './page-component/course-offered/computer-course/computer-course.component';
-import { DanceCourseComponent } from './page-component/course-offered/dance-course/dance-course.component';
-import { DrawingCourseComponent } from './page-component/course-offered/drawing-course/drawing-course.component';
 import { GallaryComponent } from './page-component/gallary/gallary.component';
 import { ErrorComponent } from './error/error.component';
 import { ContactComponent } from './page-component/contact-us/contact/contact.component';
@@ -53,6 +48,7 @@ import { StudentDashboardComponent } from './page-component/student/student-dash
 import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './page-component/change-password/change-password.component';
 import { RequestForCertificateComponent } from './page-component/admin-panel/student-management/request-for-certificate/request-for-certificate.component';
+import { CourseOfferedComponent } from './page-component/course-offered/course-offered.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -68,11 +64,7 @@ export const routes: Routes = [
   { path: 'academic/register-student', component: RegisterStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'academic/edit-student-details/:student_id', component: EditStudentDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
 
-  { path: 'course-offered/computer', component: ComputerCourseComponent },
-  { path: 'course-offered/dance', component: DanceCourseComponent },
-  { path: 'course-offered/drawing', component: DrawingCourseComponent },
-  { path: 'course-offered/others', component: OtherCourseComponent },
-  { path: 'course-offered/spoken-english', component: SpokenEnglishComponent },
+  { path: 'course-offered', component: CourseOfferedComponent },
 
   { path: 'student/notice/registration', component: NoticeRegistrationComponent },
   { path: 'student/notice/holiday', component: NoticeHolidayComponent },
