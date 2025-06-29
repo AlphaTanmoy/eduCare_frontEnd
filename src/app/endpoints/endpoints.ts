@@ -122,5 +122,17 @@ export const Endpoints = {
     student: "verify/student",
     franchise: "verify/franchise",
     certificate: "verify/certificate"
+  },
+  masterdata: {
+    getYtLink: "masterdata/get_yt_links",
+    getBrands: "masterdata/get_brands",
+    getNotification: "masterdata/get_notifications",
+    createYtLink: "masterdata/create_yt_links",
+    deleteYtLink: "masterdata/delete_yt_links",
+    createBrand: "masterdata/create_brands",
+    deleteBrand: "masterdata/delete_brands",
+    createNotification: "masterdata/create_notifications",
+    deleteNotification: "masterdata/delete_notifications",
   }
+
 }
