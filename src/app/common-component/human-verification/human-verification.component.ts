@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 @Component({
   selector: 'app-human-verification',
@@ -16,9 +17,9 @@ export class HumanVerificationComponent implements OnInit {
   showCheckbox = false;
   isVerified = false;
   isComplete = false;
-  
-  ngOnInit() {
-    // Show loading for 3 seconds
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+ ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
     setTimeout(() => {
       this.isLoading = false;
       this.showCheckbox = true;
@@ -36,4 +37,8 @@ export class HumanVerificationComponent implements OnInit {
       }, 1500);
     }
   }
+
+  ngOnDestroy(): void {
+      removeBootstrap(this.bootstrapElements);
+    }
 }
