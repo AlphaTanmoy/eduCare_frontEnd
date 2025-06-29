@@ -55,6 +55,7 @@ import { NotificationManagementComponent } from './page-component/admin-panel/ma
 import { BrandsAddComponent } from './page-component/admin-panel/manage-brands/brands-add/brands-add.component';
 import { YtlinksAddComponent } from './page-component/admin-panel/manage-ytlinks/ytlinks-add/ytlinks-add.component';
 import { NotificationAddComponent } from './page-component/admin-panel/manage-notification/notification-add/notification-add.component';
+import { PassoutStudentComponent } from './page-component/admin-panel/passout-student/passout-student.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -101,6 +102,7 @@ export const routes: Routes = [
   { path: 'control-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+  { path: 'control-panel/passout-student', component: PassoutStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/update-exam-marks/:studentId', component: ManageExamMarksComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/request-for-certificate', component: RequestForCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/download-excel-for-certificate-generation', component: DownloadExcelToGenerateCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
