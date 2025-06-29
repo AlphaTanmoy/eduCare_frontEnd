@@ -7,6 +7,7 @@ import { MasterDataService } from '../../../../service/master-data/master-data.s
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { ResponseTypeColor } from '../../../../constants/commonConstants';
+import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 
 @Component({
   selector: 'app-ytlinks-add',
@@ -19,6 +20,7 @@ export class YtlinksAddComponent implements OnInit {
   youtubeForm: FormGroup;
   isLoading = false;
   error: string | null = null;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +35,9 @@ export class YtlinksAddComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+  }
 
   getYouTubeEmbedUrl(url: string): SafeResourceUrl {
     if (!url) return '';
@@ -50,12 +54,19 @@ export class YtlinksAddComponent implements OnInit {
     return (match && match[2]?.length === 11) ? match[2] : '';
   }
 
+
+  ngOnDestroy(): void {
+    if (this.bootstrapElements) {
+      removeBootstrap(this.bootstrapElements);
+    }
+  }
+
   // Custom validator for YouTube URLs
   private youtubeUrlValidator(control: { value: string }) {
     if (!control.value) {
       return null;
     }
-    
+
     const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     return regExp.test(control.value) ? null : { invalidYoutubeUrl: true };
   }
