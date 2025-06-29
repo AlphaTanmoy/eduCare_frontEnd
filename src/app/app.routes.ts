@@ -52,6 +52,9 @@ import { CourseOfferedComponent } from './page-component/course-offered/course-o
 import { BrandsManagementComponent } from './page-component/admin-panel/manage-brands/brands-management/brands-management.component';
 import { YtlinksManagementComponent } from './page-component/admin-panel/manage-ytlinks/ytlinks-management/ytlinks-management.component';
 import { NotificationManagementComponent } from './page-component/admin-panel/manage-notification/notification-management/notification-management.component';
+import { BrandsAddComponent } from './page-component/admin-panel/manage-brands/brands-add/brands-add.component';
+import { YtlinksAddComponent } from './page-component/admin-panel/manage-ytlinks/ytlinks-add/ytlinks-add.component';
+import { NotificationAddComponent } from './page-component/admin-panel/manage-notification/notification-add/notification-add.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -105,8 +108,11 @@ export const routes: Routes = [
   { path: 'control-panel/wallet/recharge', component: PayWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/wallet/transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/manage-brand', component: BrandsManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+  { path: 'control-panel/add-brand', component: BrandsAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/manage-youtube-link', component: YtlinksManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+  { path: 'control-panel/add-youtube-link', component: YtlinksAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/manage-notification', component: NotificationManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+  { path: 'control-panel/add-notification', component: NotificationAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
 
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
