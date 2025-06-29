@@ -121,9 +121,9 @@
                                 student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Upload Certificate"
                                 [icon]="faGraduationCap" (click)="CerficiateIssued(student)"></fa-icon>
 
-                            <fa-icon class="icon btn_cursor_pointer text-danger me-1" matTooltipPosition="above"
-                                *ngIf="student.has_given_exam && 
-                                student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED && student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Download Certificate"
+                            <fa-icon class="icon btn_cursor_pointer text-danger me-1" matTooltipPosition="above" *ngIf="student.has_given_exam && 
+                                (student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || student.student_enrollment_status === EnrollmentStatus.COMPLETED) && 
+                                student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Download Certificate"
                                 [icon]="faDownload" (click)="DownloadCertificate(student)"></fa-icon>
 
                             <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above"

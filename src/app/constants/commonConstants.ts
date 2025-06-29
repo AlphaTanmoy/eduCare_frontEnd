@@ -172,6 +172,7 @@ export enum EnrollmentStatus {
   CERTIFICATE_PROCESSING = "CERTIFICATE_PROCESSING",
   CERTIFICATE_REQUEST_REJECTED = "CERTIFICATE_REQUEST_REJECTED",
   CERTIFICATE_ISSUED = "CERTIFICATE_ISSUED",
+  COMPLETED = "COMPLETED"
 }
 
 export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
@@ -182,6 +183,7 @@ export const EnrollmentStatusDescriptions: Record<EnrollmentStatus, string> = {
   [EnrollmentStatus.CERTIFICATE_PROCESSING]: 'Certificate Processing',
   [EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED]: 'Certificate Request Rejected',
   [EnrollmentStatus.CERTIFICATE_ISSUED]: 'Certificate Issued',
+  [EnrollmentStatus.COMPLETED]: 'Course Completed',
 };
 
 export enum CreditDebit {

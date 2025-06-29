@@ -37,4 +37,8 @@ export class StudentCertificateService {
   acceptOrRejectTicket(_ticketid: string, status: string, remarks: string | null) {
     return this.http.post(GetBaseURL() + Endpoints.student_certificate.accept_reject_ticket, { _ticketid, status, remarks });
   }
+
+  publishTicket(_ticketid: string) {
+    return this.http.post(GetBaseURL() + Endpoints.student_certificate.publish_ticket, { _ticketid });
+  }
 }
