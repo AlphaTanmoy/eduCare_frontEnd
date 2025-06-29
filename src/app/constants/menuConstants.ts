@@ -32,18 +32,11 @@ export const MenuItems: any[] = [
       },
     ],
   },
-  {
+   {
     id: 3,
-    name: 'Academic',
-    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-    subMenu: [
-      {
-        id: 34,
-        name: 'Apply Franchise',
-        route: '/academic/apply-franchise',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
-      },
-    ],
+    name: 'Apply Franchise',
+    route: '/academic/apply-franchise',
+    role: [UserRole.MASTER, UserRole.ADMIN, UserRole.COMMON],
   },
   {
     id: 4,
@@ -127,13 +120,13 @@ export const MenuItems: any[] = [
       {
         id: 55,
         name: 'Download Software',
-        route: '/student/software-download',
+        route: '/student/download-software',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
         id: 56,
         name: 'Download Form',
-        route: '/academic/download-form',
+        route: '/student/download-form',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
     ],
