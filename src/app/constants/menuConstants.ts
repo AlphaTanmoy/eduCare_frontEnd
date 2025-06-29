@@ -263,19 +263,19 @@ export const MenuItems: any[] = [
       {
         id: 100,
         name: 'Manage Brand',
-        route: '/manage-brand',
+        route: '/control-panel/manage-brand',
         role: [UserRole.MASTER],
       },
       {
         id: 101,
         name: 'Manage YouTube Link',
-        route: '/manage-youtube-link',
+        route: '/control-panel/manage-youtube-link',
         role: [UserRole.MASTER],
       },
       {
         id: 102,
         name: 'Manage Notification',
-        route: '/manage-notification',
+        route: '/control-panel/manage-notification',
         role: [UserRole.MASTER],
       },
       {
