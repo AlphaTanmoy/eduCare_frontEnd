@@ -1,7 +1,7 @@
 import { CourseListComponent } from './page-component/admin-panel/course-management/course-list/course-list.component';
 import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
-import { HomeComponent } from './page-component/home/home.component';
+import { HomeComponent } from './home-page-components/home/home.component';
 import { DownloadFormComponent } from './page-component/student/download-form/download-form.component';
 import { EBookComponent } from './page-component/student/e-book/e-book.component';
 import { MarksDivisionComponent } from './page-component/student/marks-division/marks-division.component';
