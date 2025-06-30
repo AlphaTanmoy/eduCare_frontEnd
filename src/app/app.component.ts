@@ -5,6 +5,7 @@ import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { VerticalLayoutComponent } from './layout/vertical-layout/vertical-layout.component';
 import { HorizontalLayoutComponent } from './layout/horizontal-layout/horizontal-layout.component';
 import { AuthService } from './service/auth/Auth.Service';
+import { FooterComponent } from './home-page-components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ import { AuthService } from './service/auth/Auth.Service';
     CommonModule,
     FontAwesomeModule,
     HorizontalLayoutComponent,
-    VerticalLayoutComponent
+    VerticalLayoutComponent,
+    FooterComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
