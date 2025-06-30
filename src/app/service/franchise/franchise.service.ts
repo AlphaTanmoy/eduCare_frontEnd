@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -75,5 +76,9 @@ export class FranchiseService {
 
   GetFranchiseWalletRechargeQrCode(): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.franchise.get_franchise_wallet_recharge_qr_code, { responseType: 'blob' });
+  }
+
+  getAllFranchises(): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.franchise.get_all_franchises);
   }
 }
