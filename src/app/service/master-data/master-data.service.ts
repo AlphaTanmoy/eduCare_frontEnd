@@ -58,8 +58,8 @@ export class MasterDataService {
     return this.http.get(`${this.baseUrl}masterdata/get_notifications`);
   }
 
-  getNotifications_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_notifications?limit=5`);
+  getNotifications_home(limit: number = 5): Observable<any> {
+    return this.http.get(`${this.baseUrl}masterdata/get_notifications?limit=${limit}`);
   }
 
   createNotification(heading: string, message: string): Observable<any> {
