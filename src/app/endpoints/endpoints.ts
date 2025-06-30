@@ -135,7 +135,7 @@ export const Endpoints = {
     createBrand: "masterdata/create_brands",
     deleteBrand: "masterdata/delete_brands",
     createNotification: "masterdata/create_notifications",
-    deleteNotification: "masterdata/delete_notifications",
+    deleteNotification: "masterdata/delete_notification",
   }
 
 }
