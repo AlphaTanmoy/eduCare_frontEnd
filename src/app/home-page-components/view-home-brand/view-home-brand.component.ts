@@ -51,13 +51,19 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
         console.log('API Response:', response);
         
         if (response?.data?.length > 0) {
-          // Flatten the array of brand arrays
-          this.brands = response.data
+          // Flatten the array of brand arrays and take first 15 brands
+          const brands = response.data
             .flatMap((item: any) => item.brands || [])
             .filter((brand: any) => brand) // Remove any null/undefined brands
             .slice(0, this.maxBrands);
           
-          console.log('Loaded brands:', this.brands.length);
+          // Create a circular buffer by duplicating the brands array
+          this.brands = [...brands, ...brands, ...brands];
+          
+          // Set initial position to the middle section
+          this.currentSlide = brands.length;
+          
+          console.log('Loaded brands:', brands.length, 'with circular buffer');
           
           // Start auto-sliding after brands are loaded
           this.setupAutoSlide();
@@ -87,12 +93,7 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
     
     // Calculate the position with smooth transitions
     const slideWidth = 100 / this.slidesToShow;
-    let position = -(this.currentSlide * slideWidth);
-    
-    // Add a small offset to ensure smooth transition when looping
-    if (this.currentSlide === 0 && this.brands.length > 0) {
-      position = 0;
-    }
+    const position = -(this.currentSlide * slideWidth);
     
     return `translateX(${position}%)`;
   }
@@ -110,8 +111,28 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
     if (!this.brands || this.brands.length === 0) return;
     
     // Move to the next slide
-    this.currentSlide = (this.currentSlide + 1) % this.brands.length;
+    this.currentSlide++;
     this.cdr.detectChanges();
+    
+    // If we reach the end of the duplicated array, reset to the middle section
+    if (this.currentSlide >= (this.brands.length / 3) * 2) {
+      // Disable transition for the reset
+      const track = document.querySelector('.slider-track') as HTMLElement;
+      if (track) {
+        track.style.transition = 'none';
+      }
+      
+      // Reset to the middle section
+      this.currentSlide = this.brands.length / 3;
+      this.cdr.detectChanges();
+      
+      // Force reflow and re-enable transition
+      setTimeout(() => {
+        if (track) {
+          track.style.transition = 'transform 0.5s ease-in-out';
+        }
+      }, 10);
+    }
   }
 
   prevSlide(): void {
@@ -126,6 +147,17 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
     return Array(this.maxSlide + 1).fill(0).map((_, i) => i);
   }
 
+  isActiveSlide(index: number): boolean {
+    if (!this.brands || !this.brands.length) return false;
+    
+    // Calculate the center of the visible slides
+    const centerIndex = Math.floor(this.slidesToShow / 2);
+    const activeIndex = (this.currentSlide + centerIndex) % (this.brands.length / 3);
+    
+    // Check if the current index is within the visible range
+    return index >= this.currentSlide && index < this.currentSlide + this.slidesToShow;
+  }
+
   goToSlide(index: number): void {
     this.currentSlide = index;
     this.cdr.detectChanges();
@@ -134,18 +166,17 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
   private setupAutoSlide(): void {
     this.clearAutoSlide();
     
-    // Always set up auto-slide if we have brands
     if (this.brands && this.brands.length > 0) {
-      console.log('Setting up circular auto-slide with', this.brands.length, 'brands');
-      
-      // Initial position - start from the first slide
-      this.currentSlide = 0;
+      // Start from the middle of the tripled array
+      this.currentSlide = Math.floor(this.brands.length / 3);
       this.cdr.detectChanges();
       
-      // Set up interval for auto-sliding
-      this.slideInterval = setInterval(() => {
-        this.nextSlide();
-      }, this.SLIDE_INTERVAL_MS);
+      // Small delay before starting auto-slide
+      setTimeout(() => {
+        this.slideInterval = setInterval(() => {
+          this.nextSlide();
+        }, this.SLIDE_INTERVAL_MS);
+      }, 1000);
     }
   }
 
