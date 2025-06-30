@@ -57,6 +57,7 @@ import { YtlinksAddComponent } from './page-component/admin-panel/manage-ytlinks
 import { NotificationAddComponent } from './page-component/admin-panel/manage-notification/notification-add/notification-add.component';
 import { PassoutStudentComponent } from './page-component/admin-panel/student-management/passout-student/passout-student.component';
 import { PublishTicketComponent } from './page-component/admin-panel/student-management/publish-ticket/publish-ticket.component';
+import { ViewAllNotificationsComponent } from './home-page-components/view-all-notifications/view-all-notifications.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -91,7 +92,7 @@ export const routes: Routes = [
   { path: 'contact-us/contact', component: ContactComponent },
   { path: 'contact-us/feedback', component: FeedbackComponent },
   { path: 'contact-us/rules', component: RulesComponent },
-
+  { path: 'view-all-notification', component: ViewAllNotificationsComponent},
   { path: 'control-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/manage-admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
