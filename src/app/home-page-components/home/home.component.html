@@ -1,0 +1,32 @@
+<div class="home-container">
+    <!-- Image Slider Section -->
+    <div class="modal-image-slider">
+        <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+        <div class="slider-container" *ngIf="allImageRendered">
+            <div class="slides-wrapper">
+                <img *ngFor="let image of images; let i = index" [src]="image.fileStream"
+                    [@fadeAnimation]="currentIndex === i" class="slider-image" alt="Image Slider">
+            </div>
+            <div class="indicators" *ngIf="images.length > 1">
+                <span *ngFor="let image of images; let i = index" [class.active]="i === currentIndex">
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Franchise Section -->
+    <app-apply-franchise-home></app-apply-franchise-home>
+
+    <!-- View Home Center Section -->
+    <app-view-home-center></app-view-home-center>
+
+    <!-- YouTube Link Section -->
+    <app-view-yt-link></app-view-yt-link>
+
+    <!-- Happy Students Section -->
+    <app-home-happy-students></app-home-happy-students>
+
+    <!-- Home Brand Section -->
+    <app-view-home-brand></app-view-home-brand>
+</div>
