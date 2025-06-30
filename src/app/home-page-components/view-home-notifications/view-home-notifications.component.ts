@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MasterDataService } from '../../service/master-data/master-data.service';
 import { RouterModule } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 export interface Notification {
   _id: string;
@@ -51,10 +52,15 @@ export class ViewHomeNotificationsComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private masterDataService: MasterDataService) {}
-
-  ngOnInit(): void {
+  constructor(private masterDataService: MasterDataService) { }
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  ngOnInit() {
     this.loadNotifications();
+    this.bootstrapElements = loadBootstrap();
+  }
+
+  ngOnDestroy() {
+    removeBootstrap(this.bootstrapElements);
   }
 
   private loadNotifications(): void {
