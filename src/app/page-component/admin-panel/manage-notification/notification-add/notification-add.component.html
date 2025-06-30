@@ -1,1 +1,100 @@
-<p>notification-add works!</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Add New Notification</h4>
+          <button 
+            type="button" 
+            class="btn-close" 
+            aria-label="Close"
+            (click)="onCancel()"
+            [disabled]="isLoading">
+          </button>
+        </div>
+        
+        <div class="card-body">
+          <!-- Error Message -->
+          <div *ngIf="error" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+          </div>
+
+          <form [formGroup]="notificationForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Heading -->
+            <div class="form-group mb-4">
+              <label for="heading" class="form-label">
+                Heading <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="heading" 
+                formControlName="heading"
+                [class.is-invalid]="notificationForm.get('heading')?.invalid && notificationForm.get('heading')?.touched"
+                placeholder="Enter notification heading"
+                autofocus>
+              
+              <div class="invalid-feedback" *ngIf="notificationForm.get('heading')?.errors?.['required']">
+                <i class="fas fa-exclamation-circle me-1"></i>Heading is required
+              </div>
+              <div class="invalid-feedback" *ngIf="notificationForm.get('heading')?.errors?.['minlength']">
+                <i class="fas fa-exclamation-circle me-1"></i>Heading must be at least 3 characters long
+              </div>
+              <div class="invalid-feedback" *ngIf="notificationForm.get('heading')?.errors?.['maxlength']">
+                <i class="fas fa-exclamation-circle me-1"></i>Heading cannot exceed 200 characters
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group mb-4">
+              <label for="message" class="form-label">
+                Message <span class="text-danger">*</span>
+              </label>
+              <textarea 
+                class="form-control form-control-lg" 
+                id="message" 
+                formControlName="message"
+                [class.is-invalid]="notificationForm.get('message')?.invalid && notificationForm.get('message')?.touched"
+                placeholder="Enter notification message"
+                rows="4"></textarea>
+              
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>Enter the detailed notification message
+              </div>
+              
+              <div class="invalid-feedback" *ngIf="notificationForm.get('message')?.errors?.['required']">
+                <i class="fas fa-exclamation-circle me-1"></i>Message is required
+              </div>
+              <div class="invalid-feedback" *ngIf="notificationForm.get('message')?.errors?.['minlength']">
+                <i class="fas fa-exclamation-circle me-1"></i>Message must be at least 10 characters long
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions d-flex justify-content-between pt-3 mt-4 border-top">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                (click)="onCancel()"
+                [disabled]="isLoading">
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="notificationForm.invalid || isLoading">
+                <span *ngIf="!isLoading">
+                  <i class="fas fa-save me-2"></i>Save Notification
+                </span>
+                <span *ngIf="isLoading">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Saving...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
