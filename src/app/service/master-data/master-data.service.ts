@@ -17,7 +17,7 @@ export class MasterDataService {
   }
 
   getYouTubeLinks_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_yt_links?limit=5`);
+    return this.http.get(`${this.baseUrl}masterdata/get_yt_links?limit=1`);
   }
 
   createYouTubeLink(linkHeading: string, ytLink: string): Observable<any> {
