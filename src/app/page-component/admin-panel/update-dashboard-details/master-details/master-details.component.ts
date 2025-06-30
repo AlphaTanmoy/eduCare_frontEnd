@@ -9,11 +9,31 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../../../service/dashboard/dashboard.service';
 
+interface MasterDataUpdate {
+  master_data_type: string;
+  master_data_value: string;
+}
+
+interface MasterDataResponse {
+  status: number;
+  message: string;
+  data: any;
+}
+
+interface MasterDataUpdate {
+  master_data_type: string;
+  master_data_value: string;
+}
+
+interface MasterDataResponse {
+  status: number;
+}
 @Component({
   selector: 'app-master-details',
+  standalone: true,
   imports: [CommonModule, FormsModule, MatProgressBarModule],
   templateUrl: './master-details.component.html',
-  styleUrl: './master-details.component.css'
+  styleUrls: ['./master-details.component.css']
 })
 
 export class MasterDetailsComponent implements OnInit, OnDestroy {
@@ -23,6 +43,9 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
   facebook: string = "";
   youtube: string = "";
   whatsapp: string = "";
+  totalFranchise: string = "0";
+  happyStudent: string = "0";
+  totalStudent: string = "0";
 
   readonly dialog = inject(MatDialog);
   matProgressBarVisible: boolean = false;
@@ -35,10 +58,8 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService
   ) { }
 
-  ngOnInit(): void {
-    this.bootstrapElements = loadBootstrap();
-
-    this.dashboardService.getAllDashboardMasterData().subscribe({
+  private loadMasterData(forceRefresh: boolean = false): void {
+    this.dashboardService.getAllDashboardMasterData(forceRefresh).subscribe({
       next: (response) => {
         try {
           if (response.status !== 200) {
@@ -66,6 +87,15 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
               if (item.master_data_type === MasterDataType.WHATSAPP) {
                 this.whatsapp = item.master_data_value;
               }
+              if (item.master_data_type === MasterDataType.TOTAL_FRANCHISE) {
+                this.totalFranchise = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.HAPPY_STUDENT) {
+                this.happyStudent = item.master_data_value;
+              }
+              if (item.master_data_type === MasterDataType.TOTAL_STUDENT) {
+                this.totalStudent = item.master_data_value;
+              }
             }
           }
         } catch (error) {
@@ -78,176 +108,97 @@ export class MasterDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
+    this.loadMasterData();
+  }
+
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
   }
 
-  saveEmail(): void {
+  saveAll(): void {
+    // Validate required fields
     if (!this.email || this.email.trim().length === 0) {
       this.openDialog("Master Data", "Email ID is required", ResponseTypeColor.ERROR, false);
       return;
     }
-    this.activeMatProgressBar();
-
-    this.adminService.UploadDashboardEmailID(this.email).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
-
-        if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
-          return;
-        }
-
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-  }
-
-  savePhone1(): void {
     if (!this.phone1 || this.phone1.trim().length === 0) {
       this.openDialog("Master Data", "Primary phone number is required", ResponseTypeColor.ERROR, false);
       return;
     }
-    this.activeMatProgressBar();
-
-    this.adminService.UploadDashboardPhone1(this.phone1).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
-
-        if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
-          return;
-        }
-
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-  }
-
-  savePhone2(): void {
     if (!this.phone2 || this.phone2.trim().length === 0) {
       this.openDialog("Master Data", "Secondary phone number is required", ResponseTypeColor.ERROR, false);
       return;
     }
-    this.activeMatProgressBar();
-
-    this.adminService.UploadDashboardPhone2(this.phone2).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
-
-        if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
-          return;
-        }
-
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-  }
-
-  saveFacebook(): void {
     if (!this.facebook || this.facebook.trim().length === 0) {
-      this.openDialog("Master Data", "Facebook url is required", ResponseTypeColor.ERROR, false);
+      this.openDialog("Master Data", "Facebook URL is required", ResponseTypeColor.ERROR, false);
       return;
     }
-    this.activeMatProgressBar();
-
-    this.adminService.UploadDashboardFacebook(this.facebook).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
-
-        if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
-          return;
-        }
-
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-  }
-
-  saveYoutube(): void {
     if (!this.youtube || this.youtube.trim().length === 0) {
-      this.openDialog("Master Data", "Youtube url is required", ResponseTypeColor.ERROR, false);
+      this.openDialog("Master Data", "YouTube URL is required", ResponseTypeColor.ERROR, false);
       return;
     }
-    this.activeMatProgressBar();
-
-    this.adminService.UploadDashboardYoutube(this.youtube).subscribe({
-      next: (response) => {
-        this.hideMatProgressBar();
-
-        if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
-          return;
-        }
-
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
-      },
-      error: (err) => {
-        this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
-      }
-    });
-  }
-
-  saveWhatsapp(): void {
     if (!this.whatsapp || this.whatsapp.trim().length === 0) {
-      this.openDialog("Master Data", "Whatsapp url is required", ResponseTypeColor.ERROR, false);
+      this.openDialog("Master Data", "WhatsApp URL is required", ResponseTypeColor.ERROR, false);
       return;
     }
+
     this.activeMatProgressBar();
 
-    this.adminService.UploadDashboardWhatsapp(this.whatsapp).subscribe({
-      next: (response) => {
+    const masterDataUpdates: MasterDataUpdate[] = [
+      { master_data_type: 'EMAIL', master_data_value: this.email },
+      { master_data_type: 'PRIMARY_PHONE', master_data_value: this.phone1 },
+      { master_data_type: 'SECONDARY_PHONE', master_data_value: this.phone2 },
+      { master_data_type: 'FACEBOOK', master_data_value: this.facebook },
+      { master_data_type: 'YOUTUBE', master_data_value: this.youtube },
+      { master_data_type: 'WHATSAPP', master_data_value: this.whatsapp },
+      { master_data_type: 'TOTAL_FRANCHISE', master_data_value: this.totalFranchise },
+      { master_data_type: 'HAPPY_STUDENT', master_data_value: this.happyStudent },
+      { master_data_type: 'TOTAL_STUDENT', master_data_value: this.totalStudent }
+    ];
+
+    this.dashboardService.updateDashboardMasterData({ masterDataUpdates }).subscribe({
+      next: (response: MasterDataResponse) => {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.openDialog("Master Data", response.message, ResponseTypeColor.SUCCESS, true);
+          this.openDialog("Master Data", "All settings saved successfully!", ResponseTypeColor.SUCCESS, true);
           return;
         }
 
-        this.openDialog("Master Data", response.message, ResponseTypeColor.ERROR, false);
+        this.openDialog("Master Data", response.message || "Failed to save settings", ResponseTypeColor.ERROR, false);
       },
-      error: (err) => {
+      error: (err: any) => {
         this.hideMatProgressBar();
-        this.openDialog("Master Data", "Internal server error", ResponseTypeColor.ERROR, false);
+        this.openDialog("Master Data", "Failed to save settings. Please try again.", ResponseTypeColor.ERROR, false);
       }
     });
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
-    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: {
+        title: dialogTitle,
+        text: dialogText,
+        type: dialogType
+      }
+    });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe(() => {
       if (pageReloadNeeded) {
-        location.reload();
+        // Instead of reloading the entire page, just refresh the data
+        this.loadMasterData(true);
       }
     });
   }
 
-  activeMatProgressBar() {
+  private activeMatProgressBar(): void {
     this.matProgressBarVisible = true;
     this.cdr.detectChanges();
   }
 
-  hideMatProgressBar() {
+  private hideMatProgressBar(): void {
     this.matProgressBarVisible = false;
     this.cdr.detectChanges();
   }
