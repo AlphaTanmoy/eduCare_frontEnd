@@ -32,4 +32,7 @@
 
     <!-- Home Brand Section -->
     <app-view-home-brand></app-view-home-brand>
+
+    <!-- Footer Section - Only show when user is not logged in -->
+    <app-footer *ngIf="!isLoggedIn"></app-footer>
 </div>

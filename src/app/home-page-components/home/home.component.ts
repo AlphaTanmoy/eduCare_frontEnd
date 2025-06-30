@@ -17,6 +17,8 @@ import { ViewYtLinkComponent } from '../view-yt-link/view-yt-link.component';
 import { HomeHappyStudentsComponent } from '../home-happy-students/home-happy-students.component';
 import { ViewHomeBrandComponent } from '../view-home-brand/view-home-brand.component';
 import { ViewHomeNotificationsComponent } from '../view-home-notifications/view-home-notifications.component';
+import { FooterComponent } from '../footer/footer.component';
+import { AuthService } from '../../service/auth/Auth.Service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +32,8 @@ import { ViewHomeNotificationsComponent } from '../view-home-notifications/view-
     ViewYtLinkComponent,
     ViewHomeNotificationsComponent,
     HomeHappyStudentsComponent,
-    ViewHomeBrandComponent
+    ViewHomeBrandComponent,
+    FooterComponent
   ],
   animations: [
     trigger('fadeAnimation', [
@@ -54,14 +57,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   allImageRendered = false;
   matProgressBarVisible = false;
   isLoading = true;
-  readonly dialog = inject(MatDialog);
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+  isLoggedIn: boolean = false;
 
   constructor(
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
-    private indexedDbService: IndexedDbService
-  ) { }
+    private dialog: MatDialog,
+    private indexedDbService: IndexedDbService,
+    private authService: AuthService
+  ) { 
+    // Subscribe to authentication state changes
+    this.authService.loginStatus$.subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
+      this.cdr.detectChanges();
+    });
+  }
 
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();
