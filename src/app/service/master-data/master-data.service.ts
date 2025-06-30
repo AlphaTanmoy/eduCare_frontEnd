@@ -37,7 +37,7 @@ export class MasterDataService {
   }
 
   getBrands_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_brands?limit=5`);
+    return this.http.get(`${this.baseUrl}masterdata/get_brands?limit=10`);
   }
 
   createBrand(brandName: string, description: string, image: File): Observable<any> {
