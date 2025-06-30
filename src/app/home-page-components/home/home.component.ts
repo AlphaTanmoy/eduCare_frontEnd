@@ -16,6 +16,7 @@ import { ViewHomeCenterComponent } from '../view-home-center/view-home-center.co
 import { ViewYtLinkComponent } from '../view-yt-link/view-yt-link.component';
 import { HomeHappyStudentsComponent } from '../home-happy-students/home-happy-students.component';
 import { ViewHomeBrandComponent } from '../view-home-brand/view-home-brand.component';
+import { ViewHomeNotificationComponent } from '../view-home-center/view-home-notification/view-home-notification.component';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,8 @@ import { ViewHomeBrandComponent } from '../view-home-brand/view-home-brand.compo
     ViewHomeCenterComponent,
     ViewYtLinkComponent,
     HomeHappyStudentsComponent,
-    ViewHomeBrandComponent
+    ViewHomeBrandComponent,
+    ViewHomeNotificationComponent
   ],
   animations: [
     trigger('fadeAnimation', [
