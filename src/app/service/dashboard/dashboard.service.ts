@@ -32,4 +32,8 @@ export class DashboardService {
   getAllDashboardMasterData(): Observable<any> {
     return this.http.get<any>(GetBaseURL() + Endpoints.dashboard.get_dashboard_master_data);
   }
+
+  updateDashboardMasterData(data: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.dashboard.update_dashboard_master_data, data);
+  }
 }
