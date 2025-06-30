@@ -1,1 +1,96 @@
-<p>view-home-notifications works!</p>
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 text-center">
+        <h2 class="section-title">Latest Updates</h2>
+        <div class="title-divider"></div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="row">
+      <div class="col-12 col-md-6 mb-4" *ngFor="let _ of [1,2,3,4,5]">
+        <div class="notification-skeleton">
+          <div class="skeleton-line" style="width: 70%;"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line" style="width: 90%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="alert alert-danger">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- No Notifications -->
+    <div *ngIf="!loading && !error && notifications.length === 0" class="text-center py-5">
+      <div class="mb-3">
+        <i class="bi bi-bell-slash" style="font-size: 3rem; color: #6c757d;"></i>
+      </div>
+      <h4>No notifications available</h4>
+      <p class="text-muted">Check back later for updates</p>
+    </div>
+
+    <!-- Notifications Content -->
+    <div *ngIf="!loading && !error && notifications.length > 0" class="row">
+      <!-- Main Notification (First Item) -->
+      <div class="col-12 mb-4" @fadeIn>
+        <div class="card h-100 border-0 shadow-sm main-notification">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="notification-badge bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                <i class="bi bi-megaphone fs-4"></i>
+              </div>
+              <div>
+                <h3 class="h5 mb-1 fw-bold">{{ notifications[0].heading || 'Notification' }}</h3>
+                <small class="text-muted">
+                  <i class="bi bi-clock me-1"></i>
+                  {{ notifications[0].createdAt | date:'medium' }}
+                  <span class="ms-2">
+                    <i class="bi bi-hash me-1"></i>{{ notifications[0].notification_code }}
+                  </span>
+                </small>
+              </div>
+            </div>
+            <p class="mb-0">{{ notifications[0].message || 'No message content available.' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other Notifications -->
+      <div class="col-12 col-md-6 mb-4" *ngFor="let notification of notifications | slice:1; let i = index" @fadeIn>
+        <div class="d-flex w-100">
+          <div class="notification-badge bg-light text-dark bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+            <i class="bi bi-bell fs-5"></i>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-start">
+              <h4 class="h6 mb-1 fw-bold">{{ notification.heading || 'Notification' }}</h4>
+              <small class="text-muted ms-2 text-nowrap">
+                {{ notification.createdAt | date:'shortTime' }}
+              </small>
+            </div>
+            <p class="small text-muted mb-1">{{ notification.message || 'No message content available.' }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                {{ notification.createdAt | date:'mediumDate' }}
+              </small>
+              <span class="badge bg-secondary bg-opacity-10 text-secondary">
+                {{ notification.notification_code }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Button -->
+    <div class="text-center mt-4">
+      <a routerLink="/notifications" class="btn btn-outline-primary">
+        View All Notifications <i class="bi bi-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
