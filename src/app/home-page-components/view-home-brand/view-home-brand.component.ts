@@ -26,7 +26,6 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
   maxBrands = 15; // Maximum number of brands to show
   isLoading = false;
   error: string | null = null;
-  showFewItems = false; // Flag for when there are 3 or fewer brands
   private slideInterval: any = null;
   private readonly SLIDE_INTERVAL_MS = 3000; // 3 seconds
 
@@ -58,20 +57,11 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
             .filter((brand: any) => brand) // Remove any null/undefined brands
             .slice(0, this.maxBrands);
           
-          // Set flag for few items
-          this.showFewItems = brands.length <= 3;
+          // Create a circular buffer by duplicating the brands array
+          this.brands = [...brands, ...brands, ...brands];
           
-          // Only create circular buffer if we have 6 or more brands
-          if (brands.length >= 6) {
-            // Create a circular buffer by duplicating the brands array
-            this.brands = [...brands, ...brands, ...brands];
-            // Set initial position to the middle section
-            this.currentSlide = brands.length;
-          } else {
-            // For fewer than 6 brands, just use the original array
-            this.brands = [...brands];
-            this.currentSlide = 0;
-          }
+          // Set initial position to the middle section
+          this.currentSlide = brands.length;
           
           console.log('Loaded brands:', brands.length, 'with circular buffer');
           
@@ -181,16 +171,12 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
       this.currentSlide = Math.floor(this.brands.length / 3);
       this.cdr.detectChanges();
       
-      // Only enable auto-sliding if there are 6 or more unique brands
-      const uniqueBrandsCount = this.brands.length / 3; // Since we triple the array for circular effect
-      if (uniqueBrandsCount >= 6) {
-        // Small delay before starting auto-slide
-        setTimeout(() => {
-          this.slideInterval = setInterval(() => {
-            this.nextSlide();
-          }, this.SLIDE_INTERVAL_MS);
-        }, 1000);
-      }
+      // Small delay before starting auto-slide
+      setTimeout(() => {
+        this.slideInterval = setInterval(() => {
+          this.nextSlide();
+        }, this.SLIDE_INTERVAL_MS);
+      }, 1000);
     }
   }
 

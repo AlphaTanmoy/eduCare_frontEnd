@@ -18,7 +18,7 @@
     </div>
 
     <!-- Brands Slider -->
-    <div *ngIf="!isLoading && !error" class="brands-slider" [class.few-items]="showFewItems">
+    <div *ngIf="!isLoading && !error" class="brands-slider">
       <div class="slider-track" [style.transform]="trackTransform">
         <div *ngFor="let brand of brands; let i = index" 
              class="slider-item"
