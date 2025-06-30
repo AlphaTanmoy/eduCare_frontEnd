@@ -1,1 +1,144 @@
-<p>brands-management works!</p>
+<div class="container py-4">
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ error }}
+    <button type="button" class="btn-close" (click)="error = null" aria-label="Close"></button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading brands...</p>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-0">Brands Management</h2>
+      <p class="text-muted mb-0">Manage your brand listings</p>
+    </div>
+    <button class="btn btn-primary" [routerLink]="['/control-panel/add-brand']" [disabled]="isLoading">
+      <i class="bi bi-plus-lg me-2"></i>Add Brand
+    </button>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card h-100 border-start border-4 border-primary">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase text-muted mb-1">Total Brands</h6>
+              <h3 class="mb-0">{{ brands.length }}</h3>
+            </div>
+            <div class="bg-primary bg-opacity-10 p-3 rounded">
+              <i class="fas fa-tags text-primary fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card h-100 border-start border-4 border-success">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase text-muted mb-1">Active</h6>
+              <h3 class="mb-0">{{ brands.length }}</h3>
+            </div>
+            <div class="bg-success bg-opacity-10 p-3 rounded">
+              <i class="fas fa-check-circle text-success fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-start border-4 border-warning">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase text-muted mb-1">Last Updated</h6>
+              <h3 class="mb-0">{{ lastUpdated ? (lastUpdated | date:'short') : 'N/A' }}</h3>
+            </div>
+            <div class="bg-warning bg-opacity-10 p-3 rounded">
+              <i class="fas fa-sync-alt text-warning fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !error && filteredBrands.length === 0" class="text-center py-5">
+    <div class="mb-3">
+      <i class="bi bi-tags display-4 text-muted"></i>
+    </div>
+    <h4 class="mb-2">No Brands Found</h4>
+    <p class="text-muted mb-4">Get started by adding your first brand</p>
+    <button class="btn btn-primary" [routerLink]="['/control-panel/add-brand']" [disabled]="isLoading">
+      <i class="bi bi-plus-lg me-2"></i>Add Your First Brand
+    </button>
+  </div>
+
+  <!-- Brands Table -->
+  <div *ngIf="!isLoading && !error && filteredBrands.length > 0" class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0">Brands List</h5>
+    </div>
+    <div class="card-body">
+      <!-- Search -->
+      <div class="mb-4">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search brands..." 
+            [(ngModel)]="searchQuery"
+            (input)="filterBrands()"
+            [disabled]="isLoading">
+        </div>
+      </div>
+
+      <!-- Brands Grid -->
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div *ngFor="let brand of filteredBrands" class="col">
+          <div class="card h-100">
+            <div class="position-relative" style="height: 200px; background-color: #f8f9fa;">
+              <img 
+                [src]="getImageUrl(brand)" 
+                [alt]="brand.brand_name"
+                (error)="onImageError($event, brand)"
+                class="img-fluid h-100 w-100"
+                style="object-fit: contain; padding: 1rem;"
+              >
+              <button 
+                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                (click)="deleteBrand(brand._id)"
+                [disabled]="isLoading"
+                title="Delete Brand">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+            <div class="card-body text-center">
+              <h5 class="card-title mb-2">{{ brand.brand_name }}</h5>
+              <div *ngIf="brand.external_link" class="mt-2">
+                <a [href]="brand.external_link" target="_blank" class="btn btn-outline-primary btn-sm w-100">
+                  <i class="bi bi-box-arrow-up-right me-1"></i> Visit Website
+                </a>
+              </div>
+              <div class="small text-muted mt-2" *ngIf="brand.createdAt">
+                Added {{ brand.createdAt | date:'mediumDate' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
