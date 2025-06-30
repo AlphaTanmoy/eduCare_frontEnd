@@ -1,1 +1,60 @@
-<p>view-home-center works!</p>
+<!-- Franchise Centers Section -->
+<div class="franchise-section py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Our Centers</h2>
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading centers...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="alert alert-danger text-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- Franchise Slider -->
+    <div *ngIf="!isLoading && !error" class="franchise-slider">
+      <!-- Navigation Arrows -->
+      <button class="slider-nav prev" (click)="prevSlide()" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      
+      <div class="slider-container">
+        <div class="franchise-slider-track" [style.transform]="trackTransform">
+          <div *ngFor="let franchise of franchises; let i = index" 
+               class="franchise-slide"
+               [class.active]="isActiveSlide(i)">
+            <div class="card h-100">
+              <div class="card-body text-center p-4">
+                <!-- Franchise Image -->
+                <div class="franchise-image-container mb-3">
+                  <img 
+                    [src]="getImageUrl(franchise)" 
+                    [alt]="franchise.franchiseName || 'Center image'"
+                    class="img-fluid rounded-circle"
+                    loading="lazy"
+                    (error)="onImageError($event)">
+                </div>
+                
+                <!-- Franchise Details -->
+                <h5 class="franchise-name mb-2">{{ franchise.franchiseName }}</h5>
+                <p class="franchise-head text-muted mb-0" *ngIf="franchise.franchiseHeadName !== 'N/A'">
+                  <i class="bi bi-person-fill me-1"></i> {{ franchise.franchiseHeadName }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="slider-nav next" (click)="nextSlide()" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
