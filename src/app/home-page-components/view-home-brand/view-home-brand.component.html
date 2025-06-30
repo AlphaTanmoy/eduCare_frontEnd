@@ -1,1 +1,43 @@
-<p>view-home-brand works!</p>
+<!-- view-home-brand.component.html -->
+<div class="brands-section py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Our Brands</h2>
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading brands...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="alert alert-danger text-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- Brands Slider -->
+    <div *ngIf="!isLoading && !error" class="brands-slider">
+      <div class="slider-track" [style.transform]="trackTransform">
+        <div *ngFor="let brand of brands; let i = index" class="slider-item">
+          <div class="card h-100 border-0 shadow-sm hover-shadow">
+            <div class="card-body d-flex flex-column align-items-center p-3">
+              <div class="d-flex align-items-center justify-content-center mb-3" 
+                   style="height: 100px; width: 100%; overflow: hidden;">
+                <img 
+                  [src]="getImageUrl(brand)" 
+                  [alt]="brand?.brand_name || 'Brand logo'"
+                  class="img-fluid"
+                  loading="lazy"
+                  (error)="onImageError($event)"
+                  style="max-height: 100%; max-width: 100%; object-fit: contain;">
+              </div>
+              <div class="text-center text-truncate w-100">{{ brand?.brand_name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
