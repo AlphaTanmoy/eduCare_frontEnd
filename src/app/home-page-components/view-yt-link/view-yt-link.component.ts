@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MasterDataService } from '../../service/master-data/master-data.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 
 export interface YouTubeLink {
   _id: string;
@@ -37,7 +38,7 @@ export class ViewYtLinkComponent implements OnInit {
   loading = true;
   error: string | null = null;
   safeUrl: SafeResourceUrl | null = null;
-
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   constructor(
     private masterDataService: MasterDataService,
     private sanitizer: DomSanitizer
@@ -45,6 +46,11 @@ export class ViewYtLinkComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadYouTubeVideo();
+    this.bootstrapElements = loadBootstrap();
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 
   private loadYouTubeVideo(): void {
