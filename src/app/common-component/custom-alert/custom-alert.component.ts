@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Inject, ElementRef, Renderer2 } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
 import { ResponseTypeColor, type ResponseTypeColor as ResponseType } from '../../constants/commonConstants';
 
@@ -10,9 +9,10 @@ import { ResponseTypeColor, type ResponseTypeColor as ResponseType } from '../..
   standalone: true,
   imports: [CommonModule, MatDialogModule],
   templateUrl: './custom-alert.component.html',
-  styleUrls: ['./custom-alert.component.css']
+  styleUrls: ['./custom-alert.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomAlertComponent implements OnInit, OnDestroy {
   // Make the enum available in template
   ResponseTypeColor = ResponseTypeColor;
   textColorClass: string = 'text-success';
@@ -21,8 +21,8 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { title: string; text: string; type: ResponseType },
-    private el: ElementRef,
-    private renderer: Renderer2,
+    private dialogRef: MatDialogRef<CustomAlertComponent>,
+    private cdr: ChangeDetectorRef
   ) { }
 
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
@@ -30,9 +30,7 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.formattedText = this.data.text.replace(/\n/g, '<br>');
-  }
-
-  ngAfterViewInit(): void {
+    
     // Set classes based on alert type
     switch (this.data.type) {
       case ResponseTypeColor.WARNING:
@@ -51,24 +49,18 @@ export class CustomAlertComponent implements OnInit, AfterViewInit, OnDestroy {
         this.textColorClass = 'text-success';
         this.buttonClass = 'btn btn-success m-3';
     }
+    
+    // Trigger change detection
+    this.cdr.markForCheck();
+  }
 
-    // Apply color classes
-    const titleElement = this.el.nativeElement.querySelector('#alert_header');
-    const bodyElement = this.el.nativeElement.querySelector('#alert_body');
-    const buttonElement = this.el.nativeElement.querySelector('#alert_button_element');
-
-    if (titleElement) {
-      this.renderer.addClass(titleElement, this.textColorClass);
-    }
-    if (bodyElement) {
-      this.renderer.addClass(bodyElement, this.textColorClass);
-    }
-    if (buttonElement) {
-      this.renderer.setAttribute(buttonElement, 'class', this.buttonClass);
-    }
+  onClose(): void {
+    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {
-    removeBootstrap(this.bootstrapElements);
+    if (this.bootstrapElements) {
+      removeBootstrap(this.bootstrapElements);
+    }
   }
 }

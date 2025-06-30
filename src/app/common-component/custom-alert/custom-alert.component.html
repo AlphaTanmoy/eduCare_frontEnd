@@ -1,8 +1,10 @@
 <div class="alert-container p-0" style="width: 600px; max-width: 100%;">
   <div class="alert-content">
-    <h2 id="alert_header" class="p-3" id="alert_header" style="background-color: var(--light);">{{
-      data.title }}</h2>
-    <mat-dialog-content id="alert_body" style="margin-bottom: 4rem;" class="text_style" [innerHTML]="formattedText"></mat-dialog-content>
+    <h2 [class]="textColorClass + ' p-3'" style="background-color: var(--light);">
+      {{ data.title }}
+    </h2>
+    <mat-dialog-content [class]="'text_style ' + textColorClass" style="margin-bottom: 4rem;" [innerHTML]="formattedText">
+    </mat-dialog-content>
 
     <svg *ngIf="data.type === ResponseTypeColor.SUCCESS" class="alert-svg success-svg" viewBox="0 0 24 24">
       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
@@ -24,7 +26,7 @@
     </svg>
 
     <mat-dialog-actions class="alert-actions m-3">
-      <button id="alert_button_element" class="{{buttonClass}}" mat-button mat-dialog-close>Close</button>
+      <button [class]="buttonClass" mat-button (click)="onClose()">Close</button>
     </mat-dialog-actions>
   </div>
 </div>
@@ -32,7 +34,6 @@
 
 <!-- To call this component from another component
 =========================================================================
-
 another.component.ts
 --------------------------------------------------
 import { Component, inject } from '@angular/core';
