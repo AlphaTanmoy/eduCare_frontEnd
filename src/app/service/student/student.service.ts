@@ -180,8 +180,6 @@ export class StudentService {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.delete_student, { studentId: studentId });
   }
 
-
-
   getStudentCourseInfo(studentId: string | null): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_course_info + "/" + studentId);
   }
@@ -192,5 +190,10 @@ export class StudentService {
 
   downloadRegistrationCard(studentId: string): Observable<Blob> {
     return this.http.get(GetBaseURL() + Endpoints.student.download_registration_card + "/" + studentId, { responseType: 'blob' });
+  }
+
+  getAllAvailablePassoutStudents(page_number: number, page_size: number): Observable<any> {
+    console.log("HI");
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.get_all_passout_students, { page_number, page_size });
   }
 }
