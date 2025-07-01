@@ -31,7 +31,10 @@
                             data.student_enrollment_status === EnrollmentStatus.REGISTERED ? 'text_card_idle' :
                             data.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
                             data.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED ? 'text_card_danger' :
-                            data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary_light' : 'text_card_primary'
+                            data.student_enrollment_status === EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE ? 'text_card_deleted' :
+                            data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING ? 'text_card_success_deep' :
+                            data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED ? 'text_card_danger' :
+                            data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary' : 'text_card_primary_light'
                             ">{{ GetEnrollmentStatusLabel(data.student_enrollment_status) }}
                         </span>
                     </p>
