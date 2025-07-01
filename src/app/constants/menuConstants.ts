@@ -197,6 +197,24 @@ export const MenuItems: any[] = [
             route: '/control-panel/update-dashboard-details/master-details',
             role: [UserRole.MASTER],
           },
+          {
+            id: 913,
+            name: 'Manage Brand',
+            route: '/control-panel/manage-brand',
+            role: [UserRole.MASTER],
+          },
+          {
+            id: 914,
+            name: 'Manage YouTube Link',
+            route: '/control-panel/manage-youtube-link',
+            role: [UserRole.MASTER],
+          },
+          {
+            id: 915,
+            name: 'Manage Notification',
+            route: '/control-panel/manage-notification',
+            role: [UserRole.MASTER],
+          },
         ],
       },
       {
@@ -245,44 +263,33 @@ export const MenuItems: any[] = [
       {
         id: 97,
         name: 'Manage Student',
-        route: '/control-panel/manage-student',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
-      },
-      {
-        id: 98,
-        name: 'Passout Student',
-        route: '/control-panel/passout-student',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
-      },
-      {
-        id: 99,
-        name: 'Raise Ticket For Certificate',
-        route: '/control-panel/request-for-certificate',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
-      },
-      {
-        id: 100,
-        name: 'View Certificate Ticket',
-        route: '/control-panel/download-excel-for-certificate-generation',
-        role: [UserRole.MASTER, UserRole.ADMIN],
-      },
-      {
-        id: 101,
-        name: 'Manage Brand',
-        route: '/control-panel/manage-brand',
-        role: [UserRole.MASTER],
-      },
-      {
-        id: 102,
-        name: 'Manage YouTube Link',
-        route: '/control-panel/manage-youtube-link',
-        role: [UserRole.MASTER],
-      },
-      {
-        id: 103,
-        name: 'Manage Notification',
-        route: '/control-panel/manage-notification',
-        role: [UserRole.MASTER],
+        subMenu: [
+          {
+            id: 971,
+            name: 'Active Student',
+            route: '/control-panel/manage-student/active-student',
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+          },
+          {
+            id: 972,
+            name: 'Passout Student',
+            route: '/control-panel/manage-student/passout-student',
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+          },
+          {
+            id: 973,
+            name: 'Raise Ticket For Certificate',
+            route: '/control-panel/manage-student/request-for-certificate',
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+          },
+          {
+            id: 974,
+            name: 'View Certificate Ticket',
+            route: '/control-panel/manage-student/download-excel-for-certificate-generation',
+            role: [UserRole.MASTER, UserRole.ADMIN],
+          },
+        ],
       },
       {
         id: 104,
