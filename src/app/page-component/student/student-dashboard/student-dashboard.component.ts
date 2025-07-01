@@ -16,7 +16,7 @@ import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 export class StudentDashboardComponent implements OnInit {
   profile: any = {};
   isLoading = false;
-  studentPhoto: string = 'assets/images/default_student_photo.jpg';
+  studentPhoto: string = 'image//default_student_photo.jpg';
   hasImageError = false;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   constructor(private studentService: StudentService) { }

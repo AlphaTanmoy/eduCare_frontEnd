@@ -138,7 +138,7 @@ export class BrandsManagementComponent implements OnInit, OnDestroy {
 
   getImageUrl(brand: Brand): string {
     if (!brand) {
-      return 'assets/images/placeholder-brand.png';
+      return 'image//placeholder-brand.png';
     }
     
     // Check for blob data first
@@ -150,7 +150,7 @@ export class BrandsManagementComponent implements OnInit, OnDestroy {
     const imageUrl = brand.brand_image || brand.image || brand.imageUrl || '';
     
     if (!imageUrl) {
-      return 'assets/images/placeholder-brand.png';
+      return 'image//placeholder-brand.png';
     }
     
     if (typeof imageUrl === 'string' && 
@@ -167,14 +167,14 @@ export class BrandsManagementComponent implements OnInit, OnDestroy {
       return imageUrl;
     }
     
-    return 'assets/images/placeholder-brand.png';
+    return 'image//placeholder-brand.png';
   }
 
   onImageError(event: Event, brand: Brand): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'assets/images/placeholder-brand.png';
+    img.src = 'image//placeholder-brand.png';
     if (brand) {
-      brand.brand_image = 'assets/images/placeholder-brand.png';
+      brand.brand_image = 'image//placeholder-brand.png';
     }
   }
 

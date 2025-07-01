@@ -9,7 +9,7 @@ import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
   standalone: true,
   imports: [CommonModule, MatButtonModule],
   templateUrl: './apply-franchise-home.component.html',
-  styles: ['./apply-franchise-home.component.css']
+  styleUrl: './apply-franchise-home.component.css'
 })
 export class ApplyFranchiseHomeComponent implements OnInit, OnDestroy {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };

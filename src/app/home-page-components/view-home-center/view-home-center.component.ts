@@ -79,12 +79,12 @@ export class ViewHomeCenterComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(franchise: Franchise): string {
-    return franchise?.franchiseHeadImage || 'assets/images/placeholder.png';
+    return franchise?.franchiseHeadImage || 'image//placeholder.png';
   }
 
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
-    imgElement.src = 'assets/images/placeholder.png';
+    imgElement.src = 'image//placeholder.png';
   }
 
   nextSlide(): void {
