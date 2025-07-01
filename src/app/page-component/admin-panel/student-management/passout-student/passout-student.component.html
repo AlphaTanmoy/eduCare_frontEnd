@@ -103,15 +103,6 @@
                             [innerHTML]="'Enrollment <br> Status Update'"> </th>
 
                         <td mat-cell *matCellDef="let student" class="text-center">
-                            <fa-icon class="icon btn_cursor_pointer text-success" matTooltipPosition="above"
-                                *ngIf="isFranchise && student.student_enrollment_status === EnrollmentStatus.REGISTERED && student.data_status === ActiveInactiveStatus.ACTIVE"
-                                matTooltip="Pay Fees" [icon]="faMoneyCheckDollar" (click)="PayFees(student)"></fa-icon>
-
-                            <fa-icon class="icon btn_cursor_pointer text-danger me-1" matTooltipPosition="above"
-                                *ngIf="isFranchise && !student.marks_updated_for_atleast_one_course && 
-                                student.student_enrollment_status === EnrollmentStatus.FEES_PAID && student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Refund Fees"
-                                [icon]="faArrowRotateLeft" (click)="RefundFees(student)"></fa-icon>
-
                             <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
                                 *ngIf="student.student_enrollment_status === EnrollmentStatus.FEES_PAID && student.data_status === ActiveInactiveStatus.ACTIVE"
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
@@ -146,15 +137,6 @@
                                 <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
                                     matTooltip="Download Student's Aadhar Card" [icon]="faDownload"
                                     (click)="DownloadAadharCard(student)"></fa-icon>
-
-                                <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
-                                    matTooltip="Edit Student Details" [icon]="faEdit"
-                                    (click)="EditStudent(student.student_id)"></fa-icon>
-
-                                <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
-                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED"
-                                    matTooltip="Delete Student" [icon]="faTrash"
-                                    (click)="DeleteStudent(student)"></fa-icon>
                             </div>
                         </td>
                     </ng-container>
