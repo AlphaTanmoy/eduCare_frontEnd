@@ -14,6 +14,7 @@ export const Endpoints = {
     upload_dashboard_slideshow_image: "dashboard/upload_dashboard_slideshow_image",
     delete_dashboard_slideshow_image: "dashboard/delete_dashboard_slideshow_image",
     get_dashboard_master_data: "dashboard/get_dashboard_master_data",
+    update_dashboard_master_data: "dashboard/update_dashboard_master_data",
   },
   admin: {
     update_email_id: "admin/update_email_id",
@@ -69,6 +70,7 @@ export const Endpoints = {
     get_franchise_id_from_user_id: "franchise/get_franchise_id_from_user_id",
     get_franchise_wallet_recharge_qr_code: "franchise/get_franchise_wallet_recharge_qr_code",
     get_all_centers_basic_info: "franchise/get_all_centers_basic_info",
+    get_all_franchises: "franchise/get_all_franchises"
   },
   course: {
     get_all_parent_categories: 'parent-category/getAll',
@@ -133,7 +135,7 @@ export const Endpoints = {
     createBrand: "masterdata/create_brands",
     deleteBrand: "masterdata/delete_brands",
     createNotification: "masterdata/create_notifications",
-    deleteNotification: "masterdata/delete_notifications",
+    deleteNotification: "masterdata/delete_notification",
   }
 
 }

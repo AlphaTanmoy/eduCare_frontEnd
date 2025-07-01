@@ -1,0 +1,27 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-primary">Our Achievements</h2>
+      <p class="lead text-muted">Helping students achieve their dreams every day</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let stat of stats; let i = index">
+        <div class="card h-100 border-0 shadow-sm counter-animation" [style.animation-delay]="getAnimationDelay(i) + 'ms'">
+          <div class="card-body text-center p-4">
+            <div class="icon-container">
+              <span class="material-icons">{{stat.icon}}</span>
+            </div>
+            <h2 class="display-5 fw-bold text-{{stat.color}} mb-2">
+              {{stat.value | number}}
+              <span *ngIf="stat.title === 'Happy Students'" class="text-success">+</span>
+            </h2>
+            <h5 class="text-muted mb-0">{{stat.title}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

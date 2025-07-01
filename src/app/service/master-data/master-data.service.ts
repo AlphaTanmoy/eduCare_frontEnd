@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GetBaseURL } from '../../endpoints/endpoints';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class MasterDataService {
   }
 
   getYouTubeLinks_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_yt_links?limit=5`);
+    return this.http.get(`${this.baseUrl}masterdata/get_yt_links?limit=1`);
   }
 
   createYouTubeLink(linkHeading: string, ytLink: string): Observable<any> {
@@ -37,7 +38,7 @@ export class MasterDataService {
   }
 
   getBrands_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_brands?limit=5`);
+    return this.http.get(`${this.baseUrl}masterdata/get_brands?limit=10`);
   }
 
   createBrand(brandName: string, description: string, image: File): Observable<any> {
@@ -58,8 +59,8 @@ export class MasterDataService {
     return this.http.get(`${this.baseUrl}masterdata/get_notifications`);
   }
 
-  getNotifications_home(): Observable<any> {
-    return this.http.get(`${this.baseUrl}masterdata/get_notifications?limit=5`);
+  getNotifications_home(limit: number = 5): Observable<any> {
+    return this.http.get(`${this.baseUrl}masterdata/get_notifications?limit=${limit}`);
   }
 
   createNotification(heading: string, message: string): Observable<any> {
@@ -70,6 +71,6 @@ export class MasterDataService {
   }
 
   deleteNotification(notificationId: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}masterdata/delete_notifications/${notificationId}`, {});
+    return this.http.post(`${this.baseUrl}masterdata/delete_notification/${notificationId}`, {});
   }
 }

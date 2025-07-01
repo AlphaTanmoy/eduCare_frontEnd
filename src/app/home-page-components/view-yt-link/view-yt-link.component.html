@@ -1,0 +1,36 @@
+<section class="py-5 bg-white">
+  <div class="container">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-muted">Loading video...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="alert alert-danger text-center" role="alert">
+      {{ error }}
+    </div>
+
+    <!-- Video Content -->
+    <div *ngIf="!loading && videoData && safeUrl" class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="video-container">
+          <div class="ratio ratio-16x9">
+            <iframe 
+              [src]="safeUrl"
+              [title]="videoData.link_heading || 'YouTube video player'"
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div *ngIf="videoData.link_heading" class="card-body text-center p-4">
+            <h3 class="card-title h4 mb-0">{{ videoData.link_heading }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11,7 +11,6 @@
                         <label class="form-label mb-1">Email ID<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="email" placeholder="Type Email id">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="saveEmail()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -19,7 +18,6 @@
                         <label class="form-label mb-1">Primary Phone Number<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="phone1" placeholder="Type Primary Phone Number">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="savePhone1()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -27,7 +25,6 @@
                         <label class="form-label mb-1">Secondary Phone Number<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="phone2" placeholder="Type Secondary Phone Number">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="savePhone2()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -35,7 +32,6 @@
                         <label class="form-label mb-1">Facebook URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="facebook" placeholder="Type Facebook URL">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="saveFacebook()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -43,7 +39,6 @@
                         <label class="form-label mb-1">YouTube URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="youtube" placeholder="Type YouTube URL">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="saveYoutube()" [disabled]="matProgressBarVisible">Save</button>
                 </div>
 
                 <div class="input-group d-flex flex-row align-items-end mb-3 w-100">
@@ -51,7 +46,54 @@
                         <label class="form-label mb-1">WhatsApp URL<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" [(ngModel)]="whatsapp" placeholder="Type WhatsApp URL">
                     </div>
-                    <button class="btn btn-primary" type="button" (click)="saveWhatsapp()" [disabled]="matProgressBarVisible">Save</button>
+                </div>
+                
+                <!-- Statistics Section -->
+                <div class="mt-4 pt-3 border-top">
+                    <h5 class="mb-3">Statistics</h5>
+                    <div class="row g-3">
+                        <!-- Total Franchise -->
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Total Franchise</h6>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" [(ngModel)]="totalFranchise" placeholder="Enter total franchise">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Happy Students -->
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Happy Students</h6>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" [(ngModel)]="happyStudent" placeholder="Enter happy students">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Students -->
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Total Students</h6>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" [(ngModel)]="totalStudent" placeholder="Enter total students">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button class="btn btn-primary" type="button" (click)="saveAll()" [disabled]="matProgressBarVisible">
+                        <i class="fas fa-save me-2"></i>Save All Changes
+                    </button>
                 </div>
             </div>
         </div>

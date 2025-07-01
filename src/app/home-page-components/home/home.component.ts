@@ -11,12 +11,27 @@ import { ResponseTypeColor } from '../../constants/commonConstants';
 import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
 import { convertBlobToBase64 } from '../../utility/common-util';
 import { IndexedDBItemKey } from '../../constants/commonConstants';
+import { ApplyFranchiseHomeComponent } from '../apply-franchise-home/apply-franchise-home.component';
+import { ViewHomeCenterComponent } from '../view-home-center/view-home-center.component';
+import { ViewYtLinkComponent } from '../view-yt-link/view-yt-link.component';
+import { HomeHappyStudentsComponent } from '../home-happy-students/home-happy-students.component';
+import { ViewHomeBrandComponent } from '../view-home-brand/view-home-brand.component';
+import { ViewHomeNotificationsComponent } from '../view-home-notifications/view-home-notifications.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  imports: [CommonModule, MatProgressBarModule],
+  styleUrls: ['./home.component.css'],
+  imports: [
+    CommonModule, 
+    MatProgressBarModule,
+    ApplyFranchiseHomeComponent,
+    ViewHomeCenterComponent,
+    ViewYtLinkComponent,
+    ViewHomeNotificationsComponent,
+    HomeHappyStudentsComponent,
+    ViewHomeBrandComponent
+  ],
   animations: [
     trigger('fadeAnimation', [
       state('true', style({ opacity: 1, zIndex: 1 })),
@@ -39,14 +54,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   allImageRendered = false;
   matProgressBarVisible = false;
   isLoading = true;
-  readonly dialog = inject(MatDialog);
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor(
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
-    private indexedDbService: IndexedDbService
-  ) { }
+    private dialog: MatDialog,
+    private indexedDbService: IndexedDbService,
+  ) { 
+  }
 
   async ngOnInit() {
     this.bootstrapElements = loadBootstrap();

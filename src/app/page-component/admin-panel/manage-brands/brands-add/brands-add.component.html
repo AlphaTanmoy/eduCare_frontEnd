@@ -1,1 +1,104 @@
-<p>brands-add works!</p>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Add New Brand</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
+            <!-- Brand Name -->
+            <div class="mb-3">
+              <label for="brandName" class="form-label">Brand Name <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="brandName" 
+                formControlName="brandName"
+                [class.is-invalid]="brandForm.get('brandName')?.invalid && brandForm.get('brandName')?.touched"
+                placeholder="Enter brand name">
+              <div *ngIf="brandForm.get('brandName')?.invalid && brandForm.get('brandName')?.touched" class="invalid-feedback">
+                <div *ngIf="brandForm.get('brandName')?.errors?.['required']">Brand name is required</div>
+                <div *ngIf="brandForm.get('brandName')?.errors?.['minlength']">
+                  Brand name must be at least 2 characters long
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+              <textarea 
+                class="form-control" 
+                id="description" 
+                rows="3"
+                formControlName="description"
+                [class.is-invalid]="brandForm.get('description')?.invalid && brandForm.get('description')?.touched"
+                placeholder="Enter brand description"></textarea>
+              <div *ngIf="brandForm.get('description')?.invalid && brandForm.get('description')?.touched" class="invalid-feedback">
+                Description is required
+              </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="mb-4">
+              <label class="form-label">Brand Logo <span class="text-danger">*</span></label>
+              <div class="card mb-3">
+                <div class="card-body text-center">
+                  <div *ngIf="!previewUrl" class="p-4 border rounded bg-light">
+                    <i class="bi bi-image fs-1 text-muted"></i>
+                    <p class="mt-2 mb-0 text-muted">No image selected</p>
+                  </div>
+                  <img *ngIf="previewUrl" [src]="previewUrl" class="img-fluid mb-3" style="max-height: 200px;" alt="Preview">
+                  
+                  <div class="d-flex justify-content-center gap-2">
+                    <input 
+                      type="file" 
+                      id="image" 
+                      (change)="onFileSelected($event)"
+                      accept="image/*"
+                      class="d-none"
+                      #fileInput>
+                    <button 
+                      type="button" 
+                      class="btn btn-outline-primary btn-sm"
+                      (click)="fileInput.click()">
+                      <i class="bi bi-upload"></i> Choose Image
+                    </button>
+                    <button 
+                      *ngIf="previewUrl"
+                      type="button" 
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="previewUrl = null; brandForm.patchValue({image: null}); selectedFile = null">
+                      <i class="bi bi-trash"></i> Remove
+                    </button>
+                  </div>
+                  <div *ngIf="brandForm.get('image')?.invalid && brandForm.get('image')?.touched" class="text-danger small mt-2">
+                    Please select an image
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="d-flex justify-content-between">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                [routerLink]="['/control-panel/add-brand']">
+                <i class="bi bi-arrow-left"></i> Back to List
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="brandForm.invalid || isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                {{ isLoading ? 'Saving...' : 'Save Brand' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
