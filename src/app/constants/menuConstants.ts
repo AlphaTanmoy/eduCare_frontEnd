@@ -268,30 +268,24 @@ export const MenuItems: any[] = [
       },
       {
         id: 101,
-        name: 'Publish Ticket',
-        route: '/control-panel/publish-ticket',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
-      },
-      {
-        id: 102,
         name: 'Manage Brand',
         route: '/control-panel/manage-brand',
         role: [UserRole.MASTER],
       },
       {
-        id: 103,
+        id: 102,
         name: 'Manage YouTube Link',
         route: '/control-panel/manage-youtube-link',
         role: [UserRole.MASTER],
       },
       {
-        id: 104,
+        id: 103,
         name: 'Manage Notification',
         route: '/control-panel/manage-notification',
         role: [UserRole.MASTER],
       },
       {
-        id: 105,
+        id: 104,
         name: 'Data Backup',
         route: '/control-panel/data-backup',
         role: [UserRole.MASTER],

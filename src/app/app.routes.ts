@@ -56,7 +56,6 @@ import { BrandsAddComponent } from './page-component/admin-panel/manage-brands/b
 import { YtlinksAddComponent } from './page-component/admin-panel/manage-ytlinks/ytlinks-add/ytlinks-add.component';
 import { NotificationAddComponent } from './page-component/admin-panel/manage-notification/notification-add/notification-add.component';
 import { PassoutStudentComponent } from './page-component/admin-panel/student-management/passout-student/passout-student.component';
-import { PublishTicketComponent } from './page-component/admin-panel/student-management/publish-ticket/publish-ticket.component';
 import { ViewAllNotificationsComponent } from './home-page-components/view-all-notifications/view-all-notifications.component';
 
 export const routes: Routes = [
@@ -105,7 +104,6 @@ export const routes: Routes = [
   { path: 'control-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/manage-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/passout-student', component: PassoutStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
-  { path: 'control-panel/publish-ticket', component: PublishTicketComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/update-exam-marks/:studentId', component: ManageExamMarksComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/request-for-certificate', component: RequestForCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/download-excel-for-certificate-generation', component: DownloadExcelToGenerateCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
