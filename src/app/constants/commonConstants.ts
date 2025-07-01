@@ -204,6 +204,7 @@ export enum CertificateTicketStatus {
   REJECTED = "REJECTED",
   PROCESSING = "PROCESSING",
   COMPLETED = "COMPLETED",
+  PUBLISHED = "PUBLISHED"
 }
 
 export const CertificateTicketStatusDescriptions: Record<CertificateTicketStatus, string> = {
@@ -212,6 +213,7 @@ export const CertificateTicketStatusDescriptions: Record<CertificateTicketStatus
   [CertificateTicketStatus.REJECTED]: 'Rejected',
   [CertificateTicketStatus.PROCESSING]: 'Processing',
   [CertificateTicketStatus.COMPLETED]: 'Completed',
+  [CertificateTicketStatus.PUBLISHED]: 'Published',
 };
 
 export type ResponseTypeColor = typeof ResponseTypeColor[keyof typeof ResponseTypeColor];

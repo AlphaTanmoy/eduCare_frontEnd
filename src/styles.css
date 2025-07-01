@@ -126,7 +126,15 @@ body {
 }
 
 .text_card_primary_light {
-    background-color: #e373ff38 !important;
+    background-color: #a662ff38 !important;
+    border-radius: 5px !important;
+    padding: 2px 4px !important;
+    border: 1px solid gray;
+    font-size: 0.8rem;
+}
+
+.text_card_success_deep {
+    background-color: #d9ff014d !important;
     border-radius: 5px !important;
     padding: 2px 4px !important;
     border: 1px solid gray;

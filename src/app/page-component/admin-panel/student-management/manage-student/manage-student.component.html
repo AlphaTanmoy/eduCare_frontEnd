@@ -75,8 +75,9 @@
                             student.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
                             student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED ? 'text_card_danger' :
                             student.student_enrollment_status === EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE ? 'text_card_deleted' :
-                            student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING ? 'text_card_primary_light' :
-                            student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED ? 'text_card_danger' : 'text_card_primary'
+                            student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING ? 'text_card_success_deep' :
+                            student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED ? 'text_card_danger' :
+                            student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary' : 'text_card_primary_light'
                             ">{{ GetEnrollmentStatusLabel(student.student_enrollment_status) }}
                             </span>
                         </td>
