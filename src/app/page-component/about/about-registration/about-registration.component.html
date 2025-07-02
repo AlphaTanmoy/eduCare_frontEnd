@@ -1,1 +1,153 @@
-<p>about-registration works!</p>
+<!-- Banner Slideshow -->
+<div class="position-relative bg-dark text-white" style="height: 400px; overflow: hidden;">
+  <div class="h-100 w-100" style="transition: opacity 0.5s ease-in-out;"
+    [style.background]="'url(' + bannerImages[currentBannerIndex] + ') no-repeat center center/cover'">
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+      style="background: rgba(0, 0, 0, 0.5);">
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold">Registration Process</h1>
+        <p class="lead">Join us and start your learning journey today</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slider Controls -->
+  <button class="position-absolute top-50 start-0 translate-middle-y btn btn-link text-white"
+    (click)="previousBanner()">
+    <i class="bi bi-chevron-left fs-1"></i>
+  </button>
+  <button class="position-absolute top-50 end-0 translate-middle-y btn btn-link text-white" (click)="nextBanner()">
+    <i class="bi bi-chevron-right fs-1"></i>
+  </button>
+
+  <!-- Slider Indicators -->
+  <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex">
+    <button *ngFor="let image of bannerImages; let i = index" type="button" class="btn btn-sm mx-1 p-2 rounded-circle"
+      [class.bg-white]="currentBannerIndex === i" [class.bg-secondary]="currentBannerIndex !== i"
+      (click)="goToBanner(i)" [attr.aria-label]="'Slide ' + (i + 1)">
+    </button>
+  </div>
+</div>
+
+<!-- Registration Process -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <h2 class="fw-bold text-center mb-4">What Is <span style="color: #ff0000;">Edu</span>
+          <span style="color: #0000ff;">Care</span> ?
+        </h2>
+        <div class="w-25 mx-auto border-top border-3 border-primary mb-5"></div>
+
+        <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border border-light mb-5 position-relative overflow-hidden">
+          <!-- Decorative elements -->
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 0; opacity: 0.05;">
+            <div class="position-absolute"
+              style="top: -50px; left: -50px; width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(45deg, #ff0000, #0000ff);">
+            </div>
+            <div class="position-absolute"
+              style="bottom: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(45deg, #0000ff, #ff0000);">
+            </div>
+          </div>
+
+          <div class="position-relative" style="z-index: 1;">
+            <!-- Main description -->
+            <div class="bg-light p-4 mb-4 rounded-3 border-start border-5 border-primary">
+              <p class="lead mb-0 fw-medium">
+                <span class="fw-bold" style="font-size: 1.5em;">
+                  <span style="color: #ff0000;">Edu</span>
+                  <span style="color: #0000ff;">Care</span>
+                </span>
+                is a combination of
+                <span class="fw-bold" style="color: #ff0000;">Edu</span>cation and
+                <span class="fw-bold" style="color: #0000ff;">Care</span>fully Institute.
+                This Organization is a non-profit Organization Registered Under Government Of India Education TR Act,
+                that provides IT Computer skill, Art, Craft, and Cultural Training.
+              </p>
+            </div>
+
+            <!-- Features list -->
+            <div class="row g-4">
+              <div class="col-md-6" *ngFor="let item of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]; let i = index">
+                <div class="d-flex">
+                  <div class="me-3 mt-1">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle"
+                      style="width: 30px; height: 30px; background: linear-gradient(45deg, #ff0000, #0000ff);">
+                      <i class="bi bi-check-circle-fill text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <p class="mb-0">
+                      <ng-container [ngSwitch]="i">
+                        <ng-container *ngSwitchCase="0">It is an autonomous Board that works on Skill Development
+                          training, Which is recognized by the Government of India.</ng-container>
+                        <ng-container *ngSwitchCase="1">Our Certificate will be fully valid in pan India which is
+                          verified with International Accreditation Forum.</ng-container>
+                        <ng-container *ngSwitchCase="2">All India Reg. No. is - 190200034/24.</ng-container>
+                        <ng-container *ngSwitchCase="3">This Center is Registered under Government of India Planning
+                          Commission, NITI Aayog. Registration No. is WB/2024/0391226.</ng-container>
+                        <ng-container *ngSwitchCase="4">Education Carefully is registered center under Income Tax
+                          Department with Permanent Account Number.</ng-container>
+                        <ng-container *ngSwitchCase="5">We taken the registration from Ministry of Micro, Small and
+                          Medium Enterprises is the ministry in the Government of India.</ng-container>
+                        <ng-container *ngSwitchCase="6">This organization is Certified Enlistment under West Bengal
+                          Municipal Corporation Act, 2006, Section 141. Our Certificate Number is -
+                          0917P167246767.</ng-container>
+                        <ng-container *ngSwitchCase="7">We achieved all the clearance From Star Certifications United
+                          Kingdom with the verified certificate - SR/2543650/2024 till the year of 2027.</ng-container>
+                        <ng-container *ngSwitchCase="8">This Organization is Globally Verified from International
+                          Accreditation Forum, and International Organization for Standardization with 9001:2015 with
+                          the Certificate of IN/16911504/4154</ng-container>
+                        <ng-container *ngSwitchCase="9">Education Carefully Institute is verified form BUREAU OF QUALITY
+                          CERTIFICATION United Kingdom LTD and United Kingdom Accreditation cert. Our Certificate No -
+                          24ZCCC0033LS</ng-container>
+                        <ng-container *ngSwitchCase="10">Education Carefully Institute is not only a single training
+                          center. We are working with lots of Different skill providers.</ng-container>
+                        <ng-container *ngSwitchCase="11">We also provide Placements in the variant Department in Public
+                          and Corporate Sectors.</ng-container>
+                      </ng-container>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decorative corner elements -->
+          <div class="position-absolute top-0 end-0 m-3" style="z-index: 2;">
+            <i class="bi bi-stars text-warning" style="font-size: 1.5rem;"></i>
+          </div>
+          <div class="position-absolute bottom-0 start-0 m-3" style="z-index: 2;">
+            <i class="bi bi-award-fill text-primary" style="font-size: 1.5rem;"></i>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a [routerLink]="['/contact-us/contact']" class="btn btn-primary btn-lg px-4">Contact Us for More
+            Information</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certificate Gallery -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Our Certificates</h2>
+    <div class="w-25 mx-auto border-top border-3 border-primary mb-5"></div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let cert of certificateList">
+        <div class="card h-100 shadow-sm">
+          <img [src]="cert.imageUrl" [alt]="cert.title" class="card-img-top" style="height: 300px; object-fit: cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ cert.title }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Home Brand Section -->
+<app-view-home-brand></app-view-home-brand>
