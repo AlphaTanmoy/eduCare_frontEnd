@@ -57,6 +57,7 @@ import { YtlinksAddComponent } from './page-component/admin-panel/manage-ytlinks
 import { NotificationAddComponent } from './page-component/admin-panel/manage-notification/notification-add/notification-add.component';
 import { PassoutStudentComponent } from './page-component/admin-panel/student-management/passout-student/passout-student.component';
 import { ViewAllNotificationsComponent } from './home-page-components/view-all-notifications/view-all-notifications.component';
+import { ManageCounterComponent } from './page-component/admin-panel/manage-counter/manage-counter.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -117,7 +118,7 @@ export const routes: Routes = [
   { path: 'control-panel/manage-notification', component: NotificationManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-notification', component: NotificationAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-
+  { path: 'control-panel/manage-counters', component: ManageCounterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [] },
 
