@@ -47,9 +47,7 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
     this.error = null;
     
     this.masterDataService.getBrands_home().subscribe({
-      next: (response: any) => {
-        console.log('API Response:', response);
-        
+      next: (response: any) => {        
         if (response?.data?.length > 0) {
           // Flatten the array of brand arrays and take first 15 brands
           const brands = response.data
@@ -57,19 +55,11 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
             .filter((brand: any) => brand) // Remove any null/undefined brands
             .slice(0, this.maxBrands);
           
-          // Create a circular buffer by duplicating the brands array
           this.brands = [...brands, ...brands, ...brands];
-          
-          // Set initial position to the middle section
-          this.currentSlide = brands.length;
-          
-          console.log('Loaded brands:', brands.length, 'with circular buffer');
-          
-          // Start auto-sliding after brands are loaded
+          this.currentSlide = brands.length;             
           this.setupAutoSlide();
         } else {
           this.error = 'No brands found';
-          console.warn('No brands data received');
         }
         this.isLoading = false;
         this.cdr.detectChanges();
