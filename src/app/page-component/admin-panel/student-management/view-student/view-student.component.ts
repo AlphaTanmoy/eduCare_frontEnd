@@ -49,7 +49,7 @@ export class ViewStudentComponent {
 
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
-    target.src = 'image/default_student_photo.jpg'; // path to your default image
+    target.src = 'defaults/avatar-default.svg'; // path to your default image
   }
 
   ngOnDestroy(): void {
