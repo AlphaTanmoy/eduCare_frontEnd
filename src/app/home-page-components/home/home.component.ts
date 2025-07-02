@@ -12,7 +12,6 @@ import { IndexedDbService } from '../../service/indexed-db/indexed-db.service';
 import { convertBlobToBase64 } from '../../utility/common-util';
 import { IndexedDBItemKey } from '../../constants/commonConstants';
 import { ApplyFranchiseHomeComponent } from '../apply-franchise-home/apply-franchise-home.component';
-import { ViewHomeCenterComponent } from '../view-home-center/view-home-center.component';
 import { ViewYtLinkComponent } from '../view-yt-link/view-yt-link.component';
 import { HomeHappyStudentsComponent } from '../home-happy-students/home-happy-students.component';
 import { ViewHomeBrandComponent } from '../view-home-brand/view-home-brand.component';
@@ -26,7 +25,6 @@ import { ViewHomeNotificationsComponent } from '../view-home-notifications/view-
     CommonModule, 
     MatProgressBarModule,
     ApplyFranchiseHomeComponent,
-    ViewHomeCenterComponent,
     ViewYtLinkComponent,
     ViewHomeNotificationsComponent,
     HomeHappyStudentsComponent,
