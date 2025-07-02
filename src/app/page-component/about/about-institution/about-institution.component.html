@@ -1,1 +1,173 @@
-<p>about-institution works!</p>
+<!-- Banner Section -->
+<div class="position-relative bg-dark text-white py-5"
+  style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('assets/images/banner/about-banner.jpg') no-repeat center center/cover; min-height: 400px; display: flex; align-items: center;">
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold mb-3">About Our Institution</h1>
+    <p class="lead">Excellence in Education Since 2017</p>
+  </div>
+</div>
+
+<!-- Introduction Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 text-center">
+        <h2 class="fw-bold mb-4">Welcome to Our Institution</h2>
+        <div class="w-25 mx-auto border-top border-3 border-primary mb-4"></div>
+        <p class="lead">
+          Education Carefully Institute is a non profit Autonomous Organization Registered Under Government Of India
+          Education TR Act, we provide Skill Training to all age category students in different Courses. We want to
+          improve their knowledge in the appropriate filed. We will empower any students in their life and help them to
+          be a self dependent. We also provide Job Offers in varieties of field like Public Sector, Privet Sector and
+          Corporate Sector also. Our mission is to help students stand on their own life goals. Education Carefully
+          Institute is Our Full name but we are known as EduCare Center. Till Date we have helped many students to reach
+          their Goals and Many to get their jobs. Students give us the best review after complete any course from here
+          or Our others Center.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Image Showcase Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm h-100">
+          <div class="text-center p-3">
+            <img src="teachers/Mr_Roni_Pramanik.jpg" alt="Mr. Roni Pramanik" class="rounded-circle"
+              style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #f8f9fa;">
+          </div>
+          <div class="card-body text-center">
+            <h4 class="card-title mb-1">Mr. Roni Pramanik</h4>
+            <p class="card-text text-muted">President</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm h-100">
+          <div class="text-center p-3">
+            <img src="teachers/Mr_Nimai_Pramanik.jpg" alt="Mr. Nimai Pramanik" class="rounded-circle"
+              style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #f8f9fa;">
+          </div>
+          <div class="card-body text-center">
+            <h4 class="card-title mb-1">Mr. Nimai Pramanik</h4>
+            <p class="card-text text-muted">Secretary</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 class="fw-bold mb-4">Our Mission</h2>
+        <div class="w-25 border-top border-3 border-primary mb-4"></div>
+        <p class="mb-4">
+          We provide Skill Development Courses Like :- Computer Course, Drawing Course, Dance Course, Spoken English,
+          Beauty Course, Mehndi Course, Stitching Course, Physical Training Course ( Yoga ), And Others Skill
+          Development Courses.
+        </p>
+        <ul class="list-unstyled">
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Our mission is to provide the best
+            Quality of education at very affordable fees, hence to assist the students creating the prosperous future in
+            this field. We provide our student with knowledge and latest skills. Institute aims to provide the society
+            with attributes networks and the global capabilities required for leadership and success in demanding
+            careers in the global economy ambledmaining.</li>
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> “Education Carefully Institute”
+            Regd. under Govt. of India (Educational T.R. Act.1882 ,Reg. No. IV 190200034/2024), the educational training
+            every corner of our country by which every person will get better Professional Computer Education and other
+            Skill Training for the best future. We are not belief in financial profit but working for social service and
+            want to play a vital role of making Advanced India.</li>
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Our course module comes up with
+            innovative ideas to provide quality education to ambitious students aspiring to make it big in the
+            professional world. We are trying to give them all the qualities necessary for their sound overall
+            development and providing them with state-of-the-art infrastructure and world-class facilities(e-library)
+            for the same by all of our certify centre.</li>
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> I am sure our students can meet any
+            demand & challenges that the employer may have on them. I wish them great success in all their endeavours
+            and quest for a better tomorrow.</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <img src="defaults/mission.jpg" alt="Our Mission" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teachers Slider Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Meet Our Faculty</h2>
+      <div class="w-25 mx-auto border-top border-3 border-primary my-4"></div>
+      <p class="lead">Our dedicated team of experienced educators is committed to your success</p>
+    </div>
+
+    <div class="overflow-hidden">
+      <div class="d-flex transition-transform" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
+        <div class="col-12 col-md-4 px-3" *ngFor="let teacher of teachers">
+          <div class="card h-100 text-center p-4 shadow-sm">
+            <div class="mx-auto mb-3"
+              style="width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 5px solid #f8f9fa;">
+              <img [src]="teacher.image" [alt]="teacher.name" class="img-fluid h-100 w-100" style="object-fit: cover;">
+            </div>
+            <h4 class="h5 mb-1">{{ teacher.name }}</h4>
+            <p class="text-muted mb-0">{{ teacher.designation }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center mt-4">
+        <button class="btn btn-outline-primary btn-sm me-2" (click)="prevSlide()">
+          <i class="bi bi-chevron-left"></i> Previous
+        </button>
+        <div class="d-flex">
+          <button *ngFor="let _ of teachers; let i = index" class="btn btn-sm mx-1"
+            [class.btn-primary]="currentSlide === i" [class.btn-outline-primary]="currentSlide !== i"
+            (click)="goToSlide(i)">
+            {{ i + 1 }}
+          </button>
+        </div>
+        <button class="btn btn-outline-primary btn-sm ms-2" (click)="nextSlide()">
+          Next <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+        <h2 class="fw-bold mb-4">Our Vision</h2>
+        <div class="w-25 border-top border-3 border-primary mb-4"></div>
+        <div class="mt-4">
+          <p class="mb-3">
+            <strong>Our Vision for Professional Development</strong>
+          </p>
+          <ul>
+            <li>make the most of our human talent and potential.</li>
+            <li>inform, educate, and inspire people to reach their professional goals.</li>
+            <li>create a work environment that both challenges and supports people.</li>
+            <li>accomplish our goals faster and easier, with less stress and more enjoyment.</li>
+          </ul>
+          <button class="btn btn-primary" (click)="downloadPdf()">
+            <i class="bi bi-download me-2"></i>Download Profile (PDF)
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <img src="defaults/vision.jpg" alt="Our Vision" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</section>
