@@ -137,6 +137,8 @@ export const Endpoints = {
     deleteBrand: "masterdata/delete_brands",
     createNotification: "masterdata/create_notifications",
     deleteNotification: "masterdata/delete_notification",
+    counter: "counter/get_all",
+    updateCounter: "counter/update",
   }
 
 }
