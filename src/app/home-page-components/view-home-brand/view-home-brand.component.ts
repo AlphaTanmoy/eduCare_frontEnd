@@ -89,12 +89,12 @@ export class ViewHomeBrandComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(brand: any): string {
-    return brand?.blob?.data || 'image//placeholder.png';
+    return brand?.blob?.data || 'defaults//avatar-default.svg';
   }
 
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
-    imgElement.src = 'image//placeholder.png';
+    imgElement.src = 'defaults//avatar-default.svg';
   }
 
   nextSlide(): void {
