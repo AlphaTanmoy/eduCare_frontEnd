@@ -52,25 +52,19 @@ export const MenuItems: any[] = [
       {
         id: 51,
         name: 'Notification',
-        route: '/student/notifications',
+        route: '/view-all-notification',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
         id: 52,
         name: 'E-Book',
-        route: '/student/e-book',
+        route: '/e-book',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
         id: 53,
-        name: 'Notes',
-        route: '/student/notes',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 54,
         name: 'Marks Division',
-        route: '/student/marks-division',
+        route: '/marks-division',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
     ],
@@ -89,7 +83,7 @@ export const MenuItems: any[] = [
       {
         id: 62,
         name: 'Others Activity',
-        route: '/gallary/others-activity',
+        route: '/others-activity',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
     ],
