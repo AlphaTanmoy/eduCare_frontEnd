@@ -51,22 +51,9 @@ export const MenuItems: any[] = [
     subMenu: [
       {
         id: 51,
-        name: 'Notice',
+        name: 'Notification',
+        route: '/student/notifications',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-        subMenu: [
-          {
-            id: 511,
-            name: 'Reg Notice',
-            route: '/student/notice/registration',
-            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-          },
-          {
-            id: 512,
-            name: 'Holiday Notice',
-            route: '/student/notice/holiday',
-            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-          },
-        ],
       },
       {
         id: 52,
@@ -86,18 +73,6 @@ export const MenuItems: any[] = [
         route: '/student/marks-division',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
-      {
-        id: 55,
-        name: 'Download Software',
-        route: '/student/download-software',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 56,
-        name: 'Download Form',
-        route: '/student/download-form',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
     ],
   },
   {
@@ -107,24 +82,12 @@ export const MenuItems: any[] = [
     subMenu: [
       {
         id: 61,
-        name: 'Photos - 1',
-        route: '/gallary/1',
+        name: 'Our Gallery',
+        route: '/gallary',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
         id: 62,
-        name: 'Photos - 2',
-        route: '/gallary/2',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 63,
-        name: 'Photos - 3',
-        route: '/gallary/3',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
-      },
-      {
-        id: 64,
         name: 'Others Activity',
         route: '/gallary/others-activity',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
