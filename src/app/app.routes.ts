@@ -14,7 +14,7 @@ import { AboutRegistrationComponent } from './page-component/about/about-registr
 import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
 import { StudentVerifyComponent } from './page-component/verification/student-verify/student-verify.component';
 import { CourseCertificateVerifyComponent } from './page-component/verification/course-certificate-verify/course-certificate-verify.component';
-import { GallaryComponent } from './page-component/gallary/gallary.component';
+
 import { ErrorComponent } from './error/error.component';
 import { ContactComponent } from './page-component/contact-us/contact/contact.component';
 import { FeedbackComponent } from './page-component/contact-us/feedback/feedback.component';
@@ -58,6 +58,7 @@ import { NotificationAddComponent } from './page-component/admin-panel/manage-no
 import { PassoutStudentComponent } from './page-component/admin-panel/student-management/passout-student/passout-student.component';
 import { ViewAllNotificationsComponent } from './home-page-components/view-all-notifications/view-all-notifications.component';
 import { ManageCounterComponent } from './page-component/admin-panel/manage-counter/manage-counter.component';
+import { GallaryComponent } from './page-component/gallary/gallary/gallary.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -84,8 +85,7 @@ export const routes: Routes = [
   { path: 'student/download-form', component: DownloadFormComponent },
   { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
 
-  { path: 'gallary/:type', component: GallaryComponent },
-
+  { path: 'gallary', component: GallaryComponent },
   { path: 'about/institution', component: AboutInstitutionComponent },
   { path: 'about/registration', component: AboutRegistrationComponent },
 
