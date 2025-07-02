@@ -34,7 +34,7 @@ export class FooterComponent implements OnInit {
     {
       id: 1,
       name: 'Tanmoy Das',
-      designation: 'Software Developer',
+      designation: 'Software Engineer',
       image: 'devs/tanmoy.jpeg',
       github: 'https://github.com/AlphaTanmoy',
       email: 'mailto:dtanmoy169@gmail.com'
@@ -42,7 +42,7 @@ export class FooterComponent implements OnInit {
     {
       id: 2,
       name: 'Bhaskar Nandy',
-      designation: 'Software Developer',
+      designation: 'Software Engineer',
       image: 'devs/bhaskar.jpeg',
       github: 'https://github.com/bhaskar4k',
       email: 'mailto:bhaskar4k@gmail.com'
