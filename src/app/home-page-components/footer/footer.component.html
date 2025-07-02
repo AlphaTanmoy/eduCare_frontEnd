@@ -1,23 +1,20 @@
 <footer class="bg-dark text-white pt-5 pb-4">
   <div class="container">
     <div class="row g-4">
-      <!-- About Us Section -->
-      <div class="col-md-4">
-        <h5 class="text-white mb-3">About Us</h5>
-        <p class="text-white-50">EduCare is a leading educational platform dedicated to providing quality learning resources for students and educators.</p>
-      </div>
-      
       <!-- Quick Links Section -->
       <div class="col-md-2">
         <h5 class="text-white mb-3">Quick Links</h5>
         <ul class="list-unstyled">
           <li class="mb-2"><a routerLink="/" class="text-decoration-none text-white-50 hover-primary">Home</a></li>
-          <li class="mb-2"><a routerLink="/courses" class="text-decoration-none text-white-50 hover-primary">Courses</a></li>
-          <li class="mb-2"><a routerLink="/about" class="text-decoration-none text-white-50 hover-primary">About Us</a></li>
-          <li class="mb-2"><a routerLink="/contact" class="text-decoration-none text-white-50 hover-primary">Contact</a></li>
+          <li class="mb-2"><a routerLink="/courses" class="text-decoration-none text-white-50 hover-primary">Courses</a>
+          </li>
+          <li class="mb-2"><a routerLink="/about" class="text-decoration-none text-white-50 hover-primary">About Us</a>
+          </li>
+          <li class="mb-2"><a routerLink="/contact" class="text-decoration-none text-white-50 hover-primary">Contact</a>
+          </li>
         </ul>
       </div>
-      
+
       <!-- Contact Us Section -->
       <div class="col-md-6">
         <h5 class="text-white mb-3">Contact Us</h5>
@@ -28,22 +25,70 @@
           <i class="bi bi-telephone me-2 text-white"></i> +1 (555) 123-4567
         </p>
         <div class="d-flex gap-3">
-          <a href="#" class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none" style="width: 36px; height: 36px;">
+          <a href="#"
+            class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none"
+            style="width: 36px; height: 36px;">
             <i class="bi bi-facebook"></i>
           </a>
-          <a href="#" class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none" style="width: 36px; height: 36px;">
+          <a href="#"
+            class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none"
+            style="width: 36px; height: 36px;">
             <i class="bi bi-youtube"></i>
           </a>
-          <a href="#" class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none" style="width: 36px; height: 36px;">
+          <a href="#"
+            class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none"
+            style="width: 36px; height: 36px;">
             <i class="bi bi-linkedin"></i>
           </a>
-          <a href="#" class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none" style="width: 36px; height: 36px;">
+          <a href="#"
+            class="social-icon d-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 text-white text-decoration-none"
+            style="width: 36px; height: 36px;">
             <i class="bi bi-instagram"></i>
           </a>
         </div>
       </div>
+
+      <div class="col-md-4">
+        <h5 class="text-white mb-3">Developed by</h5>
+        <div class="card bg-dark bg-opacity-25 border-0 h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center m-2">
+              <div class="flex-shrink-0">
+                <img [src]="developers[0].image" [alt]="developers[0].name" class="rounded-circle"
+                  style="width: 50px; height: 50px; object-fit: cover;">
+              </div>
+              <div class="ms-3">
+                <div class="d-flex align-items-center gap-2">
+                  <h6 class="mb-0 text-white">{{ developers[0].name }}</h6>
+                  <a [href]="developers[0].github" target="_blank" class="text-white-50 hover-primary">
+                    <i class="bi bi-github"></i>
+                  </a>
+                </div>
+                <p class="text-white-50 small mb-0">{{ developers[0].designation }}</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-center m-2">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img [src]="developers[1].image" [alt]="developers[1].name" class="rounded-circle"
+                    style="width: 50px; height: 50px; object-fit: cover;">
+                </div>
+                <div class="ms-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <h6 class="mb-0 text-white">{{ developers[1].name }}</h6>
+                    <a [href]="developers[1].github" target="_blank" class="text-white-50 hover-primary">
+                      <i class="bi bi-github"></i>
+                    </a>
+                  </div>
+                  <p class="text-white-50 small mb-0">{{ developers[1].designation }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
+
     <!-- Copyright Section -->
     <div class="row mt-4 pt-3 border-top border-secondary">
       <div class="col-12 text-center">
