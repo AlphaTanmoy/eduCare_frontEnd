@@ -73,4 +73,26 @@ export class MasterDataService {
   deleteNotification(notificationId: string): Observable<any> {
     return this.http.post(`${this.baseUrl}masterdata/delete_notification/${notificationId}`, {});
   }
+
+  // Counters
+  getAllCounters(): Observable<any> {
+    return this.http.get(`${this.baseUrl}counter/get_all`).pipe(
+      catchError(error => {
+        console.error('Error fetching counters:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  updateCounter(key: string, value: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}counter/update`, {
+      key,
+      value
+    }).pipe(
+      catchError(error => {
+        console.error('Error updating counter:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }
