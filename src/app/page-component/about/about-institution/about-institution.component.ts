@@ -24,6 +24,11 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
       image: 'teachers/Mr_Roni_Pramanik.jpg'
     },
     {
+      name: 'Ms. Shreyasi Poddar',
+      designation: 'Spoken English Teacher',
+      image: 'teachers/Ms_Shreyasi_Poddar.jpg'
+    },
+    {
       name: 'Mr. Ajay Mondal',
       designation: 'Drawing Teacher',
       image: 'teachers/Mr_Ajay_Mondal.jpg'
@@ -49,9 +54,9 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
       image: 'teachers/Ms_Supriya_Mistry.jpg'
     },
     {
-      name: 'Ms. No Name',
-      designation: 'Not Classified',
-      image: 'teachers/PHOTO.jpg'
+      name: 'Ms. Saheli Modak',
+      designation: 'Drawing Teacher',
+      image: 'teachers/Ms_Saheli_Modak.jpg'
     }
   ];
 
