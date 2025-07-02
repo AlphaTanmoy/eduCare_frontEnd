@@ -110,16 +110,21 @@
       <p class="lead">Our dedicated team of experienced educators is committed to your success</p>
     </div>
 
-    <div class="overflow-hidden">
-      <div class="d-flex transition-transform" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
-        <div class="col-12 col-md-4 px-3" *ngFor="let teacher of teachers">
-          <div class="card h-100 text-center p-4 shadow-sm">
-            <div class="mx-auto mb-3"
-              style="width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 5px solid #f8f9fa;">
-              <img [src]="teacher.image" [alt]="teacher.name" class="img-fluid h-100 w-100" style="object-fit: cover;">
+    <div class="position-relative">
+      <div class="overflow-hidden">
+        <div class="d-flex" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'"
+          style="transition: transform 0.3s ease;">
+          <div class="col-12 px-3" style="flex: 0 0 100%; max-width: 100%;"
+            *ngFor="let teacher of teachers">
+            <div class="card h-100 text-center p-4 shadow-sm" style="max-width: 300px; margin: 0 auto;">
+              <div class="mx-auto mb-3"
+                style="width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 5px solid #f8f9fa;">
+                <img [src]="teacher.image" [alt]="teacher.name" class="img-fluid h-100 w-100"
+                  style="object-fit: cover;">
+              </div>
+              <h4 class="h4 mb-2">{{ teacher.name }}</h4>
+              <p class="text-muted mb-0">{{ teacher.designation }}</p>
             </div>
-            <h4 class="h5 mb-1">{{ teacher.name }}</h4>
-            <p class="text-muted mb-0">{{ teacher.designation }}</p>
           </div>
         </div>
       </div>
@@ -130,8 +135,8 @@
         </button>
         <div class="d-flex">
           <button *ngFor="let _ of teachers; let i = index" class="btn btn-sm mx-1"
-            [class.btn-primary]="currentSlide === i" [class.btn-outline-primary]="currentSlide !== i"
-            (click)="goToSlide(i)">
+            [class.btn-primary]="currentSlide === i"
+            [class.btn-outline-primary]="currentSlide !== i" (click)="goToSlide(i)">
             {{ i + 1 }}
           </button>
         </div>
@@ -160,6 +165,21 @@
             <li>create a work environment that both challenges and supports people.</li>
             <li>accomplish our goals faster and easier, with less stress and more enjoyment.</li>
           </ul>
+        </div>
+        <div class="mt-4">
+          <p class="mb-3">
+            <strong>Our Vision for Professional Development at Education Carefully Institute</strong>
+          </p>
+          <ul>
+            <li>The Education Carefully Institute culture is one that actively supports participation in learning
+              activities and the application of new knowledge and skills on the job.</li>
+            <li>Professional development is provided in many different, easily accessible ways to accommodate diverse
+              learning styles and needs.</li>
+            <li>People attending our training programs learn valuable knowledge and skills in ways that enhance
+              learning, retention, and application.</li>
+          </ul>
+        </div>
+        <div class="mt-4">
           <button class="btn btn-primary" (click)="downloadPdf()">
             <i class="bi bi-download me-2"></i>Download Profile (PDF)
           </button>

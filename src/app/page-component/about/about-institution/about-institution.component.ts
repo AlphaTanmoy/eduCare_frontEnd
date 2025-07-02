@@ -41,7 +41,7 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
     {
       name: 'Ms. Priya Biswas',
       designation: 'Drawing Teacher',
-      image: 'teachers/Ms_Priya_Biswas.jpg'
+      image: 'teachers/Ms_Priya_Biswas.png'
     },
     {
       name: 'Ms. Supriya Mistry',
@@ -57,24 +57,24 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
 
   currentSlide = 0;
   private slideInterval: any;
-  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
+
+  // Make Math available in template
+  Math = Math;
 
   constructor() { }
 
   ngOnInit(): void {
     this.startSlideShow();
-    this.bootstrapElements = loadBootstrap();
   }
 
   ngOnDestroy(): void {
     this.stopSlideShow();
-    removeBootstrap(this.bootstrapElements);
   }
 
   startSlideShow(): void {
     this.slideInterval = setInterval(() => {
       this.nextSlide();
-    }, 3000);
+    }, 5000);
   }
 
   stopSlideShow(): void {
