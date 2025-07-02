@@ -215,6 +215,12 @@ export const MenuItems: any[] = [
             route: '/control-panel/manage-notification',
             role: [UserRole.MASTER],
           },
+          {
+            id: 916,
+            name: 'Manage Counter',
+            route: '/control-panel/manage-counter',
+            role: [UserRole.MASTER],
+          },
         ],
       },
       {
