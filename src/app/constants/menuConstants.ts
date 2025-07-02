@@ -218,7 +218,7 @@ export const MenuItems: any[] = [
           {
             id: 916,
             name: 'Manage Counter',
-            route: '/control-panel/manage-counter',
+            route: '/control-panel/manage-counters',
             role: [UserRole.MASTER],
           },
         ],
