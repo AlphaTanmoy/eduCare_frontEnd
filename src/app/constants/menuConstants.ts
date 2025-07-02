@@ -58,7 +58,7 @@ export const MenuItems: any[] = [
       {
         id: 52,
         name: 'E-Book',
-        route: '/e-book',
+        route: '/e-pdf',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
       {
