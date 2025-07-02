@@ -1,1 +1,62 @@
-<p>manage-counter works!</p>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Manage Counters</h4>
+      <p class="card-category">Update system counter values</p>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="text-primary">
+            <tr>
+              <th>Counter Name</th>
+              <th>Current Value</th>
+              <th>Example For Next Value</th>
+              <th>New Value</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="5" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let counter of counters" [class.table-warning]="isUpdating(counter.key)">
+              <td>{{ counter.displayName }}</td>
+              <td class="font-monospace">{{ counter.value }}</td>
+              <td class="font-monospace">{{ counter.example }}</td>
+              <td style="width: 200px;">
+                <input 
+                  type="number" 
+                  class="form-control form-control-sm" 
+                  [(ngModel)]="newValues[counter.key]" 
+                  [disabled]="isUpdating(counter.key)"
+                  min="0"
+                  step="1"
+                >
+              </td>
+              <td>
+                <button 
+                  class="btn btn-sm btn-primary" 
+                  (click)="updateCounter(counter)"
+                  [disabled]="isUpdating(counter.key) || newValues[counter.key] === counter.value"
+                >
+                  <span *ngIf="!isUpdating(counter.key)">Update</span>
+                  <span *ngIf="isUpdating(counter.key)" class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Updating...</span>
+                  </span>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="!loading && counters.length === 0">
+              <td colspan="5" class="text-center">No counters found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
