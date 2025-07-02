@@ -2,13 +2,6 @@ import { CourseListComponent } from './page-component/admin-panel/course-managem
 import { Routes } from '@angular/router';
 import { UserRole } from './constants/commonConstants';
 import { HomeComponent } from './home-page-components/home/home.component';
-import { DownloadFormComponent } from './page-component/student/download-form/download-form.component';
-import { EBookComponent } from './page-component/student/e-book/e-book.component';
-import { MarksDivisionComponent } from './page-component/student/marks-division/marks-division.component';
-import { NotesComponent } from './page-component/student/notes/notes.component';
-import { SoftwareDownloadComponent } from './page-component/student/software-download/software-download.component';
-import { NoticeHolidayComponent } from './page-component/student/notice/notice-holiday/notice-holiday.component';
-import { NoticeRegistrationComponent } from './page-component/student/notice/notice-registration/notice-registration.component';
 import { AboutInstitutionComponent } from './page-component/about/about-institution/about-institution.component';
 import { AboutRegistrationComponent } from './page-component/about/about-registration/about-registration.component';
 import { CenterVerifyComponent } from './page-component/verification/center-verify/center-verify.component';
@@ -44,7 +37,6 @@ import { PayWalletComponent } from './page-component/admin-panel/manage-wallet/p
 import { TransactionHistoryComponent } from './page-component/admin-panel/manage-wallet/transaction-history/transaction-history.component';
 import { ManageExamMarksComponent } from './page-component/admin-panel/student-management/manage-exam-marks/manage-exam-marks.component';
 import { DownloadExcelToGenerateCertificateComponent } from './page-component/admin-panel/student-management/download-excel-to-generate-certificate/download-excel-to-generate-certificate.component';
-import { StudentDashboardComponent } from './page-component/student/student-dashboard/student-dashboard.component';
 import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './page-component/change-password/change-password.component';
 import { RequestForCertificateComponent } from './page-component/admin-panel/student-management/request-for-certificate/request-for-certificate.component';
@@ -59,6 +51,9 @@ import { PassoutStudentComponent } from './page-component/admin-panel/student-ma
 import { ViewAllNotificationsComponent } from './home-page-components/view-all-notifications/view-all-notifications.component';
 import { ManageCounterComponent } from './page-component/admin-panel/manage-counter/manage-counter.component';
 import { GallaryComponent } from './page-component/gallary/gallary/gallary.component';
+import { OtherActivityComponent } from './page-component/gallary/other-activity/other-activity.component';
+import { EpdfComponent } from './page-component/student-infromation/epdf/epdf.component';
+import { MarksDivisionComponent } from './page-component/student-infromation/marks-division/marks-division.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -76,18 +71,12 @@ export const routes: Routes = [
 
   { path: 'course-offered', component: CourseOfferedComponent },
 
-  { path: 'student/notice/registration', component: NoticeRegistrationComponent },
-  { path: 'student/notice/holiday', component: NoticeHolidayComponent },
-  { path: 'student/e-book', component: EBookComponent },
-  { path: 'student/notes', component: NotesComponent },
-  { path: 'student/marks-division', component: MarksDivisionComponent },
-  { path: 'student/download-software', component: SoftwareDownloadComponent },
-  { path: 'student/download-form', component: DownloadFormComponent },
-  { path: 'student/dashboard', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: [UserRole.STUDENT] } },
-
   { path: 'gallary', component: GallaryComponent },
+  { path: 'others-activity', component: OtherActivityComponent },
   { path: 'about/institution', component: AboutInstitutionComponent },
   { path: 'about/registration', component: AboutRegistrationComponent },
+  { path: 'e-pdf', component: EpdfComponent},
+  { path: 'marks-division', component: MarksDivisionComponent},
 
   { path: 'contact-us/contact', component: ContactComponent },
   { path: 'contact-us/feedback', component: FeedbackComponent },
