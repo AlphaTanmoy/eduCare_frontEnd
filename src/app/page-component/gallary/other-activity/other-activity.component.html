@@ -1,1 +1,118 @@
-<p>other-activity works!</p>
+<div class="container py-5">
+  <!-- Activity Gallery Header -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary mb-3">
+      <span class="fw-bold" style="color: #ff0000;">Activity</span>
+      <span class="fw-bold" style="color: #0000ff;"> Gallery</span>
+    </h1>
+    <p class="lead text-muted">Explore our collection of activities and events</p>
+  </div>
+
+  <!-- Activity Filter Buttons -->
+  <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+    <button 
+      *ngFor="let type of activityTypes"
+      (click)="filterImages(type)"
+      [class.btn-primary]="activeFilter === type"
+      [class.btn-outline-primary]="activeFilter !== type"
+      class="btn btn-sm px-3 rounded-pill text-capitalize"
+    >
+      {{ type }}
+    </button>
+  </div>
+
+  <!-- Activity Gallery Grid -->
+  <div class="row g-3">
+    <ng-container *ngFor="let image of displayedImages">
+      <!-- Portrait Activity Image -->
+      <div 
+        *ngIf="image.orientation === 'portrait'" 
+        class="col-6 col-md-4 col-lg-3"
+      >
+        <div class="activity-item h-100 position-relative" (click)="openImageModal(image)">
+          <img 
+            [src]="image.src" 
+            [alt]="image.alt"
+            class="img-fluid rounded-3 shadow-sm w-100 h-100"
+            style="object-fit: cover; aspect-ratio: 2/3;"
+            loading="lazy"
+          >
+          <div class="activity-badge bg-primary text-white px-2 py-1 rounded-pill position-absolute top-0 end-0 m-2 small">
+            {{ image.activityType }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Landscape Activity Image -->
+      <div 
+        *ngIf="image.orientation === 'landscape'" 
+        class="col-12 col-md-6 col-lg-4"
+      >
+        <div class="activity-item h-100 position-relative" (click)="openImageModal(image)">
+          <img 
+            [src]="image.src" 
+            [alt]="image.alt"
+            class="img-fluid rounded-3 shadow-sm w-100 h-100"
+            style="object-fit: cover; aspect-ratio: 4/3;"
+            loading="lazy"
+          >
+          <div class="activity-badge bg-primary text-white px-2 py-1 rounded-pill position-absolute top-0 end-0 m-2 small">
+            {{ image.activityType }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Load More Button -->
+  <div *ngIf="hasMoreImages && displayedImages.length > 0" class="text-center mt-4">
+    <button 
+      (click)="loadMore()" 
+      class="btn btn-primary px-4 py-2"
+    >
+      <i class="bi bi-arrow-down-circle me-2"></i>Load More
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="displayedImages.length === 0" class="text-center py-5">
+    <div class="display-1 text-muted mb-3">
+      <i class="bi bi-images"></i>
+    </div>
+    <h4 class="text-muted">No activities found</h4>
+    <p class="text-muted">Try selecting a different category</p>
+  </div>
+</div>
+
+<!-- Activity Image Modal -->
+<div class="modal fade" id="activityImageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 bg-transparent">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img 
+          *ngIf="selectedImage" 
+          [src]="selectedImage.src" 
+          [alt]="selectedImage.alt"
+          class="img-fluid rounded-3 shadow"
+          style="max-height: 80vh; width: auto;"
+        >
+      </div>
+      <div class="modal-footer border-0 justify-content-between">
+        <span *ngIf="selectedImage" class="badge bg-primary text-capitalize">
+          {{ selectedImage.activityType }}
+        </span>
+        <a 
+          *ngIf="selectedImage" 
+          [href]="selectedImage.src" 
+          download 
+          class="btn btn-primary"
+        >
+          <i class="bi bi-download me-2"></i>Download
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
