@@ -9,17 +9,6 @@ interface GalleryImage {
   category: string;
 }
 
-// Helper function to generate more sample images
-function generateSampleImages(count: number, startId: number, type: 'portrait' | 'landscape'): GalleryImage[] {
-  return Array.from({ length: count }, (_, i) => ({
-    id: startId + i,
-    src: `gallary/gl${type === 'portrait' ? 'P' : 'L'}.${type === 'portrait' ? 'jpeg' : 'jpg'}`,
-    alt: `${type === 'portrait' ? 'Portrait' : 'Landscape'} ${startId + i}`,
-    orientation: type,
-    category: type
-  }));
-}
-
 @Component({
   selector: 'app-gallary',
   standalone: true,
@@ -28,10 +17,25 @@ function generateSampleImages(count: number, startId: number, type: 'portrait' |
   styleUrls: ['./gallary.component.css']
 })
 export class GallaryComponent implements OnInit {
-  // Generate more sample images (30 total)
   private allImages: GalleryImage[] = [
-    ...generateSampleImages(15, 1, 'portrait'),
-    ...generateSampleImages(15, 16, 'landscape')
+    // Portrait Images
+    { id: 1, src: 'gallary/glP.jpeg', alt: 'Portrait 1', orientation: 'portrait', category: 'portrait' },
+    { id: 2, src: 'gallary/glP.jpeg', alt: 'Portrait 2', orientation: 'portrait', category: 'portrait' },
+    { id: 3, src: 'gallary/glP.jpeg', alt: 'Portrait 3', orientation: 'portrait', category: 'portrait' },
+    { id: 4, src: 'gallary/glP.jpeg', alt: 'Portrait 4', orientation: 'portrait', category: 'portrait' },
+    { id: 5, src: 'gallary/glP.jpeg', alt: 'Portrait 5', orientation: 'portrait', category: 'portrait' },
+    
+    // Landscape Images
+    { id: 6, src: 'gallary/glL.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
+    { id: 7, src: 'gallary/glL.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' },
+    { id: 8, src: 'gallary/glL.jpg', alt: 'Landscape 3', orientation: 'landscape', category: 'landscape' },
+    { id: 9, src: 'gallary/glL.jpg', alt: 'Landscape 4', orientation: 'landscape', category: 'landscape' },
+    { id: 10, src: 'gallary/glL.jpg', alt: 'Landscape 5', orientation: 'landscape', category: 'landscape' },
+    { id: 11, src: 'gallary/glL.jpg', alt: 'Landscape 6', orientation: 'landscape', category: 'landscape' },
+    { id: 12, src: 'gallary/glL.jpg', alt: 'Landscape 7', orientation: 'landscape', category: 'landscape' },
+    { id: 13, src: 'gallary/glL.jpg', alt: 'Landscape 8', orientation: 'landscape', category: 'landscape' },
+    { id: 14, src: 'gallary/glL.jpg', alt: 'Landscape 9', orientation: 'landscape', category: 'landscape' },
+    { id: 15, src: 'gallary/glL.jpg', alt: 'Landscape 10', orientation: 'landscape', category: 'landscape' }
   ];
 
   // Pagination properties
