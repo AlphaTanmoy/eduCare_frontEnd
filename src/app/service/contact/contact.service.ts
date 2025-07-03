@@ -72,8 +72,12 @@ export class ContactService {
 
   markAsRead(contactId: string, message: string): Observable<any> {
     return this.http.patch(
-      `${this.baseUrl}contact/${contactId}/mark-read`,
-      { message }
+      `${this.baseUrl}contact/mark-read`,
+      { 
+        id: contactId,
+        message: message,
+        is_read: true
+      }
     );
   }
 }
