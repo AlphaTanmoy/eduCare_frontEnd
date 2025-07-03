@@ -1,1 +1,59 @@
-<p>feedback works!</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h2 class="h4 mb-0">Report a Feedback</h2>
+          <p class="mb-0">Found an issue? Let us know and we'll fix it as soon as possible.</p>
+        </div>
+        
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" #FeedbackReportForm="ngForm">
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                name="email"
+                [(ngModel)]="FeedbackReport.emailId"
+                required
+                email
+                placeholder="Enter your email"
+              >
+              <div class="form-text">We'll contact you for more details if needed.</div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-4">
+              <label for="message" class="form-label">Describe the issue <span class="text-danger">*</span></label>
+              <textarea 
+                class="form-control" 
+                id="message" 
+                name="message"
+                [(ngModel)]="FeedbackReport.message"
+                rows="5"
+                required
+                placeholder="Please describe the issue in detail. Include steps to reproduce if possible."
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="isLoading"
+              >
+                <span *ngIf="!isLoading">Submit Feedback Report</span>
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="isLoading" class="ms-2">Submitting...</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
