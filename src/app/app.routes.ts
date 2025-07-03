@@ -54,6 +54,7 @@ import { GallaryComponent } from './page-component/gallary/gallary/gallary.compo
 import { OtherActivityComponent } from './page-component/gallary/other-activity/other-activity.component';
 import { EpdfComponent } from './page-component/student-infromation/epdf/epdf.component';
 import { MarksDivisionComponent } from './page-component/student-infromation/marks-division/marks-division.component';
+import { ViewContactListsComponent } from './page-component/admin-panel/view-contact-lists/view-contact-lists.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -81,6 +82,7 @@ export const routes: Routes = [
   { path: 'contact-us/contact', component: ContactComponent },
   { path: 'contact-us/feedback', component: FeedbackComponent },
   { path: 'contact-us/rules', component: RulesComponent },
+  { path: 'contact-us/view-contact-lists', component: ViewContactListsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'view-all-notification', component: ViewAllNotificationsComponent},
   { path: 'control-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
