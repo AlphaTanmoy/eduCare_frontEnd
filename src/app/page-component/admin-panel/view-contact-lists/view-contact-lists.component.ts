@@ -14,6 +14,7 @@ interface Contact {
   contact_subject: string;
   contact_message: string;
   contact_ticket_code: string;
+  is_read: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -178,6 +179,26 @@ export class ViewContactListsComponent implements OnInit {
     }
     
     return pages;
+  }
+
+  markAsRead(contact: Contact, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (contact.is_read) {
+      return; // Don't do anything if already read
+    }
+
+    this.contactService.markAsRead(contact._id).subscribe({
+      next: () => {
+        // Update the local state to reflect the change
+        contact.is_read = true;
+      },
+      error: (error) => {
+        console.error('Error marking contact as read:', error);
+        this.openDialog('Error', 'Failed to mark message as read.', ResponseTypeColor.ERROR, false);
+      }
+    });
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {

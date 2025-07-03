@@ -55,16 +55,21 @@
                 <i class="bi ms-1" [ngClass]="getSortIcon('contact_subject')"></i>
               </th>
               <th>Message</th>
-              <th (click)="onSort('createdAt')" style="cursor: pointer;">
-                Date
-                <i class="bi ms-1" [ngClass]="getSortIcon('createdAt')"></i>
+              <th class="text-center">
+                Status
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let contact of contacts">
-              <td class="text-nowrap fw-bold">
-                <span class="badge bg-secondary">{{ contact.contact_ticket_code }}</span>
+            <tr *ngFor="let contact of contacts" [class.table-active]="!contact.is_read">
+              <td class="text-nowrap">
+                <div class="d-flex align-items-center">
+                  <span class="badge" 
+                        [class.bg-secondary]="!contact.is_read"
+                        [class.bg-success]="contact.is_read">
+                    {{ contact.contact_ticket_code }}
+                  </span>
+                </div>
               </td>
               <td>
                 <a [href]="'mailto:' + contact.contact_email_id" class="text-decoration-none">
@@ -76,8 +81,14 @@
                   [title]="contact.contact_message">
                 {{ contact.contact_message }}
               </td>
-              <td class="text-nowrap">
-                {{ contact.createdAt | date:'medium' }}
+              <td class="text-center">
+                <span class="badge" 
+                      [class.bg-secondary]="!contact.is_read"
+                      [class.bg-success]="contact.is_read"
+                      (click)="markAsRead(contact, $event)"
+                      style="cursor: pointer;">
+                  {{ contact.is_read ? 'Read' : 'Unread' }}
+                </span>
               </td>
             </tr>
             <tr *ngIf="contacts.length === 0">
