@@ -49,7 +49,24 @@ export class ContactService {
     );
   }
 
-  getAllContacts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}${this.endpoints.getAllContacts}`);
+  getAllContacts(
+    offset: number = 0, 
+    limit: number = 10, 
+    search: string = '', 
+    sortBy: string = 'createdAt', 
+    sortOrder: string = 'desc'
+  ): Observable<any> {
+    let params: any = {
+      offset: offset.toString(),
+      limit: limit.toString(),
+      sortBy,
+      sortOrder
+    };
+
+    if (search) {
+      params.search = search;
+    }
+
+    return this.http.get(`${this.baseUrl}${this.endpoints.getAllContacts}`, { params });
   }
 }

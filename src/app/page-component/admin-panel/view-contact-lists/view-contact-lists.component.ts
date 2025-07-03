@@ -56,16 +56,31 @@ export class ViewContactListsComponent implements OnInit {
     this.loading = true;
     this.showProgressBar = true;
 
-    this.contactService.getAllContacts().pipe(
+    const offset = (this.currentPage - 1) * this.itemsPerPage;
+    
+    this.contactService.getAllContacts(
+      offset,
+      this.itemsPerPage,
+      this.searchTerm,
+      this.sortField,
+      this.sortOrder
+    ).pipe(
       finalize(() => {
         this.loading = false;
         this.showProgressBar = false;
       })
     ).subscribe({
       next: (response: any) => {
-        this.contacts = response.data?.contacts || [];
+        this.contacts = response.data || [];
         this.filteredContacts = [...this.contacts];
-        this.totalItems = this.contacts.length;
+        this.totalItems = response.pagination?.total || this.contacts.length;
+        
+        // Log for debugging
+        console.log('Contacts loaded:', {
+          contacts: this.contacts,
+          pagination: response.pagination,
+          totalItems: this.totalItems
+        });
       },
       error: (error) => {
         console.error('Error loading contacts:', error);
@@ -77,15 +92,21 @@ export class ViewContactListsComponent implements OnInit {
   onSearch(): void {
     this.currentPage = 1; // Reset to first page when searching
     this.loadContacts();
+    // Set focus back to search input
+    if (this.searchInput && this.searchInput.nativeElement) {
+      this.searchInput.nativeElement.focus();
+    }
   }
 
   onSort(field: string): void {
+    // Toggle sort order if clicking the same field, otherwise set to ascending
     if (this.sortField === field) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortField = field;
       this.sortOrder = 'asc';
     }
+    this.currentPage = 1; // Reset to first page when changing sort
     this.loadContacts();
   }
 
