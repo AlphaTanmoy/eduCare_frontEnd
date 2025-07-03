@@ -28,9 +28,9 @@ export interface ContactResponse {
 export class ContactService {
   private baseUrl = GetBaseURL();
   private endpoints = {
-    submitContact: Endpoints.contacts.contact_us,
-    submitBugReport: Endpoints.contacts.bug_report,
-    getAllContacts: Endpoints.contacts.get_contacts_list
+    submitContact: Endpoints.contact.contact_us,
+    submitBugReport: Endpoints.contact.bug_report,
+    getAllContacts: Endpoints.contact.get_contacts_list
   };
 
   constructor(private http: HttpClient) {}
@@ -49,21 +49,7 @@ export class ContactService {
     );
   }
 
-  getAllContacts(options: {
-    offset?: number;
-    limit?: number;
-    search?: string;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-  } = {}): Observable<any> {
-    const params: any = {
-      offset: options.offset?.toString() || '0',
-      limit: options.limit?.toString() || '10',
-      ...(options.search && { search: options.search }),
-      sortBy: options.sortBy || 'createdAt',
-      sortOrder: options.sortOrder || 'desc'
-    };
-
-    return this.http.get(`${this.baseUrl}${this.endpoints.getAllContacts}`, { params });
+  getAllContacts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}${this.endpoints.getAllContacts}`);
   }
 }
