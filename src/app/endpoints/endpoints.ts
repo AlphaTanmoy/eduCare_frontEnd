@@ -142,7 +142,7 @@ export const Endpoints = {
   },
   contact: {
     contact_us: "contact/contact_us",
-    bug_report: "contact/bug_report",
+    feedback_report: "contact/feedback_report",
     get_contacts_list: "contact/get_contacts_list"
   }
 }
