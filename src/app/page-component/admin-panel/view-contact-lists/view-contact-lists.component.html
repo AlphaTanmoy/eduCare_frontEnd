@@ -55,9 +55,8 @@
                 <i class="bi ms-1" [ngClass]="getSortIcon('contact_subject')"></i>
               </th>
               <th>Message</th>
-              <th class="text-center">
-                Status
-              </th>
+              <th>Reply</th>
+              <th class="text-center">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -77,16 +76,38 @@
                 </a>
               </td>
               <td>{{ contact.contact_subject }}</td>
-              <td class="text-truncate" style="max-width: 300px;" 
+              <td class="text-truncate" style="max-width: 200px;" 
                   [title]="contact.contact_message">
                 {{ contact.contact_message }}
+              </td>
+              <td style="min-width: 250px;">
+                <div *ngIf="contact.is_read; else replyForm" class="reply-message">
+                  <div class="form-control bg-light" style="min-height: 38px; white-space: pre-wrap;">
+                    {{ contact.reply_message || 'No reply sent' }}
+                  </div>
+                </div>
+                <ng-template #replyForm>
+                  <div class="reply-form">
+                    <textarea 
+                      class="form-control mb-2" 
+                      rows="3"
+                      [(ngModel)]="contact.reply_message"
+                      placeholder="Type your reply here...">
+                    </textarea>
+                    <button 
+                      class="btn btn-sm btn-primary"
+                      (click)="submitReply(contact, $event)"
+                      [disabled]="!contact.reply_message?.trim()">
+                      Send Reply
+                    </button>
+                  </div>
+                </ng-template>
               </td>
               <td class="text-center">
                 <span class="badge" 
                       [class.bg-secondary]="!contact.is_read"
                       [class.bg-success]="contact.is_read"
-                      (click)="markAsRead(contact, $event)"
-                      style="cursor: pointer;">
+                      style="cursor: default;">
                   {{ contact.is_read ? 'Read' : 'Unread' }}
                 </span>
               </td>

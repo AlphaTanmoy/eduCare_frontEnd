@@ -15,6 +15,7 @@ interface Contact {
   contact_message: string;
   contact_ticket_code: string;
   is_read: boolean;
+  reply_message?: string;
   acknowledgment_message?: string;
   createdAt: string;
   updatedAt: string;
@@ -73,15 +74,18 @@ export class ViewContactListsComponent implements OnInit {
       })
     ).subscribe({
       next: (response: any) => {
-        this.contacts = response.data || [];
+        // Handle the new response format where data is an array with one object containing contacts and pagination
+        const responseData = response.data?.[0];
+        this.contacts = responseData?.contacts || [];
         this.filteredContacts = [...this.contacts];
-        this.totalItems = response.pagination?.total || this.contacts.length;
+        this.totalItems = responseData?.pagination?.total || this.contacts.length;
         
         // Log for debugging
         console.log('Contacts loaded:', {
           contacts: this.contacts,
-          pagination: response.pagination,
-          totalItems: this.totalItems
+          pagination: responseData?.pagination,
+          totalItems: this.totalItems,
+          rawResponse: response
         });
       },
       error: (error) => {
@@ -190,27 +194,47 @@ export class ViewContactListsComponent implements OnInit {
       return; // Don't do anything if already read
     }
 
+    // If there's already a reply message, use that
+    if (contact.reply_message?.trim()) {
+      this.submitReply(contact, event);
+      return;
+    }
+
+    // Otherwise, show a prompt
     const message = prompt('Please enter your acknowledgment message:');
     if (!message || message.trim() === '') {
       this.openDialog('Error', 'Acknowledgment message is required.', ResponseTypeColor.ERROR, false);
       return;
     }
 
-    this.contactService.markAsRead(contact._id, message).subscribe({
+    contact.reply_message = message;
+    this.submitReply(contact, event);
+  }
+
+  submitReply(contact: Contact, event: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (!contact.reply_message?.trim()) {
+      this.openDialog('Error', 'Please enter a reply message.', ResponseTypeColor.ERROR, false);
+      return;
+    }
+
+    this.contactService.markAsRead(contact._id, contact.reply_message).subscribe({
       next: (response) => {
-        // Update the local state to reflect the change
-        contact.is_read = true;
-        contact.acknowledgment_message = response.data.acknowledgment_message;
-        this.openDialog('Success', 'Message marked as read and acknowledgment sent.', ResponseTypeColor.SUCCESS, false);
+        // Show success message and refresh the data
+        this.openDialog('Success', 'Reply sent successfully.', ResponseTypeColor.SUCCESS, true);
       },
       error: (error) => {
-        console.error('Error marking contact as read:', error);
-        this.openDialog('Error', 'Failed to mark message as read. ' + (error.error?.message || ''), ResponseTypeColor.ERROR, false);
+        console.error('Error sending reply:', error);
+        this.openDialog('Error', 'Failed to send reply. ' + (error.error?.message || ''), ResponseTypeColor.ERROR, false);
       }
     });
   }
 
-  openDialog(dialogTitle: string, dialogText: string, dialogType: number, pageReloadNeeded: boolean): void {
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, refreshData: boolean = false): void {
     const dialogRef = this.dialog.open(CustomAlertComponent, { 
       data: { 
         title: dialogTitle, 
@@ -220,8 +244,9 @@ export class ViewContactListsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      if (pageReloadNeeded) {
-        window.location.reload();
+      if (refreshData) {
+        // Refresh the contacts data instead of reloading the page
+        this.loadContacts();
       }
     });
   }
