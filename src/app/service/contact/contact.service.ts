@@ -70,10 +70,10 @@ export class ContactService {
     return this.http.get(`${this.baseUrl}${this.endpoints.getAllContacts}`, { params });
   }
 
-  markAsRead(contactId: string): Observable<any> {
+  markAsRead(contactId: string, message: string): Observable<any> {
     return this.http.patch(
       `${this.baseUrl}contact/${contactId}/mark-read`,
-      {}
+      { message }
     );
   }
 }

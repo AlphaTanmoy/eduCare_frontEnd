@@ -15,6 +15,7 @@ interface Contact {
   contact_message: string;
   contact_ticket_code: string;
   is_read: boolean;
+  acknowledgment_message?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -189,14 +190,22 @@ export class ViewContactListsComponent implements OnInit {
       return; // Don't do anything if already read
     }
 
-    this.contactService.markAsRead(contact._id).subscribe({
-      next: () => {
+    const message = prompt('Please enter your acknowledgment message:');
+    if (!message || message.trim() === '') {
+      this.openDialog('Error', 'Acknowledgment message is required.', ResponseTypeColor.ERROR, false);
+      return;
+    }
+
+    this.contactService.markAsRead(contact._id, message).subscribe({
+      next: (response) => {
         // Update the local state to reflect the change
         contact.is_read = true;
+        contact.acknowledgment_message = response.data.acknowledgment_message;
+        this.openDialog('Success', 'Message marked as read and acknowledgment sent.', ResponseTypeColor.SUCCESS, false);
       },
       error: (error) => {
         console.error('Error marking contact as read:', error);
-        this.openDialog('Error', 'Failed to mark message as read.', ResponseTypeColor.ERROR, false);
+        this.openDialog('Error', 'Failed to mark message as read. ' + (error.error?.message || ''), ResponseTypeColor.ERROR, false);
       }
     });
   }
