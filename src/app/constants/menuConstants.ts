@@ -130,6 +130,12 @@ export const MenuItems: any[] = [
         route: '/contact-us/rules',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
       },
+      {
+        id: 84,
+        name: 'View Contact Lists',
+        route: '/contact-us/view-contact-lists',
+        role: [UserRole.MASTER, UserRole.ADMIN],
+      },
     ],
   },
   {
