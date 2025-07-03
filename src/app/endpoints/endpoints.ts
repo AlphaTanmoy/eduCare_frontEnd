@@ -140,9 +140,9 @@ export const Endpoints = {
     counter: "counter/get_all",
     updateCounter: "counter/update",
   },
-  contacts: {
-    contact_us: "contacts/contact_us",
-    bug_report: "contacts/bug_report",
-    get_contacts_list: "contacts/get_contacts_list"
+  contact: {
+    contact_us: "contact/contact_us",
+    bug_report: "contact/bug_report",
+    get_contacts_list: "contact/get_contacts_list"
   }
 }
