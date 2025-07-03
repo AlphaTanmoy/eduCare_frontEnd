@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 
 export interface ContactFormData {
@@ -78,6 +79,14 @@ export class ContactService {
         message: message,
         is_read: true
       }
+    ).pipe(
+      map((response: any) => {
+        // Handle the new response format where data is an array with one object
+        if (response && Array.isArray(response.data)) {
+          return response.data[0] || {};
+        }
+        return response;
+      })
     );
   }
 }
