@@ -9,7 +9,7 @@ export interface ContactFormData {
   subject: string;
 }
 
-export interface BugReportData {
+export interface FeedbackReportData {
   emailId: string;
   message: string;
 }
@@ -29,7 +29,7 @@ export class ContactService {
   private baseUrl = GetBaseURL();
   private endpoints = {
     submitContact: Endpoints.contact.contact_us,
-    submitBugReport: Endpoints.contact.bug_report,
+    submitFeedbackReport: Endpoints.contact.feedback_report,
     getAllContacts: Endpoints.contact.get_contacts_list
   };
 
@@ -42,10 +42,10 @@ export class ContactService {
     );
   }
 
-  submitBugReport(bugReport: BugReportData): Observable<ContactResponse> {
+  submitFeedbackReport(feedbackReport: FeedbackReportData): Observable<ContactResponse> {
     return this.http.post<ContactResponse>(
-      `${this.baseUrl}${this.endpoints.submitBugReport}`,
-      bugReport
+      `${this.baseUrl}${this.endpoints.submitFeedbackReport}`,
+      feedbackReport
     );
   }
 
