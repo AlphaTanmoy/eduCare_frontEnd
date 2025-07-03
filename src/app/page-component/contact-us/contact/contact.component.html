@@ -1,1 +1,95 @@
-<p>contact works!</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h2 class="h4 mb-0">Contact Us</h2>
+          <p class="mb-0">Have questions? We're here to help!</p>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                formControlName="emailId"
+                [ngClass]="{'is-invalid': contactForm.get('emailId')?.invalid && contactForm.get('emailId')?.touched}"
+                placeholder="your.email@example.com"
+                required>
+              <div class="invalid-feedback" *ngIf="contactForm.get('emailId')?.errors?.['required']">
+                Email is required
+              </div>
+              <div class="invalid-feedback" *ngIf="contactForm.get('emailId')?.errors?.['email']">
+                Please enter a valid email address
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="mb-3">
+              <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="subject" 
+                formControlName="subject"
+                [ngClass]="{'is-invalid': contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched}"
+                placeholder="How can we help you?"
+                required>
+              <div class="invalid-feedback" *ngIf="contactForm.get('subject')?.errors?.['required']">
+                Subject is required
+              </div>
+              <div class="invalid-feedback" *ngIf="contactForm.get('subject')?.errors?.['minlength']">
+                Subject must be at least 5 characters long
+              </div>
+              <div class="invalid-feedback" *ngIf="contactForm.get('subject')?.errors?.['maxlength']">
+                Subject cannot exceed 200 characters
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-4">
+              <label for="message" class="form-label">Your Message <span class="text-danger">*</span></label>
+              <textarea 
+                class="form-control" 
+                id="message" 
+                rows="5" 
+                formControlName="message"
+                [ngClass]="{'is-invalid': contactForm.get('message')?.invalid && contactForm.get('message')?.touched}"
+                placeholder="Please provide details about your inquiry..."
+                required></textarea>
+              <div class="invalid-feedback" *ngIf="contactForm.get('message')?.errors?.['required']">
+                Message is required
+              </div>
+              <div class="invalid-feedback" *ngIf="contactForm.get('message')?.errors?.['minlength']">
+                Message must be at least 10 characters long
+              </div>
+              <div class="invalid-feedback" *ngIf="contactForm.get('message')?.errors?.['maxlength']">
+                Message cannot exceed 2000 characters
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="contactForm.invalid || isSubmitting">
+                <span *ngIf="!isSubmitting">Send Message</span>
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="isSubmitting" class="ms-2">Sending...</span>
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer bg-light">
+          <p class="text-muted small mb-0">
+            <i class="bi bi-info-circle me-1"></i> We'll get back to you as soon as possible, usually within 24-48 hours.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
