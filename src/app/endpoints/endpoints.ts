@@ -139,6 +139,10 @@ export const Endpoints = {
     deleteNotification: "masterdata/delete_notification",
     counter: "counter/get_all",
     updateCounter: "counter/update",
+  },
+  contacts: {
+    contact_us: "contacts/contact_us",
+    bug_report: "contacts/bug_report",
+    get_contacts_list: "contacts/get_contacts_list"
   }
-
 }
