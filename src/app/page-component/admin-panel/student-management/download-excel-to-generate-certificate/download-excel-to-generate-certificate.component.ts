@@ -256,14 +256,38 @@ export class DownloadExcelToGenerateCertificateComponent {
         link.click();
 
         URL.revokeObjectURL(link.href);
+        this.DownloadZipOfAllStudentPhotoOfFullTicket(_ticketid);
         this.FetchAllAvailableRaisedTicketList();
-        this.hideMatProgressBar();
       },
       error: (err) => {
         this.hideMatProgressBar();
         this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  DownloadZipOfAllStudentPhotoOfFullTicket(_ticketid: string) {
+    try {
+      this.studentCertificateService.downloadZipOfAllStudentPhotoOfFullTicket(_ticketid).subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `ticket_${new Date().toISOString().replace(/[:.]/g, '-')}.zip`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err?.error?.message ?? "Failed to generate student photo's zip for certificate related excel file", ResponseTypeColor.ERROR, null);
+        }
+      });
+    } catch (e) {
+      this.hideMatProgressBar();
+      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
+    }
   }
 
   ngOnDestroy(): void {

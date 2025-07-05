@@ -41,4 +41,8 @@ export class StudentCertificateService {
   publishTicket(_ticketid: string) {
     return this.http.post(GetBaseURL() + Endpoints.student_certificate.publish_ticket, { _ticketid });
   }
+
+  downloadZipOfAllStudentPhotoOfFullTicket(ticket_id: string) {
+    return this.http.post(GetBaseURL() + Endpoints.student_certificate.download_zip_of_all_student_photo_of_full_ticket, { ticket_id }, { responseType: 'blob', });
+  }
 }
