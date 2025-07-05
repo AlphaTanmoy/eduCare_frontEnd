@@ -143,7 +143,7 @@ export class DownloadExcelToGenerateCertificateComponent {
           link.click();
 
           URL.revokeObjectURL(link.href);
-          this.hideMatProgressBar();
+          this.DownloadZipOSingleStudentPhoto();
         },
         error: async (err) => {
           this.hideMatProgressBar();
@@ -270,6 +270,42 @@ export class DownloadExcelToGenerateCertificateComponent {
         this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  DownloadZipOSingleStudentPhoto() {
+    try {
+      this.studentCertificateService.downloadZipOfSingleStudentPhoto(this.student_registration_number).subscribe({
+        next: (response: any) => {
+          const blob = response.body;
+          if (!blob) return;
+
+          const contentDisposition = response.headers.get('Content-Disposition') || '';
+          const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+          const filename = filenameMatch && filenameMatch[1]
+            ? filenameMatch[1].replace(/['"]/g, '')
+            : 'download.zip';
+
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err?.error?.message ?? "Failed to generate student photo's zip for certificate related excel file", ResponseTypeColor.ERROR, null);
+        }
+      });
+    } catch (e) {
+      this.hideMatProgressBar();
+      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
+    }
   }
 
   DownloadZipOfAllStudentPhotoOfFullTicket(ticket: any, progressBarType: number) {

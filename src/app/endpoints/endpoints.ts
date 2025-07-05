@@ -108,6 +108,7 @@ export const Endpoints = {
     get_available_certificate_ticket_list: "student_certificate/get_available_certificate_ticket_list", 
     accept_reject_ticket: "student_certificate/accept_reject_ticket", 
     publish_ticket: "student_certificate/publish_ticket", 
+    download_zip_of_single_student_photo: "student_certificate/download_zip_of_single_student_photo", 
     download_zip_of_all_student_photo_of_full_ticket: "student_certificate/download_zip_of_all_student_photo_of_full_ticket", 
   },
   wallet: {
