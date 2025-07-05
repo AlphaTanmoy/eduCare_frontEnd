@@ -269,15 +269,25 @@ export class DownloadExcelToGenerateCertificateComponent {
   DownloadZipOfAllStudentPhotoOfFullTicket(_ticketid: string) {
     try {
       this.studentCertificateService.downloadZipOfAllStudentPhotoOfFullTicket(_ticketid).subscribe({
-        next: (blob) => {
+        next: (response: any) => {
+          const blob = response.body;
+          if (!blob) return;
+
+          const contentDisposition = response.headers.get('Content-Disposition') || '';
+          const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+          const filename = filenameMatch && filenameMatch[1]
+            ? filenameMatch[1].replace(/['"]/g, '')
+            : 'download.zip';
+
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = `ticket_${new Date().toISOString().replace(/[:.]/g, '-')}.zip`;
+          a.download = filename;
+          a.style.display = 'none';
+          document.body.appendChild(a);
           a.click();
+          document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
-
-          this.hideMatProgressBar();
         },
         error: (err) => {
           this.hideMatProgressBar();
