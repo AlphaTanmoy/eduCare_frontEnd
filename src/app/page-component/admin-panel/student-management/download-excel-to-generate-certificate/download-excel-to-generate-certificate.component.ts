@@ -42,6 +42,9 @@ import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-comp
 export class DownloadExcelToGenerateCertificateComponent {
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   matProgressBarVisible = false;
+  matProgressBarVisible1 = false;
+  matProgressBarVisible2 = false;
+  matProgressBarVisible3 = false;
   readonly dialog = inject(MatDialog);
 
   faDownload = faDownload;
@@ -156,11 +159,11 @@ export class DownloadExcelToGenerateCertificateComponent {
             } else if (typeof err.error === 'object') {
               errorMessage = err.error.details || err.error.message || errorMessage;
             }
+
+            this.openDialog("Download Excel", errorMessage, ResponseTypeColor.ERROR, null);
           } catch (e) {
             this.openDialog("Download Excel", "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
           }
-
-          this.openDialog("Download Excel", errorMessage, ResponseTypeColor.ERROR, null);
         }
       });
     } catch (err) {
@@ -184,11 +187,11 @@ export class DownloadExcelToGenerateCertificateComponent {
       dialogRef.afterClosed().subscribe(async (result: any) => {
         if (result) {
           if (result.status === true) {
-            this.activeMatProgressBar();
+            this.activeMatProgressBar1();
 
             this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, result.remarks).subscribe({
               next: (response: any) => {
-                this.hideMatProgressBar();
+                this.hideMatProgressBar1();
 
                 if (response.status === 200) {
                   this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
@@ -198,7 +201,7 @@ export class DownloadExcelToGenerateCertificateComponent {
                 }
               },
               error: (err) => {
-                this.hideMatProgressBar();
+                this.hideMatProgressBar1();
                 this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
               }
             });
@@ -210,11 +213,11 @@ export class DownloadExcelToGenerateCertificateComponent {
         }
       });
     } else {
-      this.activeMatProgressBar();
+      this.activeMatProgressBar1();
 
       this.studentCertificateService.acceptOrRejectTicket(_ticketid, status, null).subscribe({
         next: (response: any) => {
-          this.hideMatProgressBar();
+          this.hideMatProgressBar1();
 
           if (response.status === 200) {
             this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
@@ -224,7 +227,7 @@ export class DownloadExcelToGenerateCertificateComponent {
           }
         },
         error: (err) => {
-          this.hideMatProgressBar();
+          this.hideMatProgressBar1();
           this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
         }
       });
@@ -232,8 +235,10 @@ export class DownloadExcelToGenerateCertificateComponent {
 
   }
 
-  DownloadExcelOfTicket(_ticketid: string) {
-    this.activeMatProgressBar();
+  DownloadExcelOfTicket(ticket: any, progressBarType: number) {
+    const _ticketid = ticket._id;
+    if (progressBarType === 2) this.activeMatProgressBar2();
+    if (progressBarType === 3) this.activeMatProgressBar3();
 
     const info = {
       "status": "TICKET",
@@ -256,17 +261,20 @@ export class DownloadExcelToGenerateCertificateComponent {
         link.click();
 
         URL.revokeObjectURL(link.href);
-        this.DownloadZipOfAllStudentPhotoOfFullTicket(_ticketid);
-        this.FetchAllAvailableRaisedTicketList();
+        this.DownloadZipOfAllStudentPhotoOfFullTicket(ticket, progressBarType);
       },
       error: (err) => {
-        this.hideMatProgressBar();
+        if (progressBarType === 2) this.hideMatProgressBar2();
+        if (progressBarType === 3) this.hideMatProgressBar3();
+
         this.openDialog("Student", err?.error?.message ?? "Failed to generate certificate related excel file", ResponseTypeColor.ERROR, null);
       }
     });
   }
 
-  DownloadZipOfAllStudentPhotoOfFullTicket(_ticketid: string) {
+  DownloadZipOfAllStudentPhotoOfFullTicket(ticket: any, progressBarType: number) {
+    const _ticketid = ticket._id;
+
     try {
       this.studentCertificateService.downloadZipOfAllStudentPhotoOfFullTicket(_ticketid).subscribe({
         next: (response: any) => {
@@ -288,14 +296,21 @@ export class DownloadExcelToGenerateCertificateComponent {
           a.click();
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
+
+          if (progressBarType === 2) this.hideMatProgressBar2();
+          if (progressBarType === 3) this.hideMatProgressBar3();
+
+          if (ticket.data_status === this.CertificateTicketStatus.ACCEPTED) this.FetchAllAvailableRaisedTicketList();
         },
         error: (err) => {
-          this.hideMatProgressBar();
+          if (progressBarType === 2) this.hideMatProgressBar2();
+          if (progressBarType === 3) this.hideMatProgressBar3();
           this.openDialog("Student", err?.error?.message ?? "Failed to generate student photo's zip for certificate related excel file", ResponseTypeColor.ERROR, null);
         }
       });
     } catch (e) {
-      this.hideMatProgressBar();
+      if (progressBarType === 2) this.hideMatProgressBar2();
+      if (progressBarType === 3) this.hideMatProgressBar3();
       this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
     }
   }
@@ -311,6 +326,36 @@ export class DownloadExcelToGenerateCertificateComponent {
 
   hideMatProgressBar() {
     this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  activeMatProgressBar1() {
+    this.matProgressBarVisible1 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar1() {
+    this.matProgressBarVisible1 = false;
+    this.cdr.detectChanges();
+  }
+
+  activeMatProgressBar2() {
+    this.matProgressBarVisible2 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar2() {
+    this.matProgressBarVisible2 = false;
+    this.cdr.detectChanges();
+  }
+
+  activeMatProgressBar3() {
+    this.matProgressBarVisible3 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar3() {
+    this.matProgressBarVisible3 = false;
     this.cdr.detectChanges();
   }
 
