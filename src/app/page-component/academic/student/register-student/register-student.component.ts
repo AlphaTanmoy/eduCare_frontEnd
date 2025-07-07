@@ -120,6 +120,7 @@ export class RegisterStudentComponent {
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
   student_photo: File | null = null;
+  student_photo_extension: string | null = null;
 
   terms_and_conditions_status = false;
 
@@ -237,7 +238,20 @@ export class RegisterStudentComponent {
     fetch(imgElement.src)
       .then(res => res.blob())
       .then(blob => {
-        const file = new File([blob], "croppedImage.jpg", { type: "image/jpeg" });
+        const mimeType = blob.type; // e.g., "image/jpeg"
+        const extensionMap: { [key: string]: string } = {
+          "image/jpeg": ".jpg",
+          "image/jpg": ".jpg",
+          "image/png": ".png",
+          "image/webp": ".webp",
+          "image/gif": ".gif",
+          "image/bmp": ".bmp"
+        };
+
+        const extension = extensionMap[mimeType] || '';
+        this.student_photo_extension = extension;
+
+        const file = new File([blob], `croppedImage${extension}`, { type: mimeType });
         this.student_photo = file;
       });
   }
@@ -357,6 +371,7 @@ export class RegisterStudentComponent {
             student_pincode: this.student_pincode?.toString() || '',
             aadhar_card_uploaded: response1.data[0].aadhar_card_uploaded,
             student_photo_uploaded: response1.data[0].student_photo_uploaded,
+            passport_sized_photo_extension: this.student_photo_extension
           };
 
           this.studentService.CreateStudent(payload).subscribe({
@@ -364,7 +379,7 @@ export class RegisterStudentComponent {
               this.hideMatProgressBar();
 
               if (response.status === 200) {
-                this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student");
+                this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student/active-student");
               } else {
                 this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
               }
