@@ -114,6 +114,7 @@
 
                             <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
                                 *ngIf="student.student_enrollment_status !== EnrollmentStatus.REGISTERED && 
+                                student.student_enrollment_status !== EnrollmentStatus.FEES_REFUNDED &&
                                 student.student_enrollment_status !== EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED && student.data_status === ActiveInactiveStatus.ACTIVE"
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
@@ -154,7 +155,7 @@
                                     (click)="EditStudent(student.student_id)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
-                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED && student.marks_updated_for_atleast_one_course === false"
+                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED && student.marks_updated_for_atleast_one_course === false && student.has_given_exam === false"
                                     matTooltip="Delete Student" [icon]="faTrash"
                                     (click)="DeleteStudent(student)"></fa-icon>
                             </div>
