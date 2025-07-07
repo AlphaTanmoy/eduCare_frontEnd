@@ -154,7 +154,7 @@
                                     (click)="EditStudent(student.student_id)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
-                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED"
+                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED && student.marks_updated_for_atleast_one_course === false"
                                     matTooltip="Delete Student" [icon]="faTrash"
                                     (click)="DeleteStudent(student)"></fa-icon>
                             </div>
