@@ -62,7 +62,7 @@ export class ManageExamMarksComponent {
     this.route.params.subscribe(params => {
       this.StudentId = params['studentId'];
       if (!this.StudentId) {
-        this.openDialog("Marks Update", "Student Id is required", ResponseTypeColor.ERROR, 'control-panel/manage-student');
+        this.openDialog("Marks Update", "Student Id is required", ResponseTypeColor.ERROR, 'control-panel/manage-student/active-student');
         return;
       }
     });
