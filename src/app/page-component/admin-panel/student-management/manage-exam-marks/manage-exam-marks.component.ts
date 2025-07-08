@@ -3,7 +3,7 @@ import { loadBootstrap } from '../../../../../load-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { EnrollmentStatus, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -41,11 +41,13 @@ export class ManageExamMarksComponent {
   ModuleDetails: any[] = [];
   OriginalMarks: any[] = [];
   course_code: string | null = null;
+  student_enrollment_status: string | null = null;
 
   err_msg: string | null = null;
 
   role: string | null = null;
   UserRole = UserRole;
+  EnrollmentStatus = EnrollmentStatus;
 
   constructor(
     private router: Router,
@@ -69,7 +71,7 @@ export class ManageExamMarksComponent {
     this.role = this.authService.getUserRole();
 
     if (this.role === UserRole.ADMIN || this.role === UserRole.MASTER) {
-      this.openDialog("Marks Update", "You are viewing this page as a Master/Admin. Features are disabled for you.", ResponseTypeColor.INFO, null);
+      this.openDialog("Marks Update", "You are viewing this page as a Master/Admin. Some features might be disabled for you.", ResponseTypeColor.INFO, null);
     }
   }
 
@@ -87,6 +89,7 @@ export class ManageExamMarksComponent {
           this.ModuleDetails = response.data[0].module_details;
           this.OriginalMarks = response.data[0].original_marks;
           this.course_code = response.data[0].course_code;
+          this.student_enrollment_status = response.data[0].student_enrollment_status;
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }

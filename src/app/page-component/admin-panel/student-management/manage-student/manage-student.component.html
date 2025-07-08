@@ -115,7 +115,8 @@
                             <fa-icon class="icon btn_cursor_pointer text-secondary me-1" matTooltipPosition="above"
                                 *ngIf="student.student_enrollment_status !== EnrollmentStatus.REGISTERED && 
                                 student.student_enrollment_status !== EnrollmentStatus.FEES_REFUNDED &&
-                                student.student_enrollment_status !== EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED && student.data_status === ActiveInactiveStatus.ACTIVE"
+                                student.student_enrollment_status !== EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED && student.data_status === ActiveInactiveStatus.ACTIVE && 
+                                ((isAdmin && student.student_enrollment_status !== EnrollmentStatus.FEES_PAID) || (isFranchise && student.student_enrollment_status === EnrollmentStatus.FEES_PAID))"
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
 

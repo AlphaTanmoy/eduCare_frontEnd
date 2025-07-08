@@ -16,9 +16,10 @@
             <span *ngIf="data.theory_err_msg" class="text-danger">{{ data.theory_err_msg }}</span>
 
             <input type="number" class="form-control mb-3" placeholder="Theoretical Marks" [min]="0"
-                [disabled]="role === UserRole.ADMIN || role === UserRole.MASTER || data.marks_uploaded === true"
                 [max]="MaximumTheoreticalMarks" [(ngModel)]="data.theory_marks"
-                (ngModelChange)="ValidateTheoryMarks(data)" />
+                (ngModelChange)="ValidateTheoryMarks(data)" [disabled]="(student_enrollment_status === EnrollmentStatus.REGISTERED || student_enrollment_status === EnrollmentStatus.FEES_REFUNDED) || 
+                ((role === UserRole.ADMIN || role === UserRole.MASTER) && student_enrollment_status === EnrollmentStatus.FEES_PAID) || 
+                (role === UserRole.FRANCHISE && student_enrollment_status !== EnrollmentStatus.FEES_PAID)" />
 
             <!-- Practical Marks -->
             <label class="form-label mb-1">Practical Marks<span class="text-danger">*</span></label>
@@ -26,15 +27,17 @@
             <span *ngIf="data.practical_err_msg" class="text-danger">{{ data.practical_err_msg }}</span>
 
             <input type="number" class="form-control" placeholder="Practical Marks" [min]="0"
-                [disabled]="role === UserRole.ADMIN || role === UserRole.MASTER || data.marks_uploaded === true"
                 [max]="MaximumPracticalMarks" [(ngModel)]="data.practical_marks"
-                (ngModelChange)="ValidatePracticalMarks(data)" />
+                (ngModelChange)="ValidatePracticalMarks(data)" [disabled]="(student_enrollment_status === EnrollmentStatus.REGISTERED || student_enrollment_status === EnrollmentStatus.FEES_REFUNDED) || 
+                ((role === UserRole.ADMIN || role === UserRole.MASTER) && student_enrollment_status === EnrollmentStatus.FEES_PAID) || 
+                (role === UserRole.FRANCHISE && student_enrollment_status !== EnrollmentStatus.FEES_PAID)" />
 
 
-            <div class="w-100 d-flex justify-content-end mt-3" *ngIf="data.marks_uploaded === false">
-                <button class="btn btn-primary btn-sm"
-                    [disabled]="data.theory_err_msg || data.practical_err_msg || data.theory_marks == null || 
-                        data.practical_marks === null || role == UserRole.ADMIN || role == UserRole.MASTER"
+            <div class="w-100 d-flex justify-content-end mt-3">
+                <button class="btn btn-primary btn-sm" [disabled]="data.theory_err_msg || data.practical_err_msg || data.theory_marks == null || 
+                        data.practical_marks === null || (student_enrollment_status === EnrollmentStatus.REGISTERED || student_enrollment_status === EnrollmentStatus.FEES_REFUNDED) || 
+                        ((role === UserRole.ADMIN || role === UserRole.MASTER) && student_enrollment_status === EnrollmentStatus.FEES_PAID) || 
+                        (role === UserRole.FRANCHISE && student_enrollment_status !== EnrollmentStatus.FEES_PAID)"
                     (click)="SaveMarks(data)">Save</button>
             </div>
         </div>
