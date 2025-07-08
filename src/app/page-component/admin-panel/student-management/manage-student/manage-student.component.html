@@ -120,7 +120,7 @@
                                 matTooltip="Update exam marks" [icon]="faRectangleList"
                                 (click)="MarksUpdate(student)"></fa-icon>
 
-                            <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above" *ngIf="isAdmin && student.has_given_exam && 
+                            <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above" *ngIf="isAdmin && student.has_given_exam && 
                                 (student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING || student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED
                                      || student.student_enrollment_status === EnrollmentStatus.COMPLETED) && 
                                 student.data_status === ActiveInactiveStatus.ACTIVE" matTooltip="Upload Certificate"
@@ -156,7 +156,9 @@
                                     (click)="EditStudent(student.student_id)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"
-                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED && student.marks_updated_for_atleast_one_course === false && student.has_given_exam === false"
+                                    *ngIf="student.data_status !== ActiveInactiveStatus.DELETED && student.marks_updated_for_atleast_one_course === false && student.has_given_exam === false &&
+                                    (student.student_enrollment_status === EnrollmentStatus.REGISTERED || student.student_enrollment_status === EnrollmentStatus.FEES_PAID || 
+                                        student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED || student.student_enrollment_status === EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED)"
                                     matTooltip="Delete Student" [icon]="faTrash"
                                     (click)="DeleteStudent(student)"></fa-icon>
                             </div>
