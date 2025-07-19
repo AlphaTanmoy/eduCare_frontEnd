@@ -1,7 +1,7 @@
 <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1" class="matProgressBar"></mat-progress-bar>
 
 <div class="container mt-4">
-    <h2 class="m-4 text-center" *ngIf="student_name !== null && student_name !== ''">Editing Student - {{student_name}}</h2>
+    <h2 class="m-4 text-center" *ngIf="student_name !== null && student_name !== ''">Editing Student - {{student_details_old.student.student_name}}</h2>
     <h2 class="m-4 text-center" *ngIf="student_name === null || student_name === ''">Edit Student</h2>
 
     <div class="row justify-content-center">
