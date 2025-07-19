@@ -89,6 +89,7 @@ export const Endpoints = {
     add_student_document: "student/add_student_document",
     get_all_students: "student/get_all_students",
     get_student_photo_by_batch_processing: "student/get_student_photo_by_batch_processing",
+    get_student_photo_stream: "student/get_student_photo_stream",
     get_student_aadhar_card_photo_stream: "student/get_student_aadhar_card_photo_stream",
     get_student_by_id: "student/getById",
     update_student: "student/update",

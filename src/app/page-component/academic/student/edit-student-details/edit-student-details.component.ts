@@ -56,6 +56,8 @@ export class EditStudentDetailsComponent {
 
   matProgressBarVisible = false;
   matProgressBarVisible1 = false;
+  matProgressBarVisible2 = false;
+  matProgressBarVisible3 = false;
 
   StudentDocumentName = StudentDocumentName;
   faDownload = faDownload;
@@ -204,7 +206,8 @@ export class EditStudentDetailsComponent {
 
         this.student_details_old = response.data[0];
         this.getStudentsAadharCardPhotoStream();
-        
+        this.getStudentsPhotoStream();
+
         this.student_name = response.data[0].student.student_name;
         this.student_Adhar_number = response.data[0].student.student_Adhar_number;
         this.student_DOB = new Date(response.data[0].student.student_DOB);
@@ -235,15 +238,33 @@ export class EditStudentDetailsComponent {
     });
   }
 
+  getStudentsPhotoStream() {
+    this.activeMatProgressBar2();
+    this.studentService.getStudentPhotoStream(this.student_details_old.student.student_guid).subscribe({
+      next: (imageData: Blob) => {
+        let document = URL.createObjectURL(imageData);
+        this.old_student_photo = document;
+        this.has_student_photo = true;
+        this.hideMatProgressBar2();
+      },
+      error: (err) => {
+        this.hideMatProgressBar2();
+        this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   getStudentsAadharCardPhotoStream() {
+    this.activeMatProgressBar3()
     this.studentService.getStudentsAadharCardPhotoStream(this.student_details_old.student.student_guid).subscribe({
       next: (imageData: Blob) => {
-        let center_document = URL.createObjectURL(imageData);
-        this.old_aadhar_card_photo = center_document;
+        this.hideMatProgressBar3()
+        let document = URL.createObjectURL(imageData);
+        this.old_aadhar_card_photo = document;
         this.has_aadhar_card_photo = true;
       },
       error: (err) => {
-        this.hideMatProgressBar1();
+        this.hideMatProgressBar3();
         this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
@@ -431,7 +452,7 @@ export class EditStudentDetailsComponent {
     } else if (download_type === StudentDocumentName.PASSPORT_SIZED_PHOTO) {
       download_file = this.old_student_photo;
       download_filename = StudentDocumentName.PASSPORT_SIZED_PHOTO;
-    } 
+    }
 
     const link = document.createElement('a');
     link.href = download_file;
@@ -561,6 +582,26 @@ export class EditStudentDetailsComponent {
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar2() {
+    this.matProgressBarVisible2 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar2() {
+    this.matProgressBarVisible2 = false;
+    this.cdr.detectChanges();
+  }
+
+  activeMatProgressBar3() {
+    this.matProgressBarVisible3 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar3() {
+    this.matProgressBarVisible3 = false;
+    this.cdr.detectChanges();
   }
 
   activeMatProgressBar1() {

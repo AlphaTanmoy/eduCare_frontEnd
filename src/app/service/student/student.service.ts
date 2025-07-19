@@ -172,6 +172,10 @@ export class StudentService {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.get_student_photo_by_batch_processing, student_guids);
   }
 
+  getStudentPhotoStream(student_guid: string): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.student.get_student_photo_stream + "/" + student_guid, { responseType: 'blob' });
+  }
+
   getStudentsAadharCardPhotoStream(student_guid: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_aadhar_card_photo_stream + "/" + student_guid, { responseType: 'blob' });
   }
