@@ -223,7 +223,7 @@ export class ManageStudentComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   EditStudent(id: any) {
-
+    this.router.navigate(['academic/edit-student-details/' + id]);
   }
 
   PayFees(student: any) {
