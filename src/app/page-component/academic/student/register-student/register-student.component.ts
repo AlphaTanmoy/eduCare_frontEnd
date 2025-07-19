@@ -326,7 +326,7 @@ export class RegisterStudentComponent {
     StudentSignatureInput.value = '';
   }
 
-  submit() {
+  async submit() {
     const formData = new FormData();
 
     formData.append("document_info", JSON.stringify([
@@ -337,9 +337,17 @@ export class RegisterStudentComponent {
     if (this.aadhar_card_photo) {
       formData.append("files", this.aadhar_card_photo);
     }
-    if (this.student_photo) {
-      formData.append("files", this.student_photo);
-    }
+    // if (this.student_photo) {
+    //   formData.append("files", this.student_photo);
+    // }
+
+    // Fetch blob from SafeUrl for cropped image
+    const blobUrl = this.croppedImage['changingThisBreaksApplicationSecurity'];
+
+    const blob = await fetch(blobUrl).then(res => res.blob());
+    const studentPhotoFile = new File([blob], StudentDocumentName.PASSPORT_SIZED_PHOTO, { type: blob.type });
+
+    formData.append('files', studentPhotoFile);
 
     this.activeMatProgressBar();
 
@@ -371,7 +379,7 @@ export class RegisterStudentComponent {
             student_pincode: this.student_pincode?.toString() || '',
             aadhar_card_uploaded: response1.data[0].aadhar_card_uploaded,
             student_photo_uploaded: response1.data[0].student_photo_uploaded,
-            passport_sized_photo_extension: this.student_photo_extension
+            passport_sized_photo_extension: ".jpg" //this.student_photo_extension
           };
 
           this.studentService.CreateStudent(payload).subscribe({
