@@ -1,0 +1,57 @@
+.mat-stepper-vertical {
+    margin-top: 8px;
+}
+
+::ng-deep .selected-step-label {
+    background-color: var(--light-blue) !important;
+    color: #fff !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px !important;
+    display: inline-block;
+}
+
+.stepper_button_of_middle {
+    margin-right: 1rem;
+}
+
+::ng-deep .mat-step-icon {
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+    border-radius: 50% !important;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageCropperDivbackground{
+    background-color: var(--light);
+    border-radius: 0.5rem;
+    border: 2px solid var(--light1);
+    padding: 0.5rem;
+}
+
+.imageCropper {
+    width: auto;
+    max-width: max-content;
+    height: auto;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.imageCropper ::ng-deep canvas {
+    height: 100% !important;
+    width: auto !important;
+    object-fit: cover;
+}
+
+#croppedStudentPassportSizePhoto {
+    width: auto;
+    max-width: max-content;
+    height: auto;
+    max-height: 400px;
+}

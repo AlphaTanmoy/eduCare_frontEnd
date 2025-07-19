@@ -147,13 +147,13 @@ export class RegisterStudentComponent {
             },
             error: (err) => {
               this.hideMatProgressBar();
-              this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
+              this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
             }
           });
         },
         error: (err) => {
           this.hideMatProgressBar();
-          this.openDialog("Franchise", "Internal server error", ResponseTypeColor.ERROR, null);
+          this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
         }
       });
     } else if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
@@ -161,7 +161,7 @@ export class RegisterStudentComponent {
       this.hideMatProgressBar();
 
       if (res.status !== 200) {
-        this.openDialog("Franchise", res.message, ResponseTypeColor.ERROR, null);
+        this.openDialog("Student", res.message, ResponseTypeColor.ERROR, null);
         return;
       }
 
@@ -172,7 +172,7 @@ export class RegisterStudentComponent {
       });
     } else {
       this.hideMatProgressBar();
-      this.openDialog("Franchise", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
+      this.openDialog("Student", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
     }
   }
 

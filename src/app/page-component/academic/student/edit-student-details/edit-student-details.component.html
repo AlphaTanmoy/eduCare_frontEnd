@@ -1,1 +1,310 @@
-<p>edit-student-details works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+<div class="container mt-4">
+    <h2 class="m-4 text-center">Edit Student</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <mat-stepper [orientation]="stepperOrientation" [linear]="isLinear" #stepper
+                (selectionChange)="onStepChange($event)">
+                <!-- Step 1 -->
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 0 }">Necessery
+                                Details</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Student Name<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Aadhar Number<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_Adhar_number" pattern="[0-9]*" inputmode="numeric"
+                                        [disabled]="true"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="12" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-date-picker [placeholder]="'Date of Birth'" *ngIf="form1_visible"
+                                        (dateChanged)="onDobSelected($event)">
+                                    </app-custom-date-picker>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Marital Status'"
+                                        [selectedOptions]="null"
+                                        (selectionChange)="handleMaritalStatusSelection($event)">
+                                    </app-custom-single-select-searchable-dropdown>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <app-custom-single-select-searchable-dropdown [options]="gender_option"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'" [selectedOptions]="null"
+                                        (selectionChange)="handleGenderSelection($event)">
+                                    </app-custom-single-select-searchable-dropdown>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Email</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
+                                        [(ngModel)]="student_email" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Phone<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_phone_no" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Whatsapp</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_whats_app" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2"
+                                *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
+                                <app-custom-single-select-searchable-dropdown *ngIf="form1_visible"
+                                    [options]="available_franchises" [ariaLabel]="'Select Franchise'"
+                                    [selectedOptions]="null" (selectionChange)="handleFranchiseSelection($event)">
+                                </app-custom-single-select-searchable-dropdown>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <app-custom-single-select-searchable-dropdown
+                                    *ngIf="form1_visible && sub_course_form_visible"
+                                    [options]="available_sub_course_categories" [ariaLabel]="'Choose Courses'"
+                                    [selectedOptions]="null" (selectionChange)="handleSelectedSubCourses($event)">
+                                </app-custom-single-select-searchable-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-sm" (click)="reset_basic_details_form()">Reset</button>
+                            <button matStepperNext class="btn btn-primary btn-sm">Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 2 -->
+                <mat-step [stepControl]="secondFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 1 }">Family Details</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Father's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_fathers_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Mother's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_mothers_name" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Husband's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_husbands_name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Wife's Name</label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_wifes_name" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Gurardian's Phone Number<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_guardians_number" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="10" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-sm" (click)="reset_family_details_form()">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle btn-sm"
+                                    matStepperPrevious>Back</button>
+                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 3 -->
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="thirdFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 2 }">Address</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Village/City<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_village_city" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Post Office<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_post_office" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">District<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_district" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">State<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_state" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <div class="form-group mt-2">
+                                    <label for="courseName">Pincode<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="student_pincode" pattern="[0-9]*" inputmode="numeric"
+                                        (keypress)="$event.key >= '0' && $event.key <= '9' || $event.key === 'Backspace' || $event.key === 'Delete'"
+                                        maxlength="6" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-sm" (click)="reset_address_form()">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle btn-sm"
+                                    matStepperPrevious>Back</button>
+                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 4 -->
+                <mat-step [stepControl]="forthFormGroup">
+                    <form [formGroup]="forthFormGroup">
+                        <ng-template matStepLabel>
+                            <span [ngClass]="{ 'selected-step-label': selectedStepIndex === 3 }">Documents</span>
+                        </ng-template>
+
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Aadhar Card (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" #AadharPhotoInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png" (change)="handleAadharSelected($event)">
+                            </div>
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label mb-1">Passport Sized Photo (jpg/jpeg/png) <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" #StudentSignatureInput class="form-control"
+                                    accept="image/jpeg,image/jpg,image/png"
+                                    (change)="handleStudentPhotoSelected($event)">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2 d-flex justify-content-around imageCropperDivbackground"
+                            *ngIf="displayProperty">
+                            <div class="col-12 col-md-4 d-flex justify-content-center">
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                    [aspectRatio]="3/4" format="jpeg" (imageCropped)="imageCropped($event)"
+                                    class="imageCropper align-self-center" (imageLoaded)="imageLoaded($event)"
+                                    (cropperReady)="cropperReady()"
+                                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+                            </div>
+                            <div class="col-12 col-md-4 d-flex justify-content-center">
+                                <img [src]="croppedImage" id="croppedStudentPassportSizePhoto" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-sm"
+                                (click)="reset_document_form(AadharPhotoInput, StudentSignatureInput)">Reset</button>
+
+                            <div class="d-flex justify-content-around">
+                                <button class="btn btn-primary stepper_button_of_middle btn-sm"
+                                    matStepperPrevious>Back</button>
+                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+            </mat-stepper>
+        </div>
+    </div>
+</div>

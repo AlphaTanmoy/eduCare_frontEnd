@@ -196,4 +196,8 @@ export class StudentService {
     console.log("HI");
     return this.http.post<any>(GetBaseURL() + Endpoints.student.get_all_passout_students, { page_number, page_size });
   }
+
+  getStudentInfoById(studentId: string | null): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_id + "/" + studentId);
+  }
 }
