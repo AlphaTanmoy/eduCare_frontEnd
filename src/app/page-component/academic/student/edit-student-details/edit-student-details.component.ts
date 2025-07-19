@@ -19,6 +19,8 @@ import { FranchiseService } from '../../../../service/franchise/franchise.servic
 import { firstValueFrom } from 'rxjs';
 import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-edit-student-details',
@@ -31,7 +33,8 @@ import { DomSanitizer } from '@angular/platform-browser';
     MatStepperModule,
     CustomDatePickerComponent,
     CustomSingleSelectSearchableDropdownComponent,
-    ImageCropperComponent
+    ImageCropperComponent,
+    FontAwesomeModule
   ],
   templateUrl: './edit-student-details.component.html',
   styleUrl: './edit-student-details.component.css'
@@ -53,6 +56,9 @@ export class EditStudentDetailsComponent {
 
   matProgressBarVisible = false;
   matProgressBarVisible1 = false;
+
+  StudentDocumentName = StudentDocumentName;
+  faDownload = faDownload;
 
   selectedStepIndex = 0;
   isLinear = false;
@@ -116,8 +122,12 @@ export class EditStudentDetailsComponent {
   student_village_city = '';
   student_pincode: number | null = null;
 
+  has_aadhar_card_photo: boolean = false;
+  old_aadhar_card_photo: string = "";
   aadhar_card_photo: File | null = null;
 
+  has_student_photo: boolean = false;
+  old_student_photo: string = "";
   displayProperty: boolean = false;
   imageChangedEvent: Event | null = null;
   croppedImage: any | null = null;
@@ -193,7 +203,8 @@ export class EditStudentDetailsComponent {
         }
 
         this.student_details_old = response.data[0];
-
+        this.getStudentsAadharCardPhotoStream();
+        
         this.student_name = response.data[0].student.student_name;
         this.student_Adhar_number = response.data[0].student.student_Adhar_number;
         this.student_DOB = new Date(response.data[0].student.student_DOB);
@@ -216,6 +227,20 @@ export class EditStudentDetailsComponent {
 
         this.updateDropdownsByDefaultValues(response.data[0]);
         this.hideMatProgressBar1();
+      },
+      error: (err) => {
+        this.hideMatProgressBar1();
+        this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
+  getStudentsAadharCardPhotoStream() {
+    this.studentService.getStudentsAadharCardPhotoStream(this.student_details_old.student.student_guid).subscribe({
+      next: (imageData: Blob) => {
+        let center_document = URL.createObjectURL(imageData);
+        this.old_aadhar_card_photo = center_document;
+        this.has_aadhar_card_photo = true;
       },
       error: (err) => {
         this.hideMatProgressBar1();
@@ -394,6 +419,27 @@ export class EditStudentDetailsComponent {
     this.student_post_office = this.student_details_old.student.student_post_office;
     this.student_village_city = this.student_details_old.student.student_village_city;
     this.student_pincode = this.student_details_old.student.student_pincode;
+  }
+
+  download_and_view_existing_document(download_type: string) {
+    let download_file: string = "";
+    let download_filename: string | null = "";
+
+    if (download_type === StudentDocumentName.AADHAR_CARD_PHOTO) {
+      download_file = this.old_aadhar_card_photo;
+      download_filename = StudentDocumentName.AADHAR_CARD_PHOTO;
+    } else if (download_type === StudentDocumentName.PASSPORT_SIZED_PHOTO) {
+      download_file = this.old_student_photo;
+      download_filename = StudentDocumentName.PASSPORT_SIZED_PHOTO;
+    } 
+
+    const link = document.createElement('a');
+    link.href = download_file;
+
+    let extension_name = "jpg";
+
+    link.download = `${this.student_details_old.student.student_name}_${download_filename}.${extension_name}`;
+    link.click();
   }
 
   reset_document_form(AadharPhotoInput: HTMLInputElement, StudentSignatureInput: HTMLInputElement) {

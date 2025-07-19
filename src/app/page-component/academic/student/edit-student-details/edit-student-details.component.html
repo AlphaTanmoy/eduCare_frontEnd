@@ -1,7 +1,9 @@
-<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1" class="matProgressBar"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1"
+    class="matProgressBar"></mat-progress-bar>
 
 <div class="container mt-4">
-    <h2 class="m-4 text-center" *ngIf="student_name !== null && student_name !== ''">Editing Student - {{student_details_old.student.student_name}}</h2>
+    <h2 class="m-4 text-center" *ngIf="student_name !== null && student_name !== ''">Editing Student -
+        {{student_details_old.student.student_name}}</h2>
     <h2 class="m-4 text-center" *ngIf="student_name === null || student_name === ''">Edit Student</h2>
 
     <div class="row justify-content-center">
@@ -41,8 +43,7 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-date-picker [placeholder]="'Date of Birth'" *ngIf="form1_visible"
-                                        [defaultDate]="student_DOB"
-                                        (dateChanged)="onDobSelected($event)">
+                                        [defaultDate]="student_DOB" (dateChanged)="onDobSelected($event)">
                                     </app-custom-date-picker>
                                 </div>
                             </div>
@@ -60,7 +61,8 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-single-select-searchable-dropdown [options]="gender_option"
-                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'" [selectedOptions]="selectedGender"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'"
+                                        [selectedOptions]="selectedGender"
                                         (selectionChange)="handleGenderSelection($event)">
                                     </app-custom-single-select-searchable-dropdown>
                                 </div>
@@ -71,8 +73,8 @@
                             <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Email</label>
-                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
-                                        [(ngModel)]="student_email" required />
+                                    <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
+                                        [disabled]="true" [(ngModel)]="student_email" required />
                                 </div>
                             </div>
 
@@ -102,7 +104,8 @@
                                 <app-custom-single-select-searchable-dropdown
                                     *ngIf="form1_visible && sub_course_form_visible"
                                     [options]="available_sub_course_categories" [ariaLabel]="'Choose Courses'"
-                                    [selectedOptions]="selectedCourse" (selectionChange)="handleSelectedSubCourses($event)">
+                                    [selectedOptions]="selectedCourse"
+                                    (selectionChange)="handleSelectedSubCourses($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>
@@ -262,6 +265,15 @@
                                         class="text-danger">*</span></label>
                                 <input type="file" #AadharPhotoInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png" (change)="handleAadharSelected($event)">
+
+                                <span *ngIf="has_aadhar_card_photo"
+                                    (click)="download_and_view_existing_document(StudentDocumentName.AADHAR_CARD_PHOTO)"
+                                    class="download_btn text-primary mt-2 mb-4">Download
+                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+
+                                <span *ngIf="!has_aadhar_card_photo" class="download_btn text-primary mt-2 mb-4">
+                                    No aadhar card available
+                                </span>
                             </div>
                             <div class="col-12 col-md-6 mb-2">
                                 <label class="form-label mb-1">Passport Sized Photo (jpg/jpeg/png) <span
@@ -269,6 +281,15 @@
                                 <input type="file" #StudentSignatureInput class="form-control"
                                     accept="image/jpeg,image/jpg,image/png"
                                     (change)="handleStudentPhotoSelected($event)">
+
+                                <span *ngIf="has_student_photo"
+                                    (click)="download_and_view_existing_document(StudentDocumentName.PASSPORT_SIZED_PHOTO)"
+                                    class="download_btn text-primary mt-2 mb-4">Download
+                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+
+                                <span *ngIf="!has_student_photo" class="download_btn text-primary mt-2 mb-4">
+                                    No student photo available
+                                </span>
                             </div>
                         </div>
 
