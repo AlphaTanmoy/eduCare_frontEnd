@@ -52,6 +52,7 @@ export class EditStudentDetailsComponent {
   private dialog = inject(MatDialog);
 
   matProgressBarVisible = false;
+  matProgressBarVisible1 = false;
 
   selectedStepIndex = 0;
   isLinear = false;
@@ -91,11 +92,14 @@ export class EditStudentDetailsComponent {
   student_name = '';
   student_Adhar_number: number | null = null;
   student_DOB: Date | null = null;
+  selectedStudentMaritalStatus: Dropdown | null = null;
   student_marital_status = '';
+  selectedGender: Dropdown | null = null;
   student_gender = '';
   student_email = '';
   student_phone_no: number | null = null;
   student_whats_app: number | null = null;
+  selectedCourse: Dropdown | null = null;
   enrolled_courses: string[] = [];
 
   student_fathers_name = '';
@@ -124,8 +128,6 @@ export class EditStudentDetailsComponent {
     this.setStepperOrientation();
     this.activeMatProgressBar();
 
-    this.getStudentDetails();
-
     this.userRole = this.authService.getUserRole();
 
     if (this.userRole === UserRole.FRANCHISE) {
@@ -140,6 +142,8 @@ export class EditStudentDetailsComponent {
               response1.data.forEach((element: any) => {
                 this.available_sub_course_categories.push(new Dropdown(element.course_code, element.course_name));
               });
+
+              this.getStudentDetails();
               this.hideMatProgressBar();
             },
             error: (err) => {
@@ -167,6 +171,8 @@ export class EditStudentDetailsComponent {
       res.data.forEach((element: any) => {
         this.available_franchises.push(new Dropdown(element.id, element.center_name));
       });
+
+      this.getStudentDetails();
     } else {
       this.hideMatProgressBar();
       this.openDialog("Student", "You are not authorized to access this page", ResponseTypeColor.ERROR, "/home");
@@ -174,37 +180,81 @@ export class EditStudentDetailsComponent {
   }
 
   getStudentDetails() {
+    this.activeMatProgressBar1();
+
     this.studentService.getStudentInfoById(this.student_id).subscribe({
       next: (response) => {
         if (response.status !== 200) {
+          this.hideMatProgressBar1();
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
           return;
         }
 
-        this.student_name = response.data[0].student_name;
-        this.student_Adhar_number = response.data[0].student_Adhar_number;
-        this.student_DOB = response.data[0].student_DOB;
-        this.student_marital_status = response.data[0].student_maratial_status;
-        this.student_gender = response.data[0].student_gender;
-        this.student_email = response.data[0].student_email;
-        this.student_phone_no = response.data[0].student_phone_no;
-        this.student_whats_app = response.data[0].student_whats_app;
-        this.enrolled_courses = response.data[0].enrolled_courses;
-        this.student_fathers_name = response.data[0].student_fathers_name;
-        this.student_mothers_name = response.data[0].student_mothers_name;
-        this.student_husbands_name = response.data[0].student_husbands_name;
-        this.student_wifes_name = response.data[0].student_wifes_name;
-        this.student_guardians_number = response.data[0].student_guardians_number;
-        this.student_state = response.data[0].student_state;
-        this.student_district = response.data[0].student_district;
-        this.student_post_office = response.data[0].student_post_office;
-        this.student_village_city = response.data[0].student_village_city;
-        this.student_pincode = response.data[0].student_pincode;
-        // this.aadhar_card_photo = response.data[0].aadhar_card_photo;
-        // this.student_photo = response.data[0].student_photo;
+        this.student_name = response.data[0].student.student_name;
+        this.student_Adhar_number = response.data[0].student.student_Adhar_number;
+        this.student_DOB = new Date(response.data[0].student.student_DOB);
+        this.student_marital_status = response.data[0].student.student_maratial_status;
+        this.student_gender = response.data[0].student.student_gender;
+        this.student_email = response.data[0].student.student_email;
+        this.student_phone_no = response.data[0].student.student_phone_no;
+        this.student_whats_app = response.data[0].student.student_whats_app;
+        this.enrolled_courses = response.data[0].student.enrolled_courses_list;
+        this.student_fathers_name = response.data[0].student.student_fathers_name;
+        this.student_mothers_name = response.data[0].student.student_mothers_name;
+        this.student_husbands_name = response.data[0].student.student_husbands_name;
+        this.student_wifes_name = response.data[0].student.student_wifes_name;
+        this.student_guardians_number = response.data[0].student.student_guardians_number;
+        this.student_state = response.data[0].student.student_state;
+        this.student_district = response.data[0].student.student_district;
+        this.student_post_office = response.data[0].student.student_post_office;
+        this.student_village_city = response.data[0].student.student_village_city;
+        this.student_pincode = response.data[0].student.student_pincode;
+
+        for (let i = 0; i < this.marital_status_option.length; i++) {
+          if (this.marital_status_option[i].text?.toString().toUpperCase() === response.data[0].student.student_maratial_status) {
+            this.selectedStudentMaritalStatus = this.marital_status_option[i];
+            break;
+          }
+        }
+
+        for (let i = 0; i < this.gender_option.length; i++) {
+          if (this.gender_option[i].text?.toString().toUpperCase() === response.data[0].student.student_gender) {
+            this.selectedGender = this.gender_option[i];
+            break;
+          }
+        }
+
+        if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
+          const temp_franchise = new Dropdown(response.data[0].student.associated_franchise_id, response.data[0].franchise_name);
+          this.handleFranchiseSelection(temp_franchise);
+
+          const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === temp_franchise.id);
+          let temp_course = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
+
+          for (let i = 0; i < temp_course.length; i++) {
+            if (temp_course[i].id?.toString() === response.data[0].student.enrolled_courses_list[0]) {
+              this.selectedCourse = temp_course[i];
+              break;
+            }
+          }
+        } else if (this.userRole === UserRole.FRANCHISE) {
+          for (let i = 0; i < this.available_sub_course_categories.length; i++) {
+            if (this.available_sub_course_categories[i].id?.toString() === response.data[0].student.enrolled_courses_list[0]) {
+              this.selectedCourse = this.available_sub_course_categories[i];
+              break;
+            }
+          }
+        }
+
+        this.form1_visible = false;
+        setTimeout(() => (this.form1_visible = true));
+        this.sub_course_form_visible = false;
+        setTimeout(() => (this.sub_course_form_visible = true));
+
+        this.hideMatProgressBar1();
       },
       error: (err) => {
-        this.hideMatProgressBar();
+        this.hideMatProgressBar1();
         this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
@@ -224,6 +274,7 @@ export class EditStudentDetailsComponent {
   }
 
   handleMaritalStatusSelection(event: any): void {
+    this.selectedStudentMaritalStatus = event;
     this.student_marital_status = event.text.toUpperCase();
   }
 
@@ -237,10 +288,6 @@ export class EditStudentDetailsComponent {
     this.associated_franchise_id = selectedFranchise.id;
 
     this.available_sub_course_categories = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
-    this.cdr.detectChanges();
-
-    this.sub_course_form_visible = false;
-    setTimeout(() => (this.sub_course_form_visible = true));
   }
 
   handleSelectedSubCourses(item: Dropdown | any) {
@@ -465,6 +512,16 @@ export class EditStudentDetailsComponent {
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar1() {
+    this.matProgressBarVisible1 = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar1() {
+    this.matProgressBarVisible1 = false;
+    this.cdr.detectChanges();
   }
 
   activeMatProgressBar() {

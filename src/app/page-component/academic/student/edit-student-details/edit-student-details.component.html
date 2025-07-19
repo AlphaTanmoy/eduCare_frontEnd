@@ -1,7 +1,8 @@
-<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1" class="matProgressBar"></mat-progress-bar>
 
 <div class="container mt-4">
-    <h2 class="m-4 text-center">Edit Student</h2>
+    <h2 class="m-4 text-center" *ngIf="student_name !== null && student_name !== ''">Editing Student - {{student_name}}</h2>
+    <h2 class="m-4 text-center" *ngIf="student_name === null || student_name === ''">Edit Student</h2>
 
     <div class="row justify-content-center">
         <div class="col-12">
@@ -40,6 +41,7 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-date-picker [placeholder]="'Date of Birth'" *ngIf="form1_visible"
+                                        [defaultDate]="student_DOB"
                                         (dateChanged)="onDobSelected($event)">
                                     </app-custom-date-picker>
                                 </div>
@@ -49,7 +51,7 @@
                                 <div class="form-group mt-2">
                                     <app-custom-single-select-searchable-dropdown [options]="marital_status_option"
                                         *ngIf="form1_visible" [ariaLabel]="'Select Marital Status'"
-                                        [selectedOptions]="null"
+                                        [selectedOptions]="selectedStudentMaritalStatus"
                                         (selectionChange)="handleMaritalStatusSelection($event)">
                                     </app-custom-single-select-searchable-dropdown>
                                 </div>
@@ -58,7 +60,7 @@
                             <div class="col-12 col-md-4 mb-2">
                                 <div class="form-group mt-2">
                                     <app-custom-single-select-searchable-dropdown [options]="gender_option"
-                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'" [selectedOptions]="null"
+                                        *ngIf="form1_visible" [ariaLabel]="'Select Gender'" [selectedOptions]="selectedGender"
                                         (selectionChange)="handleGenderSelection($event)">
                                     </app-custom-single-select-searchable-dropdown>
                                 </div>
@@ -66,7 +68,7 @@
                         </div>
 
                         <div class="row mb-3 mt-2">
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Email</label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}" [disabled]="true"
@@ -74,7 +76,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-4 mb-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Phone<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
@@ -83,8 +85,10 @@
                                         maxlength="10" required />
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-12 col-md-4 mb-2">
+                        <div class="row mb-3 mt-2">
+                            <div class="col-12 col-md-6 mb-2">
                                 <div class="form-group mt-2">
                                     <label for="courseName">Whatsapp</label>
                                     <input type="text" class="form-control mb-1" [ngModelOptions]="{standalone: true}"
@@ -93,22 +97,12 @@
                                         maxlength="10" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3 mt-2">
-                            <div class="col-12 col-md-6 mb-2"
-                                *ngIf="userRole === UserRole.MASTER || userRole === UserRole.ADMIN">
-                                <app-custom-single-select-searchable-dropdown *ngIf="form1_visible"
-                                    [options]="available_franchises" [ariaLabel]="'Select Franchise'"
-                                    [selectedOptions]="null" (selectionChange)="handleFranchiseSelection($event)">
-                                </app-custom-single-select-searchable-dropdown>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-2">
+                            <div class="col-12 col-md-6 mb-2 custom_padding_for_course">
                                 <app-custom-single-select-searchable-dropdown
                                     *ngIf="form1_visible && sub_course_form_visible"
                                     [options]="available_sub_course_categories" [ariaLabel]="'Choose Courses'"
-                                    [selectedOptions]="null" (selectionChange)="handleSelectedSubCourses($event)">
+                                    [selectedOptions]="selectedCourse" (selectionChange)="handleSelectedSubCourses($event)">
                                 </app-custom-single-select-searchable-dropdown>
                             </div>
                         </div>

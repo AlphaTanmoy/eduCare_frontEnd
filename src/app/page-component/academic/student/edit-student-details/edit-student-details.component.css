@@ -55,3 +55,7 @@
     height: auto;
     max-height: 400px;
 }
+
+.custom_padding_for_course{
+    padding-top: 12px;
+}
