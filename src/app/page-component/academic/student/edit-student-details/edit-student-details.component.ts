@@ -381,19 +381,19 @@ export class EditStudentDetailsComponent {
   }
 
   reset_family_details_form() {
-    this.student_fathers_name = '';
-    this.student_mothers_name = '';
-    this.student_husbands_name = '';
-    this.student_wifes_name = '';
-    this.student_guardians_number = null;
+    this.student_fathers_name = this.student_details_old.student.student_fathers_name;
+    this.student_mothers_name = this.student_details_old.student.student_mothers_name;
+    this.student_husbands_name = this.student_details_old.student.student_husbands_name;
+    this.student_wifes_name = this.student_details_old.student.student_wifes_name;
+    this.student_guardians_number = this.student_details_old.student.student_guardians_number;
   }
 
   reset_address_form() {
-    this.student_state = '';
-    this.student_district = '';
-    this.student_post_office = '';
-    this.student_village_city = '';
-    this.student_pincode = null;
+    this.student_state = this.student_details_old.student.student_state;
+    this.student_district = this.student_details_old.student.student_district;
+    this.student_post_office = this.student_details_old.student.student_post_office;
+    this.student_village_city = this.student_details_old.student.student_village_city;
+    this.student_pincode = this.student_details_old.student.student_pincode;
   }
 
   reset_document_form(AadharPhotoInput: HTMLInputElement, StudentSignatureInput: HTMLInputElement) {
