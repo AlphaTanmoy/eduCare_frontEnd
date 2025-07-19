@@ -297,7 +297,6 @@ export class RegisterStudentComponent {
     setTimeout(() => (this.form1_visible = true));
     this.sub_course_form_visible = false;
     setTimeout(() => (this.sub_course_form_visible = true));
-    this.available_sub_course_categories = [];
   }
 
   reset_family_details_form() {

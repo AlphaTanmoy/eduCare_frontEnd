@@ -79,6 +79,8 @@ export class EditStudentDetailsComponent {
     firstCtrl: ['', Validators.required],
   });
 
+  student_details_old: any | null = null;
+
   available_franchises_with_sub_course_info: any[] = [];
   available_franchises: Dropdown[] = [];
   available_sub_course_categories: Dropdown[] = [];
@@ -190,6 +192,8 @@ export class EditStudentDetailsComponent {
           return;
         }
 
+        this.student_details_old = response.data[0];
+
         this.student_name = response.data[0].student.student_name;
         this.student_Adhar_number = response.data[0].student.student_Adhar_number;
         this.student_DOB = new Date(response.data[0].student.student_DOB);
@@ -210,47 +214,7 @@ export class EditStudentDetailsComponent {
         this.student_village_city = response.data[0].student.student_village_city;
         this.student_pincode = response.data[0].student.student_pincode;
 
-        for (let i = 0; i < this.marital_status_option.length; i++) {
-          if (this.marital_status_option[i].text?.toString().toUpperCase() === response.data[0].student.student_maratial_status) {
-            this.selectedStudentMaritalStatus = this.marital_status_option[i];
-            break;
-          }
-        }
-
-        for (let i = 0; i < this.gender_option.length; i++) {
-          if (this.gender_option[i].text?.toString().toUpperCase() === response.data[0].student.student_gender) {
-            this.selectedGender = this.gender_option[i];
-            break;
-          }
-        }
-
-        if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
-          const temp_franchise = new Dropdown(response.data[0].student.associated_franchise_id, response.data[0].franchise_name);
-          this.handleFranchiseSelection(temp_franchise);
-
-          const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === temp_franchise.id);
-          let temp_course = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
-
-          for (let i = 0; i < temp_course.length; i++) {
-            if (temp_course[i].id?.toString() === response.data[0].student.enrolled_courses_list[0]) {
-              this.selectedCourse = temp_course[i];
-              break;
-            }
-          }
-        } else if (this.userRole === UserRole.FRANCHISE) {
-          for (let i = 0; i < this.available_sub_course_categories.length; i++) {
-            if (this.available_sub_course_categories[i].id?.toString() === response.data[0].student.enrolled_courses_list[0]) {
-              this.selectedCourse = this.available_sub_course_categories[i];
-              break;
-            }
-          }
-        }
-
-        this.form1_visible = false;
-        setTimeout(() => (this.form1_visible = true));
-        this.sub_course_form_visible = false;
-        setTimeout(() => (this.sub_course_form_visible = true));
-
+        this.updateDropdownsByDefaultValues(response.data[0]);
         this.hideMatProgressBar1();
       },
       error: (err) => {
@@ -258,6 +222,49 @@ export class EditStudentDetailsComponent {
         this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  updateDropdownsByDefaultValues(student_data: any) {
+    for (let i = 0; i < this.marital_status_option.length; i++) {
+      if (this.marital_status_option[i].text?.toString().toUpperCase() === student_data.student.student_maratial_status) {
+        this.selectedStudentMaritalStatus = this.marital_status_option[i];
+        break;
+      }
+    }
+
+    for (let i = 0; i < this.gender_option.length; i++) {
+      if (this.gender_option[i].text?.toString().toUpperCase() === student_data.student.student_gender) {
+        this.selectedGender = this.gender_option[i];
+        break;
+      }
+    }
+
+    if (this.userRole === UserRole.MASTER || this.userRole === UserRole.ADMIN) {
+      const temp_franchise = new Dropdown(student_data.student.associated_franchise_id, student_data.franchise_name);
+      this.handleFranchiseSelection(temp_franchise);
+
+      const selectedFranchise = this.available_franchises_with_sub_course_info.find(item => item.id === temp_franchise.id);
+      let temp_course = selectedFranchise.sub_course_category.map((item: any) => new Dropdown(item.course_code, item.course_name));
+
+      for (let i = 0; i < temp_course.length; i++) {
+        if (temp_course[i].id?.toString() === student_data.student.enrolled_courses_list[0]) {
+          this.selectedCourse = temp_course[i];
+          break;
+        }
+      }
+    } else if (this.userRole === UserRole.FRANCHISE) {
+      for (let i = 0; i < this.available_sub_course_categories.length; i++) {
+        if (this.available_sub_course_categories[i].id?.toString() === student_data.student.enrolled_courses_list[0]) {
+          this.selectedCourse = this.available_sub_course_categories[i];
+          break;
+        }
+      }
+    }
+
+    this.form1_visible = false;
+    setTimeout(() => (this.form1_visible = true));
+    this.sub_course_form_visible = false;
+    setTimeout(() => (this.sub_course_form_visible = true));
   }
 
   @HostListener('window:resize')
@@ -360,21 +367,17 @@ export class EditStudentDetailsComponent {
   }
 
   reset_basic_details_form() {
-    this.student_name = '';
-    this.student_Adhar_number = null;
-    this.student_DOB = null;
-    this.student_marital_status = '';
-    this.student_gender = '';
-    this.student_email = '';
-    this.student_phone_no = null;
-    this.student_whats_app = null;
-    this.enrolled_courses = [];
+    this.student_name = this.student_details_old.student.student_name;
+    this.student_Adhar_number = this.student_details_old.student.student_Adhar_number;
+    this.student_DOB = new Date(this.student_details_old.student.student_DOB);
+    this.student_marital_status = this.student_details_old.student.student_maratial_status;
+    this.student_gender = this.student_details_old.student.student_gender;
+    this.student_email = this.student_details_old.student.student_email;
+    this.student_phone_no = this.student_details_old.student.student_phone_no;
+    this.student_whats_app = this.student_details_old.student.student_whats_app;
+    this.enrolled_courses = this.student_details_old.student.enrolled_courses_list;
 
-    this.form1_visible = false;
-    setTimeout(() => (this.form1_visible = true));
-    this.sub_course_form_visible = false;
-    setTimeout(() => (this.sub_course_form_visible = true));
-    this.available_sub_course_categories = [];
+    this.updateDropdownsByDefaultValues(this.student_details_old);
   }
 
   reset_family_details_form() {
