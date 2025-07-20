@@ -287,14 +287,14 @@ export const MenuItems: any[] = [
       },
       {
         id: 112,
-        name: 'Logout',
-        route: '/logout',
+        name: 'Change Password',
+        route: '/change-password',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
       {
         id: 113,
-        name: 'Change Password',
-        route: '/change-password',
+        name: 'Logout',
+        route: '/logout',
         role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
       },
     ],
