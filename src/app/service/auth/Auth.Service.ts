@@ -1,10 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval, Subscription } from 'rxjs';
 import { GetBaseURL, Endpoints } from '../../endpoints/endpoints';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { IndexedDBItemKey, UserRole } from '../../constants/commonConstants';
+import { IndexedDBItemKey, ResponseTypeColor, UserRole } from '../../constants/commonConstants';
 import { IndexedDbService } from '../indexed-db/indexed-db.service';
+import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +19,9 @@ export class AuthService implements OnDestroy {
   private loginStatusSubject = new BehaviorSubject<boolean>(this.isUserLoggedIn());
   loginStatus$ = this.loginStatusSubject.asObservable();
   private tokenCheckInterval?: Subscription;
+  private dialog = inject(MatDialog);
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {
+  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {
     this.startTokenExpirationWatcher();
   }
 
@@ -94,8 +98,9 @@ export class AuthService implements OnDestroy {
     this.tokenCheckInterval = interval(3000).subscribe(() => {
       const token = this.getToken();
       if (token && this.jwtHelper.isTokenExpired(token)) {
-        console.warn('Session expired. Logging out...');
-        this.logout();
+        // console.warn('Session expired. Logging out...');
+        // this.logout();
+        this.openDialog("Logout", "Session expired. Logging out...", ResponseTypeColor.INFO, true);
       }
     });
   }
@@ -105,4 +110,16 @@ export class AuthService implements OnDestroy {
       this.tokenCheckInterval.unsubscribe();
     }
   }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, doLogout: boolean): void {
+      const dialogRef = this.dialog.open(CustomAlertComponent, {
+        data: { title: dialogTitle, text: dialogText, type: dialogType }
+      });
+  
+      dialogRef.afterClosed().subscribe(() => {
+        if (doLogout === true) {
+          this.logout();
+        }
+      });
+    }
 }
