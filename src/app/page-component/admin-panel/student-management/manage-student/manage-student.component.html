@@ -153,6 +153,7 @@
 
                                 <fa-icon class="icon btn_cursor_pointer text-primary me-1" matTooltipPosition="above"
                                     matTooltip="Edit Student Details" [icon]="faEdit"
+                                    *ngIf="isAdmin || (isFranchise && (student.student_enrollment_status === EnrollmentStatus.REGISTERED || student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED))"
                                     (click)="EditStudent(student.student_id)"></fa-icon>
 
                                 <fa-icon class="icon btn_cursor_pointer text-danger" matTooltipPosition="above"

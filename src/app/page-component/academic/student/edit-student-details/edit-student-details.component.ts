@@ -9,7 +9,7 @@ import { CustomAlertComponent } from '../../../../common-component/custom-alert/
 import { CustomDatePickerComponent } from '../../../../common-component/custom-date-picker/custom-date-picker.component';
 import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 
-import { Dropdown, Gender, MaritalStatus, ResponseTypeColor, StudentDocumentName, UserRole } from '../../../../constants/commonConstants';
+import { Dropdown, EnrollmentStatus, Gender, MaritalStatus, ResponseTypeColor, StudentDocumentName, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
@@ -60,6 +60,7 @@ export class EditStudentDetailsComponent {
   matProgressBarVisible3 = false;
 
   StudentDocumentName = StudentDocumentName;
+  EnrollmentStatus = EnrollmentStatus;
   faDownload = faDownload;
 
   selectedStepIndex = 0;
@@ -205,31 +206,37 @@ export class EditStudentDetailsComponent {
         }
 
         this.student_details_old = response.data[0];
-        this.getStudentsAadharCardPhotoStream();
-        this.getStudentsPhotoStream();
 
-        this.student_name = response.data[0].student.student_name;
-        this.student_Adhar_number = response.data[0].student.student_Adhar_number;
-        this.student_DOB = new Date(response.data[0].student.student_DOB);
-        this.student_marital_status = response.data[0].student.student_maratial_status;
-        this.student_gender = response.data[0].student.student_gender;
-        this.student_email = response.data[0].student.student_email;
-        this.student_phone_no = response.data[0].student.student_phone_no;
-        this.student_whats_app = response.data[0].student.student_whats_app;
-        this.enrolled_courses = response.data[0].student.enrolled_courses_list;
-        this.student_fathers_name = response.data[0].student.student_fathers_name;
-        this.student_mothers_name = response.data[0].student.student_mothers_name;
-        this.student_husbands_name = response.data[0].student.student_husbands_name;
-        this.student_wifes_name = response.data[0].student.student_wifes_name;
-        this.student_guardians_number = response.data[0].student.student_guardians_number;
-        this.student_state = response.data[0].student.student_state;
-        this.student_district = response.data[0].student.student_district;
-        this.student_post_office = response.data[0].student.student_post_office;
-        this.student_village_city = response.data[0].student.student_village_city;
-        this.student_pincode = response.data[0].student.student_pincode;
+        if (this.userRole === UserRole.FRANCHISE && this.student_details_old.student_enrollment_status !== this.EnrollmentStatus.REGISTERED && this.student_details_old.student_enrollment_status !== this.EnrollmentStatus.FEES_REFUNDED) {
+          this.hideMatProgressBar1();
+          this.openDialog("Student", "You're not allowed to update student's details as enrollment status is not 'Registered' or 'Fees Refunded'", ResponseTypeColor.ERROR, "control-panel/manage-student/active-student");
+        } else {
+          this.getStudentsAadharCardPhotoStream();
+          this.getStudentsPhotoStream();
 
-        this.updateDropdownsByDefaultValues(response.data[0]);
-        this.hideMatProgressBar1();
+          this.student_name = response.data[0].student.student_name;
+          this.student_Adhar_number = response.data[0].student.student_Adhar_number;
+          this.student_DOB = new Date(response.data[0].student.student_DOB);
+          this.student_marital_status = response.data[0].student.student_maratial_status;
+          this.student_gender = response.data[0].student.student_gender;
+          this.student_email = response.data[0].student.student_email;
+          this.student_phone_no = response.data[0].student.student_phone_no;
+          this.student_whats_app = response.data[0].student.student_whats_app;
+          this.enrolled_courses = response.data[0].student.enrolled_courses_list;
+          this.student_fathers_name = response.data[0].student.student_fathers_name;
+          this.student_mothers_name = response.data[0].student.student_mothers_name;
+          this.student_husbands_name = response.data[0].student.student_husbands_name;
+          this.student_wifes_name = response.data[0].student.student_wifes_name;
+          this.student_guardians_number = response.data[0].student.student_guardians_number;
+          this.student_state = response.data[0].student.student_state;
+          this.student_district = response.data[0].student.student_district;
+          this.student_post_office = response.data[0].student.student_post_office;
+          this.student_village_city = response.data[0].student.student_village_city;
+          this.student_pincode = response.data[0].student.student_pincode;
+
+          this.updateDropdownsByDefaultValues(response.data[0]);
+          this.hideMatProgressBar1();
+        }
       },
       error: (err) => {
         this.hideMatProgressBar1();
