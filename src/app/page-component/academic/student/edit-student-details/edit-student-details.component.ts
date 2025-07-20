@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
@@ -89,6 +89,9 @@ export class EditStudentDetailsComponent {
   });
 
   student_details_old: any | null = null;
+
+  @ViewChild('StudentSignatureInput') StudentSignatureInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('AadharPhotoInput') AadharPhotoInput!: ElementRef<HTMLInputElement>;
 
   available_franchises_with_sub_course_info: any[] = [];
   available_franchises: Dropdown[] = [];
@@ -572,6 +575,57 @@ export class EditStudentDetailsComponent {
         this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  async updateStudentdocument(filename: string) {
+    try {
+      this.activeMatProgressBar();
+
+      let formData = new FormData();
+      if (this.student_id) formData.append("student_id", this.student_id);
+      formData.append("filename", filename);
+
+      if (filename === StudentDocumentName.PASSPORT_SIZED_PHOTO && this.student_photo) {
+        // formData.append("file", this.student_photo);
+
+        // Fetch blob from SafeUrl for cropped image
+        const blobUrl = this.croppedImage['changingThisBreaksApplicationSecurity'];
+
+        const blob = await fetch(blobUrl).then(res => res.blob());
+        const studentPhotoFile = new File([blob], StudentDocumentName.PASSPORT_SIZED_PHOTO, { type: blob.type });
+
+        formData.append('file', studentPhotoFile);
+      } else if (filename === StudentDocumentName.AADHAR_CARD_PHOTO && this.aadhar_card_photo) {
+        formData.append("file", this.aadhar_card_photo);
+      }
+
+      this.studentService.UpdateStudentDocument(formData).subscribe({
+        next: async (response) => {
+          if (response.status === 200) {
+            this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+
+            if (filename === StudentDocumentName.PASSPORT_SIZED_PHOTO) {
+              this.getStudentsPhotoStream();
+              this.reset_passport_photo_form(this.StudentSignatureInput.nativeElement);
+            } else if (filename === StudentDocumentName.AADHAR_CARD_PHOTO) {
+              this.getStudentsAadharCardPhotoStream();
+              this.reset_aadhar_form(this.AadharPhotoInput.nativeElement)
+            }
+          } else {
+            this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+          }
+
+          this.hideMatProgressBar();
+        },
+        error: (err) => {
+          this.hideMatProgressBar();
+          this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+        }
+      });
+    } catch (error: any) {
+      this.hideMatProgressBar();
+      this.openDialog("Student", "Internal server error", ResponseTypeColor.ERROR, null);
+    }
   }
 
   isNotValidNecesseryDetailsForm(): boolean {

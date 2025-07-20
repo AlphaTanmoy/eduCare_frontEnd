@@ -103,6 +103,7 @@ export const Endpoints = {
     update_students_necessery_details: "student/update_students_necessery_details",
     update_students_family_details: "student/update_students_family_details",
     update_students_address_details: "student/update_students_address_details",
+    update_student_document: "student/update_student_document",
   },
   student_certificate: {
     issue_certificate: "student_certificate/issue_certificate", 

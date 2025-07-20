@@ -229,4 +229,8 @@ export class StudentService {
   UpdateStudentAddressDetails(Student: any): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.update_students_address_details, Student);
   }
+
+  UpdateStudentDocument(formData: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.update_student_document, formData);
+  }
 }

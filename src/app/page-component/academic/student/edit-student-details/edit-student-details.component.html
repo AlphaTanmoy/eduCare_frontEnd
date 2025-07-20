@@ -304,7 +304,8 @@
                                         <button class="btn btn-primary btn-sm"
                                             [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || aadhar_card_photo === null"
                                             (click)="reset_aadhar_form(AadharPhotoInput)">Reset</button>
-                                        <button class="btn btn-primary btn-sm" matStepperNext
+                                        <button class="btn btn-primary btn-sm"
+                                            (click)="updateStudentdocument(StudentDocumentName.AADHAR_CARD_PHOTO)"
                                             [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || aadhar_card_photo === null">Save</button>
                                     </div>
                                 </div>
@@ -332,6 +333,7 @@
                                             [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || student_photo === null"
                                             (click)="reset_passport_photo_form(StudentSignatureInput)">Reset</button>
                                         <button class="btn btn-primary btn-sm"
+                                            (click)="updateStudentdocument(StudentDocumentName.PASSPORT_SIZED_PHOTO)"
                                             [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || student_photo === null">Save</button>
                                     </div>
                                 </div>
