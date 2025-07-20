@@ -113,7 +113,11 @@
 
                         <div class="d-flex justify-content-between">
                             <button class="btn btn-primary btn-sm" (click)="reset_basic_details_form()">Reset</button>
-                            <button matStepperNext class="btn btn-primary btn-sm">Next</button>
+
+                            <div>
+                                <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
+                                <button class="btn btn-primary btn-sm">Save</button>
+                            </div>
                         </div>
                     </form>
                 </mat-step>
@@ -180,7 +184,11 @@
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
                                     matStepperPrevious>Back</button>
-                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
+
+                                <div>
+                                    <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
+                                    <button class="btn btn-primary btn-sm">Save</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -244,10 +252,14 @@
                         <div class="d-flex justify-content-between">
                             <button class="btn btn-primary btn-sm" (click)="reset_address_form()">Reset</button>
 
-                            <div class="d-flex justify-content-around">
+                            <div class="d-flex justify-content-between">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
                                     matStepperPrevious>Back</button>
-                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
+
+                                <div>
+                                    <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
+                                    <button class="btn btn-primary btn-sm">Save</button>
+                                </div>
                             </div>
                         </div>
                     </form>
