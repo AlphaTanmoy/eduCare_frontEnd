@@ -574,6 +574,30 @@ export class EditStudentDetailsComponent {
     });
   }
 
+  isNotValidNecesseryDetailsForm(): boolean {
+    return (
+      !this.student_name ||
+      !this.student_Adhar_number ||
+      !this.student_DOB ||
+      !this.student_marital_status ||
+      !this.student_gender ||
+      !this.student_phone_no ||
+      this.enrolled_courses.length === 0);
+  }
+
+  isNotValidFamilyDetailsForm(): boolean {
+    return !this.student_guardians_number;
+  }
+
+  isNotValidAddressForm(): boolean {
+    return (
+      !this.student_state ||
+      !this.student_district ||
+      !this.student_post_office ||
+      !this.student_village_city ||
+      !this.student_pincode);
+  }
+
   isNotValid(): boolean {
     return (
       !this.student_name ||

@@ -123,7 +123,7 @@
                             <div>
                                 <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
                                 <button class="btn btn-primary btn-sm" (click)="updateStudentNecesseryDetails()"
-                                    [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                    [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || isNotValidNecesseryDetailsForm()">Save</button>
                             </div>
                         </div>
                     </form>
@@ -196,7 +196,7 @@
                                 <div>
                                     <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
                                     <button class="btn btn-primary btn-sm" (click)="updateStudentFamilyDetails()"
-                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || isNotValidFamilyDetailsForm()">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +269,7 @@
                                 <div>
                                     <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
                                     <button class="btn btn-primary btn-sm" (click)="updateStudentAddressDetails()"
-                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3 || isNotValidAddressForm()">Save</button>
                                 </div>
                             </div>
                         </div>
