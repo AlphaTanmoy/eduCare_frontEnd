@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-interface GalleryImage {
-  id: number;
+interface GalleryImageInput {
   src: string;
   alt: string;
   orientation: 'portrait' | 'landscape';
   category: string;
+}
+
+interface GalleryImage extends GalleryImageInput {
+  id: number;
 }
 
 @Component({
@@ -17,48 +20,47 @@ interface GalleryImage {
   styleUrls: ['./gallary.component.css']
 })
 export class GallaryComponent implements OnInit {
-  private allImages: GalleryImage[] = [
+  private imageData: GalleryImageInput[] = [
     // Portrait Images
-    { id: 1, src: 'gallary/Students/P1.jpg', alt: 'Portrait 1', orientation: 'portrait', category: 'portrait' },
-    { id: 2, src: 'gallary/Students/P2.jpg', alt: 'Portrait 2', orientation: 'portrait', category: 'portrait' },
-    { id: 3, src: 'gallary/Students/P3.jpg', alt: 'Portrait 3', orientation: 'portrait', category: 'portrait' },
-    { id: 4, src: 'gallary/Students/P4.jpg', alt: 'Portrait 4', orientation: 'portrait', category: 'portrait' },
-    { id: 5, src: 'gallary/Students/P5.jpg', alt: 'Portrait 5', orientation: 'portrait', category: 'portrait' },
-    { id: 6, src: 'gallary/Students/P6.jpg', alt: 'Portrait 1', orientation: 'portrait', category: 'portrait' },
-    { id: 7, src: 'gallary/Students/P7.jpg', alt: 'Portrait 2', orientation: 'portrait', category: 'portrait' },
-    { id: 8, src: 'gallary/Students/P8.jpg', alt: 'Portrait 3', orientation: 'portrait', category: 'portrait' },
-    { id: 9, src: 'gallary/Students/P9.jpg', alt: 'Portrait 4', orientation: 'portrait', category: 'portrait' },
-    { id: 10, src: 'gallary/Students/P10.jpg', alt: 'Portrait 5', orientation: 'portrait', category: 'portrait' },
-    { id: 11, src: 'gallary/Students/P11.jpg', alt: 'Portrait 1', orientation: 'portrait', category: 'portrait' },
-    { id: 12, src: 'gallary/Students/P12.jpg', alt: 'Portrait 2', orientation: 'portrait', category: 'portrait' },
-    { id: 13, src: 'gallary/Students/P13.jpg', alt: 'Portrait 3', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P1.jpg', alt: 'Portrait 1', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P2.jpg', alt: 'Portrait 2', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P3.jpg', alt: 'Portrait 3', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P4.jpg', alt: 'Portrait 4', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P5.jpg', alt: 'Portrait 5', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P6.jpg', alt: 'Portrait 6', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P7.jpg', alt: 'Portrait 7', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P8.jpg', alt: 'Portrait 8', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P9.jpg', alt: 'Portrait 9', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P10.jpg', alt: 'Portrait 10', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P11.jpg', alt: 'Portrait 11', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P12.jpg', alt: 'Portrait 12', orientation: 'portrait', category: 'portrait' },
+    { src: 'gallary/Students/P13.jpg', alt: 'Portrait 13', orientation: 'portrait', category: 'portrait' },
     
     // Landscape Images
-    { id: 14, src: 'gallary/Students/L1.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
-    { id: 15, src: 'gallary/Students/L2.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' },
-    { id: 16, src: 'gallary/Students/L4.jpg', alt: 'Landscape 4', orientation: 'landscape', category: 'landscape' },
-    { id: 17, src: 'gallary/Students/L5.jpg', alt: 'Landscape 5', orientation: 'landscape', category: 'landscape' },
-    { id: 18, src: 'gallary/Students/L6.jpg', alt: 'Landscape 6', orientation: 'landscape', category: 'landscape' },
-    { id: 19, src: 'gallary/Students/L7.jpg', alt: 'Landscape 7', orientation: 'landscape', category: 'landscape' },
-    { id: 20, src: 'gallary/Students/L8.jpg', alt: 'Landscape 8', orientation: 'landscape', category: 'landscape' },
-    { id: 21, src: 'gallary/Students/L9.jpg', alt: 'Landscape 9', orientation: 'landscape', category: 'landscape' },
-    { id: 22, src: 'gallary/Students/L10.jpg', alt: 'Landscape 10', orientation: 'landscape', category: 'landscape' },
-    { id: 23, src: 'gallary/Students/L11.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
-    { id: 24, src: 'gallary/Students/L12.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' },
-    { id: 25, src: 'gallary/Students/L13.jpg', alt: 'Landscape 3', orientation: 'landscape', category: 'landscape' },
-    { id: 26, src: 'gallary/Students/L14.jpg', alt: 'Landscape 4', orientation: 'landscape', category: 'landscape' },
-    { id: 27, src: 'gallary/Students/L15.jpg', alt: 'Landscape 5', orientation: 'landscape', category: 'landscape' },
-    { id: 28, src: 'gallary/Students/L16.jpg', alt: 'Landscape 6', orientation: 'landscape', category: 'landscape' },
-    { id: 29, src: 'gallary/Students/L17.jpg', alt: 'Landscape 7', orientation: 'landscape', category: 'landscape' },
-    { id: 30, src: 'gallary/Students/L18.jpg', alt: 'Landscape 8', orientation: 'landscape', category: 'landscape' },
-    { id: 31, src: 'gallary/Students/L19.jpg', alt: 'Landscape 9', orientation: 'landscape', category: 'landscape' },
-    { id: 32, src: 'gallary/Students/L20.jpg', alt: 'Landscape 10', orientation: 'landscape', category: 'landscape' },
-    { id: 33, src: 'gallary/Students/L21.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
-    { id: 34, src: 'gallary/Students/L22.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' }
+    { src: 'gallary/Students/L1.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L2.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L4.jpg', alt: 'Landscape 4', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L5.jpg', alt: 'Landscape 5', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L6.jpg', alt: 'Landscape 6', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L7.jpg', alt: 'Landscape 7', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L8.jpg', alt: 'Landscape 8', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L9.jpg', alt: 'Landscape 9', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L10.jpg', alt: 'Landscape 10', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L11.jpg', alt: 'Landscape 11', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L12.jpg', alt: 'Landscape 12', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L14.jpg', alt: 'Landscape 14', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L15.jpg', alt: 'Landscape 15', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L16.jpg', alt: 'Landscape 16', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L17.jpg', alt: 'Landscape 17', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L18.jpg', alt: 'Landscape 18', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L19.jpg', alt: 'Landscape 19', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L20.jpg', alt: 'Landscape 20', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L21.jpg', alt: 'Landscape 21', orientation: 'landscape', category: 'landscape' },
+    { src: 'gallary/Students/L22.jpg', alt: 'Landscape 22', orientation: 'landscape', category: 'landscape' }
   ];
 
   // Pagination properties
-  private readonly ITEMS_PER_PAGE = 10;
+  private readonly ITEMS_PER_PAGE = 12;
   private currentPage = 1;
   private currentFilter = 'all';
   
@@ -68,8 +70,16 @@ export class GallaryComponent implements OnInit {
   displayedImages: GalleryImage[] = [];
   selectedImage: GalleryImage | null = null;
   hasMoreImages = true;
+  allImages: GalleryImage[] = [];
+
+  constructor() { }
 
   ngOnInit(): void {
+    // Generate IDs for all images
+    this.allImages = this.imageData.map((img, index) => ({
+      ...img,
+      id: index + 1
+    }));
     this.filterImages('all');
   }
 
