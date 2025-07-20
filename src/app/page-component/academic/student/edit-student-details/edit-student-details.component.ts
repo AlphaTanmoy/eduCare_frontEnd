@@ -475,80 +475,29 @@ export class EditStudentDetailsComponent {
     StudentSignatureInput.value = '';
   }
 
-  async submit() {
-    const formData = new FormData();
-
-    formData.append("document_info", JSON.stringify([
-      { fileName: StudentDocumentName.AADHAR_CARD_PHOTO },
-      { fileName: StudentDocumentName.PASSPORT_SIZED_PHOTO },
-    ]));
-
-    if (this.aadhar_card_photo) {
-      formData.append("files", this.aadhar_card_photo);
-    }
-    // if (this.student_photo) {
-    //   formData.append("files", this.student_photo);
-    // }
-
-    // Fetch blob from SafeUrl for cropped image
-    const blobUrl = this.croppedImage['changingThisBreaksApplicationSecurity'];
-
-    const blob = await fetch(blobUrl).then(res => res.blob());
-    const studentPhotoFile = new File([blob], StudentDocumentName.PASSPORT_SIZED_PHOTO, { type: blob.type });
-
-    formData.append('files', studentPhotoFile);
-
+  async updateStudentNecesseryDetails() {
     this.activeMatProgressBar();
 
-    this.studentService.UploadStudentDocument(formData).subscribe({
-      next: (response1) => {
-        if (response1.status === 200) {
-          const payload = {
-            student_name: this.student_name,
-            // Convert number fields to strings
-            student_guid: response1.data[0].student_guid,
-            associated_franchise_id: this.associated_franchise_id,
-            student_Adhar_number: this.student_Adhar_number?.toString() || '',
-            student_DOB: this.student_DOB,
-            student_marital_status: this.student_marital_status,
-            student_gender: this.student_gender,
-            student_email: this.student_email,
-            student_phone_no: this.student_phone_no?.toString() || '',
-            student_whats_app: this.student_whats_app?.toString() || null,
-            enrolled_courses: this.enrolled_courses,
-            student_fathers_name: this.student_fathers_name,
-            student_mothers_name: this.student_mothers_name,
-            student_husbands_name: this.student_husbands_name,
-            student_wifes_name: this.student_wifes_name,
-            student_guardians_number: this.student_guardians_number?.toString() || '',
-            student_state: this.student_state,
-            student_district: this.student_district,
-            student_post_office: this.student_post_office,
-            student_village_city: this.student_village_city,
-            student_pincode: this.student_pincode?.toString() || '',
-            aadhar_card_uploaded: response1.data[0].aadhar_card_uploaded,
-            student_photo_uploaded: response1.data[0].student_photo_uploaded,
-            passport_sized_photo_extension: ".jpg" //this.student_photo_extension
-          };
+    const payload = {
+      student_id: this.student_id,
+      student_name: this.student_name,
+      student_DOB: this.student_DOB,
+      student_marital_status: this.student_marital_status,
+      student_gender: this.student_gender,
+      student_phone_no: this.student_phone_no?.toString() || '',
+      student_whats_app: this.student_whats_app?.toString() || null,
+      enrolled_courses: this.enrolled_courses,
+    };
 
-          this.studentService.CreateStudent(payload).subscribe({
-            next: (response) => {
-              this.hideMatProgressBar();
+    this.studentService.UpdateStudentNecesseryDetails(payload).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
 
-              if (response.status === 200) {
-                this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, "control-panel/manage-student/active-student");
-              } else {
-                this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
-              }
-            },
-            error: (err) => {
-              this.hideMatProgressBar();
-              this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
-            }
-          });
+        if (response.status === 200) {
+          this.getStudentDetails();
+          this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
         } else {
-          this.hideMatProgressBar();
-          this.openDialog('Student', response1.message, ResponseTypeColor.ERROR, null);
+          this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
         }
       },
       error: (err) => {

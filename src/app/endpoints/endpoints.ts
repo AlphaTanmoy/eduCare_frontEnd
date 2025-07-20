@@ -100,6 +100,7 @@ export const Endpoints = {
     download_registration_card: "registration_card",
     get_all_passout_students: "student/get_all_passout_students",
     get_student_info_by_id: "student/get_student_info_by_id",
+    update_students_necessery_details: "student/update_students_necessery_details",
   },
   student_certificate: {
     issue_certificate: "student_certificate/issue_certificate", 

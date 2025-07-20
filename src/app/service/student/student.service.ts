@@ -204,4 +204,21 @@ export class StudentService {
   getStudentInfoById(studentId: string | null): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_id + "/" + studentId);
   }
+
+  UpdateStudentNecesseryDetails(Student: any): Observable<any> {
+    if (Student.student_DOB) {
+      const date = new Date(Student.student_DOB);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      Student.student_DOB = `${day}-${month}-${year}`;
+    }
+
+    if (Student.student_marital_status) {
+      Student.student_maratial_status = Student.student_marital_status;
+      delete Student.student_marital_status;
+    }
+
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.update_students_necessery_details, Student);
+  }
 }
