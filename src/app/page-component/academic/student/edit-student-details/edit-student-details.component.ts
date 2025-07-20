@@ -463,13 +463,15 @@ export class EditStudentDetailsComponent {
     link.click();
   }
 
-  reset_document_form(AadharPhotoInput: HTMLInputElement, StudentSignatureInput: HTMLInputElement) {
+  reset_aadhar_form(AadharPhotoInput: HTMLInputElement) {
     this.aadhar_card_photo = null;
+    AadharPhotoInput.value = '';
+  }
+
+  reset_passport_photo_form(StudentSignatureInput: HTMLInputElement) {
     this.student_photo = null;;
 
     this.resetCroppedImage();
-
-    AadharPhotoInput.value = '';
     StudentSignatureInput.value = '';
   }
 

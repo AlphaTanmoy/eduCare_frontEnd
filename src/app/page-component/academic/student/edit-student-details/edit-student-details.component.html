@@ -274,39 +274,56 @@
 
                         <div class="row mb-3 mt-2">
                             <div class="col-12 col-md-6 mb-2">
-                                <label class="form-label mb-1">Aadhar Card (jpg/jpeg/png) <span
-                                        class="text-danger">*</span></label>
-                                <input type="file" #AadharPhotoInput class="form-control"
-                                    accept="image/jpeg,image/jpg,image/png" (change)="handleAadharSelected($event)">
+                                <div class="border rounded p-3">
+                                    <label class="form-label mb-1">Aadhar Card (jpg/jpeg/png) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" #AadharPhotoInput class="form-control"
+                                        accept="image/jpeg,image/jpg,image/png" (change)="handleAadharSelected($event)">
 
-                                <span *ngIf="has_aadhar_card_photo"
-                                    (click)="download_and_view_existing_document(StudentDocumentName.AADHAR_CARD_PHOTO)"
-                                    class="download_btn text-primary mt-2 mb-4 cursor_pointer">Download
-                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+                                    <span *ngIf="has_aadhar_card_photo"
+                                        (click)="download_and_view_existing_document(StudentDocumentName.AADHAR_CARD_PHOTO)"
+                                        class="download_btn text-primary mt-2 mb-4 cursor_pointer">Download
+                                        & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
 
-                                <span *ngIf="!has_aadhar_card_photo" class="download_btn text-primary mt-2 mb-4">
-                                    No aadhar card available
-                                </span>
+                                    <span *ngIf="!has_aadhar_card_photo" class="download_btn text-primary mt-2 mb-4">
+                                        No aadhar card available
+                                    </span>
+
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button class="btn btn-primary btn-sm"
+                                            (click)="reset_aadhar_form(AadharPhotoInput)">Reset</button>
+                                        <button class="btn btn-primary btn-sm" matStepperNext>Save</button>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="col-12 col-md-6 mb-2">
-                                <label class="form-label mb-1">Passport Sized Photo (jpg/jpeg/png) <span
-                                        class="text-danger">*</span></label>
-                                <input type="file" #StudentSignatureInput class="form-control"
-                                    accept="image/jpeg,image/jpg,image/png"
-                                    (change)="handleStudentPhotoSelected($event)">
+                                <div class="border rounded p-3">
+                                    <label class="form-label mb-1">Passport Sized Photo (jpg/jpeg/png) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" #StudentSignatureInput class="form-control"
+                                        accept="image/jpeg,image/jpg,image/png"
+                                        (change)="handleStudentPhotoSelected($event)">
 
-                                <span *ngIf="has_student_photo"
-                                    (click)="download_and_view_existing_document(StudentDocumentName.PASSPORT_SIZED_PHOTO)"
-                                    class="download_btn text-primary mt-2 mb-4 cursor_pointer">Download
-                                    & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
+                                    <span *ngIf="has_student_photo"
+                                        (click)="download_and_view_existing_document(StudentDocumentName.PASSPORT_SIZED_PHOTO)"
+                                        class="download_btn text-primary mt-2 mb-4 cursor_pointer">Download
+                                        & View &nbsp; <fa-icon class="icon" [icon]="faDownload"></fa-icon></span>
 
-                                <span *ngIf="!has_student_photo" class="download_btn text-primary mt-2 mb-4">
-                                    No student photo available
-                                </span>
+                                    <span *ngIf="!has_student_photo" class="download_btn text-primary mt-2 mb-4">
+                                        No student photo available
+                                    </span>
+
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button class="btn btn-primary btn-sm"
+                                            (click)="reset_passport_photo_form(StudentSignatureInput)">Reset</button>
+                                        <button class="btn btn-primary btn-sm" matStepperNext>Save</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mb-3 mt-2 d-flex justify-content-around imageCropperDivbackground"
+                        <div class="row mb-3 mt-2 d-flex justify-content-around imageCropperDivbackground m-0"
                             *ngIf="displayProperty">
                             <div class="col-12 col-md-4 d-flex justify-content-center">
                                 <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
@@ -321,14 +338,10 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-sm"
-                                (click)="reset_document_form(AadharPhotoInput, StudentSignatureInput)">Reset</button>
+                            <button class="btn btn-primary stepper_button_of_middle btn-sm"
+                                matStepperPrevious>Back</button>
 
-                            <div class="d-flex justify-content-around">
-                                <button class="btn btn-primary stepper_button_of_middle btn-sm"
-                                    matStepperPrevious>Back</button>
-                                <button class="btn btn-primary btn-sm" matStepperNext>Next</button>
-                            </div>
+                            <div></div>
                         </div>
                     </form>
                 </mat-step>

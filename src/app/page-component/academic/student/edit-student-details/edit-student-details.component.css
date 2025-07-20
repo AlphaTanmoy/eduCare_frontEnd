@@ -59,3 +59,8 @@
 .custom_padding_for_course{
     padding-top: 12px;
 }
+
+.row_custom_margin {
+    margin-left: 0px;
+    margin-right: 0px;
+}
