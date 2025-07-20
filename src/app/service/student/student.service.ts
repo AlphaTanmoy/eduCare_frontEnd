@@ -221,4 +221,8 @@ export class StudentService {
 
     return this.http.post<any>(GetBaseURL() + Endpoints.student.update_students_necessery_details, Student);
   }
+
+  UpdateStudentFamilyDetails(Student: any): Observable<any> {
+    return this.http.post<any>(GetBaseURL() + Endpoints.student.update_students_family_details, Student);
+  }
 }

@@ -514,6 +514,36 @@ export class EditStudentDetailsComponent {
     });
   }
 
+  async updateStudentFamilyDetails() {
+    this.activeMatProgressBar();
+
+    const payload = {
+      student_id: this.student_id,
+      student_fathers_name: this.student_fathers_name,
+      student_mothers_name: this.student_mothers_name,
+      student_husbands_name: this.student_husbands_name,
+      student_wifes_name: this.student_wifes_name,
+      student_guardians_number: this.student_guardians_number,
+    };
+
+    this.studentService.UpdateStudentFamilyDetails(payload).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.getStudentDetails();
+          this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   isNotValid(): boolean {
     return (
       !this.student_name ||
