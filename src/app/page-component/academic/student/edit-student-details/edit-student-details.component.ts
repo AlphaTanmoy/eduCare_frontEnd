@@ -544,6 +544,36 @@ export class EditStudentDetailsComponent {
     });
   }
 
+  async updateStudentAddressDetails() {
+    this.activeMatProgressBar();
+
+    const payload = {
+      student_id: this.student_id,
+      student_state: this.student_state,
+      student_district: this.student_district,
+      student_post_office: this.student_post_office,
+      student_village_city: this.student_village_city,
+      student_pincode: this.student_pincode,
+    };
+
+    this.studentService.UpdateStudentAddressDetails(payload).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+
+        if (response.status === 200) {
+          this.getStudentDetails();
+          this.openDialog('Student', response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog('Student', response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message || "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   isNotValid(): boolean {
     return (
       !this.student_name ||
