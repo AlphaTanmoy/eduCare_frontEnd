@@ -103,7 +103,8 @@
 
                             <div class="col-12 col-md-6 mb-2 custom_padding_for_course">
                                 <app-custom-single-select-searchable-dropdown
-                                    *ngIf="form1_visible && sub_course_form_visible"
+                                    *ngIf="form1_visible && sub_course_form_visible && student_details_old && (student_details_old.student.student_enrollment_status === EnrollmentStatus.REGISTERED ||
+                                        student_details_old.student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED)"
                                     [options]="available_sub_course_categories" [ariaLabel]="'Choose Courses'"
                                     [selectedOptions]="selectedCourse"
                                     (selectionChange)="handleSelectedSubCourses($event)">
@@ -112,11 +113,13 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-sm" (click)="reset_basic_details_form()" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
+                            <button class="btn btn-primary btn-sm" (click)="reset_basic_details_form()"
+                                [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
 
                             <div>
                                 <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
-                                <button class="btn btn-primary btn-sm" (click)="updateStudentNecesseryDetails()" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                <button class="btn btn-primary btn-sm" (click)="updateStudentNecesseryDetails()"
+                                    [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
                             </div>
                         </div>
                     </form>
@@ -179,7 +182,8 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-sm" (click)="reset_family_details_form()" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
+                            <button class="btn btn-primary btn-sm" (click)="reset_family_details_form()"
+                                [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
 
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
@@ -187,7 +191,8 @@
 
                                 <div>
                                     <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
-                                    <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +255,8 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-sm" (click)="reset_address_form()" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
+                            <button class="btn btn-primary btn-sm" (click)="reset_address_form()"
+                                [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Reset</button>
 
                             <div class="d-flex justify-content-between">
                                 <button class="btn btn-primary stepper_button_of_middle btn-sm"
@@ -258,7 +264,8 @@
 
                                 <div>
                                     <button matStepperNext class="btn btn-primary btn-sm me-2">Next</button>
-                                    <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -292,7 +299,8 @@
                                     <div class="d-flex justify-content-between mt-3">
                                         <button class="btn btn-primary btn-sm"
                                             (click)="reset_aadhar_form(AadharPhotoInput)">Reset</button>
-                                        <button class="btn btn-primary btn-sm" matStepperNext [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                        <button class="btn btn-primary btn-sm" matStepperNext
+                                            [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +325,8 @@
                                     <div class="d-flex justify-content-between mt-3">
                                         <button class="btn btn-primary btn-sm"
                                             (click)="reset_passport_photo_form(StudentSignatureInput)">Reset</button>
-                                        <button class="btn btn-primary btn-sm" matStepperNext [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
+                                        <button class="btn btn-primary btn-sm" matStepperNext
+                                            [disabled]="matProgressBarVisible || matProgressBarVisible1 || matProgressBarVisible2 || matProgressBarVisible3">Save</button>
                                     </div>
                                 </div>
                             </div>
