@@ -8,11 +8,13 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <div *ngIf="matProgressBarVisible" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75" style="z-index: 1060;">
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 fw-bold">Processing, please wait...</p>
     </div>
-    <p class="mt-2">Loading EPDFs...</p>
   </div>
 
   <!-- Error State -->
@@ -22,13 +24,13 @@
   </div>
 
   <!-- No Data State -->
-  <div *ngIf="!isLoading && !error && epdfs.length === 0" class="alert alert-info">
+  <div *ngIf="!matProgressBarVisible && !error && epdfs.length === 0" class="alert alert-info">
     <i class="bi bi-info-circle-fill me-2"></i>
     No EPDFs found. Click 'Add New EPDF' to get started.
   </div>
 
   <!-- EPDFs Table -->
-  <div *ngIf="!isLoading && !error && epdfs.length > 0" class="card shadow-sm">
+  <div *ngIf="!matProgressBarVisible && !error && epdfs.length > 0" class="card shadow-sm">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
@@ -94,9 +96,11 @@
               <button 
                 (click)="deleteEPDF(epdf._id)" 
                 class="btn btn-sm btn-outline-danger"
-                [disabled]="isLoading"
+                [disabled]="deletingIds.includes(epdf._id)"
                 title="Delete EPDF">
-                <i class="bi bi-trash"></i>
+                <span *ngIf="deletingIds.includes(epdf._id)" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                <i class="bi" [class.bi-trash]="!deletingIds.includes(epdf._id)" [class.d-none]="deletingIds.includes(epdf._id)"></i>
+                {{ deletingIds.includes(epdf._id) ? 'Deleting...' : 'Delete' }}
               </button>
             </td>
           </tr>

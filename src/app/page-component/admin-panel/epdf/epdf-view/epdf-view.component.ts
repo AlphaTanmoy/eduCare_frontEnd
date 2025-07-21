@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { Endpoints, GetBaseURL } from '../../../../endpoints/endpoints';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
@@ -33,7 +34,11 @@ interface ApiResponse {
 @Component({
   selector: 'app-epdf-view',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    MatButtonModule
+  ],
   templateUrl: './epdf-view.component.html',
   styleUrls: ['./epdf-view.component.css']
 })
@@ -41,6 +46,9 @@ export class EpdfViewComponent implements OnInit {
   epdfs: EPDF[] = [];
   isLoading = false;
   error: string | null = null;
+
+  matProgressBarVisible = false;
+  deletingIds: string[] = [];
 
   constructor(
     private http: HttpClient,
@@ -60,27 +68,27 @@ export class EpdfViewComponent implements OnInit {
   }
 
   fetchEPDFs(): void {
-    this.isLoading = true;
+    this.activeMatProgressBar();
     this.error = null;
 
     this.http.get<ApiResponse>(GetBaseURL() + Endpoints.epdf.get_epdf)
       .subscribe({
         next: (response) => {
           this.epdfs = response.data?.[0]?.epdfs || [];
-          this.isLoading = false;
+          this.hideMatProgressBar();
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error fetching EPDFs:', error);
           this.error = error.error?.message || 'Failed to load EPDFs';
           this.openDialog('Error', this.error || 'An error occurred', 0, '');
-          this.isLoading = false;
+          this.hideMatProgressBar();
         }
       });
   }
 
   deleteEPDF(epdfId: string): void {
     const epdfToDelete = this.epdfs.find(epdf => epdf._id === epdfId);
-    if (!epdfToDelete) return;
+    if (!epdfToDelete || this.deletingIds.includes(epdfId)) return;
 
     const dialogRef = this.dialog.open(CustomConfirmDialogComponent, { 
       data: { 
@@ -90,13 +98,22 @@ export class EpdfViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.isLoading = true;
+        this.deletingIds = [...this.deletingIds, epdfId];
+        this.activeMatProgressBar();
         
         this.http.post(GetBaseURL() + Endpoints.epdf.delete_epdf, { id: epdfId })
           .subscribe({
-            next: () => {
-              this.epdfs = this.epdfs.filter(epdf => epdf._id !== epdfId);
-              this.openDialog('Success', 'EPDF deleted successfully', 0, '');
+            next: (response: any) => {
+              if (response.status === 200) {
+                this.openDialog('Success', 'EPDF deleted successfully', 0, '');
+              } else {
+                this.openDialog(
+                  'Error',
+                  response.message || 'Failed to delete EPDF. Please try again.',
+                  0,
+                  ''
+                );
+              }
             },
             error: (error: HttpErrorResponse) => {
               console.error('Error deleting EPDF:', error);
@@ -108,7 +125,10 @@ export class EpdfViewComponent implements OnInit {
               );
             },
             complete: () => {
-              this.isLoading = false;
+              this.deletingIds = this.deletingIds.filter(id => id !== epdfId);
+              this.hideMatProgressBar();
+              // Refresh the entire list after deletion
+              this.fetchEPDFs();
             }
           });
       }
@@ -126,6 +146,14 @@ export class EpdfViewComponent implements OnInit {
     } catch {
       return link;
     }
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string = ''): void {
