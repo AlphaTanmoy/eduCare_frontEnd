@@ -38,6 +38,10 @@
             <th>Link</th>
             <th>Course Codes</th>
             <th>Status</th>
+            <th>Uploaded By</th>
+            <th>Deleted By</th>
+            <th>Created At</th>
+            <th>Updated At</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -67,11 +71,31 @@
               </span>
             </td>
             <td>
+              <span class="badge bg-info text-dark">
+                {{ epdf.upload_by || 'N/A' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-danger">
+                {{ epdf.deleted_by || 'N/A' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ (epdf.created_at | date: 'mediumDate') || 'N/A' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ (epdf.updated_at | date: 'mediumDate') || 'N/A' }}
+              </span>
+            </td>
+            <td>
               <button 
                 (click)="deleteEPDF(epdf._id)" 
                 class="btn btn-sm btn-outline-danger"
-                title="Delete EPDF"
-              >
+                [disabled]="isLoading"
+                title="Delete EPDF">
                 <i class="bi bi-trash"></i>
               </button>
             </td>

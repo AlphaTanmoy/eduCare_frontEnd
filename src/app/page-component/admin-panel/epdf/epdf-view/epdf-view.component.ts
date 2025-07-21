@@ -15,7 +15,10 @@ interface EPDF {
   link: string;
   course_codes: string[];
   upload_by: string;
+  deleted_by: string;
   data_status: string;
+  created_at?: string | null;
+  updated_at?: string | null;
 }
 
 interface ApiResponse {
