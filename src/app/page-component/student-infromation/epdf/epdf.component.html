@@ -1,1 +1,111 @@
-<p>epdf works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Student EPDF Search</h2>
+
+  <!-- Search Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body p-4">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="row g-3 align-items-end">
+        <div class="col-12 col-md-6">
+          <label for="year" class="form-label fw-semibold">Year (Last 2 digits)</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light">ECI</span>
+            <input
+              type="text"
+              class="form-control text-center"
+              id="year"
+              formControlName="year"
+              placeholder="YY"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="2"
+              [ngClass]="{'is-invalid': year?.invalid && year?.touched}"
+              autocomplete="off"
+            >
+            <span class="input-group-text bg-light">-</span>
+            <input
+              type="text"
+              class="form-control"
+              id="registrationNumber"
+              formControlName="registrationNumber"
+              placeholder="12345"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="5"
+              [ngClass]="{'is-invalid': registrationNumber?.invalid && registrationNumber?.touched}"
+              autocomplete="off"
+            >
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="searchForm.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Search</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </span>
+            </button>
+          </div>
+          <div *ngIf="year?.invalid && year?.touched" class="invalid-feedback d-block">
+            <div *ngIf="year?.errors?.['required']">Year is required</div>
+            <div *ngIf="year?.errors?.['pattern'] || year?.errors?.['min'] || year?.errors?.['max']">
+              Please enter a valid 2-digit year (00-99)
+            </div>
+          </div>
+          <div *ngIf="registrationNumber?.invalid && registrationNumber?.touched" class="invalid-feedback d-block">
+            <div *ngIf="registrationNumber?.errors?.['required']">Registration number is required</div>
+            <div *ngIf="registrationNumber?.errors?.['pattern']">Please enter a valid 5-digit number</div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close" (click)="error = null" aria-label="Close"></button>
+  </div>
+
+  <!-- Results -->
+  <div *ngIf="epdfs.length > 0">
+    <h4 class="mb-3 text-muted">Available EPDFs for <span class="text-primary">{{ fullRegistrationNumber }}</span></h4>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr class="text-uppercase small">
+            <th class="fw-semibold">Code</th>
+            <th class="fw-semibold">Name</th>
+            <th class="fw-semibold">Link</th>
+            <th class="fw-semibold">Course Codes</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr *ngFor="let epdf of epdfs">
+            <td class="fw-medium">{{ epdf.code }}</td>
+            <td>{{ epdf.name }}</td>
+            <td>
+              <a href="#" (click)="$event.preventDefault(); openPdf(epdf.link)" class="text-decoration-none">
+                <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i>
+                <span class="text-primary">View PDF</span>
+              </a>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap gap-1">
+                <span class="badge bg-secondary-subtle text-dark" *ngFor="let code of epdf.course_codes">
+                  {{ code }}
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="epdfs.length === 0 && searchForm.touched && !isLoading && !error" class="alert alert-info">
+    <i class="bi bi-info-circle me-2"></i>
+    No EPDFs found for the provided registration number.
+  </div>
+</div>
