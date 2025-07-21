@@ -95,7 +95,7 @@ export const Endpoints = {
     update_student: "student/update",
     delete_student: "student/delete_student",
     get_student_course_info: "student/get_student_course_info",
-    update_student_marks: "student/update_student_marks", 
+    update_student_marks: "student/update_student_marks",
     student_login: "student/login",
     download_registration_card: "registration_card",
     get_all_passout_students: "student/get_all_passout_students",
@@ -106,16 +106,16 @@ export const Endpoints = {
     update_student_document: "student/update_student_document",
   },
   student_certificate: {
-    issue_certificate: "student_certificate/issue_certificate", 
-    generate_and_download_excel_to_generate_certificate: "student_certificate/generate_and_download_excel_to_generate_certificate", 
-    download_certificate: "student_certificate/download_certificate", 
-    get_eligible_student_list_for_raising_ticket: "student_certificate/get_eligible_student_list_for_raising_ticket", 
-    raise_ticket_for_certificate_generation: "student_certificate/raise_ticket_for_certificate_generation", 
-    get_available_certificate_ticket_list: "student_certificate/get_available_certificate_ticket_list", 
-    accept_reject_ticket: "student_certificate/accept_reject_ticket", 
-    publish_ticket: "student_certificate/publish_ticket", 
-    download_zip_of_single_student_photo: "student_certificate/download_zip_of_single_student_photo", 
-    download_zip_of_all_student_photo_of_full_ticket: "student_certificate/download_zip_of_all_student_photo_of_full_ticket", 
+    issue_certificate: "student_certificate/issue_certificate",
+    generate_and_download_excel_to_generate_certificate: "student_certificate/generate_and_download_excel_to_generate_certificate",
+    download_certificate: "student_certificate/download_certificate",
+    get_eligible_student_list_for_raising_ticket: "student_certificate/get_eligible_student_list_for_raising_ticket",
+    raise_ticket_for_certificate_generation: "student_certificate/raise_ticket_for_certificate_generation",
+    get_available_certificate_ticket_list: "student_certificate/get_available_certificate_ticket_list",
+    accept_reject_ticket: "student_certificate/accept_reject_ticket",
+    publish_ticket: "student_certificate/publish_ticket",
+    download_zip_of_single_student_photo: "student_certificate/download_zip_of_single_student_photo",
+    download_zip_of_all_student_photo_of_full_ticket: "student_certificate/download_zip_of_all_student_photo_of_full_ticket",
   },
   wallet: {
     recharge_wallet: "wallet/recharge_wallet",
@@ -152,5 +152,11 @@ export const Endpoints = {
     contact_us: "contact/contact_us",
     feedback_report: "contact/bug_report",
     get_contacts_list: "contact/get_contacts_list"
+  },
+  epdf: {
+    create_epdf: "epdf/create_epdf",
+    get_epdf: "epdf/get_all_epdfs",
+    get_epdf_for_student: "epdf/get_epdf_for_student",
+    delete_epdf: "epdf/delete_epdf"
   }
 }
