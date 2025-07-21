@@ -56,6 +56,7 @@ import { EpdfComponent } from './page-component/student-infromation/epdf/epdf.co
 import { MarksDivisionComponent } from './page-component/student-infromation/marks-division/marks-division.component';
 import { ViewContactListsComponent } from './page-component/admin-panel/view-contact-lists/view-contact-lists.component';
 import { EpdfViewComponent } from './page-component/admin-panel/epdf/epdf-view/epdf-view.component';
+import { AddEpdfComponent } from './page-component/admin-panel/epdf/add-epdf/add-epdf.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -80,6 +81,7 @@ export const routes: Routes = [
   { path: 'e-pdf', component: EpdfComponent},
   { path: 'marks-division', component: MarksDivisionComponent},
   { path: 'e-pdf-view', component: EpdfViewComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+  { path: 'epdf/add', component: AddEpdfComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
 
   { path: 'contact-us/contact', component: ContactComponent },
   { path: 'contact-us/feedback', component: FeedbackComponent },
