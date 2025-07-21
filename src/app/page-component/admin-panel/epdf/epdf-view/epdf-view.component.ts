@@ -113,7 +113,7 @@ export class EpdfViewComponent implements OnInit {
   }
 
   navigateToAdd(): void {
-    this.router.navigate(['/admin/epdf/add']);
+    this.router.navigate(['/epdf/add']);
   }
 
   getFileNameFromLink(link: string): string {
