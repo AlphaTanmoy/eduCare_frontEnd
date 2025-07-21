@@ -1,0 +1,83 @@
+<div class="container-fluid py-4">
+  <!-- Header with Add Button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">EPDF Management</h2>
+    <button class="btn btn-primary" (click)="navigateToAdd()">
+      <i class="bi bi-plus-lg me-2"></i>Add New EPDF
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading EPDFs...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!isLoading && !error && epdfs.length === 0" class="alert alert-info">
+    <i class="bi bi-info-circle-fill me-2"></i>
+    No EPDFs found. Click 'Add New EPDF' to get started.
+  </div>
+
+  <!-- EPDFs Table -->
+  <div *ngIf="!isLoading && !error && epdfs.length > 0" class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Link</th>
+            <th>Course Codes</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let epdf of epdfs">
+            <td class="fw-semibold">{{ epdf.code }}</td>
+            <td>{{ epdf.name }}</td>
+            <td>
+              <a [href]="epdf.link" target="_blank" class="text-decoration-none">
+                <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>
+                {{ getFileNameFromLink(epdf.link) }}
+              </a>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap gap-1">
+                <span *ngFor="let code of epdf.course_codes" class="badge bg-primary">
+                  {{ code }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-success': epdf.data_status === 'ACTIVE',
+                'bg-secondary': epdf.data_status !== 'ACTIVE'
+              }">
+                {{ epdf.data_status }}
+              </span>
+            </td>
+            <td>
+              <button 
+                (click)="deleteEPDF(epdf._id)" 
+                class="btn btn-sm btn-outline-danger"
+                title="Delete EPDF"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
