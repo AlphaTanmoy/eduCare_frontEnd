@@ -41,8 +41,8 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private dialog: MatDialog
   ) {
-    // Google Drive URL pattern
-    const googleDrivePattern = /^https:\/\/drive\.google\.com\/file\/d\/[^\/]+\/view\?usp=sharing$/;
+    // Google Drive URL pattern - more flexible with URL parameters
+    const googleDrivePattern = /^https:\/\/drive\.google\.com\/file\/d\/[^\/]+\/view(?:\?[^\s]*)?$/;
     
     this.epdfForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
