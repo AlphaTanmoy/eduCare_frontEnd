@@ -42,7 +42,7 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {
     // Google Drive URL pattern
-    const googleDrivePattern = /^(https:\/\/)?(drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|drive\/folders\/|drive\/u\/\d\/folders\/))[a-zA-Z0-9_\-]+/;
+    const googleDrivePattern = /^https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|drive\/folders\/)([a-zA-Z0-9_-]+)(?:\/(?:view|preview))?(?:\?.*)?$/;
 
     this.epdfForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -237,6 +237,4 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  // Removed openDialog method as we're now handling dialogs directly where needed
 }
