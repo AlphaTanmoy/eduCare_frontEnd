@@ -42,12 +42,12 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {
     // Google Drive URL pattern
-    const googleDrivePattern = /^https:\/\/drive\.google\.com\/file\/d\/[^\/]+\/view\?usp=sharing$/;
-    
+    const googleDrivePattern = /^(https:\/\/)?(drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|drive\/folders\/|drive\/u\/\d\/folders\/))[a-zA-Z0-9_\-]+/;
+
     this.epdfForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       link: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(googleDrivePattern)
       ]],
       course_codes: [[], Validators.required]
@@ -63,7 +63,7 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
             value: course.course_code,
             viewValue: `${course.course_name} : ${course.course_code}`
           }));
-          
+
           if (this.courseOptions.length === 0) {
             const dialogRef = this.dialog.open(CustomAlertComponent, {
               data: {
@@ -167,7 +167,7 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
 
   onCourseToggle(courseCode: string, isChecked: boolean): void {
     const currentCourses = [...(this.epdfForm.get('course_codes')?.value || [])];
-    
+
     if (isChecked) {
       // Add course if not already in the array
       if (!currentCourses.includes(courseCode)) {
@@ -180,12 +180,12 @@ export class AddEpdfComponent implements OnInit, OnDestroy {
         currentCourses.splice(index, 1);
       }
     }
-    
+
     // Update form control value
     this.epdfForm.patchValue({
       course_codes: currentCourses
     });
-    
+
     // Mark as touched to trigger validation
     this.epdfForm.get('course_codes')?.markAsTouched();
   }
