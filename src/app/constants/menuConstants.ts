@@ -71,7 +71,7 @@ export const MenuItems: any[] = [
         id: 54,
         name: 'E-Book View',
         route: '/e-pdf-view',
-        role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT, UserRole.COMMON],
+        role: [UserRole.MASTER, UserRole.ADMIN],
       },
     ],
   },
