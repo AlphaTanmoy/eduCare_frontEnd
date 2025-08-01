@@ -41,7 +41,6 @@ export class ShowStudentDetailsComponent {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.student_info = this.student;
-    console.log(this.student_info)
   }
 
   ReEnroll() {
@@ -51,6 +50,7 @@ export class ShowStudentDetailsComponent {
       next: (response) => {
         this.hideMatProgressBar();
         if (response.status === 200) {
+          this.student_info.student_already_reenrolled_in_an_active_course = response.data[0];
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
