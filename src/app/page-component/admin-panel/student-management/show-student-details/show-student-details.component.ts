@@ -49,6 +49,7 @@ export class ShowStudentDetailsComponent {
     this.studentService.StudentReEnrollment(this.student_info.student_id).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
+        
         if (response.status === 200) {
           this.student_info.student_already_reenrolled_in_an_active_course = response.data[0];
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
