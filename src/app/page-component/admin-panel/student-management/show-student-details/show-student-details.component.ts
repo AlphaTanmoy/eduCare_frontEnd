@@ -1,11 +1,14 @@
-import { Component, Inject, Input, Optional } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, Input, Optional } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, ResponseTypeColor, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { StudentService } from '../../../../service/student/student.service';
+import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,6 +18,10 @@ import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatu
   styleUrl: './show-student-details.component.css'
 })
 export class ShowStudentDetailsComponent {
+  readonly dialog = inject(MatDialog);
+  matProgressBarVisible = false;
+
+
   @Input() student!: any;
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
@@ -25,9 +32,35 @@ export class ShowStudentDetailsComponent {
 
   student_info: any = {};
 
+  constructor(
+    private studentService: StudentService,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+  ) { }
+
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.student_info = this.student;
+    console.log(this.student_info)
+  }
+
+  ReEnroll() {
+    this.activeMatProgressBar();
+
+    this.studentService.StudentReEnrollment(this.student_info.student_id).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+        if (response.status === 200) {
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
   }
 
   FormatDateTime(datetimeValue: any) {
@@ -53,5 +86,25 @@ export class ShowStudentDetailsComponent {
 
   ngOnDestroy(): void {
     removeBootstrap(this.bootstrapElements);
+  }
+
+  activeMatProgressBar() {
+    this.matProgressBarVisible = true;
+    this.cdr.detectChanges();
+  }
+
+  hideMatProgressBar() {
+    this.matProgressBarVisible = false;
+    this.cdr.detectChanges();
+  }
+
+  openDialog(dialogTitle: string, dialogText: string, dialogType: number, navigateRoute: string | null): void {
+    const dialogRef = this.dialog.open(CustomAlertComponent, { data: { title: dialogTitle, text: dialogText, type: dialogType } });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (navigateRoute) {
+        this.router.navigate([navigateRoute]);
+      }
+    });
   }
 }

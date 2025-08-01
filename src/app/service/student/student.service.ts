@@ -17,14 +17,14 @@ export class StudentService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
 
   studentLogin(registrationNumber: string, studentDOB: string): Observable<StudentLoginResponse> {
     return this.http.post<StudentLoginResponse>(
-      `${GetBaseURL()}student/login`, 
-      { 
-        registration_number: registrationNumber, 
-        student_DOB: studentDOB 
+      `${GetBaseURL()}student/login`,
+      {
+        registration_number: registrationNumber,
+        student_DOB: studentDOB
       }
     ).pipe(
       tap((response: StudentLoginResponse) => {
@@ -63,7 +63,7 @@ export class StudentService {
         }
 
         const profile = firstItem.personal_info;
-        
+
         // Map the response to the StudentProfile interface
         const mappedProfile: StudentProfile = {
           id: profile.id || '',
@@ -79,7 +79,7 @@ export class StudentService {
 
         // Cache the profile
         this.studentProfile = mappedProfile;
-        
+
         return mappedProfile;
       }),
       catchError(error => {
@@ -105,7 +105,7 @@ export class StudentService {
       if (!base64Url) {
         throw new Error('Invalid token format');
       }
-      
+
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
         atob(base64)
@@ -113,9 +113,9 @@ export class StudentService {
           .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
-      
+
       const payload = JSON.parse(jsonPayload);
-      
+
       return {
         id: payload.id || '',
         name: payload.name || '',
@@ -240,5 +240,9 @@ export class StudentService {
 
   GetStudentInfoByStudentObjectId(student_id: string | null): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_object_id + "/" + student_id);
+  }
+
+  StudentReEnrollment(passout_student_id: string | null): Observable<any> {
+    return this.http.post(GetBaseURL() + Endpoints.student.re_enrollment_student, { passout_student_id });
   }
 }
