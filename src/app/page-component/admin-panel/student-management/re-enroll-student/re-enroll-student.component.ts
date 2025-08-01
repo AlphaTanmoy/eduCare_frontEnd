@@ -60,19 +60,52 @@ export class ReEnrollStudentComponent {
 
     this.route.paramMap.subscribe(params => {
       const id = params.get('student_id');
+
       if (id) {
         this.student_id = id;
-        console.log('Student ID:', this.student_id);
-        this.GetStudentDetails();
+        this.GetStudentDetailsByRegStudentObjectId();
       } else {
         this.IsSearchAndReEnrollmentEnabled = true;
-        console.log('Search and Re-Enrollment Enabled');
-        this.GetStudentDetails();
+        this.GetStudentDetailsByRegNumber();
       }
     });
   }
 
-  GetStudentDetails(): void {
+  GetStudentDetailsByRegStudentObjectId(): void {
+    this.activeMatProgressBar();
+
+    this.studentService.GetStudentInfoByStudentObjectId(this.student_id).subscribe({
+      next: (response) => {
+        if (response.status === 200) {
+          this.student_info = response.data[0];
+          this.done_fetching = true;
+
+          this.studentService.getStudentPhotoStream(this.student_info.student_guid).subscribe({
+            next: async (imageData: Blob) => {
+              const base64Image = await convertBlobToBase64(imageData);
+              this.student_info.student_photo = `data:image/jpg;base64,${base64Image}`;
+              this.hideMatProgressBar();
+              this.done_fetching = false;
+              setTimeout(() => {this.done_fetching = true;}, 1);
+            },
+            error: (err) => {
+              this.hideMatProgressBar();
+              this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+            }
+          });
+
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
+  GetStudentDetailsByRegNumber(): void {
     this.activeMatProgressBar();
 
     this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00003").subscribe({
@@ -81,7 +114,7 @@ export class ReEnrollStudentComponent {
           this.student_info = response.data[0];
 
           this.studentService.getStudentPhotoStream(this.student_info.student_guid).subscribe({
-            next: async(imageData: Blob) => {
+            next: async (imageData: Blob) => {
               const base64Image = await convertBlobToBase64(imageData);
               this.student_info.student_photo = `data:image/jpg;base64,${base64Image}`;
               this.hideMatProgressBar();

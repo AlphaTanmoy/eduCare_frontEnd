@@ -237,4 +237,8 @@ export class StudentService {
   GetStudentInfoByRegistrationNumber(student_reg: string): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_registration_number + "/" + student_reg);
   }
+
+  GetStudentInfoByStudentObjectId(student_id: string | null): Observable<any> {
+    return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_object_id + "/" + student_id);
+  }
 }
