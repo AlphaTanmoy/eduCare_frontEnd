@@ -13,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap, faRectangleList, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap, faRectangleList, faFileDownload, faArrowsSpin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
@@ -55,6 +55,7 @@ export class PassoutStudentComponent implements OnInit, OnDestroy, AfterViewInit
   faGraduationCap = faGraduationCap;
   faRectangleList = faRectangleList;
   faFileDownload = faFileDownload;
+  faArrowsSpin = faArrowsSpin;
 
   YesNoStatus = YesNoStatus;
   YesNoStatusDescriptions = YesNoStatusDescriptions;
@@ -336,6 +337,11 @@ export class PassoutStudentComponent implements OnInit, OnDestroy, AfterViewInit
 
   GetIsEmailVerifiedLabel(value: number): string {
     return YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
+  }
+
+  ReEnrollmentOfStudent(student: any) {
+    console.log("HI", student)
+    this.router.navigate(['/control-panel/manage-student/student-re-enrollment/' + student.student_id]);
   }
 
   ngOnDestroy(): void {

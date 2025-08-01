@@ -57,12 +57,13 @@ import { MarksDivisionComponent } from './page-component/student-infromation/mar
 import { ViewContactListsComponent } from './page-component/admin-panel/view-contact-lists/view-contact-lists.component';
 import { EpdfViewComponent } from './page-component/admin-panel/epdf/epdf-view/epdf-view.component';
 import { AddEpdfComponent } from './page-component/admin-panel/epdf/add-epdf/add-epdf.component';
+import { ReEnrollStudentComponent } from './page-component/admin-panel/student-management/re-enroll-student/re-enroll-student.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  
+
   { path: 'verification/certificate', component: CourseCertificateVerifyComponent },
   { path: 'verification/student', component: StudentVerifyComponent },
   { path: 'verification/center', component: CenterVerifyComponent },
@@ -78,8 +79,8 @@ export const routes: Routes = [
   { path: 'others-activity', component: OtherActivityComponent },
   { path: 'about/institution', component: AboutInstitutionComponent },
   { path: 'about/registration', component: AboutRegistrationComponent },
-  { path: 'e-pdf', component: EpdfComponent},
-  { path: 'marks-division', component: MarksDivisionComponent},
+  { path: 'e-pdf', component: EpdfComponent },
+  { path: 'marks-division', component: MarksDivisionComponent },
   { path: 'e-pdf-view', component: EpdfViewComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'epdf/add', component: AddEpdfComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
 
@@ -87,33 +88,49 @@ export const routes: Routes = [
   { path: 'contact-us/feedback', component: FeedbackComponent },
   { path: 'contact-us/rules', component: RulesComponent },
   { path: 'contact-us/view-contact-lists', component: ViewContactListsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
-  { path: 'view-all-notification', component: ViewAllNotificationsComponent},
+
+  { path: 'view-all-notification', component: ViewAllNotificationsComponent },
+
   { path: 'control-panel/update-dashboard-details/home-slideshow', component: HomeSlideshowComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/update-dashboard-details/master-details', component: MasterDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/manage-admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/create-admin', component: CreateAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/edit-admin/:adminId', component: EditAdminComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/course-list', component: CourseListComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/add/sub-course', component: AddSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/view-course/:courseCode', component: ViewCourseComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/edit-sub-course', component: EditSubCourseCategoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+
   { path: 'control-panel/manage-franchise', component: ManageCenterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+
   { path: 'control-panel/manage-student/active-student', component: ManageStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/manage-student/passout-student', component: PassoutStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
-  { path: 'control-panel/update-exam-marks/:studentId', component: ManageExamMarksComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/manage-student/request-for-certificate', component: RequestForCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/manage-student/download-excel-for-certificate-generation', component: DownloadExcelToGenerateCertificateComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
+  { path: 'control-panel/manage-student/student-re-enrollment/:student_id', component: ReEnrollStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+  { path: 'control-panel/manage-student/student-re-enrollment', component: ReEnrollStudentComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+
+  { path: 'control-panel/update-exam-marks/:studentId', component: ManageExamMarksComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+
   { path: 'control-panel/wallet/manage', component: ManageWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN] } },
   { path: 'control-panel/wallet/recharge', component: PayWalletComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'control-panel/wallet/transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
+
   { path: 'control-panel/manage-brand', component: BrandsManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-brand', component: BrandsAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/manage-youtube-link', component: YtlinksManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-youtube-link', component: YtlinksAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/manage-notification', component: NotificationManagementComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
   { path: 'control-panel/add-notification', component: NotificationAddComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/data-backup', component: BackupComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'control-panel/manage-counters', component: ManageCounterComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER] } },
+
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [] },
 

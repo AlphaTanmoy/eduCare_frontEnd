@@ -1,0 +1,103 @@
+<div class="card">
+    <h5 class="card-header pt-3 pb-3 fw-bold">Student Details</h5>
+
+    <div class="card-body">
+        <div class="student_card_header">
+            <div class="d-flex flex-column justify-content-around">
+                <p class="card-text"><span class="fw-bold">Registration Number :</span> {{student_info.registration_number}}</p>
+                <p class="card-text" *ngIf="student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
+                                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED">
+                    <span class="fw-bold">Certificate Number :</span> {{student_info.certification_number}}
+                </p>
+                <p class="card-text"><span class="fw-bold">Name :</span> {{student_info.student_name}}</p>
+                <p class="card-text"><span class="fw-bold">Gender :</span> {{student_info.student_gender}}</p>
+                <p class="card-text"><span class="fw-bold">Date of Birth :</span>
+                    {{FormatDateTime(student_info.student_DOB)}}
+                </p>
+                <p class="card-text"><span class="fw-bold">Marital Status :</span>
+                    {{student_info.student_maratial_status}}</p>
+                <p class="card-text"><span class="fw-bold">Aadhar :</span> {{student_info.student_Adhar_number}}</p>
+
+                <div class="student_card_data">
+                    <p class="card-text me-3"><span class="fw-bold">Status : </span> <span [ngClass]="
+                            student_info.data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
+                            student_info.data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' :
+                            student_info.data_status === ActiveInactiveStatus.DELETED ? 'text_card_deleted' : 'text_card_idle'
+                            ">{{ GetDataStatusLabel(student_info.data_status) }}
+                        </span></p>
+
+                    <p class="card-text"><span class="fw-bold">Enrollment Status : </span>
+                        <span [ngClass]="
+                            student_info.student_enrollment_status === EnrollmentStatus.REGISTERED ? 'text_card_idle' :
+                            student_info.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
+                            student_info.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED ? 'text_card_danger' :
+                            student_info.student_enrollment_status === EnrollmentStatus.TICKET_RAISED_FOR_CERTIFICATE ? 'text_card_deleted' :
+                            student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_PROCESSING ? 'text_card_success_deep' :
+                            student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_REQUEST_REJECTED ? 'text_card_danger' :
+                            student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED ? 'text_card_primary' : 'text_card_primary_light'
+                            ">{{ GetEnrollmentStatusLabel(student_info.student_enrollment_status) }}
+                        </span>
+                    </p>
+                </div>
+
+                <p class="card-text" *ngIf="student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
+                                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED">
+                    <span class="fw-bold">Certificate
+                        Issued At :</span>
+                    {{FormatDateTime(student_info.certificate_issue_date)}}
+                </p>
+            </div>
+            <div class="student_image d-flex flex-column justify-content-center align-items-center">
+                <img [src]="student_info.student_photo" (error)="onImageError($event)">
+            </div>
+        </div>
+
+
+        <div class="student_card_data mb-3">
+            <p class="card-text"><span class="fw-bold">Email ID :</span> {{student_info.student_email}}</p>
+            <p class="card-text"><span class="fw-bold">Phone No. :</span> {{student_info.student_phone_no}}</p>
+            <p class="card-text"><span class="fw-bold">WhatsApp :</span> {{student_info.student_whats_app}}</p>
+        </div>
+
+        <p class="card-text mb-3"><span class="fw-bold">Address :</span> {{student_info.student_address}}</p>
+
+        <div class="student_card_data mb-3">
+            <div>
+                <p class="card-text"><span class="fw-bold">Father's Name :</span> {{student_info.student_fathers_name}}</p>
+                <p class="card-text"><span class="fw-bold">Mother's Name :</span> {{student_info.student_mothers_name}}</p>
+            </div>
+
+            <div>
+                <p class="card-text"><span class="fw-bold">Husband's Name :</span> {{student_info.student_husbands_name}}</p>
+                <p class="card-text"><span class="fw-bold">Wife's Name :</span> {{student_info.student_wifes_name}}</p>
+            </div>
+
+            <p class="card-text"><span class="fw-bold">Guardian's Number :</span> {{student_info.student_guardians_number}}</p>
+        </div>
+
+        <div class="student_card_data mb-3 d-flex flex-column">
+            <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{student_info.enrolled_courses}}
+                ({{student_info.marks.length}} Module)</p>
+
+            <table>
+                <tr>
+                    <th>Module</th>
+                    <th>Theory Marks</th>
+                    <th>Practical Marks</th>
+                </tr>
+                <tr *ngFor="let mark of student_info.marks">
+                    <td>{{mark.module_index + 1}}</td>
+                    <td>{{ mark.theory_marks ?? 'Not updated' }}</td>
+                    <td>{{ mark.practical_marks ?? 'Not updated' }}</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <p class="card-text"><span class="fw-bold">Associated Center :</span> {{student_info.associated_franchise}}</p>
+
+        <p class="card-text"><span class="fw-bold">Email Verified :</span>
+            {{GetIsEmailVerifiedLabel(student_info.is_email_verified)}}</p>
+        <p class="card-text"><span class="fw-bold">Created At :</span> {{FormatDateTime(student_info.created_at)}}</p>
+    </div>
+</div>
