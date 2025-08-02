@@ -25,7 +25,7 @@ export class ShowStudentDetailsComponent {
 
   @Input() student!: any;
   @Input() available_sub_course_categories: Dropdown[] = [];
-  
+
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -57,6 +57,7 @@ export class ShowStudentDetailsComponent {
 
         if (response.status === 200) {
           this.student_info.student_already_reenrolled_in_an_active_course = response.data[0];
+          this.student_info.student_enrollment_status = EnrollmentStatus.REGISTERED;
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
