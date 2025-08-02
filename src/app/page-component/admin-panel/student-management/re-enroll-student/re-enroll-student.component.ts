@@ -114,10 +114,11 @@ export class ReEnrollStudentComponent {
   GetStudentDetailsByRegNumber(): void {
     this.activeMatProgressBar();
 
-    this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00086").subscribe({
+    this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00026").subscribe({
       next: (response) => {
         if (response.status === 200) {
           this.student_info = response.data[0];
+          this.done_fetching = true;
 
           this.studentService.getStudentPhotoStream(this.student_info.student_guid).subscribe({
             next: async (imageData: Blob) => {
