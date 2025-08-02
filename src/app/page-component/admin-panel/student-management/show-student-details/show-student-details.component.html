@@ -112,14 +112,6 @@
             </table>
         </div>
 
-
-        <p class="card-text"><span class="fw-bold">Associated Center :</span> {{student_info.associated_franchise}}</p>
-
-        <p class="card-text"><span class="fw-bold">Email Verified :</span>
-            {{GetIsEmailVerifiedLabel(student_info.is_email_verified)}}</p>
-
-        <p class="card-text"><span class="fw-bold">Created At :</span> {{FormatDateTime(student_info.created_at)}}</p>
-
         <div *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === false"
             class="col-md-6">
             <app-custom-single-select-searchable-dropdown [options]="available_sub_course_categories"
@@ -127,5 +119,12 @@
                 (selectionChange)="handleSelectedSubCourses($event)">
             </app-custom-single-select-searchable-dropdown>
         </div>
+
+        <p class="card-text"><span class="fw-bold">Associated Center :</span> {{student_info.associated_franchise}}</p>
+
+        <p class="card-text"><span class="fw-bold">Email Verified :</span>
+            {{GetIsEmailVerifiedLabel(student_info.is_email_verified)}}</p>
+
+        <p class="card-text"><span class="fw-bold p-0 m-0">Created At :</span> {{FormatDateTime(student_info.created_at)}}</p>    
     </div>
 </div>

@@ -14,10 +14,6 @@
     overflow: hidden;
 }
 
-.card-body {
-    overflow: scroll;
-}
-
 .student_image {
     width: max-content;
     width: 10rem;
