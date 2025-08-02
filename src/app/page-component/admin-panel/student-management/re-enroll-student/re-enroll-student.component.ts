@@ -44,6 +44,7 @@ export class ReEnrollStudentComponent {
   student_id: string | null = null;
 
   IsSearchAndReEnrollmentEnabled: boolean = false;
+  student_req_number: string | null = null;
 
   student_info: any | null = null;
   student_photo: string | null = null;
@@ -71,7 +72,6 @@ export class ReEnrollStudentComponent {
         this.GetStudentDetailsByRegStudentObjectId();
       } else {
         this.IsSearchAndReEnrollmentEnabled = true;
-        this.GetStudentDetailsByRegNumber();
       }
     });
   }
@@ -146,7 +146,7 @@ export class ReEnrollStudentComponent {
   GetStudentDetailsByRegNumber(): void {
     this.activeMatProgressBar();
 
-    this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00026").subscribe({
+    this.studentService.GetStudentInfoByRegistrationNumber(this.student_req_number).subscribe({
       next: (response) => {
         if (response.status === 200) {
           this.student_info = response.data[0];

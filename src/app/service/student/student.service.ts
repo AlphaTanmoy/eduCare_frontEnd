@@ -234,7 +234,7 @@ export class StudentService {
     return this.http.post<any>(GetBaseURL() + Endpoints.student.update_student_document, formData);
   }
 
-  GetStudentInfoByRegistrationNumber(student_reg: string): Observable<any> {
+  GetStudentInfoByRegistrationNumber(student_reg: string | null): Observable<any> {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_registration_number + "/" + student_reg);
   }
 

@@ -1,11 +1,20 @@
-<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1" class="matProgressBar"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1"
+    class="matProgressBar"></mat-progress-bar>
 
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Student Re-Enrollment</h2>
 
-    <app-show-student-details 
-        *ngIf="done_fetching && done_fetching_all" 
-        [student]="student_info"
-        [available_sub_course_categories]="available_sub_course_categories"
-    ></app-show-student-details>
+    <div *ngIf="IsSearchAndReEnrollmentEnabled" class="mb-3">
+        <label class="form-label">Registration Number<span class="text-danger">*</span></label>
+
+        <div class="d-flex justify-content-between custom_height_of_form">
+            <input class="form-control w-75" type="text" placeholder="Search by Registration Number"
+                [(ngModel)]="student_req_number">
+            <button class="btn btn-secondary btn-sm" (click)="GetStudentDetailsByRegNumber()">Search</button>
+        </div>
+    </div>
+
+
+    <app-show-student-details *ngIf="done_fetching && done_fetching_all" [student]="student_info"
+        [available_sub_course_categories]="available_sub_course_categories"></app-show-student-details>
 </div>
