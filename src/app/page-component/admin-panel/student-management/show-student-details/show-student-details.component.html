@@ -1,17 +1,25 @@
 <div class="card">
     <div class="card-header pt-3 pb-3 d-flex justify-content-between align-items-center">
         <h5 class="fw-bold p-0 m-0">Student Details</h5>
-        <button class="btn btn-primary btn-sm" (click)="ReEnroll()" *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === false">Re-Enroll</button>
+        <button class="btn btn-primary btn-sm" (click)="ReEnroll()"
+            *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === false">Re-Enroll</button>
     </div>
 
     <div class="card-body">
         <div class="student_card_header">
             <div class="d-flex flex-column justify-content-around">
-                <p class="card-text"><span class="fw-bold">Registration Number :</span> {{student_info.registration_number}}</p>
-                <p class="card-text" *ngIf="student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
-                                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED">
+                <p class="card-text"
+                    *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === true"><span
+                        class="fw-bold">Registration
+                        Number :</span>
+                    {{student_info.registration_number}}</p>
+
+                <p class="card-text" *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === true && 
+                    (student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
+                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED)">
                     <span class="fw-bold">Certificate Number :</span> {{student_info.certification_number}}
                 </p>
+
                 <p class="card-text"><span class="fw-bold">Name :</span> {{student_info.student_name}}</p>
                 <p class="card-text"><span class="fw-bold">Gender :</span> {{student_info.student_gender}}</p>
                 <p class="card-text"><span class="fw-bold">Date of Birth :</span>
@@ -29,7 +37,9 @@
                             ">{{ GetDataStatusLabel(student_info.data_status) }}
                         </span></p>
 
-                    <p class="card-text"><span class="fw-bold">Enrollment Status : </span>
+                    <p class="card-text"
+                        *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === true">
+                        <span class="fw-bold">Enrollment Status : </span>
                         <span [ngClass]="
                             student_info.student_enrollment_status === EnrollmentStatus.REGISTERED ? 'text_card_idle' :
                             student_info.student_enrollment_status === EnrollmentStatus.FEES_PAID ? 'text_card_success' :
@@ -43,8 +53,9 @@
                     </p>
                 </div>
 
-                <p class="card-text" *ngIf="student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
-                                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED">
+                <p class="card-text" *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === true && 
+                    (student_info.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
+                    student_info.student_enrollment_status === EnrollmentStatus.COMPLETED)">
                     <span class="fw-bold">Certificate
                         Issued At :</span>
                     {{FormatDateTime(student_info.certificate_issue_date)}}
@@ -66,19 +77,24 @@
 
         <div class="student_card_data mb-3">
             <div>
-                <p class="card-text"><span class="fw-bold">Father's Name :</span> {{student_info.student_fathers_name}}</p>
-                <p class="card-text"><span class="fw-bold">Mother's Name :</span> {{student_info.student_mothers_name}}</p>
+                <p class="card-text"><span class="fw-bold">Father's Name :</span> {{student_info.student_fathers_name}}
+                </p>
+                <p class="card-text"><span class="fw-bold">Mother's Name :</span> {{student_info.student_mothers_name}}
+                </p>
             </div>
 
             <div>
-                <p class="card-text"><span class="fw-bold">Husband's Name :</span> {{student_info.student_husbands_name}}</p>
+                <p class="card-text"><span class="fw-bold">Husband's Name :</span>
+                    {{student_info.student_husbands_name}}</p>
                 <p class="card-text"><span class="fw-bold">Wife's Name :</span> {{student_info.student_wifes_name}}</p>
             </div>
 
-            <p class="card-text"><span class="fw-bold">Guardian's Number :</span> {{student_info.student_guardians_number}}</p>
+            <p class="card-text"><span class="fw-bold">Guardian's Number :</span>
+                {{student_info.student_guardians_number}}</p>
         </div>
 
-        <div class="student_card_data mb-3 d-flex flex-column">
+        <div class="student_card_data mb-3 d-flex flex-column"
+            *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === true">
             <p class="card-text"><span class="fw-bold">Enrolled Courses :</span> {{student_info.enrolled_courses}}
                 ({{student_info.marks.length}} Module)</p>
 
@@ -94,6 +110,10 @@
                     <td>{{ mark.practical_marks ?? 'Not updated' }}</td>
                 </tr>
             </table>
+        </div>
+
+        <div *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === false">
+            <input>
         </div>
 
 
