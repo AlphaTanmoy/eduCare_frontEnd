@@ -113,7 +113,10 @@
         </div>
 
         <div *ngIf="student_info && student_info.student_already_reenrolled_in_an_active_course === false">
-            <input>
+            <app-custom-single-select-searchable-dropdown
+                [options]="available_sub_course_categories" [ariaLabel]="'Choose Courses'" [selectedOptions]="null"
+                (selectionChange)="handleSelectedSubCourses($event)">
+            </app-custom-single-select-searchable-dropdown>
         </div>
 
 

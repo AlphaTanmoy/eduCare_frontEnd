@@ -1,7 +1,11 @@
-<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible || matProgressBarVisible1" class="matProgressBar"></mat-progress-bar>
 
 <div class="container w-100 mb-3">
     <h2 class="m-4 text-center">Re-Enrollment</h2>
 
-    <app-show-student-details *ngIf="done_fetching" [student]="student_info"></app-show-student-details>
+    <app-show-student-details 
+        *ngIf="done_fetching && done_fetching_all" 
+        [student]="student_info"
+        [available_sub_course_categories]="available_sub_course_categories"
+    ></app-show-student-details>
 </div>

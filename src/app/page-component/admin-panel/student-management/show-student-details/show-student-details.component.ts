@@ -5,15 +5,16 @@ import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, EnrollmentStatus, EnrollmentStatusDescriptions, ResponseTypeColor, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, Dropdown, EnrollmentStatus, EnrollmentStatusDescriptions, ResponseTypeColor, YesNoStatus, YesNoStatusDescriptions } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
 import { Router } from '@angular/router';
+import { CustomSingleSelectSearchableDropdownComponent } from '../../../../common-component/custom-single-select-searchable-dropdown/custom-single-select-searchable-dropdown.component';
 
 
 @Component({
   selector: 'app-show-student-details',
-  imports: [CommonModule, MatDialogModule, MatProgressBarModule, FontAwesomeModule],
+  imports: [CommonModule, MatDialogModule, MatProgressBarModule, FontAwesomeModule, CustomSingleSelectSearchableDropdownComponent],
   templateUrl: './show-student-details.component.html',
   styleUrl: './show-student-details.component.css'
 })
@@ -23,6 +24,8 @@ export class ShowStudentDetailsComponent {
 
 
   @Input() student!: any;
+  @Input() available_sub_course_categories: Dropdown[] = [];
+  
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -30,7 +33,9 @@ export class ShowStudentDetailsComponent {
   EnrollmentStatus = EnrollmentStatus;
   EnrollmentStatusDescriptions = EnrollmentStatusDescriptions;
 
+  
   student_info: any = {};
+  enrolled_courses: string[] = [];
 
   constructor(
     private studentService: StudentService,
@@ -49,7 +54,7 @@ export class ShowStudentDetailsComponent {
     this.studentService.StudentReEnrollment(this.student_info.student_id).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
-        
+
         if (response.status === 200) {
           this.student_info.student_already_reenrolled_in_an_active_course = response.data[0];
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
@@ -83,6 +88,11 @@ export class ShowStudentDetailsComponent {
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
     target.src = 'defaults/avatar-default.svg'; // path to your default image
+  }
+
+  handleSelectedSubCourses(item: Dropdown | any) {
+    this.enrolled_courses = [];
+    this.enrolled_courses.push(item.id ?? "");
   }
 
   ngOnDestroy(): void {
