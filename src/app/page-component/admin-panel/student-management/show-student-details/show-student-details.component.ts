@@ -26,6 +26,8 @@ export class ShowStudentDetailsComponent {
   @Input() student!: any;
   @Input() available_sub_course_categories: Dropdown[] = [];
 
+  student_image: string | null = null;
+
   private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   ActiveInactiveStatus = ActiveInactiveStatus;
@@ -33,7 +35,7 @@ export class ShowStudentDetailsComponent {
   EnrollmentStatus = EnrollmentStatus;
   EnrollmentStatusDescriptions = EnrollmentStatusDescriptions;
 
-  
+
   student_info: any = {};
   enrolled_courses: string[] = [];
 
@@ -46,18 +48,23 @@ export class ShowStudentDetailsComponent {
   ngOnInit(): void {
     this.bootstrapElements = loadBootstrap();
     this.student_info = this.student;
+    this.student_image = this.student.student_photo;
   }
 
   ReEnroll() {
     this.activeMatProgressBar();
 
-    this.studentService.StudentReEnrollment(this.student_info.student_id).subscribe({
+    const obj = {
+      passout_student_id: this.student_info.student_id,
+      enrolled_courses: this.enrolled_courses
+    }
+
+    this.studentService.StudentReEnrollment(obj).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
 
         if (response.status === 200) {
-          this.student_info.student_already_reenrolled_in_an_active_course = response.data[0];
-          this.student_info.student_enrollment_status = EnrollmentStatus.REGISTERED;
+          this.student_info = response.data[0];
           this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
         } else {
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);

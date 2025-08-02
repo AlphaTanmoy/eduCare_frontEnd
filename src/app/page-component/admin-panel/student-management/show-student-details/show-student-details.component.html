@@ -1,4 +1,7 @@
 <div class="card">
+    <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+
+
     <div class="card-header pt-3 pb-3 d-flex justify-content-between align-items-center">
         <h5 class="fw-bold p-0 m-0">Student Details</h5>
         <button class="btn btn-primary btn-sm" (click)="ReEnroll()"
@@ -62,7 +65,7 @@
                 </p>
             </div>
             <div class="student_image d-flex flex-column justify-content-center align-items-center">
-                <img [src]="student_info.student_photo" (error)="onImageError($event)">
+                <img [src]="student_image" (error)="onImageError($event)">
             </div>
         </div>
 
@@ -125,6 +128,7 @@
         <p class="card-text"><span class="fw-bold">Email Verified :</span>
             {{GetIsEmailVerifiedLabel(student_info.is_email_verified)}}</p>
 
-        <p class="card-text"><span class="fw-bold p-0 m-0">Created At :</span> {{FormatDateTime(student_info.created_at)}}</p>    
+        <p class="card-text"><span class="fw-bold p-0 m-0">Created At :</span>
+            {{FormatDateTime(student_info.created_at)}}</p>
     </div>
 </div>

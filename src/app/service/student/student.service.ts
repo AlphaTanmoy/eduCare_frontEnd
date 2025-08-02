@@ -242,7 +242,7 @@ export class StudentService {
     return this.http.get(GetBaseURL() + Endpoints.student.get_student_info_by_object_id + "/" + student_id);
   }
 
-  StudentReEnrollment(passout_student_id: string | null): Observable<any> {
-    return this.http.post(GetBaseURL() + Endpoints.student.re_enrollment_student, { passout_student_id });
+  StudentReEnrollment(obj: any): Observable<any> {
+    return this.http.post(GetBaseURL() + Endpoints.student.re_enrollment_student, obj);
   }
 }
