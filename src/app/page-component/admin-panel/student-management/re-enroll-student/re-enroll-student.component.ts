@@ -52,6 +52,8 @@ export class ReEnrollStudentComponent {
   done_fetching: boolean = false;
   done_fetching_all: boolean = false;
 
+  child_component_api_call_going_status: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -182,6 +184,10 @@ export class ReEnrollStudentComponent {
         this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
+  }
+
+  ApiCallGoingResponseFromChildComponent(status: boolean) {
+    this.child_component_api_call_going_status = status;
   }
 
   ngOnDestroy(): void {

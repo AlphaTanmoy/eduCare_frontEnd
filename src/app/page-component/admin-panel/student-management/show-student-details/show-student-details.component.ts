@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Inject, Input, Optional } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Inject, Input, Optional, Output } from '@angular/core';
 import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
@@ -25,6 +25,7 @@ export class ShowStudentDetailsComponent {
 
   @Input() student!: any;
   @Input() available_sub_course_categories: Dropdown[] = [];
+  @Output() api_call_going = new EventEmitter<boolean>();
 
   student_image: string | null = null;
 
@@ -53,6 +54,7 @@ export class ShowStudentDetailsComponent {
 
   ReEnroll() {
     this.activeMatProgressBar();
+    this.api_call_going.emit(true);
 
     const obj = {
       passout_student_id: this.student_info.student_id,
@@ -62,6 +64,7 @@ export class ShowStudentDetailsComponent {
     this.studentService.StudentReEnrollment(obj).subscribe({
       next: (response) => {
         this.hideMatProgressBar();
+        this.api_call_going.emit(false);
 
         if (response.status === 200) {
           this.student_info = response.data[0];
@@ -72,6 +75,7 @@ export class ShowStudentDetailsComponent {
       },
       error: (err) => {
         this.hideMatProgressBar();
+        this.api_call_going.emit(false);
         this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
       }
     });
