@@ -88,7 +88,7 @@ export class LoginComponent {
         }
       },
       error: (error: any) => {
-        console.error('Login error:', error);
+        console.log('Login error:', error);
         const errorMessage = error.error?.message || 
                              error.message || 
                              'An unexpected error occurred. Please try again later';

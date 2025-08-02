@@ -87,6 +87,11 @@ export class ReEnrollStudentComponent {
               this.hideMatProgressBar();
               this.done_fetching = false;
               setTimeout(() => {this.done_fetching = true;}, 1);
+
+
+              if(this.student_info.student_already_reenrolled_in_an_active_course === true){
+                this.openDialog("Student", `Student already enrolled in an active course.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
+              }
             },
             error: (err) => {
               this.hideMatProgressBar();
@@ -95,6 +100,7 @@ export class ReEnrollStudentComponent {
           });
 
         } else {
+          this.hideMatProgressBar();
           this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
         }
       },
@@ -108,7 +114,7 @@ export class ReEnrollStudentComponent {
   GetStudentDetailsByRegNumber(): void {
     this.activeMatProgressBar();
 
-    this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00003").subscribe({
+    this.studentService.GetStudentInfoByRegistrationNumber("ECI25-00086").subscribe({
       next: (response) => {
         if (response.status === 200) {
           this.student_info = response.data[0];
@@ -118,7 +124,13 @@ export class ReEnrollStudentComponent {
               const base64Image = await convertBlobToBase64(imageData);
               this.student_info.student_photo = `data:image/jpg;base64,${base64Image}`;
               this.hideMatProgressBar();
-              this.done_fetching = true;
+              this.done_fetching = false;
+              setTimeout(() => {this.done_fetching = true;}, 1);
+
+
+              if(this.student_info.student_already_reenrolled_in_an_active_course === true){
+                this.openDialog("Student", `Student already enrolled in an active course.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
+              }
             },
             error: (err) => {
               this.hideMatProgressBar();
