@@ -56,7 +56,7 @@ export class AuthService implements OnDestroy {
     }
   }
 
-  getUserId(): string | null{
+  getUserId(): string | null {
     const token = this.getToken();
     if (!token) return null;
 
@@ -94,12 +94,18 @@ export class AuthService implements OnDestroy {
     window.location.href = '/login'; // Redirect to login on logout
   }
 
+  logoutWithoutRedirectToLogin() {
+    sessionStorage.clear();
+    this.indexedDbService.deleteItem(IndexedDBItemKey.dashboard_slideshow_images);
+    this.loginStatusSubject.next(false);
+  }
+
   private startTokenExpirationWatcher() {
     this.tokenCheckInterval = interval(3000).subscribe(() => {
       const token = this.getToken();
+
       if (token && this.jwtHelper.isTokenExpired(token)) {
-        // console.warn('Session expired. Logging out...');
-        // this.logout();
+        this.logoutWithoutRedirectToLogin();
         this.openDialog("Logout", "Session expired. Logging out...", ResponseTypeColor.INFO, true);
       }
     });
@@ -112,14 +118,14 @@ export class AuthService implements OnDestroy {
   }
 
   openDialog(dialogTitle: string, dialogText: string, dialogType: number, doLogout: boolean): void {
-      const dialogRef = this.dialog.open(CustomAlertComponent, {
-        data: { title: dialogTitle, text: dialogText, type: dialogType }
-      });
-  
-      dialogRef.afterClosed().subscribe(() => {
-        if (doLogout === true) {
-          this.logout();
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(CustomAlertComponent, {
+      data: { title: dialogTitle, text: dialogText, type: dialogType }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (doLogout === true) {
+        window.location.href = '/login';
+      }
+    });
+  }
 }
