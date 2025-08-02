@@ -264,6 +264,12 @@ export const MenuItems: any[] = [
             route: '/control-panel/manage-student/download-excel-for-certificate-generation',
             role: [UserRole.MASTER, UserRole.ADMIN],
           },
+          {
+            id: 975,
+            name: 'Re-Enrollment',
+            route: '/control-panel/manage-student/student-re-enrollment',
+            role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE],
+          },
         ],
       },
       {
