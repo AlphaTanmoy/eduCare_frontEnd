@@ -1,7 +1,8 @@
 .navbar {
     width: 100%;
     height: 6rem;
-    background-color: var(--default-theme);
+    /* background-color: var(--default-theme); */
+    background: linear-gradient(90deg,rgba(3, 36, 43, 1) 0%, rgba(9, 66, 80, 1) 56%, rgba(0, 76, 97, 1) 100%);
     padding: 0.6rem;
     /* box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; */
     z-index: 1000;

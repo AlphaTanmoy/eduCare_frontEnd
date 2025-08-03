@@ -6,7 +6,8 @@
 .navbar {
     width: 100%;
     height: 5rem;
-    background-color: var(--default-theme);
+    /* background-color: var(--default-theme); */
+    background: linear-gradient(90deg,rgba(3, 36, 43, 1) 0%, rgba(9, 66, 80, 1) 56%, rgba(0, 76, 97, 1) 100%);
     padding: 0.6rem;
 }
 
@@ -41,7 +42,8 @@
 
 .navbar_navigations {
     width: 100%;
-    background-color: var(--default-theme);
+    /* background-color: var(--default-theme); */
+    background: linear-gradient(90deg,rgba(3, 36, 43, 1) 0%, rgba(9, 66, 80, 1) 56%, rgba(0, 76, 97, 1) 100%);
     display: flex;
     align-items: center;
     justify-content: space-between;
