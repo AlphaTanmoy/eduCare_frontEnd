@@ -210,7 +210,7 @@ export class EditStudentDetailsComponent {
 
         this.student_details_old = response.data[0];
 
-        if (this.userRole === UserRole.FRANCHISE && this.student_details_old.student_enrollment_status !== this.EnrollmentStatus.REGISTERED && this.student_details_old.student_enrollment_status !== this.EnrollmentStatus.FEES_REFUNDED) {
+        if (this.userRole === UserRole.FRANCHISE && this.student_details_old.student.student_enrollment_status !== this.EnrollmentStatus.REGISTERED && this.student_details_old.student.student_enrollment_status !== this.EnrollmentStatus.FEES_REFUNDED) {
           this.hideMatProgressBar1();
           this.openDialog("Student", "You're not allowed to update student's details as enrollment status is not 'Registered' or 'Fees Refunded'", ResponseTypeColor.ERROR, "control-panel/manage-student/active-student");
         } else {
