@@ -39,7 +39,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
           if (error.status === 409) {
             authService.logoutWithoutRedirectToLogin();
-            openDialog('Logout', error?.error?.message || 'Authentication Error Or Request Limit Exceeded', ResponseTypeColor.ERROR, 'login');
+            openDialog('Logout', error?.error?.message || 'Authentication/Validation Error Or Request Limit/Minute Exceeded', ResponseTypeColor.ERROR, 'login');
             return EMPTY;
           }
 
