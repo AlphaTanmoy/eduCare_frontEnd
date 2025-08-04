@@ -35,15 +35,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       return next(clonedRequest).pipe(
         catchError((error) => {
-          console.error("Caught in interceptor:", error);
-
           if (error.status === 409) {
             authService.logoutWithoutRedirectToLogin();
             openDialog('Logout', error?.error?.message || 'Authentication/Validation Error Or Request Limit/Minute Exceeded', ResponseTypeColor.ERROR, 'login');
             return EMPTY;
           }
 
-          return throwError(() => error);
+          return EMPTY;
         })
       );
     }),
