@@ -38,7 +38,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           console.error("Caught in interceptor:", error);
 
           if (error.status === 409) {
-            console.warn("409 block triggered");
             authService.logoutWithoutRedirectToLogin();
             openDialog('Logout', error?.error?.message || 'Authentication Error Or Request Limit Exceeded', ResponseTypeColor.ERROR, 'login');
             return EMPTY;
