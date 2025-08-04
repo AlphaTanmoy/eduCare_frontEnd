@@ -15,34 +15,32 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return from(GetIpAddress()).pipe(
     switchMap((ipAddress: string) => {
       let headers = req.headers;
+      let clonedRequest: any;
 
       if (token) {
         headers = headers.set('Authorization', 'Bearer ' + token);
       }
 
       if (ipAddress) {
-        if (req.method === 'GET') {
-          // Append IP to query params
-          const url = new URL(req.url, window.location.origin);
-          url.searchParams.set('ipAddress', ipAddress);
-          const clonedRequest = req.clone({ url: url.toString(), headers });
-          return next(clonedRequest);
-        } else {
-          // Add IP as custom header
+        if (req.method !== 'GET') {
           headers = headers.set('ipaddress', ipAddress);
-          const clonedRequest = req.clone({ headers });
-          return next(clonedRequest);
+        } else {
+          // Add IP as query param
+          // Which I don't think a good idea
+          // Have to re-think
         }
       }
 
-      const clonedRequest = req.clone({ headers });
+      clonedRequest = req.clone({ headers });
 
       return next(clonedRequest).pipe(
         catchError((error) => {
-          console.log(error)
+          console.error("Caught in interceptor:", error);
+
           if (error.status === 409) {
+            console.warn("409 block triggered");
             authService.logoutWithoutRedirectToLogin();
-            openDialog('Logout', error.error.message, ResponseTypeColor.ERROR, 'login');
+            openDialog('Logout', error?.error?.message || 'Authentication Error Or Request Limit Exceeded', ResponseTypeColor.ERROR, 'login');
             return EMPTY;
           }
 
