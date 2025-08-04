@@ -39,6 +39,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       return next(clonedRequest).pipe(
         catchError((error) => {
+          console.log(error)
           if (error.status === 409) {
             authService.logoutWithoutRedirectToLogin();
             openDialog('Logout', error.error.message, ResponseTypeColor.ERROR, 'login');
