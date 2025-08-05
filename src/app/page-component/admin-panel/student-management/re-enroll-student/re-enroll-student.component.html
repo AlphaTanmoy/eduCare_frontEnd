@@ -10,8 +10,8 @@
         <div class="d-flex justify-content-between custom_height_of_form">
             <input class="form-control w-75" type="text" placeholder="Search by Registration Number"
                 [(ngModel)]="student_req_number">
-            <button class="btn btn-secondary btn-sm" (click)="GetStudentDetailsByRegNumber()"
-                [disabled]="matProgressBarVisible || matProgressBarVisible1 || child_component_api_call_going_status">Search</button>
+            <button class="btn btn-secondary btn-sm" (click)="GetStudentDetailsByRegNumber()" [disabled]="matProgressBarVisible || matProgressBarVisible1 || child_component_api_call_going_status || 
+                student_req_number === null || student_req_number === ''">Search</button>
         </div>
     </div>
 
