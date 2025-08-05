@@ -15,19 +15,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { faEdit, faCircleXmark, faTrash, faEye, faDownload, faMoneyCheckDollar, faArrowRotateLeft, faGraduationCap, faRectangleList, faFileDownload, faArrowsSpin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { convertBlobToBase64, GetFormattedCurrentDatetime } from '../../../../utility/common-util';
+import { GetFormattedCurrentDatetime } from '../../../../utility/common-util';
 import { ViewStudentComponent } from '../view-student/view-student.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EnumsComponent } from '../../enums/enums.component';
-import { CustomConfirmDialogComponent } from '../../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
-import { IndexedDbService } from '../../../../service/indexed-db/indexed-db.service';
-import { WalletService } from '../../../../service/wallet/wallet.service';
-import { CustomConfirmDialogWithRemarksComponent } from '../../../../common-component/custom-confirm-dialog-with-remarks/custom-confirm-dialog-with-remarks.component';
 import { AuthService } from '../../../../service/auth/Auth.Service';
 import { Router } from '@angular/router';
 import { StudentCertificateService } from '../../../../service/student-certificate/student-certificate.service';
 import { IssueCertificateComponent } from '../issue-certificate/issue-certificate.component';
-import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -42,8 +36,7 @@ export class PassoutStudentComponent implements OnInit, OnDestroy, AfterViewInit
   readonly dialog = inject(MatDialog);
 
   page_index: number = 0;
-  page_size: number = 5;
-  batch_size: number = 5;
+  page_size: number = 10;
 
   faEdit = faEdit;
   faTrash = faTrash;
@@ -71,17 +64,14 @@ export class PassoutStudentComponent implements OnInit, OnDestroy, AfterViewInit
   isFranchise: boolean = false;
   isAdmin: boolean = false;
 
-  displayedColumns: string[] = ['student_image', 'regno', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
+  displayedColumns: string[] = ['regno', 'student_name', 'email', 'phone', 'franchise', 'student_enrollment_status', 'data_status', 'enrollment_status_update', 'action'];
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private studentService: StudentService,
-    private indexedDbService: IndexedDbService,
-    private walletService: WalletService,
     private studentCertificateService: StudentCertificateService,
-    private http: HttpClient
   ) { }
 
   async ngOnInit() {
@@ -115,59 +105,8 @@ export class PassoutStudentComponent implements OnInit, OnDestroy, AfterViewInit
       }
 
       const data = res.data[0].all_students;
-      console.log(data)
 
-      let data1: any[] = [];
-      let data2: any[] = [];
-
-      await Promise.all(data.map(async (student: any) => {
-        const cachedImage = await this.indexedDbService.getItem(
-          IndexedDBItemKey.student_profile_photo + student.student_id
-        );
-
-        if (cachedImage) {
-          student.student_photo = cachedImage.value;
-          data1.push(student);
-        } else {
-          student.student_photo = null;
-          data2.push(student);
-        }
-      }));
-
-      for (let i = 0; i < data2.length; i += this.batch_size) {
-        let student_guids = data2.slice(i, i + this.batch_size).map((x: any) => x.student_guid);
-
-        let k = i;
-
-        await new Promise<void>((resolve, reject) => {
-          this.studentService.getStudentsPhotoTenInALimit(student_guids).subscribe({
-            next: async (imageData) => {
-              for (let j = 0; j < Math.min(student_guids.length, this.batch_size); j++) {
-                data2[k].student_photo = `data:image/jpg;base64,${imageData.data[j]}`;
-                await this.indexedDbService.addItem(IndexedDBItemKey.student_profile_photo + data2[k].student_id, data2[k].student_photo);
-                k++;
-              }
-              resolve();
-            },
-            error: (err) => {
-              this.hideMatProgressBar();
-              this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
-              reject();
-            }
-          });
-        });
-      }
-
-      let merged = [];
-      if (data1.length > 0 && data2.length === 0) {
-        merged = data1;
-      } else if (data2.length > 0 && data1.length === 0) {
-        merged = data2;
-      } else {
-        merged = data1.concat(data2);
-      }
-
-      this.dataSource.data = merged;
+      this.dataSource.data = data;
       this.totalCount = res.data[0].total_students;
       this.cdr.detectChanges();
     } catch (error) {
