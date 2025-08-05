@@ -2,7 +2,7 @@
     <h5 class="card-header pt-3 pb-3 fw-bold">Student Details</h5>
 
     <div class="card-body">
-        <div class="student_card_header">
+        <div class="student_card_header">           
             <div class="d-flex flex-column justify-content-around">
                 <p class="card-text"><span class="fw-bold">Registration Number :</span> {{data.registration_number}}</p>
                 <p class="card-text" *ngIf="data.student_enrollment_status === EnrollmentStatus.CERTIFICATE_ISSUED || 
@@ -47,9 +47,9 @@
                     {{FormatDateTime(data.certificate_issue_date)}}
                 </p>
             </div>
-            <div class="student_image d-flex flex-column justify-content-center align-items-center" *ngIf="student_photo_base64 !== null">
-                <!-- <img [src]="data.student_photo" (error)="onImageError($event)"> -->
-                <img [src]="student_photo_base64" (error)="onImageError($event)">
+            <div class="student_image">
+                <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
+                <img *ngIf="student_photo_base64 !== null" [src]="student_photo_base64" (error)="onImageError($event)">
             </div>
         </div>
 

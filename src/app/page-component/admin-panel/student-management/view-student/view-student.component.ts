@@ -46,9 +46,9 @@ export class ViewStudentComponent {
 
     this.studentService.getStudentPhotoStream(student_guid).subscribe({
       next: async (imageData: Blob) => {
-        this.hideMatProgressBar();
         const base64format = await convertBlobToBase64(imageData);
         this.student_photo_base64 = `data:image/jpg;base64,${base64format}`;
+        this.hideMatProgressBar();
       },
       error: (err) => {
         this.hideMatProgressBar();
