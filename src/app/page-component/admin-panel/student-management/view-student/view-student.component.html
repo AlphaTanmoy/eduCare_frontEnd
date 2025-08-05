@@ -47,8 +47,9 @@
                     {{FormatDateTime(data.certificate_issue_date)}}
                 </p>
             </div>
-            <div class="student_image d-flex flex-column justify-content-center align-items-center">
-                <img [src]="data.student_photo" (error)="onImageError($event)">
+            <div class="student_image d-flex flex-column justify-content-center align-items-center" *ngIf="student_photo_base64 !== null">
+                <!-- <img [src]="data.student_photo" (error)="onImageError($event)"> -->
+                <img [src]="student_photo_base64" (error)="onImageError($event)">
             </div>
         </div>
 
