@@ -1,4 +1,4 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './app/service/auth/Auth.Service';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,42 +12,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken();
   const dialog = inject(MatDialog);
 
-  return from(GetIpAddress()).pipe(
-    switchMap((ipAddress: string) => {
-      let headers = req.headers;
-      let clonedRequest: any;
+  const clonedRequest = token
+    ? req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) })
+    : req;
 
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
+  return next(clonedRequest).pipe(
+    catchError((error) => {
+      if (error.status === 409) {
+        authService.logoutWithoutRedirectToLogin();
+        openDialog('Logout', error?.error?.message || 'Authentication/Validation Error Or Request Limit/Minute Exceeded', ResponseTypeColor.ERROR, 'login');
+        return EMPTY;
       }
 
-      if (ipAddress) {
-        if (req.method !== 'GET') {
-          headers = headers.set('ipaddress', ipAddress);
-        } else {
-          // Add IP as query param
-          // Which I don't think a good idea
-          // Have to re-think
-        }
-      }
-
-      clonedRequest = req.clone({ headers });
-
-      return next(clonedRequest).pipe(
-        catchError((error) => {
-          if (error.status === 409) {
-            authService.logoutWithoutRedirectToLogin();
-            openDialog('Logout', error?.error?.message || 'Authentication/Validation Error Or Request Limit/Minute Exceeded', ResponseTypeColor.ERROR, 'login');
-            return EMPTY;
-          }
-
-          return EMPTY;
-        })
-      );
-    }),
-    catchError(() => {
-      // If GetIpAddress fails, continue with the original request
-      return next(req);
+      return throwError(() => error);
     })
   );
 
