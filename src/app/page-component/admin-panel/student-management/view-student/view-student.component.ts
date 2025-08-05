@@ -26,7 +26,7 @@ export class ViewStudentComponent {
   EnrollmentStatus = EnrollmentStatus;
   EnrollmentStatusDescriptions = EnrollmentStatusDescriptions;
 
-  student_photo_base64: string | null = null;
+  student_photo_base64: string | null = 'defaults/avatar-default.svg';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
