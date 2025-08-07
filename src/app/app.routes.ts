@@ -58,6 +58,7 @@ import { ViewContactListsComponent } from './page-component/admin-panel/view-con
 import { EpdfViewComponent } from './page-component/admin-panel/epdf/epdf-view/epdf-view.component';
 import { AddEpdfComponent } from './page-component/admin-panel/epdf/add-epdf/add-epdf.component';
 import { ReEnrollStudentComponent } from './page-component/admin-panel/student-management/re-enroll-student/re-enroll-student.component';
+import { IpblockerComponent } from './error/ipblocker/ipblocker.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -140,5 +141,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE, UserRole.STUDENT] } },
 
+
+  { path: 'ip-blocker', component: IpblockerComponent },
   { path: '**', component: ErrorComponent },
 ];
