@@ -13,6 +13,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const dialog = inject(MatDialog);
   const currentUrl = window.location.pathname;
 
+  const isOnIpBlocker = currentUrl.includes('/ip-blocker');
+  const isOnLogin = currentUrl.includes('/login');
+
   const clonedRequest = token
     ? req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) })
     : req;
@@ -22,28 +25,35 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       // 409 for rate limit exceeded or ip blocking
       if (error.status === 409) {
+        const message = error?.error?.message || 'You have exceeded the request Limit.<br>Please try again after some time.';
+
         if (token !== null && token !== undefined) {
           authService.logoutWithoutRedirectToLogin();
 
-          const message = error?.error?.message || 'You have exceeded the request Limit.<br>Please try again after some times.'
-          openDialog('Logout', message, ResponseTypeColor.ERROR, 'ip-blocker');
-        } else if (!currentUrl.includes('/ip-blocker')) {
-          window.location.href = 'ip-blocker';
+          if (!isOnIpBlocker) {
+            openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
+          } else {
+            // Already on ip-blocker — no redirect, maybe just show message
+            openDialog('IP Blocked', message, ResponseTypeColor.ERROR, null);
+          }
+        } else if (!isOnIpBlocker) {
+          openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
         }
 
         return EMPTY;
       }
 
-      
+
       // 69/(any other status code)) for jwt expiration or no token found or cors block or api protection and other.
-      if (error.status === 69) {
+      else if (error.status === 69) {
+        const message = error?.error?.message || 'Unauthorized source of request.<br>Or<br>you do not have permission to access this resource.';
+
         if (token !== null && token !== undefined) {
           authService.logoutWithoutRedirectToLogin();
 
-          const message = error?.error?.message || 'Unauthorized source of request.<br>Or<br>you do not have permission to access this resource.';
           openDialog('Logout', message, ResponseTypeColor.ERROR, 'login');
-        } else if (!currentUrl.includes('/login')) {
-          window.location.href = 'login';
+        } else if (!isOnLogin) {
+          openDialog('Logout', message, ResponseTypeColor.ERROR, 'login');
         }
 
         return EMPTY;
@@ -60,9 +70,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     dialogRef.afterClosed().subscribe(() => {
       if (navigateRoute) {
-        if (navigateRoute === "login") {
-          window.location.href = navigateRoute;
-        }
+        window.location.href = navigateRoute;
       }
     });
   }
