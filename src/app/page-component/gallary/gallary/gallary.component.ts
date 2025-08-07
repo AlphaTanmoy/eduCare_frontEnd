@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface GalleryImageInput {
   src: string;
@@ -35,7 +36,7 @@ export class GallaryComponent implements OnInit {
     { src: 'gallary/Students/P11.jpg', alt: 'Portrait 11', orientation: 'portrait', category: 'portrait' },
     { src: 'gallary/Students/P12.jpg', alt: 'Portrait 12', orientation: 'portrait', category: 'portrait' },
     { src: 'gallary/Students/P13.jpg', alt: 'Portrait 13', orientation: 'portrait', category: 'portrait' },
-    
+
     // Landscape Images
     { src: 'gallary/Students/L1.jpg', alt: 'Landscape 1', orientation: 'landscape', category: 'landscape' },
     { src: 'gallary/Students/L2.jpg', alt: 'Landscape 2', orientation: 'landscape', category: 'landscape' },
@@ -63,7 +64,7 @@ export class GallaryComponent implements OnInit {
   private readonly ITEMS_PER_PAGE = 12;
   private currentPage = 1;
   private currentFilter = 'all';
-  
+
   // Public properties for template
   activeFilter: string = 'all';
   filteredImages: GalleryImage[] = [];
@@ -71,11 +72,12 @@ export class GallaryComponent implements OnInit {
   selectedImage: GalleryImage | null = null;
   hasMoreImages = true;
   allImages: GalleryImage[] = [];
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   constructor() { }
 
   ngOnInit(): void {
-    // Generate IDs for all images
+    this.bootstrapElements = loadBootstrap();
     this.allImages = this.imageData.map((img, index) => ({
       ...img,
       id: index + 1
@@ -87,13 +89,13 @@ export class GallaryComponent implements OnInit {
     this.activeFilter = category;
     this.currentFilter = category;
     this.currentPage = 1;
-    
+
     if (category === 'all') {
       this.filteredImages = [...this.allImages];
     } else {
       this.filteredImages = this.allImages.filter(img => img.category === category);
     }
-    
+
     this.updateDisplayedImages();
   }
 
@@ -105,13 +107,13 @@ export class GallaryComponent implements OnInit {
   private updateDisplayedImages(): void {
     const start = 0;
     const end = this.currentPage * this.ITEMS_PER_PAGE;
-    
+
     if (this.currentFilter === 'all') {
       this.displayedImages = this.allImages.slice(0, end);
     } else {
       this.displayedImages = this.filteredImages.slice(0, end);
     }
-    
+
     // Check if there are more images to load
     this.hasMoreImages = this.displayedImages.length < this.filteredImages.length;
   }
@@ -121,5 +123,9 @@ export class GallaryComponent implements OnInit {
     // @ts-ignore - Bootstrap modal show method
     const modal = new bootstrap.Modal(document.getElementById('imageModal'));
     modal.show();
+  }
+
+  ngOnDestroy(): void {
+    removeBootstrap(this.bootstrapElements);
   }
 }
