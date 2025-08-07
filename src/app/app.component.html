@@ -1,7 +1,7 @@
-<app-horizontal-layout *ngIf="!isAuthenticatedAndLoggedIn() && !isSmallScreen && !isOnIpBlockerPage"></app-horizontal-layout>
+<app-horizontal-layout *ngIf="allGoodToRender && !isAuthenticatedAndLoggedIn() && !isSmallScreen && !isOnIpBlockerPage"></app-horizontal-layout>
 
-<app-vertical-layout *ngIf="(isAuthenticatedAndLoggedIn() || isSmallScreen) && !isOnIpBlockerPage"></app-vertical-layout>
+<app-vertical-layout *ngIf="allGoodToRender && (isAuthenticatedAndLoggedIn() || isSmallScreen) && !isOnIpBlockerPage"></app-vertical-layout>
 
-<app-footer *ngIf="!isAuthenticatedAndLoggedIn() && !isOnIpBlockerPage"></app-footer>
+<app-footer *ngIf="allGoodToRender && !isAuthenticatedAndLoggedIn() && !isOnIpBlockerPage"></app-footer>
 
 <app-ipblocker *ngIf="isOnIpBlockerPage"></app-ipblocker>

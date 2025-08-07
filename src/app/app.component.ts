@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   title: any;
 
   isOnIpBlockerPage: boolean = false;
+  allGoodToRender: boolean = false;
 
   constructor(library: FaIconLibrary, private cdRef: ChangeDetectorRef, private authService: AuthService, private router: Router) {
     library.addIcons(faExpandArrowsAlt);
@@ -57,6 +58,8 @@ export class AppComponent implements OnInit {
 
         if (firstRoute == "ip-blocker") {
           this.isOnIpBlockerPage = true;
+        } else {
+          this.allGoodToRender = true;
         }
       });
   }
