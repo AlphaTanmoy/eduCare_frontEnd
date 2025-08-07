@@ -8,8 +8,8 @@ import { AuthService } from './service/auth/Auth.Service';
 import { FooterComponent } from './home-page-components/footer/footer.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { IpblockerComponent } from './error/ipblocker/ipblocker.component';
 import { loadBootstrap, removeBootstrap } from '../load-bootstrap';
+import { IpblockerComponent } from './manage-error-render/ipblocker/ipblocker.component';
 
 @Component({
   selector: 'app-root',
