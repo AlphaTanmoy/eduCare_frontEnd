@@ -62,6 +62,7 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
 
   currentSlide = 0;
   private slideInterval: any;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   // Make Math available in template
   Math = Math;
@@ -69,11 +70,13 @@ export class AboutInstitutionComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
     this.startSlideShow();
   }
 
   ngOnDestroy(): void {
     this.stopSlideShow();
+    removeBootstrap(this.bootstrapElements);
   }
 
   startSlideShow(): void {
