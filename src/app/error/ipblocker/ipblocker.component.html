@@ -1,0 +1,38 @@
+<div class="container py-5">
+  <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-11 col-sm-10 col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <i class="bi bi-shield-lock text-danger" style="font-size: 5rem;"></i>
+          </div>
+          
+          <h2 class="text-center fw-bold mb-4">Access Temporarily Restricted</h2>
+          
+          <p class="text-muted text-center mb-4">
+            Your IP address has been temporarily blocked due to excessive requests. 
+            This is a security measure to protect our services from abuse.
+          </p>
+          
+          <div class="alert alert-warning d-flex align-items-center justify-content-center mb-4" *ngIf="remainingTime > 0">
+            <i class="bi bi-clock-history me-2"></i>
+            <span class="fw-medium">You can try again in: <span class="text-dark fw-bold">{{ formatTime(remainingTime) }}</span></span>
+          </div>
+
+          <div class="alert alert-success d-flex align-items-center justify-content-center mb-4" 
+               *ngIf="remainingTime <= 0" 
+               (click)="refreshPage()" 
+               role="button"
+               style="cursor: pointer;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <span>Your access has been restored. Click to refresh the page.</span>
+          </div>
+
+          <p class="text-muted text-center small mt-4 mb-0">
+            If you believe this is an error, please contact our support team.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
