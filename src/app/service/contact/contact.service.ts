@@ -31,7 +31,8 @@ export class ContactService {
   private endpoints = {
     submitContact: Endpoints.contact.contact_us,
     submitFeedbackReport: Endpoints.contact.feedback_report,
-    getAllContacts: Endpoints.contact.get_contacts_list
+    getAllContacts: Endpoints.contact.get_contacts_list,
+    markAsRead: Endpoints.contact.mark_read
   };
 
   constructor(private http: HttpClient) {}
@@ -73,7 +74,7 @@ export class ContactService {
 
   markAsRead(contactId: string, message: string): Observable<any> {
     return this.http.patch(
-      `${this.baseUrl}contact/mark-read`,
+      `${this.baseUrl}${this.endpoints.markAsRead}`,
       { 
         id: contactId,
         message: message,

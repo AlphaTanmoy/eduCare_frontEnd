@@ -97,7 +97,7 @@ export const Endpoints = {
     get_student_course_info: "student/get_student_course_info",
     update_student_marks: "student/update_student_marks",
     student_login: "student/login",
-    download_registration_card: "registration_card",
+    download_registration_card: "student/download_registration_card",
     get_all_passout_students: "student/get_all_passout_students",
     get_student_info_by_id: "student/get_student_info_by_id",
     update_students_necessery_details: "student/update_students_necessery_details",
@@ -154,7 +154,8 @@ export const Endpoints = {
   contact: {
     contact_us: "contact/contact_us",
     feedback_report: "contact/bug_report",
-    get_contacts_list: "contact/get_contacts_list"
+    get_contacts_list: "contact/get_contacts_list",
+    mark_read: "contact/mark_read"
   },
   epdf: {
     create_epdf: "epdf/create_epdf",
