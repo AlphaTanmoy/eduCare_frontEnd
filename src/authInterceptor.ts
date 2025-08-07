@@ -32,10 +32,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
           if (!isOnIpBlocker) {
             openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
-          } else {
-            // Already on ip-blocker — no redirect, maybe just show message
-            openDialog('IP Blocked', message, ResponseTypeColor.ERROR, null);
-          }
+          } 
         } else if (!isOnIpBlocker) {
           openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
         }
