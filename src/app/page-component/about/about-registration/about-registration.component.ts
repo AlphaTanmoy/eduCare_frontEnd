@@ -3,6 +3,7 @@ import { CommonModule, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ViewHomeBrandComponent } from '../../../home-page-components/view-home-brand/view-home-brand.component';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface Certificate {
   id: number;
@@ -25,6 +26,7 @@ export class AboutRegistrationComponent implements OnInit {
   ];
   currentBannerIndex = 0;
   private bannerInterval: any;
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
 
   // Certificate images for the grid
   certificateList: Certificate[] = [
@@ -36,6 +38,7 @@ export class AboutRegistrationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.bootstrapElements = loadBootstrap();
     this.startBannerSlideshow();
   }
 
@@ -43,6 +46,7 @@ export class AboutRegistrationComponent implements OnInit {
     if (this.bannerInterval) {
       clearInterval(this.bannerInterval);
     }
+    removeBootstrap(this.bootstrapElements);
   }
 
   private startBannerSlideshow(): void {
