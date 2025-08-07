@@ -19,12 +19,31 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(clonedRequest).pipe(
     catchError((error) => {
+
+      // 409 for rate limit exceeded or ip blocking
       if (error.status === 409) {
-        if (token !== null && token !== undefined && token !== '') {
+        if (token !== null && token !== undefined) {
           authService.logoutWithoutRedirectToLogin();
-          openDialog('Logout', error?.error?.message || 'Authentication Error Or Request Limit Exceeded.<br>Please try again after some times.', ResponseTypeColor.ERROR, 'ip-blocker');
+
+          const message = error?.error?.message || 'You have exceeded the request Limit.<br>Please try again after some times.'
+          openDialog('Logout', message, ResponseTypeColor.ERROR, 'ip-blocker');
         } else if (!currentUrl.includes('/ip-blocker')) {
           window.location.href = 'ip-blocker';
+        }
+
+        return EMPTY;
+      }
+
+      
+      // 69/(any other status code)) for jwt expiration or no token found or cors block or api protection and other.
+      if (error.status === 69) {
+        if (token !== null && token !== undefined) {
+          authService.logoutWithoutRedirectToLogin();
+
+          const message = error?.error?.message || 'Unauthorized source of request.<br>Or<br>you do not have permission to access this resource.';
+          openDialog('Logout', message, ResponseTypeColor.ERROR, 'login');
+        } else if (!currentUrl.includes('/login')) {
+          window.location.href = 'login';
         }
 
         return EMPTY;
