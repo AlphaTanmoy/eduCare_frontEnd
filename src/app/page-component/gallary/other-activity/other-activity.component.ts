@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 
 interface GalleryImageInput {
   src: string;
@@ -179,7 +180,7 @@ export class OtherActivityComponent implements OnInit {
   private readonly ITEMS_PER_PAGE = 12;
   private currentPage = 1;
   private currentFilter = 'All';
-
+  private bootstrapElements!: { css: HTMLLinkElement; js: HTMLScriptElement };
   // Public properties for template
   activeFilter: string = 'All';
   filteredImages: GalleryImage[] = [];
@@ -192,7 +193,7 @@ export class OtherActivityComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // Generate IDs for all images
+    this.bootstrapElements = loadBootstrap();
     this.allImages = this.imageData.map((img, index) => ({
       ...img,
       id: index + 1
@@ -239,4 +240,8 @@ export class OtherActivityComponent implements OnInit {
     const modal = new bootstrap.Modal(document.getElementById('activityImageModal'));
     modal.show();
   }
+
+  ngOnDestroy(): void {
+      removeBootstrap(this.bootstrapElements);
+    }
 }
