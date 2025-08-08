@@ -1,10 +1,10 @@
 export const EndpointType = {
   dev: "http://localhost:4000/",
-  prod: "https://www.educarecenter.in/"
+  prod: "https://educarecenter-in.onrender.com/"
 }
 
 export function GetBaseURL() {
-  return EndpointType.dev;
+  return EndpointType.prod;
 }
 
 export const Endpoints = {
