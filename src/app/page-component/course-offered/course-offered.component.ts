@@ -49,8 +49,8 @@ export class CourseOfferedComponent implements OnInit, OnDestroy {
   ActiveInactiveStatusDescriptions = ActiveInactiveStatusDescriptions;
   ActiveInactiveStatus = ActiveInactiveStatus;
 
-  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'createdAt', 'action'];
-  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'status', 'createdAt', 'subCourseAction'];
+  displayedColumns: string[] = ['expand', 'courseCode', 'courseName', 'subCourseCount', 'status', 'action'];
+  subCoursesDisplayedColumns: string[] = ['subCourseCode', 'subCourseName', 'subCourseDuration', 'subCourseModule', 'status', 'subCourseAction'];
 
   dataSource = new MatTableDataSource<any>();
   currentCourses: any;
