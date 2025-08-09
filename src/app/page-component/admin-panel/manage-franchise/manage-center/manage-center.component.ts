@@ -124,9 +124,9 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
   GetIsYesNoLabelForStopTransaction(value: number): string {
     let val = YesNoStatusDescriptions[value as YesNoStatus] || 'Unknown';
 
-    if(val == YesNoStatusDescriptions[YesNoStatus.YES]) {
+    if (val == YesNoStatusDescriptions[YesNoStatus.YES]) {
       return YesNoStatusDescriptions[YesNoStatus.NO];
-    } else if(val == YesNoStatusDescriptions[YesNoStatus.NO]) {
+    } else if (val == YesNoStatusDescriptions[YesNoStatus.NO]) {
       return YesNoStatusDescriptions[YesNoStatus.YES];
     }
 
@@ -174,10 +174,15 @@ export class ManageCenterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ViewFranchiseCenterHeadDetails(center_id: string, center_head_id: string) {
     const dialogRef = this.dialog.open(ViewCenterHeadComponent, {
+      width: '1000px',
+      height: 'max-content',
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      panelClass: 'responsive-dialog',
       data: {
         center_id: center_id,
         center_head_id: center_head_id,
-      }
+      },
     });
   }
 

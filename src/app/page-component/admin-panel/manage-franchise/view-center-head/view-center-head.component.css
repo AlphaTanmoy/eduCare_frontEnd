@@ -1,26 +1,51 @@
-.center_head_image{
-    width: 100%;
+.center_head_image {
+    max-width: 25rem;
     border-radius: 0.4rem;
     overflow: hidden;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
 }
 
-.center_head_image_width{
+.center_head_image_width {
     width: 100%;
+    object-fit: cover;
 }
 
-.center_head_image_btn{
-   float: right;
-   cursor: pointer;
-   font-size: 1.3rem;
+.center_head_image_btn {
+    float: right;
+    cursor: pointer;
+    font-size: 1.3rem;
 }
 
-.center_head_image_close_btn{
+.center_head_image_close_btn {
     color: var(--light-blue);
     font-size: 1.5rem;
     margin-top: -2px;
     margin-right: 5px;
 }
 
-.center_head_image_download_btn{
+.center_head_image_download_btn {
     color: var(--light-blue);
+}
+
+::ng-deep .cdk-overlay-pane,
+::ng-deep .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+.cdk-overlay-pane .mat-mdc-dialog-panel {
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+.card {
+    word-break: break-all;
+    overflow: hidden;
+}
+
+.card-body {
+    overflow: scroll;
 }
