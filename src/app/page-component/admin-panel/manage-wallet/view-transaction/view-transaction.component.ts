@@ -5,13 +5,13 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import {CreditDebit, CreditDebitDescriptions, TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
+import { CreditDebit, CreditDebitDescriptions, TransactionType, TransactionTypeDescriptions } from '../../../../constants/commonConstants';
 
 export interface TransactionData {
   _id?: string;
   referenceId?: string;
   transactionType?: string;
-  creditDebit? : string;
+  creditDebit?: string;
   date?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -23,6 +23,7 @@ export interface TransactionData {
   createdBy?: string;
   notes?: string;
   miscData?: any;
+  franchise_registration_number?: string;
 }
 
 @Component({
@@ -120,7 +121,7 @@ export class ViewTransactionComponent implements OnDestroy {
   }
 
   getCreditDebitClass(status: string | undefined): string {
-    if(status === CreditDebit.CREDIT) {
+    if (status === CreditDebit.CREDIT) {
       return 'credit_text';
     } else if (status === CreditDebit.DEBIT) {
       return 'debit_text';
@@ -137,16 +138,16 @@ export class ViewTransactionComponent implements OnDestroy {
       return 'text_card_primary';
     } else if (type === TransactionType.APPROVE_RECHARGE || type === TransactionType.STUDENT_FEE_PAYMENT) {
       return 'text_card_success';
-    }else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
+    } else if (type === TransactionType.REJECT_RECHARGE || type === TransactionType.STUDENT_FEE_REFUND) {
       return 'text_card_deleted';
-    }else if (type === TransactionType.BLOCKED_TRANSACTION) {
+    } else if (type === TransactionType.BLOCKED_TRANSACTION) {
       return 'text_card_danger';
     }
-    
+
     return 'text_card_primary_light';
   }
 
-  getChangeAmontInnerHTML(transaction: any){
+  getChangeAmontInnerHTML(transaction: any) {
     if (transaction.changedAmount === null || transaction.changedAmount === undefined) return '₹+0.00';
 
     return '₹' + ((transaction.changedAmount ?? 0) >= 0 ? '+' : '') + transaction.changedAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');

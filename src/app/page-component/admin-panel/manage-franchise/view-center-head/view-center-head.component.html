@@ -2,13 +2,30 @@
     <mat-progress-bar mode="indeterminate" *ngIf="matProgressBarVisible" class="matProgressBar"></mat-progress-bar>
     <h5 class="card-header pt-3 pb-3 fw-bold">Center Head Details</h5>
 
-    <div class="card-body">
-        <p class="card-text"><span class="fw-bold">Name :</span> {{center_head_name}}</p>
-        <p class="card-text"><span class="fw-bold">Gender :</span> {{center_head_gender}}</p>
-        <p class="card-text"><span class="fw-bold">Contact Number :</span> {{center_head_contact_number}}</p>
-        <p class="card-text"><span class="fw-bold">Email ID :</span> {{center_head_email_id}}</p>
-        <p class="card-text"><span class="fw-bold">Address :</span> {{center_head_address}}</p>
-        <p class="card-text"><span class="fw-bold">Status : &nbsp;</span>
+    <div class="card-body pb-1">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="card-text m-1 col-md-6"><span class="fw-bold">Name :</span> {{center_head_name}}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text m-1 col-md-6"><span class="fw-bold">Gender :</span> {{center_head_gender}}</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p class="card-text m-1"><span class="fw-bold">Email ID :</span> {{center_head_email_id}}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text m-1"><span class="fw-bold">Contact Number :</span>
+                    {{center_head_contact_number}}</p>
+            </div>
+        </div>
+
+
+        <p class="card-text m-1"><span class="fw-bold">Address :</span> {{center_head_address}}</p>
+
+        <p class="card-text m-1"><span class="fw-bold">Status : &nbsp;</span>
             <span [ngClass]="
                 center_head_data_status === ActiveInactiveStatus.ACTIVE ? 'text_card_success' :
                 center_head_data_status === ActiveInactiveStatus.INACTIVE ? 'text_card_danger' : 'text_card_idle'
@@ -18,13 +35,12 @@
 
         <div class="d-flex w-100 justify-content-between mt-3 mb-4">
             <button class="btn btn-primary btn-sm me-3" [disabled]="matProgressBarVisible"
-                (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_PHOTO)">Center Head Photo
+                (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_PHOTO)">Center Head<br>Photo
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
 
             <button class="btn btn-primary btn-sm" [disabled]="matProgressBarVisible"
-                (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">Center Head
-                Signature
+                (click)="ViewFranchisePhoto(FranchiseDocumentName.CENTER_HEAD_SIGNATURE)">Center Head<br>Signature
                 <fa-icon [icon]="faEye"></fa-icon>
             </button>
         </div>
@@ -43,6 +59,7 @@
             matTooltipPosition="above" matTooltip="Close Photo" [icon]="faClose"
             (click)="CloseFranchisePhoto()"></fa-icon>
     </div>
+
     <div class="card-footer text-end">
         <button id="alert_button_element" class="btn btn-secondary btn-sm" mat-button mat-dialog-close>Close</button>
     </div>

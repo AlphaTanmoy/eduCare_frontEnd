@@ -4,6 +4,7 @@ export const EndpointType = {
 }
 
 export function GetBaseURL() {
+  // return EndpointType.dev;
   return EndpointType.prod;
 }
 
@@ -131,7 +132,8 @@ export const Endpoints = {
     franchise_transactions_logs: "wallet/franchise/transactions_logs",
     transaction_log_by_id: "wallet/transaction",
     pay_fees: "wallet/pay_fees",
-    refund_fees: "wallet/refund_fees"
+    refund_fees: "wallet/refund_fees",
+    get_wallet_balance_by_franchiseid: "wallet/get_wallet_balance_by_franchiseid"
   },
   verify: {
     student: "verify/student",

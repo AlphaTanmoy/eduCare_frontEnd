@@ -72,4 +72,8 @@ export class WalletService {
   DoUnblockFranchiseTransactions(franchiseId: string): Observable<any> {
     return this.http.post<any>(GetBaseURL() + Endpoints.wallet.unblock_franchise_transactions, { franchiseId: franchiseId });
   }
+
+  GetWalletBalanceByFranchiseId(franchise_id: string | null): Observable<any> {
+    return this.http.get<any>(GetBaseURL() + Endpoints.wallet.get_wallet_balance_by_franchiseid + "/" + franchise_id);
+  }
 }
