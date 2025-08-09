@@ -118,7 +118,7 @@ export class CourseOfferedComponent implements OnInit, OnDestroy {
   }
 
   viewCourse(courseCode: string) {
-    this.router.navigate(['/control-panel/view-course', courseCode]);
+    this.router.navigate(['/course-offered/view-course', courseCode]);
   }
 
   applyFilter(event: Event) {

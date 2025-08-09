@@ -76,6 +76,7 @@ export const routes: Routes = [
   { path: 'academic/edit-student-details/:student_id', component: EditStudentDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
 
   { path: 'course-offered', component: CourseOfferedComponent },
+  { path: 'course-offered/view-course/:courseCode', component: ViewCourseComponent },
 
   { path: 'gallary', component: GallaryComponent },
   { path: 'others-activity', component: OtherActivityComponent },
