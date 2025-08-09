@@ -10,12 +10,14 @@
         <p class="mb-2"><strong>Reference ID:</strong> {{transaction.referenceId || 'N/A'}}</p>
         <div class="mb-2">
           <strong>Transaction Type: </strong>
-          <span [class]="getTransactionTypeClass(transaction.transactionType)" [innerHTML]="GetTransactionTypeLabel(transaction.transactionType)">
+          <span [class]="getTransactionTypeClass(transaction.transactionType)"
+            [innerHTML]="GetTransactionTypeLabel(transaction.transactionType)">
           </span>
         </div>
         <div class="mb-2">
           <strong>Credit/Debit: </strong>
-          <span [class]="getCreditDebitClass(transaction.creditDebit)" [innerHTML]="GetCreditDebitLabel(transaction.creditDebit)"></span>
+          <span [class]="getCreditDebitClass(transaction.creditDebit)"
+            [innerHTML]="GetCreditDebitLabel(transaction.creditDebit)"></span>
         </div>
       </div>
       <div class="col-md-6 text-md-end">
@@ -30,7 +32,8 @@
       <!-- Amount -->
       <div class="col-12 col-md-4">
         <p class="mb-2"><strong>Transfer Amount: </strong>
-          <span [ngClass]="getCreditDebitClass(transaction.creditDebit)" [innerHTML]="getChangeAmontInnerHTML(transaction)">
+          <span [ngClass]="getCreditDebitClass(transaction.creditDebit)"
+            [innerHTML]="getChangeAmontInnerHTML(transaction)">
           </span>
         </p>
       </div>
@@ -49,7 +52,8 @@
     <!-- Additional Info -->
     <div class="border-top pt-2 mb-2">
       <h6 class="mb-2">Additional Information</h6>
-      <p class="mb-2"><strong>Franchise ID:</strong> {{transaction.franchiseId || 'N/A'}}</p>
+      <p class="mb-2"><strong>Franchise Registration Number:</strong> {{transaction.franchise_registration_number ||
+        'N/A'}}</p>
       <p class="mb-2"><strong>Wallet ID:</strong> {{transaction.walletId || 'N/A'}}</p>
       <p class="mb-2"><strong>Created By:</strong> {{transaction.createdBy || 'N/A'}}</p>
     </div>
