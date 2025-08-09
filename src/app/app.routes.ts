@@ -40,7 +40,7 @@ import { DownloadExcelToGenerateCertificateComponent } from './page-component/ad
 import { ForgotPasswordComponent } from './page-component/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './page-component/change-password/change-password.component';
 import { RequestForCertificateComponent } from './page-component/admin-panel/student-management/request-for-certificate/request-for-certificate.component';
-import { CourseOfferedComponent } from './page-component/course-offered/course-offered.component';
+import { CourseOfferedComponent } from './page-component/course-info/course-offered/course-offered.component';
 import { BrandsManagementComponent } from './page-component/admin-panel/manage-brands/brands-management/brands-management.component';
 import { YtlinksManagementComponent } from './page-component/admin-panel/manage-ytlinks/ytlinks-management/ytlinks-management.component';
 import { NotificationManagementComponent } from './page-component/admin-panel/manage-notification/notification-management/notification-management.component';
@@ -60,6 +60,7 @@ import { AddEpdfComponent } from './page-component/admin-panel/epdf/add-epdf/add
 import { ReEnrollStudentComponent } from './page-component/admin-panel/student-management/re-enroll-student/re-enroll-student.component';
 import { IpblockerComponent } from './manage-error-render/ipblocker/ipblocker.component';
 import { ErrorComponent } from './manage-error-render/error/error.component';
+import { ViewSubCourseComponent } from './page-component/course-info/view-sub-course/view-sub-course.component';
 
 export const routes: Routes = [
   // Public routes - no authentication required
@@ -76,7 +77,7 @@ export const routes: Routes = [
   { path: 'academic/edit-student-details/:student_id', component: EditStudentDetailsComponent, canActivate: [AuthGuard], data: { role: [UserRole.MASTER, UserRole.ADMIN, UserRole.FRANCHISE] } },
 
   { path: 'course-offered', component: CourseOfferedComponent },
-  { path: 'course-offered/view-course/:courseCode', component: ViewCourseComponent },
+  { path: 'course-offered/view-course/:courseCode', component: ViewSubCourseComponent },
 
   { path: 'gallary', component: GallaryComponent },
   { path: 'others-activity', component: OtherActivityComponent },

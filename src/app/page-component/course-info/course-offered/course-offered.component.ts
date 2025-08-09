@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Endpoints, GetBaseURL } from '../../endpoints/endpoints';
-import { loadBootstrap, removeBootstrap } from '../../../load-bootstrap';
+import { Endpoints, GetBaseURL } from '../../../endpoints/endpoints';
+import { loadBootstrap, removeBootstrap } from '../../../../load-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEdit, faTrash, faPlus, faMinus, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { CourseService } from '../../service/course/course.service';
-import { CustomAlertComponent } from '../../common-component/custom-alert/custom-alert.component';
+import { CourseService } from '../../../service/course/course.service';
+import { CustomAlertComponent } from '../../../common-component/custom-alert/custom-alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { SubCategory, ParentCategory } from '../../model/course/course.model';
+import { SubCategory, ParentCategory } from '../../../model/course/course.model';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,10 +17,10 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { GetFormattedCurrentDatetime } from '../../utility/common-util';
-import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, Dropdown, ResponseTypeColor } from '../../constants/commonConstants';
-import { CustomConfirmDialogComponent } from '../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
-import { EnumsService } from '../../service/enums/enums.service';
+import { GetFormattedCurrentDatetime } from '../../../utility/common-util';
+import { ActiveInactiveStatus, ActiveInactiveStatusDescriptions, Dropdown, ResponseTypeColor } from '../../../constants/commonConstants';
+import { CustomConfirmDialogComponent } from '../../../common-component/custom-confirm-dialog/custom-confirm-dialog.component';
+import { EnumsService } from '../../../service/enums/enums.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({

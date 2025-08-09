@@ -1,0 +1,103 @@
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <button class="btn btn-secondary" (click)="backToCourseList()">
+            <fa-icon [icon]="faArrowLeft"></fa-icon> Back to Course List
+        </button>
+        <h1><fa-icon [icon]="faBook" class="me-2"></fa-icon>Course Syllabus</h1>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading">
+        Loading course syllabus...
+    </div>
+
+    <!-- Course Details -->
+    <div *ngIf="!loading && !error && course" class="course-details">
+        <!-- Course Overview -->
+        <div class="section course-overview">
+            <h2>{{ course.courseName }}</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <fa-icon [icon]="faBook"></fa-icon>
+                    <span><strong>Course Code:</strong> {{ course.courseCode }}</span>
+                </div>
+                <div class="info-item">
+                    <fa-icon [icon]="course.dataStatus === 'ACTIVE' ? faCheckCircle : faTimesCircle"
+                        [ngClass]="{'text-success': course.dataStatus === 'ACTIVE', 'text-danger': course.dataStatus !== 'ACTIVE'}">
+                    </fa-icon>
+                    <span><strong>Status:</strong> {{ formatEnumValue(course.dataStatus) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub-Courses (Syllabus Units) -->
+        <div *ngIf="hasSubCategories()" class="section syllabus-units">
+            <h3>Syllabus Units</h3>
+            <div class="sub-course-list">
+                <div *ngFor="let subCourse of course.subCategories; let i = index" class="sub-course-card">
+                    <div class="sub-course-header">
+                        <h4>Unit {{ i + 1 }}: {{ subCourse.courseName }}</h4>
+                    </div>
+                    <div class="sub-course-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <fa-icon [icon]="faBook"></fa-icon>
+                                <span><strong>Unit Code:</strong> {{ subCourse.courseCode }}</span>
+                            </div>
+                            <div class="info-item">
+                                <fa-icon [icon]="faClock"></fa-icon>
+                                <span><strong>Duration:</strong> {{ formatDuration(subCourse.duration) }}</span>
+                            </div>
+                            <div class="info-item">
+                                <fa-icon [icon]="subCourse.dataStatus === 'ACTIVE' ? faCheckCircle : faTimesCircle"
+                                    [ngClass]="{'text-success': subCourse.dataStatus === 'ACTIVE', 'text-danger': subCourse.dataStatus !== 'ACTIVE'}">
+                                </fa-icon>
+                                <span><strong>Status:</strong> {{ formatEnumValue(subCourse.dataStatus) }}</span>
+                            </div>
+                            <div class="info-item">
+                                <fa-icon [icon]="faGraduationCap"></fa-icon>
+                                <span><strong>Number of Modules:</strong> {{ subCourse.module }}</span>
+                            </div>
+                            <!-- Practical and Theoretical Marks -->
+                            <div class="info-item" *ngIf="subCourse.practical_marks !== undefined">
+                                <fa-icon [icon]="faTasks"></fa-icon>
+                                <span><strong>Practical Marks:</strong> {{ subCourse.practical_marks }}</span>
+                            </div>
+                            <div class="info-item" *ngIf="subCourse.theory_marks !== undefined">
+                                <fa-icon [icon]="faTasks"></fa-icon>
+                                <span><strong>Theoretical Marks:</strong> {{ subCourse.theory_marks }}</span>
+                            </div>
+                        </div>
+                        <!-- Module Details -->
+                        <div *ngIf="subCourse.module_details?.length" class="module-details">
+                            <h5>Module Breakdown</h5>
+                            <div class="module-list">
+                                <div *ngFor="let moduleGroup of subCourse.module_details; let j = index"
+                                    class="module-item">
+                                    <div class="module-header">
+                                        <fa-icon [icon]="faListOl"></fa-icon>
+                                        <span>Module {{ j + 1 }}</span>
+                                    </div>
+                                    <ul class="topic-list">
+                                        <li *ngFor="let topic of moduleGroup">{{ topic }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Sub-Courses -->
+        <div *ngIf="course.subCategories?.length === 0" class="no-sub-courses">
+            <p>No units available in this syllabus yet.</p>
+        </div>
+    </div>
+</div>
