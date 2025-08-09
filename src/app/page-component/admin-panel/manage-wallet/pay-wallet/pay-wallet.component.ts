@@ -65,14 +65,30 @@ export class PayWalletComponent {
 
           this.franchiseService.GetFranchiseIdByUserId(userId).subscribe({
             next: async (response) => {
-              this.hideMatProgressBar();
-
               if (response.status !== 200) {
                 this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
                 return;
               }
 
               this.associated_franchise_id = response.data[0];
+
+              this.walletService.GetWalletBalanceByFranchiseId(this.associated_franchise_id).subscribe({
+                next: (response) => {
+                  this.hideMatProgressBar();
+
+                  if (response.status !== 200) {
+                    this.openDialog("Wallet", response.message, ResponseTypeColor.ERROR, false);
+                    return;
+                  }
+
+                  this.existing_wallet_balance = response.data[0];
+                  this.total_wallet_balance = response.data[0];
+                },
+                error: (err) => {
+                  this.hideMatProgressBar();
+                  this.openDialog("Wallet", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, false);
+                }
+              });
             },
             error: (err) => {
               this.hideMatProgressBar();
