@@ -81,6 +81,35 @@ export class ShowStudentDetailsComponent {
     });
   }
 
+  ReEnrollForFeesRefunedStudent() {
+    this.activeMatProgressBar();
+    this.api_call_going.emit(true);
+
+    const obj = {
+      student_id: this.student_info.student_id,
+      enrolled_courses: this.enrolled_courses
+    }
+
+    this.studentService.StudentReEnrollmentForFeesRefunedStudent(obj).subscribe({
+      next: (response) => {
+        this.hideMatProgressBar();
+        this.api_call_going.emit(false);
+
+        if (response.status === 200) {
+          this.student_info = response.data[0];
+          this.openDialog("Student", response.message, ResponseTypeColor.SUCCESS, null);
+        } else {
+          this.openDialog("Student", response.message, ResponseTypeColor.ERROR, null);
+        }
+      },
+      error: (err) => {
+        this.hideMatProgressBar();
+        this.api_call_going.emit(false);
+        this.openDialog("Student", err.error.message ?? "Internal server error", ResponseTypeColor.ERROR, null);
+      }
+    });
+  }
+
   FormatDateTime(datetimeValue: any) {
     return GetFormattedCurrentDatetime(new Date(datetimeValue));
   }

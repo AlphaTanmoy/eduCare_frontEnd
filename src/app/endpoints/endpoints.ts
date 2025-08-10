@@ -108,6 +108,7 @@ export const Endpoints = {
     get_student_info_by_registration_number: "student/get_student_info_by_registration_number",
     get_student_info_by_object_id: "student/get_student_info_by_object_id",
     re_enrollment_student: "student/re_enrollment_student",
+    re_enrollment_student_of_fees_refunded: "student/re_enrollment_student_of_fees_refunded",
   },
   student_certificate: {
     issue_certificate: "student_certificate/issue_certificate",

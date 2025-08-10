@@ -3,7 +3,7 @@ import { loadBootstrap, removeBootstrap } from '../../../../../load-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertComponent } from '../../../../common-component/custom-alert/custom-alert.component';
-import { CertificateTicketStatus, CertificateTicketStatusDescriptions, Dropdown, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
+import { ActiveInactiveStatus, CertificateTicketStatus, CertificateTicketStatusDescriptions, Dropdown, EnrollmentStatus, ResponseTypeColor, UserRole } from '../../../../constants/commonConstants';
 import { StudentService } from '../../../../service/student/student.service';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -40,6 +40,9 @@ export class ReEnrollStudentComponent {
   readonly dialog = inject(MatDialog);
   matProgressBarVisible = false;
   matProgressBarVisible1 = false;
+
+  EnrollmentStatus = EnrollmentStatus;
+  ActiveInactiveStatus = ActiveInactiveStatus;
 
   student_id: string | null = null;
 
@@ -122,8 +125,12 @@ export class ReEnrollStudentComponent {
               this.done_fetching = false;
               setTimeout(() => { this.done_fetching = true; }, 1);
 
-
-              if (this.student_info.student_already_reenrolled_in_an_active_course === true) {
+              if (this.student_info.data_status === ActiveInactiveStatus.DELETED) {
+                this.openDialog("Student", `Student is deleted.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
+              }
+              else if (this.student_info.student_already_reenrolled_in_an_active_course === true &&
+                this.student_info.student_enrollment_status !== EnrollmentStatus.FEES_REFUNDED &&
+                this.student_info.data_status !== ActiveInactiveStatus.INACTIVE) {
                 this.openDialog("Student", `Student already enrolled in an active course.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
               }
             },
