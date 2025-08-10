@@ -32,7 +32,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
           if (!isOnIpBlocker) {
             openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
-          } 
+          }
         } else if (!isOnIpBlocker) {
           openDialog('IP Blocked', message, ResponseTypeColor.ERROR, 'ip-blocker');
         }
@@ -41,8 +41,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
 
-      // 69/(any other status code)) for jwt expiration or no token found or cors block or api protection and other.
-      else if (error.status === 69) {
+      // Global status 400 and dto status 69 
+      // For jwt expiration or no token found or cors block or api protection and other.
+      else if (error.status === 400 && error.error.status === 69) {
         const message = error?.error?.message || 'Unauthorized source of request.<br>Or<br>you do not have permission to access this resource.';
 
         if (token !== null && token !== undefined) {
