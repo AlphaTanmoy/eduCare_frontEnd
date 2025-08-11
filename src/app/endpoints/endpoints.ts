@@ -1,6 +1,6 @@
 export const EndpointType = {
   dev: "http://localhost:4000/",
-  prod: "https://educarecenter-in.onrender.com/"
+  prod: "https://educarecenter-in-gogy.onrender.com/"
 }
 
 export function GetBaseURL() {
