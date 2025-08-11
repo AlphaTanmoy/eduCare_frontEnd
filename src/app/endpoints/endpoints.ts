@@ -4,8 +4,8 @@ export const EndpointType = {
 }
 
 export function GetBaseURL() {
-  // return EndpointType.dev;
-  return EndpointType.prod;
+  return EndpointType.dev;
+  // return EndpointType.prod;
 }
 
 export const Endpoints = {
