@@ -122,6 +122,11 @@
                                      || student.student_enrollment_status === EnrollmentStatus.COMPLETED)"
                                 (click)="DownloadCertificate(student)"></fa-icon>
 
+                            <fa-icon class="icon btn_cursor_pointer text-success me-1" matTooltipPosition="above"
+                                matTooltip="Re-Enroll" [icon]="faArrowsSpin"
+                                *ngIf="(student.student_enrollment_status === EnrollmentStatus.FEES_REFUNDED && student.data_status === ActiveInactiveStatus.INACTIVE)"
+                                (click)="ReEnrollmentOfStudent(student)"></fa-icon>
+
                             <fa-icon class="icon btn_cursor_pointer text-primary" matTooltipPosition="above"
                                 matTooltip="Download Registration Card" [icon]="faFileDownload"
                                 (click)="downloadRegistrationCard(student)"></fa-icon>

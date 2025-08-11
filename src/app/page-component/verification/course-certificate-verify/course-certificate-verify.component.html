@@ -47,6 +47,24 @@
                             <div class="form-text text-muted small mb-2">
                                 Enter the year (4 digits) and 5-digit number (e.g., 2025-12345)
                             </div>
+                            
+                            <!-- Date of Birth Picker -->
+                            <div class="mb-3">
+                                <label for="dob" class="form-label">Date of Birth</label>
+                                <input type="date" 
+                                       class="form-control" 
+                                       id="dob"
+                                       formControlName="dob"
+                                       [max]="maxDate | date: 'yyyy-MM-dd'"
+                                       [min]="minDate | date: 'yyyy-MM-dd'"
+                                       [class.is-invalid]="dob?.invalid && (dob?.dirty || dob?.touched)">
+                                <div *ngIf="dob?.invalid && (dob?.dirty || dob?.touched)" class="text-danger small">
+                                    <div *ngIf="dob?.errors?.['required']">Date of birth is required</div>
+                                    <div *ngIf="dob?.errors?.['futureDate']">Date of birth cannot be in the future</div>
+                                    <div *ngIf="dob?.errors?.['tooOld']">Date of birth is too far in the past</div>
+                                </div>
+                            </div>
+                            
                             <div class="row g-2">
                                 <div class="col-12" *ngIf="year?.invalid && (year?.dirty || year?.touched)">
                                     <div class="text-danger small">

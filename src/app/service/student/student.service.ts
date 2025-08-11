@@ -245,4 +245,8 @@ export class StudentService {
   StudentReEnrollment(obj: any): Observable<any> {
     return this.http.post(GetBaseURL() + Endpoints.student.re_enrollment_student, obj);
   }
+
+  StudentReEnrollmentForFeesRefunedStudent(obj: any): Observable<any> {
+    return this.http.post(GetBaseURL() + Endpoints.student.re_enrollment_student_of_fees_refunded, obj);
+  }
 }

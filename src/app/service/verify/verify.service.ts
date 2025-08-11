@@ -13,6 +13,7 @@ export interface FranchiseVerificationRequest {
 
 export interface CertificateVerificationRequest {
   certificateNumber: string;
+  dob: string; // Date of birth in YYYY-MM-DD format
 }
 
 @Injectable({
@@ -33,8 +34,8 @@ export class VerifyService {
     return this.http.post(`${this.baseUrl}${Endpoints.verify.franchise}`, payload);
   }
 
-  verifyCertificate(certificateNumber: string): Observable<any> {
-    const payload: CertificateVerificationRequest = { certificateNumber };
+  verifyCertificate(certificateNumber: string, dob: string): Observable<any> {
+    const payload: CertificateVerificationRequest = { certificateNumber, dob };
     return this.http.post(`${this.baseUrl}${Endpoints.verify.certificate}`, payload);
   }
 }
