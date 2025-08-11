@@ -172,7 +172,12 @@ export class ReEnrollStudentComponent {
               setTimeout(() => { this.done_fetching = true; }, 1);
 
 
-              if (this.student_info.student_already_reenrolled_in_an_active_course === true) {
+              if (this.student_info.data_status === ActiveInactiveStatus.DELETED) {
+                this.openDialog("Student", `Student is deleted.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
+              }
+              else if (this.student_info.student_already_reenrolled_in_an_active_course === true &&
+                this.student_info.student_enrollment_status !== EnrollmentStatus.FEES_REFUNDED &&
+                this.student_info.data_status !== ActiveInactiveStatus.INACTIVE) {
                 this.openDialog("Student", `Student already enrolled in an active course.<br>You can't re-enroll this student.`, ResponseTypeColor.INFO, null);
               }
             },
